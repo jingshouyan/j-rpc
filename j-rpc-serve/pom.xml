@@ -2,15 +2,15 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>j-rpc-parent</artifactId>
+        <groupId>com.github.jingshouyan</groupId>
+        <version>1.0.0</version>
+        <relativePath>../j-rpc-parent/pom.xml</relativePath>
+    </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.github.jingshouyan</groupId>
-    <artifactId>j-rpc</artifactId>
-    <packaging>pom</packaging>
-    <version>1.0.0</version>
-    <modules>
-        <module>j-rpc-parent</module>
-        <module>j-rpc-base</module>
-        <module>j-rpc-serve</module>
-    </modules>
+    <artifactId>j-rpc-serve</artifactId>
+
+
 </project>
