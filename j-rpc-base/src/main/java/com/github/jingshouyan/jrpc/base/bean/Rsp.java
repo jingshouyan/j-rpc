@@ -13,4 +13,5 @@ public class Rsp {
     private int code;
     private String message;
     private String result;
+    private Object data;
 }

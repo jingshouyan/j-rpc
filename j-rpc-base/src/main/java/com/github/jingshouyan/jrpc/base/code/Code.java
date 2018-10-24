@@ -1,5 +1,7 @@
 package com.github.jingshouyan.jrpc.base.code;
 
+import com.google.common.collect.Maps;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,5 +65,9 @@ public class Code {
             System.err.println("code :" + code + " already in use. old message:[" + msg + "]");
         }
         CODE_MAP.put(code, message);
+    }
+
+    public static Map<Integer,String> getCodeMap(){
+        return Maps.newHashMap(CODE_MAP);
     }
 }

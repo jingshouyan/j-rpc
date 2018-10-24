@@ -7,7 +7,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-parent</artifactId>
     <version>1.0.0</version>
-
+    <packaging>pom</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
@@ -18,7 +18,7 @@
 
     <properties>
         <dependencies-output-dir>/data/java/lib</dependencies-output-dir>
-        <io.jing.framework.version>1.0.0</io.jing.framework.version>
+        <j-rpc.version>1.0.0</j-rpc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <zookeeper.version>3.4.10</zookeeper.version>
@@ -118,42 +118,6 @@
                 <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
                 <version>${spring-eureka.version}</version>
             </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>io-jing-base</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>io-jing-server</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>io-jing-client</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>util-jdbc-core</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>db-provider</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>crud-plugin</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>io.jing</groupId>
-                <artifactId>crud-api</artifactId>
-                <version>${io.jing.framework.version}</version>
-            </dependency>
-
             <dependency>
                 <groupId>org.bouncycastle</groupId>
                 <artifactId>bcpkix-jdk15on</artifactId>

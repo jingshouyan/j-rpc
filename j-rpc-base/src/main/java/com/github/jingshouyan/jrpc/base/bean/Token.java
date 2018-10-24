@@ -4,19 +4,18 @@ import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @author jingshouyan
  * @date 2018/4/14 23:10
  */
 @Data@Builder@AllArgsConstructor
+@NoArgsConstructor
 public class Token {
     private String userId;
     private String ticket;
     private String ext;
-
-    public Token(){
-    }
 
     public boolean valid(){
         return userId != null && ticket != null;

@@ -6,4 +6,5 @@ package com.github.jingshouyan.jrpc.base.constant;
  */
 public interface BaseConstant {
     String TRACE_ID = "TRACE_ID";
+    String INVALID_CODE_PREFIX = "CODE:";
 }

@@ -22,6 +22,11 @@ public class JException extends RuntimeException{
         this.data = data;
     }
 
+    public JException(int code, String message){
+        super(message);
+        this.code = code;
+    }
+
     public JException(int code, Throwable cause){
         super(cause);
         this.code = code;

@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.type.TypeBindings;
 import lombok.SneakyThrows;
 import org.apache.thrift.TBase;
 import org.apache.thrift.TSerializer;
@@ -27,6 +28,7 @@ public class JsonUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         objectMapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE,false);
+//        objectMapper.configure()
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return objectMapper;
     });
@@ -51,7 +53,7 @@ public class JsonUtil {
      */
     @SneakyThrows
     public static String toJsonString(Object value) {
-        return OBJECT_MAPPER.writeValueAsString(value);
+        return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(value);
     }
 
     /**
@@ -90,6 +92,10 @@ public class JsonUtil {
     public static <T> T toBean(String json, Type type){
         JavaType javaType = OBJECT_MAPPER.getTypeFactory().constructType(type);
         return OBJECT_MAPPER.readValue(json,javaType);
+    }
+
+    public static JavaType getJavaType(Type type, TypeBindings typeBindings) {
+        return OBJECT_MAPPER.getTypeFactory().constructType(type,typeBindings);
     }
 
     /**
