@@ -10,7 +10,7 @@ import lombok.Data;
 public class ServiceInfo {
     public ServiceInfo(){}
 
-    private String id;
+    private String zkHost;
     private String name;
     private String version;
     private String host;

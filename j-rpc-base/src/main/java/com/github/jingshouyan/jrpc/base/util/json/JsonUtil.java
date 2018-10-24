@@ -53,7 +53,9 @@ public class JsonUtil {
      */
     @SneakyThrows
     public static String toJsonString(Object value) {
-        return OBJECT_MAPPER.writerWithDefaultPrettyPrinter().writeValueAsString(value);
+        return OBJECT_MAPPER
+//                .writerWithDefaultPrettyPrinter()
+                .writeValueAsString(value);
     }
 
     /**
