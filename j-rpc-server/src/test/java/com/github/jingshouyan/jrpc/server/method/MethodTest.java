@@ -3,8 +3,8 @@ package com.github.jingshouyan.jrpc.server.method;
 import com.github.jingshouyan.jrpc.base.bean.Empty;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.TestMethod;
-import com.github.jingshouyan.jrpc.server.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.server.method.factory.MethodFactory;
+import com.github.jingshouyan.jrpc.server.bean.InterfaceInfo;
+import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -19,13 +19,13 @@ public class MethodTest {
 
     @Before
     public void before(){
-        MethodFactory.addMethod("test",new TestMethod());
+        MethodHolder.addMethod("test",new TestMethod());
     }
 
     @Test
     public void getServeInfo(){
         GetServeInfo getServeInfo = new GetServeInfo();
-        ServerInfo serverInfo = getServeInfo.action(new Empty());
+        InterfaceInfo serverInfo = getServeInfo.action(new Empty());
         String json = JsonUtil.toJsonString(serverInfo);
         System.out.println(json);
     }

@@ -84,7 +84,7 @@ public class TypeTest {
 //        Class c = testBean.getClass();
 //        TypeInfo typeInfo = BeanUtil.getTypeInfo(type,3);
 //        System.out.println(JsonUtil.toJsonString(typeInfo));
-//        MethodFactory.addMethod("test",testMethod);
+//        MethodHolder.addMethod("test",testMethod);
 //
 //        GetServeInfo getServeInfo = new GetServeInfo();
 //        InterfaceInfo serveInfo = getServeInfo.action(new Empty());

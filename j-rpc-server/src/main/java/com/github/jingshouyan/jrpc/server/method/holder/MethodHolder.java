@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.server.method.factory;
+package com.github.jingshouyan.jrpc.server.method.holder;
 
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JException;
@@ -12,7 +12,7 @@ import java.util.Map;
  * @author jingshouyan
  * #date 2018/10/22 22:27
  */
-public class MethodFactory {
+public class MethodHolder {
     private static final Map<String,Method> METHOD_MAP = Maps.newConcurrentMap();
 
     static {

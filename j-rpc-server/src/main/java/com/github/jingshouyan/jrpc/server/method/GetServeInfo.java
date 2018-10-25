@@ -5,9 +5,9 @@ import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.bean.ClassInfo;
 import com.github.jingshouyan.jrpc.server.bean.CodeInfo;
+import com.github.jingshouyan.jrpc.server.bean.InterfaceInfo;
 import com.github.jingshouyan.jrpc.server.bean.MethodInfo;
-import com.github.jingshouyan.jrpc.server.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.server.method.factory.MethodFactory;
+import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import com.github.jingshouyan.jrpc.server.util.bean.ClassInfoUtil;
 import com.google.common.collect.Lists;
 
@@ -18,13 +18,13 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/10/23 11:42
  */
-public class GetServeInfo implements Method<Empty,ServerInfo> {
+public class GetServeInfo implements Method<Empty,InterfaceInfo> {
 
     private static final int DEEP = 5;
 
     @Override
-    public ServerInfo action(Empty empty) {
-        ServerInfo serverInfo = new ServerInfo();
+    public InterfaceInfo action(Empty empty) {
+        InterfaceInfo serverInfo = new InterfaceInfo();
         serverInfo.setCodeInfos(codes());
         serverInfo.setMethodInfos(methods());
         return serverInfo;
@@ -41,7 +41,7 @@ public class GetServeInfo implements Method<Empty,ServerInfo> {
 
     private List<MethodInfo> methods(){
         List<MethodInfo> methods = Lists.newArrayList();
-        MethodFactory.getMethodMap().forEach((k,v) -> {
+        MethodHolder.getMethodMap().forEach((k, v) -> {
             MethodInfo methodInfo = new MethodInfo();
             methodInfo.setName(k);
             ClassInfo input = ClassInfoUtil.getClassInfo(v.getInputType(),DEEP);
@@ -55,7 +55,7 @@ public class GetServeInfo implements Method<Empty,ServerInfo> {
 
     public static void main(String[] args) {
         GetServeInfo getServeInfo = new GetServeInfo();
-        ServerInfo serverInfo = getServeInfo.action(new Empty());
+        InterfaceInfo serverInfo = getServeInfo.action(new Empty());
         System.out.println(JsonUtil.toJsonString(serverInfo));
     }
 

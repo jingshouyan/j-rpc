@@ -13,7 +13,7 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.base.util.thread.ThreadLocalUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
-import com.github.jingshouyan.jrpc.server.method.factory.MethodFactory;
+import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
@@ -69,7 +69,7 @@ public class JRpcImpl implements Jrpc.Iface{
             log.info("call [{}] start.",methodName);
             log.info("call [{}] token: {}",methodName,token);
             ThreadLocalUtil.setToken(token);
-            Method method = MethodFactory.getMethod(methodName);
+            Method method = MethodHolder.getMethod(methodName);
             Type clazz = method.getInputType();
             Object obj;
             try {
