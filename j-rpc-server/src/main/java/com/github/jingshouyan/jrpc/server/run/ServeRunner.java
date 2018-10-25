@@ -2,8 +2,8 @@ package com.github.jingshouyan.jrpc.server.run;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
-import com.github.jingshouyan.jrpc.server.service.impl.JRpcImpl;
-import com.github.jingshouyan.jrpc.server.thrift.server.Server;
+import com.github.jingshouyan.jrpc.server.service.Rpc;
+import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
 import com.github.jingshouyan.jrpc.server.thrift.server.register.Register;
 import com.github.jingshouyan.jrpc.server.thrift.server.register.ZkRegister;
@@ -37,7 +37,7 @@ public class ServeRunner {
 
     private Register register = new ZkRegister();
 
-    private Jrpc.Iface serverImpl;
+    private Rpc rpc;
 
     private ServeRunner(){ }
 
@@ -56,18 +56,18 @@ public class ServeRunner {
     }
 
 
-    public ServeRunner setIface(Jrpc.Iface iface){
-        if(this.serverImpl == null){
-            log.info("set server impl: {}", iface);
-            this.serverImpl = iface;
+    public ServeRunner setIface(Rpc rpc){
+        if(this.rpc == null){
+            log.info("set server impl: {}", rpc);
+            this.rpc = rpc;
         }
         initServer();
         return this;
     }
 
     private void initServer() {
-        if(serverInfo != null && serverImpl != null){
-            this.tserver = ServerFactory.getServer().getServer(serverImpl,serverInfo);
+        if(serverInfo != null && rpc != null){
+            this.tserver = ServerFactory.getServer().getServer(rpc,serverInfo);
         }
     }
 
@@ -104,7 +104,7 @@ public class ServeRunner {
     public static void main(String[] args) throws Exception {
         ServerInfo serverInfo = new ServerInfo();
         serverInfo.setPort(9099);
-        ServeRunner s = ServeRunner.getInstance().setIface(new JRpcImpl()).setServerInfo(serverInfo);
+        ServeRunner s = ServeRunner.getInstance().setIface(new RpcImpl()).setServerInfo(serverInfo);
         s.start();
         Thread.sleep(10000);
         s.stop();

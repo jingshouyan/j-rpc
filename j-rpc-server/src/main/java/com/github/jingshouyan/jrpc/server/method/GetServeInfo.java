@@ -42,13 +42,15 @@ public class GetServeInfo implements Method<Empty,InterfaceInfo> {
     private List<MethodInfo> methods(){
         List<MethodInfo> methods = Lists.newArrayList();
         MethodHolder.getMethodMap().forEach((k, v) -> {
-            MethodInfo methodInfo = new MethodInfo();
-            methodInfo.setName(k);
-            ClassInfo input = ClassInfoUtil.getClassInfo(v.getInputType(),DEEP);
-            methodInfo.setInput(input);
-            ClassInfo output = ClassInfoUtil.getClassInfo(v.getOutputType(),DEEP);
-            methodInfo.setOutput(output);
-            methods.add(methodInfo);
+            if(!(v instanceof GetServeInfo)) {
+                MethodInfo methodInfo = new MethodInfo();
+                methodInfo.setName(k);
+                ClassInfo input = ClassInfoUtil.getClassInfo(v.getInputType(),DEEP);
+                methodInfo.setInput(input);
+                ClassInfo output = ClassInfoUtil.getClassInfo(v.getOutputType(),DEEP);
+                methodInfo.setOutput(output);
+                methods.add(methodInfo);
+            }
         });
         return methods;
     }

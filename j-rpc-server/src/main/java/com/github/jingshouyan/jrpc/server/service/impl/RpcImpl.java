@@ -14,6 +14,7 @@ import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.base.util.thread.ThreadLocalUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
+import com.github.jingshouyan.jrpc.server.service.Rpc;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 
@@ -24,7 +25,7 @@ import java.lang.reflect.Type;
  * #date 2018/10/22 15:48
  */
 @Slf4j
-public class JRpcImpl implements Jrpc.Iface{
+public class RpcImpl implements Rpc {
 
     @Override
     public RspBean call(TokenBean token, ReqBean req){

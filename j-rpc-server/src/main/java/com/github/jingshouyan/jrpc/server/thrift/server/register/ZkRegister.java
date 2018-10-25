@@ -42,10 +42,10 @@ public class ZkRegister implements Register{
 
             TreeCache cache = new TreeCache(client, path);
             cache.getListenable().addListener((cf,event)->{
-                log.info("TREE CACHE {},{}",event.getType(),event.toString());
                 if(event.getType() == TreeCacheEvent.Type.NODE_REMOVED
                         && path.equals(event.getData().getPath())
                         && tserver.isServing()){
+                    log.warn("node deleted,re");
                     createZkNode(client,info);
                 }
             });

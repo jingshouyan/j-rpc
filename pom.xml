@@ -12,5 +12,6 @@
         <module>j-rpc-parent</module>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
+        <module>j-rpc-server-starter</module>
     </modules>
 </project>
