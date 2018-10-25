@@ -2,6 +2,9 @@ package com.github.jingshouyan.jrpc.server.starter;
 import com.github.jingshouyan.jrpc.base.bean.MonitorInfo;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.server.method.GetServeInfo;
+import com.github.jingshouyan.jrpc.server.method.Method;
+import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
@@ -10,9 +13,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 
 /**
@@ -27,10 +32,24 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
     @Resource
     private ServerProperties properties;
 
+    @Resource
+    private ApplicationContext ctx;
+
+    @Bean
+    @ConditionalOnMissingBean(GetServeInfo.class)
+    public GetServeInfo getServeInfo(){
+        return new GetServeInfo();
+    }
+
     @Bean
     @ConditionalOnMissingBean(Rpc.class)
     public Rpc rpc(){
         Rpc rpc  = new RpcImpl();
+        return rpc;
+    }
+
+    @PostConstruct
+    public void init(){
         ServerInfo info = new ServerInfo();
         info.setZkHost(properties.getZkHost());
         info.setZkRoot(properties.getZkRoot());
@@ -46,9 +65,8 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
         info.setLogRootPath(properties.getLogRootPath());
         info.setLogLevel(properties.getLogLevel());
         info.setLogRef(properties.getLogRef());
-        ServeRunner.getInstance().setServerInfo(info).setIface(rpc).start();
-
-        return rpc;
+        ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
+        ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }
 
 

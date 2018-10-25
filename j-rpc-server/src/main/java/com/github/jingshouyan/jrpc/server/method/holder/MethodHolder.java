@@ -5,6 +5,7 @@ import com.github.jingshouyan.jrpc.base.exception.JException;
 import com.github.jingshouyan.jrpc.server.method.GetServeInfo;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.google.common.collect.Maps;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
 
@@ -12,14 +13,12 @@ import java.util.Map;
  * @author jingshouyan
  * #date 2018/10/22 22:27
  */
+@Slf4j
 public class MethodHolder {
     private static final Map<String,Method> METHOD_MAP = Maps.newConcurrentMap();
 
-    static {
-        addMethod("getServeInfo",new GetServeInfo());
-    }
-
     public static void addMethod(String methodName,Method method){
+        log.info("add method: {} ===> {}",methodName,method);
         METHOD_MAP.put(methodName,method);
     }
 

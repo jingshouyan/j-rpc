@@ -11,6 +11,7 @@ import org.apache.curator.framework.recipes.cache.TreeCache;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 import org.apache.thrift.server.TServer;
 import org.apache.zookeeper.CreateMode;
+import org.apache.zookeeper.data.Stat;
 
 
 /**
@@ -37,6 +38,7 @@ public class ZkRegister implements Register{
         try{
             log.info("register zk starting...");
             String path = fullPath(info);
+            deleteZkNode(client,info);
             createZkNode(client,info);
             log.info("serviceInstance:[{}]", info);
 
@@ -54,9 +56,9 @@ public class ZkRegister implements Register{
                 try{
                     log.info("server stop...");
                     cache.close();
-                    client.delete().forPath(path);
+                    deleteZkNode(client,info);
                     client.close();
-                    log.info("delete zk node [{}] .",path);
+
                 }catch (Exception e){
                     log.error("delete zk node [{}] error.",path,e);
                 }
@@ -85,5 +87,14 @@ public class ZkRegister implements Register{
                 .forPath(path, data.getBytes());
         log.info("create zk node :{},data:{}",path,data);
         return realPath;
+    }
+    @SneakyThrows
+    private void deleteZkNode(CuratorFramework client,ServerInfo info){
+        String path = fullPath(info);
+        Stat stat = client.checkExists().forPath(path);
+        if(stat != null){
+            client.delete().forPath(path);
+        }
+        log.info("delete zk node [{}] .",path);
     }
 }
