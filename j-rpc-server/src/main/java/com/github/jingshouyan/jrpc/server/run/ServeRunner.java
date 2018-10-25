@@ -73,11 +73,6 @@ public class ServeRunner {
 
 
     public void start(){
-        System.setProperty("SERVER_NAME",serverInfo.getName());
-        System.setProperty("LOG_ROOT_PATH",serverInfo.getLogRootPath());
-        System.setProperty("LOG_LEVEL",serverInfo.getLogLevel());
-        System.setProperty("LOG_REF",serverInfo.getLogRef());
-        System.setProperty("SERVER_INSTANCE",serverInfo.key());
         SERVER_RUNNER_POOL.execute(()-> {
             while (true) {
                 try {
