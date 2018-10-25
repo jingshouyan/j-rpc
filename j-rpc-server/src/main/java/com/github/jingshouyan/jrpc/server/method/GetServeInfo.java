@@ -6,7 +6,7 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.bean.ClassInfo;
 import com.github.jingshouyan.jrpc.server.bean.CodeInfo;
 import com.github.jingshouyan.jrpc.server.bean.MethodInfo;
-import com.github.jingshouyan.jrpc.server.bean.ServeInfo;
+import com.github.jingshouyan.jrpc.server.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.server.method.factory.MethodFactory;
 import com.github.jingshouyan.jrpc.server.util.bean.ClassInfoUtil;
 import com.google.common.collect.Lists;
@@ -18,16 +18,16 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/10/23 11:42
  */
-public class GetServeInfo implements Method<Empty,ServeInfo> {
+public class GetServeInfo implements Method<Empty,ServerInfo> {
 
     private static final int DEEP = 5;
 
     @Override
-    public ServeInfo action(Empty empty) {
-        ServeInfo serveInfo = new ServeInfo();
-        serveInfo.setCodeInfos(codes());
-        serveInfo.setMethodInfos(methods());
-        return serveInfo;
+    public ServerInfo action(Empty empty) {
+        ServerInfo serverInfo = new ServerInfo();
+        serverInfo.setCodeInfos(codes());
+        serverInfo.setMethodInfos(methods());
+        return serverInfo;
     }
 
     private List<CodeInfo> codes(){
@@ -55,8 +55,8 @@ public class GetServeInfo implements Method<Empty,ServeInfo> {
 
     public static void main(String[] args) {
         GetServeInfo getServeInfo = new GetServeInfo();
-        ServeInfo serveInfo = getServeInfo.action(new Empty());
-        System.out.println(JsonUtil.toJsonString(serveInfo));
+        ServerInfo serverInfo = getServeInfo.action(new Empty());
+        System.out.println(JsonUtil.toJsonString(serverInfo));
     }
 
 

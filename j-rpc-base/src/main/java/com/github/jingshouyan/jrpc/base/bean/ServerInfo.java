@@ -7,8 +7,8 @@ import lombok.Data;
  * @date 2018/4/14 22:12
  */
 @Data
-public class ServiceInfo {
-    public ServiceInfo(){}
+public class ServerInfo {
+    public ServerInfo(){}
 
     private String zkHost;
     private String name;
@@ -31,8 +31,8 @@ public class ServiceInfo {
         port = Integer.parseInt(strings[1]);
     }
 
-    public void update(ServiceInfo serviceInfo){
-        this.updatedAt = serviceInfo.updatedAt;
-        this.monitorInfo = serviceInfo.monitorInfo;
+    public void update(ServerInfo serverInfo){
+        this.updatedAt = serverInfo.updatedAt;
+        this.monitorInfo = serverInfo.monitorInfo;
     }
 }

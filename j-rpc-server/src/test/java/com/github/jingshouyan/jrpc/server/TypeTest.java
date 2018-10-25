@@ -87,7 +87,7 @@ public class TypeTest {
 //        MethodFactory.addMethod("test",testMethod);
 //
 //        GetServeInfo getServeInfo = new GetServeInfo();
-//        ServeInfo serveInfo = getServeInfo.action(new Empty());
+//        InterfaceInfo serveInfo = getServeInfo.action(new Empty());
 //
 //        System.out.println(JsonUtil.toJsonString(serveInfo));
     }

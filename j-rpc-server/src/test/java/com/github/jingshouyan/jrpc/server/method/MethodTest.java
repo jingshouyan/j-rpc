@@ -3,7 +3,7 @@ package com.github.jingshouyan.jrpc.server.method;
 import com.github.jingshouyan.jrpc.base.bean.Empty;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.TestMethod;
-import com.github.jingshouyan.jrpc.server.bean.ServeInfo;
+import com.github.jingshouyan.jrpc.server.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.server.method.factory.MethodFactory;
 import org.junit.Before;
 import org.junit.Test;
@@ -25,8 +25,8 @@ public class MethodTest {
     @Test
     public void getServeInfo(){
         GetServeInfo getServeInfo = new GetServeInfo();
-        ServeInfo serveInfo = getServeInfo.action(new Empty());
-        String json = JsonUtil.toJsonString(serveInfo);
+        ServerInfo serverInfo = getServeInfo.action(new Empty());
+        String json = JsonUtil.toJsonString(serverInfo);
         System.out.println(json);
     }
 }
