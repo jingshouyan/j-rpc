@@ -45,6 +45,10 @@ public class ZkDiscover {
         listen();
     }
 
+    public Map<String,List<ServerInfo>> serverMap(){
+        return map;
+    }
+
     public ServerInfo getServerInfo(Router router){
         try {
             latch.await(LATCH_TIMEOUT,TimeUnit.MILLISECONDS);

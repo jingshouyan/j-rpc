@@ -1,9 +1,12 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
+import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.util.List;
 
 /**
  * @author jingshouyan
@@ -22,5 +25,35 @@ public class Rsp {
         this.code = rspBean.getCode();
         this.message = rspBean.getMessage();
         this.result = rspBean.getResult();
+    }
+
+    public <T> T get(Class<T> clazz){
+        return JsonUtil.toBean(result,clazz);
+    }
+
+    public <T> T get(Class<T> clazz,Class<?>... classes){
+        return JsonUtil.toBean(result,clazz,classes);
+    }
+
+    public <T> List<T> list(Class<T> clazz){
+        return JsonUtil.toList(result,clazz);
+    }
+
+    public String json(){
+        StringBuilder sb = new StringBuilder();
+        sb.append("{\"code\":");
+        sb.append(code);
+        sb.append(",\"message\":\"");
+        sb.append(message);
+        sb.append("\"");
+        if (result == null && data != null) {
+            result = JsonUtil.toJsonString(data);
+        }
+        if(result != null){
+            sb.append(",\"data\":");
+            sb.append(result);
+        }
+        sb.append("}");
+        return sb.toString();
     }
 }

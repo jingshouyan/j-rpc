@@ -18,7 +18,7 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/10/23 11:42
  */
-public class GetServeInfo implements Method<Empty,InterfaceInfo> {
+public class GetServerInfo implements Method<Empty,InterfaceInfo> {
 
     private static final int DEEP = 5;
 
@@ -42,7 +42,7 @@ public class GetServeInfo implements Method<Empty,InterfaceInfo> {
     private List<MethodInfo> methods(){
         List<MethodInfo> methods = Lists.newArrayList();
         MethodHolder.getMethodMap().forEach((k, v) -> {
-            if(!(v instanceof GetServeInfo)) {
+            if(!(v instanceof GetServerInfo)) {
                 MethodInfo methodInfo = new MethodInfo();
                 methodInfo.setName(k);
                 ClassInfo input = ClassInfoUtil.getClassInfo(v.getInputType(),DEEP);
@@ -56,8 +56,8 @@ public class GetServeInfo implements Method<Empty,InterfaceInfo> {
     }
 
     public static void main(String[] args) {
-        GetServeInfo getServeInfo = new GetServeInfo();
-        InterfaceInfo serverInfo = getServeInfo.action(new Empty());
+        GetServerInfo GetServerInfo = new GetServerInfo();
+        InterfaceInfo serverInfo = GetServerInfo.action(new Empty());
         System.out.println(JsonUtil.toJsonString(serverInfo));
     }
 

@@ -25,6 +25,9 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 
+import java.util.List;
+import java.util.Map;
+
 /**
  * @author jingshouyan
  * #date 2018/10/26 9:42
@@ -48,6 +51,10 @@ public class RequestBuilder {
 
     public Request newRequest(){
         return new Request(this);
+    }
+
+    public Map<String,List<ServerInfo>> serverMap(){
+        return zkDiscover.serverMap();
     }
 
     private Rsp send(Request request) {

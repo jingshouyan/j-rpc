@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.server;
 
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.server.method.GetServeInfo;
+import com.github.jingshouyan.jrpc.server.method.GetServerInfo;
 import com.google.common.collect.Lists;
 import lombok.Data;
 import org.junit.Test;
@@ -60,7 +60,7 @@ public class TypeTest {
 
     public static void t1(){
         TestMethod testMethod = new TestMethod();
-        GetServeInfo getServeInfo = new GetServeInfo();
+        GetServerInfo GetServerInfo = new GetServerInfo();
 
 //
 //        System.out.println(obj);
@@ -77,17 +77,17 @@ public class TypeTest {
 //        Object obj2 = JsonUtil.toBean(json,type2);
 
 
-        Type type3 = getServeInfo.getInputType();
+        Type type3 = GetServerInfo.getInputType();
         System.out.println(type1);
-        Type type4 = getServeInfo.getOutputType();
+        Type type4 = GetServerInfo.getOutputType();
         System.out.println(type2);
 //        Class c = testBean.getClass();
 //        TypeInfo typeInfo = BeanUtil.getTypeInfo(type,3);
 //        System.out.println(JsonUtil.toJsonString(typeInfo));
 //        MethodHolder.addMethod("test",testMethod);
 //
-//        GetServeInfo getServeInfo = new GetServeInfo();
-//        InterfaceInfo serveInfo = getServeInfo.action(new Empty());
+//        GetServerInfo GetServerInfo = new GetServerInfo();
+//        InterfaceInfo serveInfo = GetServerInfo.action(new Empty());
 //
 //        System.out.println(JsonUtil.toJsonString(serveInfo));
     }

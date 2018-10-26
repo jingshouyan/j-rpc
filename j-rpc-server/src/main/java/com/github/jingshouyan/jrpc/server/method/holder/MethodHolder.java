@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.server.method.holder;
 
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JException;
-import com.github.jingshouyan.jrpc.server.method.GetServeInfo;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
