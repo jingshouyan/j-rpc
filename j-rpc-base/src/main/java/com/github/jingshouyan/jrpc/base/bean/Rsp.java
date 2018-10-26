@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
+import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -14,4 +15,12 @@ public class Rsp {
     private String message;
     private String result;
     private Object data;
+
+    public Rsp(){}
+
+    public Rsp(RspBean rspBean) {
+        this.code = rspBean.getCode();
+        this.message = rspBean.getMessage();
+        this.result = rspBean.getResult();
+    }
 }

@@ -17,11 +17,11 @@ import org.apache.thrift.transport.TTransport;
  * @date 2018/4/17 20:41
  */
 @Slf4j
-public class TransportPoolFactory extends BasePooledObjectFactory<Transport> implements PooledObjectFactory<Transport> {
+public class TransportFactory extends BasePooledObjectFactory<Transport> implements PooledObjectFactory<Transport> {
 
     private ServerInfo serverInfo;
 
-    public TransportPoolFactory(ServerInfo serverInfo) {
+    public TransportFactory(ServerInfo serverInfo) {
         this.serverInfo = serverInfo;
     }
 

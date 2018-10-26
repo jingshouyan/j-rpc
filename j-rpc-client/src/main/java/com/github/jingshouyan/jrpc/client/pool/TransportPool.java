@@ -22,7 +22,7 @@ public class TransportPool implements Closeable {
         if(innerPool!=null){
             innerPool.close();
         }
-        innerPool = new GenericObjectPool<>(new TransportPoolFactory(serverInfo),conf);
+        innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo),conf);
     }
 
     /**

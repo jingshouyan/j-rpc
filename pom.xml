@@ -15,5 +15,6 @@
         <module>j-rpc-server-starter</module>
         <module>test-server</module>
         <module>j-rpc-client</module>
+        <module>j-rpc-client-starter</module>
     </modules>
 </project>

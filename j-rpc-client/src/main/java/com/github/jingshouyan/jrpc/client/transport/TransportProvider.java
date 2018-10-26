@@ -16,7 +16,11 @@ import java.util.Map;
 public class TransportProvider {
     private static final Map<String,TransportPool> TRANSPORT_POOL_MAP = Maps.newConcurrentMap();
 
-    private static final GenericObjectPoolConfig cfg = new GenericObjectPoolConfig();
+    private GenericObjectPoolConfig cfg;
+
+    public TransportProvider(GenericObjectPoolConfig cfg){
+        this.cfg = cfg;
+    }
     static{
 //        cfg.setMinIdle(TRANSPORT_POOL_MIN_IDLE);
 //        cfg.setMaxIdle(TRANSPORT_POOL_MAX_IDLE);
@@ -29,18 +33,18 @@ public class TransportProvider {
         }));
     }
 
-    public static Transport get(ServerInfo serverInfo) throws Exception{
+    public Transport get(ServerInfo serverInfo) throws Exception{
         return TRANSPORT_POOL_MAP.computeIfAbsent(serverInfo.key(),key->new TransportPool(serverInfo,cfg)).get();
     }
 
-    public static void restore(Transport transport){
+    public void restore(Transport transport){
         TransportPool transportPool = TRANSPORT_POOL_MAP.get(transport.getKey());
         if(null != transportPool){
             transportPool.restore(transport);
         }
     }
 
-    public static void invalid(Transport transport){
+    public void invalid(Transport transport){
         if(null == transport) {
             return;
         }

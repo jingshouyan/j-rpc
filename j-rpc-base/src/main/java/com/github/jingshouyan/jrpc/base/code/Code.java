@@ -12,8 +12,10 @@ import java.util.Map;
 public class Code {
     public static final int SUCCESS = 1;
     public static final int CLIENT_ERROR = -1;
-    public static final int SERVICE_NOT_FUND = -101;
+    public static final int GET_SERVER_ADDRESS_TIMEOUT = -2;
+    public static final int SERVER_NOT_FOUND = -101;
     public static final int INSTANCE_NOT_FUND = -102;
+    public static final int VERSION_SERVER_NOT_FUND = -103;
     public static final int UNSUPPORTED_ROUTE_MODE = -2;
     public static final int SERVER_ERROR = -201;
     public static final int METHOD_NOT_FOUND = -202;
@@ -28,8 +30,10 @@ public class Code {
     static {
         CODE_MAP.put(SUCCESS, "success");
         CODE_MAP.put(CLIENT_ERROR, "client error");
-        CODE_MAP.put(SERVICE_NOT_FUND, "service not found");
+        CODE_MAP.put(GET_SERVER_ADDRESS_TIMEOUT, "get server address timeout");
+        CODE_MAP.put(SERVER_NOT_FOUND, "server not found");
         CODE_MAP.put(INSTANCE_NOT_FUND, "instance not found");
+        CODE_MAP.put(VERSION_SERVER_NOT_FUND, "version server not found");
         CODE_MAP.put(UNSUPPORTED_ROUTE_MODE, "unsupported route mode");
         CODE_MAP.put(SERVER_ERROR, "server error");
         CODE_MAP.put(METHOD_NOT_FOUND, "method not found");

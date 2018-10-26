@@ -2,6 +2,7 @@ package com.github.jingshouyan.jrpc.base.bean;
 
 import lombok.Data;
 
+import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 /**
@@ -14,6 +15,9 @@ public class Trace {
     private AtomicInteger num = new AtomicInteger(0);
 
     public String newTraceId(){
+        if(traceId == null) {
+            traceId = UUID.randomUUID().toString();
+        }
         return traceId+"."+num.getAndIncrement();
     }
 }
