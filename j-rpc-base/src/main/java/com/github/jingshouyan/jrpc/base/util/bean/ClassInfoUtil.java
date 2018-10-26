@@ -29,7 +29,7 @@ public class ClassInfoUtil {
         JavaType javaType = JsonUtil.getJavaType(type,typeBindings);
         classInfo.setJavaType(javaType);
         Class<?> clazz = javaType.getRawClass();
-        classInfo.setClassName(clazz.getSimpleName());
+        classInfo.setType(clazz.getSimpleName());
         classInfo.setDeep(deep);
         if(deep > 0 && !isSimpleType(clazz)) {
             if(isShowGenerics(clazz)){

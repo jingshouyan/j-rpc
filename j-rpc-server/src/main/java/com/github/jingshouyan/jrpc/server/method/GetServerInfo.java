@@ -9,6 +9,7 @@ import com.github.jingshouyan.jrpc.base.bean.InterfaceInfo;
 import com.github.jingshouyan.jrpc.base.bean.MethodInfo;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import com.github.jingshouyan.jrpc.base.util.bean.ClassInfoUtil;
+import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.google.common.collect.Lists;
 
 import java.util.Comparator;
@@ -24,10 +25,11 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
 
     @Override
     public InterfaceInfo action(Empty empty) {
-        InterfaceInfo serverInfo = new InterfaceInfo();
-        serverInfo.setCodeInfos(codes());
-        serverInfo.setMethodInfos(methods());
-        return serverInfo;
+        InterfaceInfo interfaceInfo = new InterfaceInfo();
+        interfaceInfo.setCodeInfos(codes());
+        interfaceInfo.setMethodInfos(methods());
+        interfaceInfo.setServerInfo(ServeRunner.getInstance().getServerInfo());
+        return interfaceInfo;
     }
 
     private List<CodeInfo> codes(){

@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.server;
+package com.jing.test.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jingshouyan.jrpc.base.bean.CodeInfo;

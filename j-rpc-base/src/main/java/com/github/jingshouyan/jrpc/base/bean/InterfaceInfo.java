@@ -14,7 +14,7 @@ import java.util.List;
 @Setter
 @ToString
 public class InterfaceInfo {
-    private com.github.jingshouyan.jrpc.base.bean.ServerInfo serverInfo;
+    private ServerInfo serverInfo;
     private List<MethodInfo> methodInfos;
     private List<CodeInfo> codeInfos;
 }

@@ -1,7 +1,8 @@
-package com.github.jingshouyan.jrpc.server;
+package com.jing.test.bean;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;

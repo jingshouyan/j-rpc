@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.server;
+package com.jing.test.bean;
 
 import lombok.Data;
 

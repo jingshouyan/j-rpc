@@ -16,11 +16,13 @@ import java.util.List;
 @Getter@Setter@ToString
 public class ClassInfo {
     private String name;
-    private String className;
+    private String type;
+    private String remark = "";
     @JsonIgnore
     private JavaType javaType;
     private List<ClassInfo> fields = Lists.newArrayList();
     private List<ClassInfo> generics = Lists.newArrayList();
     private List<String> annotations = Lists.newArrayList();
+    @JsonIgnore
     private int deep;
 }

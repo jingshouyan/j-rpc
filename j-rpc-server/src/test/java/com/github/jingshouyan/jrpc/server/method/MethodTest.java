@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.server.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Empty;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.server.TestMethod;
 import com.github.jingshouyan.jrpc.base.bean.InterfaceInfo;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import org.junit.Before;
@@ -18,9 +17,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class MethodTest {
 
     @Before
-    public void before(){
-        MethodHolder.addMethod("test",new TestMethod());
-    }
+//    public void before(){
+//        MethodHolder.addMethod("test",new TestMethod());
+//    }
 
     @Test
     public void getServeInfo(){
