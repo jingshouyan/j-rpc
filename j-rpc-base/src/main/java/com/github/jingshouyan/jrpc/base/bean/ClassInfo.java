@@ -13,7 +13,7 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/10/24 17:47
  */
-@Getter@Setter@ToString
+@Getter@Setter@ToString(exclude = {"javaType"})
 public class ClassInfo {
     private String name;
     private String type;

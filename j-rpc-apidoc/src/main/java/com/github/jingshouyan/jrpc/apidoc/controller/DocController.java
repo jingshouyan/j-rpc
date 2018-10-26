@@ -1,7 +1,10 @@
 package com.github.jingshouyan.jrpc.apidoc.controller;
 
+import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.client.RequestBuilder;
+import com.google.common.collect.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,27 +28,34 @@ public class DocController {
 
     @RequestMapping("servers")
     @ResponseBody
-    public Map<String,List<ServerInfo>> serverMap(){
-        return requestBuilder.serverMap();
+    public Rsp serverMap(){
+        Map<String,List<ServerInfo>> map = requestBuilder.serverMap();
+        List<ServerInfo> serverInfos = Lists.newArrayList();
+        for(List<ServerInfo> l: map.values()){
+            if(l != null&& !l.isEmpty()){
+                serverInfos.add(l.get(0));
+            }
+        }
+        return RspUtil.success(serverInfos);
     }
 
-    @RequestMapping("server/{server}/{instance}")
+    @RequestMapping("server/{server}")
     @ResponseBody
-    public String serverInfo(@PathVariable String server,@PathVariable String instance){
+    public String serverInfo(@PathVariable String server){
         return requestBuilder.newRequest()
-                .setServer(server).setInstance(instance)
+                .setServer(server)
                 .setMethod("getServerInfo")
                 .send().json();
     }
 
-    @PostConstruct
-    public void init(){
-        IntStream.rangeClosed(0,1000).parallel()
-                .forEach(i -> {
-                    requestBuilder.newRequest()
-                            .setServer("test")
-                            .setMethod("getServerInfo")
-                            .send().json();
-                });
-    }
+//    @PostConstruct
+//    public void init(){
+//        IntStream.rangeClosed(0,1000).parallel()
+//                .forEach(i -> {
+//                    requestBuilder.newRequest()
+//                            .setServer("test")
+//                            .setMethod("getServerInfo")
+//                            .send().json();
+//                });
+//    }
 }
