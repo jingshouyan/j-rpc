@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.server;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.github.jingshouyan.jrpc.server.bean.CodeInfo;
+import com.github.jingshouyan.jrpc.base.bean.CodeInfo;
 import lombok.Data;
 
 import javax.validation.constraints.NotNull;

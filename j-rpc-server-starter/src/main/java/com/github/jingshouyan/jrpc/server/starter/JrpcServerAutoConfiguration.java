@@ -10,6 +10,7 @@ import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.util.MonitorUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -19,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.Properties;
 
 /**
  * @author jingshouyan
@@ -70,8 +72,9 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
         System.setProperty("LOG_ROOT_PATH",info.getLogRootPath());
         System.setProperty("LOG_LEVEL",info.getLogLevel());
         System.setProperty("LOG_REF",info.getLogRef());
-        System.setProperty("SERVER_INSTANCE",info.key());
-
+        MDC.put("SERVER_INSTANCE",info.key());
+        Properties properties =System.getProperties();
+        log.info("======================================");
         ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
         ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }

@@ -1,10 +1,10 @@
-package com.github.jingshouyan.jrpc.server.util.bean;
+package com.github.jingshouyan.jrpc.base.util.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeBindings;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.server.bean.ClassInfo;
+import com.github.jingshouyan.jrpc.base.bean.ClassInfo;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

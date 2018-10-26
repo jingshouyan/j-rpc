@@ -40,8 +40,8 @@ public class ZkDiscover {
 
     public ZkDiscover(String zkHost,String zkRoot) {
         this.zkHost = zkHost;
-        this.zkHost = zkRoot;
-        CuratorFramework client = ZkUtil.getClient(zkHost);
+        this.zkRoot = zkRoot;
+        client = ZkUtil.getClient(zkHost);
         listen();
     }
 

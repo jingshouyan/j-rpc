@@ -1,6 +1,6 @@
 package com.github.jingshouyan.jrpc.server;
 
-import com.github.jingshouyan.jrpc.server.bean.CodeInfo;
+import com.github.jingshouyan.jrpc.base.bean.CodeInfo;
 import com.github.jingshouyan.jrpc.server.method.Method;
 
 import java.util.List;

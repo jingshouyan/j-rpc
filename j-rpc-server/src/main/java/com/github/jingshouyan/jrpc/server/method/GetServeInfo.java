@@ -3,12 +3,12 @@ package com.github.jingshouyan.jrpc.server.method;
 import com.github.jingshouyan.jrpc.base.bean.Empty;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.server.bean.ClassInfo;
-import com.github.jingshouyan.jrpc.server.bean.CodeInfo;
-import com.github.jingshouyan.jrpc.server.bean.InterfaceInfo;
-import com.github.jingshouyan.jrpc.server.bean.MethodInfo;
+import com.github.jingshouyan.jrpc.base.bean.ClassInfo;
+import com.github.jingshouyan.jrpc.base.bean.CodeInfo;
+import com.github.jingshouyan.jrpc.base.bean.InterfaceInfo;
+import com.github.jingshouyan.jrpc.base.bean.MethodInfo;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
-import com.github.jingshouyan.jrpc.server.util.bean.ClassInfoUtil;
+import com.github.jingshouyan.jrpc.base.util.bean.ClassInfoUtil;
 import com.google.common.collect.Lists;
 
 import java.util.Comparator;

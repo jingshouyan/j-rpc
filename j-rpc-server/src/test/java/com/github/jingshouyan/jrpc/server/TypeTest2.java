@@ -1,8 +1,8 @@
 package com.github.jingshouyan.jrpc.server;
 
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.server.bean.ClassInfo;
-import com.github.jingshouyan.jrpc.server.util.bean.ClassInfoUtil;
+import com.github.jingshouyan.jrpc.base.bean.ClassInfo;
+import com.github.jingshouyan.jrpc.base.util.bean.ClassInfoUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;

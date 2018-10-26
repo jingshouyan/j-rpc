@@ -38,6 +38,9 @@ public class TransportProvider {
     }
 
     public void restore(Transport transport){
+        if(null == transport) {
+            return;
+        }
         TransportPool transportPool = TRANSPORT_POOL_MAP.get(transport.getKey());
         if(null != transportPool){
             transportPool.restore(transport);

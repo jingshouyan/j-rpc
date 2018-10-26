@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.server.bean;
+package com.github.jingshouyan.jrpc.base.bean;
 
 import lombok.Getter;
 import lombok.Setter;

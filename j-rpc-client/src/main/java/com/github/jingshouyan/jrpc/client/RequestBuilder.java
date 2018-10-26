@@ -55,6 +55,7 @@ public class RequestBuilder {
         Rsp rsp;
         try{
             ServerInfo serverInfo = zkDiscover.getServerInfo(request.getRouter());
+            log.info("server {} ==> {}", serverInfo.getName() ,serverInfo.key());
             Trace trace = ThreadLocalUtil.getTrace();
             String traceId = trace.newTraceId();
 
@@ -88,7 +89,7 @@ public class RequestBuilder {
 
 
     @Getter@ToString(exclude = {"builder"})
-    private class Request{
+    public class Request{
         private Router router = new Router();
 
         private Token token = new Token();
