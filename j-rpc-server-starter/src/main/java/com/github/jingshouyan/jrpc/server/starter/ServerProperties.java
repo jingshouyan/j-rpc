@@ -8,7 +8,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * #date 2018/10/25 14:56
  */
 @Data
-@ConfigurationProperties(prefix = "j-rpc")
+@ConfigurationProperties(prefix = "j-rpc.server")
 public class ServerProperties {
 
     private String zkHost = "127.0.0.1:2181";
