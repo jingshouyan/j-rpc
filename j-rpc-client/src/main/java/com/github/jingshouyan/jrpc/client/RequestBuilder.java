@@ -14,6 +14,7 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.base.util.thread.ThreadLocalUtil;
 import com.github.jingshouyan.jrpc.client.config.ClientConfig;
+import com.github.jingshouyan.jrpc.client.discover.DiscoverEvent;
 import com.github.jingshouyan.jrpc.client.discover.Router;
 import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
@@ -47,6 +48,11 @@ public class RequestBuilder {
         cfg.setMaxIdle(config.getPoolMaxIdle());
         cfg.setMaxTotal(config.getPoolMaxTotal());
         this.transportProvider = new TransportProvider(cfg);
+//        zkDiscover.addListener((event, serverInfo) -> {
+//            if(event == DiscoverEvent.REMOVE){
+//                this.transportProvider.close(serverInfo);
+//            }
+//        });
     }
 
     public Request newRequest(){

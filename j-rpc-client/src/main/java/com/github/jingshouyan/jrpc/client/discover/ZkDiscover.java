@@ -36,6 +36,13 @@ public class ZkDiscover {
     private String zkRoot;
     private Selector selector = new SimpleSelector();
 
+    private final List<ServerInfoListener> listeners = Lists.newArrayList();
+
+    public void addListener(ServerInfoListener listener){
+        listeners.add(listener);
+    }
+
+
     private CuratorFramework client;
 
     public ZkDiscover(String zkHost,String zkRoot) {
@@ -117,17 +124,25 @@ public class ZkDiscover {
         switch (type) {
             case NODE_ADDED:
                 add(info);
+                triggerEvent(DiscoverEvent.ADD,info);
                 break;
             case NODE_UPDATED:
                 update(info);
+                triggerEvent(DiscoverEvent.UPDATE,info);
                 break;
             case NODE_REMOVED:
                 remove(info);
+                triggerEvent(DiscoverEvent.REMOVE,info);
+                break;
             case INITIALIZED:
                 latch.countDown();
                 break;
                 default:
         }
+    }
+
+    private void triggerEvent(DiscoverEvent event,ServerInfo info){
+        listeners.parallelStream().forEach(listener -> listener.handle(event,info));
     }
 
     private void add(ServerInfo info){

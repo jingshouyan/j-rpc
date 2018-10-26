@@ -7,9 +7,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.IntStream;
 
 /**
  * @author jingshouyan
@@ -34,5 +36,16 @@ public class DocController {
                 .setServer(server).setInstance(instance)
                 .setMethod("getServerInfo")
                 .send().json();
+    }
+
+    @PostConstruct
+    public void init(){
+        IntStream.rangeClosed(0,1000).parallel()
+                .forEach(i -> {
+                    requestBuilder.newRequest()
+                            .setServer("test")
+                            .setMethod("getServerInfo")
+                            .send().json();
+                });
     }
 }

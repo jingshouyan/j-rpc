@@ -61,7 +61,7 @@ public class TransportProvider {
         }
     }
 
-    public static void close(ServerInfo serverInfo) {
+    public void close(ServerInfo serverInfo) {
         TransportPool transportPool = TRANSPORT_POOL_MAP.remove(serverInfo.key());
         if(null != transportPool){
             transportPool.close();

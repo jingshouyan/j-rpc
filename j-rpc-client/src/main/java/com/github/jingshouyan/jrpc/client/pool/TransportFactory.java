@@ -36,9 +36,7 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
             socket.setTimeout(serverInfo.getTimeout());
             TTransport tTransport = new TFramedTransport(socket, serverInfo.getMaxReadBufferBytes());
             tTransport.open();
-            if (log.isDebugEnabled()) {
-                log.debug("client pool make object success.");
-            }
+            log.info("client pool make object success. {}==>{}",serverInfo.getName(),serverInfo.key());
             transport.setKey(serverInfo.key());
             transport.setTTransport(tTransport);
             return transport;
