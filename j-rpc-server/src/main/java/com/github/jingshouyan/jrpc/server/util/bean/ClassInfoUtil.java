@@ -84,6 +84,8 @@ public class ClassInfoUtil {
                 ||clazz == char.class || clazz == Character.class
                 ||clazz == boolean.class || clazz == Boolean.class
                 ||clazz == String.class
+                ||clazz == Object.class
+                ||clazz == Void.class
             ){
             return true;
         }
