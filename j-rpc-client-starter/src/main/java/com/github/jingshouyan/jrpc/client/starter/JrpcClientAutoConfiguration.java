@@ -1,6 +1,6 @@
 package com.github.jingshouyan.jrpc.client.starter;
 
-import com.github.jingshouyan.jrpc.client.RequestBuilder;
+import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.config.ClientConfig;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -22,14 +22,14 @@ public class JrpcClientAutoConfiguration {
     private ClientProperties properties;
 
     @Bean
-    @ConditionalOnMissingBean(RequestBuilder.class)
-    public RequestBuilder requestBuilder() {
+    @ConditionalOnMissingBean(JrpcClient.class)
+    public JrpcClient JrpcClient() {
         ClientConfig config = new ClientConfig();
         config.setZkHost(properties.getZkHost());
         config.setZkRoot(properties.getZkRoot());
         config.setPoolMinIdle(properties.getPoolMinIdle());
         config.setPoolMaxIdle(properties.getPoolMaxIdle());
         config.setPoolMaxTotal(properties.getPoolMaxTotal());
-        return new RequestBuilder(config);
+        return new JrpcClient(config);
     }
 }

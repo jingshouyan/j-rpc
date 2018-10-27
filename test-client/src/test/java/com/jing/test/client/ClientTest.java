@@ -1,7 +1,7 @@
 package com.jing.test.client;
 
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
-import com.github.jingshouyan.jrpc.client.RequestBuilder;
+import com.github.jingshouyan.jrpc.client.JrpcClient;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,14 +18,14 @@ import java.util.stream.IntStream;
 @SpringBootTest(classes = App.class)
 public class ClientTest {
     @Resource
-    private RequestBuilder requestBuilder;
+    private JrpcClient jrpcClient;
 
     @Test
     public void test() {
         IntStream.rangeClosed(0,1000)
 //                .parallel()
                 .forEach(i -> {
-            Rsp rsp =requestBuilder.newRequest().setServer("test").setMethod("myMethod").send();
+            Rsp rsp = jrpcClient.newRequest().setServer("test").setMethod("myMethod").send();
             System.out.println(rsp);
         });
 

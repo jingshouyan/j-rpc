@@ -34,13 +34,13 @@ import java.util.Map;
  * #date 2018/10/26 9:42
  */
 @Slf4j
-public class RequestBuilder {
+public class JrpcClient {
 
     private ClientConfig config;
     private ZkDiscover zkDiscover;
     private TransportProvider transportProvider;
 
-    public RequestBuilder(ClientConfig config){
+    public JrpcClient(ClientConfig config){
         this.config = config;
         this.zkDiscover = new ZkDiscover(config.getZkHost(), config.getZkRoot());
         GenericObjectPoolConfig cfg = new GenericObjectPoolConfig();
@@ -113,9 +113,9 @@ public class RequestBuilder {
 
         private boolean oneway;
 
-        private RequestBuilder builder;
+        private JrpcClient builder;
 
-        private Request(RequestBuilder builder) {
+        private Request(JrpcClient builder) {
             this.builder = builder;
         }
 
