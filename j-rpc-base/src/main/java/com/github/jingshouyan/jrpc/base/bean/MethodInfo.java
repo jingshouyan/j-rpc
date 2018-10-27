@@ -12,6 +12,6 @@ import lombok.ToString;
 public class MethodInfo {
     String name;
     String remark = "";
-    ClassInfo input;
-    ClassInfo output;
+    BeanInfo input;
+    BeanInfo output;
 }

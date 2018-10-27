@@ -1,0 +1,137 @@
+.ore-page{
+	display: none;
+}
+.ore-header{
+	height: 60px;
+	line-height: 60px;
+	font-size: 18px;
+	/*background: var(--primary-bg);*/
+	color: #333;
+	padding: 0 20px;
+	border-bottom: 1px solid var(--light-border)
+}
+.ore-header a.ore-header-left{
+	color: #333;
+	float: left;
+}
+.ore-header .vrv-logo{
+	padding: 8px;
+	float: left;
+	width: 45px;
+	height: 45px;
+}
+.ore-page{
+	height: 100%;
+}
+.ore-main{
+	height: calc(100% - 62px);
+}
+.ore-main-left{
+	float: left;
+	width: 20%;
+	height: 100%;
+	background: #55afda;
+	color:#FFF;	
+	overflow: auto;
+}
+
+/*===========*/
+.ore-menu{	
+	text-align: left;
+}
+.ore-main-right{
+	margin-left: calc(20% + 20px);
+	height: 100%;
+	overflow: auto;
+}
+.ore-main-right .tab-content{
+	padding-right: 20px;
+	margin: 20px 0;
+	/*padding: 20px 20px 20px 0;*/
+	position: relative;
+}
+.ore-main-right .tab-content.tab-content-border{
+	border-bottom: 1px solid #ddd;
+    border-left: 1px solid #ddd;
+	padding: 20px;
+	margin: 0;
+}
+.ore-main-right h2.rightTitle{
+	line-height: 2rem;
+	margin: 20px 0;
+    padding-left: 20px;
+    font-size: 2rem;
+}
+
+.ore-menu-text{
+	padding: 6px 0px 6px 30px;
+	border-bottom: 1px solid #40a0ce;
+	background: #55afda;
+	cursor: pointer;
+}
+.ore-menu-text:hover{
+	background: #36AFDC;
+}
+.ore-submenu-text{	
+	padding: 6px 0px 6px 60px;
+	background: #40a0ce;
+	border-bottom: 1px solid #55afda;
+}
+.ore-menu-sub .ore-menu-text:hover{
+	background: #36AFDC;
+}
+.ore-menu-sub .ore-menu-text.oreActive{
+    background: #FFF;
+    color: #40a0ce;
+}
+.ore-menu-sub{
+	display: none;
+}
+.ore-menu-text .icon-img{
+	padding-right: 10px;
+	position: relative;
+	top: -2px;
+}
+.ore-menu-text .icon-img + .icon{
+	width: 16px;
+    height: 26px;
+    display: block;
+    float: right;
+    position: relative;
+    top: -5px;
+	margin-right: 5px;
+}
+/*===========*/
+.ore-text-hightlight{
+	color: #e87e04
+}
+.ore-header-right{
+	float: right;
+	font-size: 1.4rem;
+}
+.ore-header-right .ore-btn-group{
+	float: right;
+	margin-left: 20px;
+}
+.ore-header-right a.ore-btn{
+	font-size: 1.4rem;
+}
+.tab-pane{
+	overflow: hidden;
+}
+.dataTables_filter{
+	margin-bottom: 10px;
+}
+.ore-table-btn{
+	margin-right:5px;
+}
+
+.tab-content > .ore-btn-group{
+	text-align: right;
+	margin: 20px 0 10px 0;
+}
+.tab-content > .ore-btn-group .ore-input{
+	width: 300px;
+}
+.tab-content > .ore-btn-group > *{margin-left: 5px;}
+

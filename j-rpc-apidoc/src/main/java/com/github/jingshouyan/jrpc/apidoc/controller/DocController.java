@@ -42,10 +42,12 @@ public class DocController {
     @RequestMapping("server/{server}")
     @ResponseBody
     public String serverInfo(@PathVariable String server){
-        return requestBuilder.newRequest()
+        String str =  requestBuilder.newRequest()
                 .setServer(server)
                 .setMethod("getServerInfo")
                 .send().json();
+
+        return str;
     }
 
 //    @PostConstruct
