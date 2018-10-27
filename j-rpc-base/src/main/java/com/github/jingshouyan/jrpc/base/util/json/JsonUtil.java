@@ -1,10 +1,7 @@
 package com.github.jingshouyan.jrpc.base.util.json;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JavaType;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.type.TypeBindings;
 import lombok.SneakyThrows;
 import org.apache.thrift.TBase;
@@ -28,6 +25,8 @@ public class JsonUtil {
         ObjectMapper objectMapper = new ObjectMapper();
         objectMapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES,false);
         objectMapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE,false);
+        objectMapper.configure(DeserializationFeature.FAIL_ON_INVALID_SUBTYPE,false);
+        objectMapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS,false);
 //        objectMapper.configure()
         objectMapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return objectMapper;

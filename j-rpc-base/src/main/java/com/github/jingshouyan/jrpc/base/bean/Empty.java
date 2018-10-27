@@ -8,4 +8,5 @@ import lombok.Data;
  */
 @Data
 public class Empty {
+    public static final Empty EMPTY = new Empty();
 }
