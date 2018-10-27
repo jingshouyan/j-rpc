@@ -30,11 +30,6 @@ public class ServerInfo {
     }
 
 
-    private String logRootPath = "";
-    private String logLevel = "";
-    private String logRef="STDOUT";
-
-
     public void key(String key){
         String[] strings = key.split(":");
         host = strings[0];

@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Configuration;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Properties;
 
 /**
@@ -63,17 +65,7 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
         info.setMaxReadBufferBytes(properties.getMaxReadBufferBytes());
         info.setUpdatedAt("");
         info.setMonitorInfo(MonitorUtil.monitor());
-        info.setLogRootPath(properties.getLogRootPath());
-        info.setLogLevel(properties.getLogLevel());
-        info.setLogRef(properties.getLogRef());
 
-        System.setProperty("SERVER_NAME",info.getName());
-        System.setProperty("LOG_ROOT_PATH",info.getLogRootPath());
-        System.setProperty("LOG_LEVEL",info.getLogLevel());
-        System.setProperty("LOG_REF",info.getLogRef());
-        MDC.put("SERVER_INSTANCE",info.key());
-        Properties properties =System.getProperties();
-        log.info("======================================");
         ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
         ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }

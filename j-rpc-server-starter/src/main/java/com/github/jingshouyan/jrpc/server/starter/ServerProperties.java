@@ -18,13 +18,7 @@ public class ServerProperties {
     private String version = "v1.0";
     private String host = "127.0.0.1";
     private int port = 8888;
-    private String startAt;
     private int timeout = 5000;
     private int maxReadBufferBytes = 25 * 1024 * 1024;
-    private String updatedAt;
 
-
-    private String logRootPath = "";
-    private String logLevel = "DEBUG";
-    private String logRef="STDOUT";
 }

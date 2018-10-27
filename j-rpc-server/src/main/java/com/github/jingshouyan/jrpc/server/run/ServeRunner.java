@@ -12,6 +12,8 @@ import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.server.TServer;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.concurrent.*;
 
 /**
@@ -73,6 +75,10 @@ public class ServeRunner {
 
 
     public void start(){
+        LocalDateTime now = LocalDateTime.now();
+        DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE_TIME;
+        String nowStr = now.format(dtf);
+        serverInfo.setStartAt(nowStr);
         SERVER_RUNNER_POOL.execute(()-> {
             while (true) {
                 try {
