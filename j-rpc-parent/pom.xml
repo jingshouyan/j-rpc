@@ -6,7 +6,7 @@
 
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-parent</artifactId>
-    <version>1.0.0</version>
+    <version>0.1.0</version>
     <packaging>pom</packaging>
 
     <parent>
@@ -18,7 +18,7 @@
 
     <properties>
         <dependencies-output-dir>/data/java/lib</dependencies-output-dir>
-        <j-rpc.version>1.0.0</j-rpc.version>
+        <j-rpc.version>0.1.0</j-rpc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <zookeeper.version>3.4.10</zookeeper.version>

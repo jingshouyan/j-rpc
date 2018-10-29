@@ -7,7 +7,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>1.0.0</version>
+    <version>0.1.0</version>
     <modules>
         <module>j-rpc-parent</module>
         <module>j-rpc-base</module>
