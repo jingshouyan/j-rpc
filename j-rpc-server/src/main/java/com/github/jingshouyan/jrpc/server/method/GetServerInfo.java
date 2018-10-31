@@ -22,7 +22,7 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
     private static final int DEEP = 5;
 
     @Override
-    public InterfaceInfo action(Empty empty) {
+    public InterfaceInfo action(Token token,Empty empty) {
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         interfaceInfo.setCodeInfos(codes());
         interfaceInfo.setMethodInfos(methods());
@@ -75,7 +75,7 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
 
     public static void main(String[] args) {
         GetServerInfo GetServerInfo = new GetServerInfo();
-        InterfaceInfo serverInfo = GetServerInfo.action(new Empty());
+        InterfaceInfo serverInfo = GetServerInfo.action(new Token(),new Empty());
         System.out.println(JsonUtil.toJsonString(serverInfo));
     }
 

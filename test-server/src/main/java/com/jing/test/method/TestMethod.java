@@ -1,6 +1,7 @@
 package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.CodeInfo;
+import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.jing.test.bean.TestBean2;
 import com.jing.test.bean.TestBean3;
@@ -16,7 +17,7 @@ import java.util.List;
 public class TestMethod implements Method<List<String>,TestBean2<CodeInfo,String,TestBean3>> {
 
     @Override
-    public TestBean2<CodeInfo,String,TestBean3> action(List<String> strings) {
+    public TestBean2<CodeInfo,String,TestBean3> action(Token token, List<String> strings) {
         return null;
     }
 }

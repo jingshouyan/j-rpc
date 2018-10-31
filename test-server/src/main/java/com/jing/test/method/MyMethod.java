@@ -1,6 +1,7 @@
 package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Empty;
+import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import org.springframework.stereotype.Component;
 
@@ -12,7 +13,7 @@ import org.springframework.stereotype.Component;
 public class MyMethod implements Method<Empty,Void> {
 
     @Override
-    public Void action(Empty empty) {
+    public Void action(Token token,Empty empty) {
         return null;
     }
 

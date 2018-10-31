@@ -58,7 +58,6 @@ public class RpcImpl implements Rpc {
     }
 
     public Rsp run(Token token,Req req) {
-
         long start = System.currentTimeMillis();
         Rsp rsp = null;
         String methodName = req.getMethod();
@@ -69,7 +68,6 @@ public class RpcImpl implements Rpc {
         try{
             log.info("call [{}] start.",methodName);
             log.info("call [{}] token: {}",methodName,token);
-            ThreadLocalUtil.setToken(token);
             Method method = MethodHolder.getMethod(methodName);
             Type clazz = method.getInputType();
             Object obj;
@@ -80,7 +78,7 @@ public class RpcImpl implements Rpc {
                 log.info("call [{}] param: {}",methodName,param);
                 throw new JException(Code.JSON_PARSE_ERROR,e);
             }
-            Object data = method.validAndAction(obj);
+            Object data = method.validAndAction(token,obj);
             rsp = RspUtil.success(data);
         }catch (JException e){
             rsp = RspUtil.error(e);
