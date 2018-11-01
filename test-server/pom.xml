@@ -14,6 +14,18 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+        </dependency>
+        <dependency>
             <groupId>com.github.jingshouyan</groupId>
             <artifactId>j-rpc-server-starter</artifactId>
         </dependency>
@@ -27,9 +39,26 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!-- Instruments the underlying HttpClient requests that call the backend -->
         <dependency>
             <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave-instrumentation-okhttp3</artifactId>
+            <artifactId>brave-instrumentation-httpclient</artifactId>
+        </dependency>
+
+        <!-- Integrates so you can use log patterns like %X{traceId}/%X{spanId} -->
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave-context-slf4j</artifactId>
+        </dependency>
+
+        <!-- The below are needed to report traces to http://localhost:9411/api/v2/spans -->
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.reporter2</groupId>
+            <artifactId>zipkin-sender-okhttp3</artifactId>
         </dependency>
     </dependencies>
 

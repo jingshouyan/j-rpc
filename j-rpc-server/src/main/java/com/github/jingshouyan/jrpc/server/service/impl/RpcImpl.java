@@ -58,7 +58,7 @@ public class RpcImpl implements Rpc {
     }
 
     public Rsp run(Token token,Req req) {
-        long start = System.currentTimeMillis();
+        long start = System.nanoTime();
         Rsp rsp = null;
         String methodName = req.getMethod();
         String param = req.getParam();
@@ -86,9 +86,9 @@ public class RpcImpl implements Rpc {
             log.error("call [{}] error.",methodName,e);
             rsp = RspUtil.error(Code.SERVER_ERROR,e);
         }
-        long end = System.currentTimeMillis();
+        long end = System.nanoTime();
         log.info("call [{}] end. {}",methodName,rsp);
-        log.info("call [{}] use {} ms",methodName,end - start);
+        log.info("call [{}] use {} ns",methodName,end - start);
         return rsp;
     }
 
