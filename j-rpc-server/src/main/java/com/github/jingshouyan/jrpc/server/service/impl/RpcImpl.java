@@ -5,7 +5,6 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JException;
-import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;

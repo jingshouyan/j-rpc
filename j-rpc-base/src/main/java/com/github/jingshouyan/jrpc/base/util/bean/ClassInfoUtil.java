@@ -4,10 +4,10 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.type.TypeBindings;
 import com.github.jingshouyan.jrpc.base.bean.BeanInfo;
+import com.github.jingshouyan.jrpc.base.bean.ClassInfo;
 import com.github.jingshouyan.jrpc.base.bean.FieldInfo;
 import com.github.jingshouyan.jrpc.base.bean.TypeInfo;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.base.bean.ClassInfo;
 import com.google.common.collect.Lists;
 
 import java.lang.annotation.Annotation;

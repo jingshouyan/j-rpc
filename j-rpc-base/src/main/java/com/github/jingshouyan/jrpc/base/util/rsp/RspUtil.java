@@ -3,7 +3,6 @@ package com.github.jingshouyan.jrpc.base.util.rsp;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JException;
-import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 
 /**
  * @author jingshouyan

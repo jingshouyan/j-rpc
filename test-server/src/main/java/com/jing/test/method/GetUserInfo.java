@@ -6,7 +6,6 @@ import com.jing.test.bean.IdQuery;
 import com.jing.test.bean.UserBean;
 import org.springframework.stereotype.Component;
 
-import javax.validation.constraints.Null;
 import java.util.List;
 
 /**

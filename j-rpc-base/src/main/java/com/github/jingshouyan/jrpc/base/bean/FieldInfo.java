@@ -1,9 +1,6 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
-import com.google.common.collect.Lists;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @author jingshouyan

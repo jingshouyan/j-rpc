@@ -1,7 +1,6 @@
 package com.github.jingshouyan.jrpc.server.run;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;

@@ -1,6 +1,5 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
-import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
