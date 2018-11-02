@@ -45,6 +45,7 @@ public class ClientTrace implements TraceConstant {
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
             span.name("call "+req.getRouter().getServer()+":"+req.getMethod())
                     .annotate(CS)
+                    .tag(TAG_METHOD,""+req.getMethod())
                     .tag(TAG_USER_ID, ""+token.getUserId())
                     .tag(TAG_TICKET, ""+token.getTicket());
 
@@ -55,7 +56,7 @@ public class ClientTrace implements TraceConstant {
                         .tag(TAG_MESSAGE,"" + rsp.getMessage());
                 if(properties.isMore() || rsp.getCode()!= Code.SUCCESS){
                     span.tag(TAG_PARAM,""+req.getParam())
-                            .tag(TAG_DATA,""+rsp.getData());
+                            .tag(TAG_DATA,""+rsp.getResult());
                 }
             }
             span.annotate(CR);

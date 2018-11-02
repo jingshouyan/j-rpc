@@ -46,6 +46,7 @@ public class ServerTrace implements TraceConstant {
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
             span.name(req.getMethod())
                     .annotate(SR)
+                    .tag(TAG_METHOD,""+req.getMethod())
                     .tag(TAG_TICKET,""+token.getTicket())
                     .tag(TAG_USER_ID,""+token.getUserId());
 

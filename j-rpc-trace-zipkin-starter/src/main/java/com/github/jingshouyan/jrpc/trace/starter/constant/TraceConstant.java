@@ -9,11 +9,12 @@ public interface TraceConstant {
     String SR = "sr";
     String SS = "ss";
     String CR = "cr";
-    String TAG_USER_ID = "input.userId";
-    String TAG_TICKET = "input.ticket";
-    String TAG_PARAM = "input.param";
-    String TAG_CODE = "output.code";
-    String TAG_MESSAGE = "output.message";
-    String TAG_DATA = "output.data";
-    String TAG_ERROR = "output.error";
+    String TAG_METHOD = "i.method";
+    String TAG_USER_ID = "i.userId";
+    String TAG_TICKET = "i.ticket";
+    String TAG_PARAM = "i.param";
+    String TAG_CODE = "o.code";
+    String TAG_MESSAGE = "o.message";
+    String TAG_DATA = "o.data";
+    String TAG_ERROR = "o.error";
 }
