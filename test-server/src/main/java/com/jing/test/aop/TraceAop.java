@@ -84,7 +84,8 @@ public class TraceAop {
             if(traceContextOrSamplingFlags !=null ){
                 TraceContext context = traceContextOrSamplingFlags.context();
                 if(context != null){
-                    return tracing.tracer().newChild(context).start();
+                    return tracing.tracer().joinSpan(context).start();
+//                    return tracing.tracer().newChild(context).start();
                 }
             }
         }

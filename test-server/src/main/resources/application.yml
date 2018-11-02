@@ -3,7 +3,7 @@ j-rpc:
   server:
     version: v2.0
     port: 8999
-spring:
-  application:
-    name: test
+    name: test_11
+
+
 

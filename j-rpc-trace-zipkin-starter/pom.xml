@@ -10,9 +10,24 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>test-server</artifactId>
+    <artifactId>j-rpc-trace-zipkin-starter</artifactId>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+
+        <!--aop-->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-aop</artifactId>
@@ -24,19 +39,6 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.jingshouyan</groupId>
-            <artifactId>j-rpc-server-starter</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
         </dependency>
 
         <!-- Instruments the underlying HttpClient requests that call the backend -->
@@ -61,12 +63,8 @@
             <artifactId>zipkin-sender-okhttp3</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.github.jingshouyan</groupId>
-            <artifactId>j-rpc-trace-zipkin-starter</artifactId>
-            <version>0.1.0</version>
-        </dependency>
     </dependencies>
+
 
     <dependencyManagement>
         <dependencies>

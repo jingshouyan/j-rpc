@@ -17,7 +17,7 @@ import zipkin2.reporter.okhttp3.OkHttpSender;
  * @author jingshouyan
  * #date 2018/10/31 20:11
  */
-@Configuration
+//@Configuration
 public class TestConfig {
 
     /** Configuration for how to send spans to Zipkin */
@@ -33,9 +33,9 @@ public class TestConfig {
 
     /** Controls aspects of tracing such as the name that shows up in the UI */
     @Bean
-    Tracing tracing(@Value("${spring.application.name}") String serviceName) {
+    Tracing tracing() {
         return Tracing.newBuilder()
-                .localServiceName(serviceName)
+                .localServiceName("test")
                 .propagationFactory(ExtraFieldPropagation.newFactory(B3Propagation.FACTORY, "user-name"))
                 .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
                         // puts trace IDs into logs
