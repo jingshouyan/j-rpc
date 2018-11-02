@@ -1,7 +1,8 @@
 package com.github.jingshouyan.jrpc.server.starter;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.server.method.GetServerInfo;
+import com.github.jingshouyan.jrpc.server.method.handler.MethodHandler;
+import com.github.jingshouyan.jrpc.server.method.inner.GetServerInfo;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import com.github.jingshouyan.jrpc.server.run.ServeRunner;
@@ -41,9 +42,15 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
     }
 
     @Bean
+    @ConditionalOnMissingBean(MethodHandler.class)
+    public MethodHandler methodHandler(){
+        return new MethodHandler();
+    }
+
+    @Bean
     @ConditionalOnMissingBean(Rpc.class)
-    public Rpc rpc(){
-        Rpc rpc  = new RpcImpl();
+    public Rpc rpc(MethodHandler methodHandler){
+        Rpc rpc  = new RpcImpl(methodHandler);
         return rpc;
     }
 

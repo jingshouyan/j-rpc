@@ -4,6 +4,7 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
+import com.github.jingshouyan.jrpc.client.Request;
 import com.google.common.collect.Lists;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -40,11 +41,10 @@ public class DocController {
     @RequestMapping("server/{server}")
     @ResponseBody
     public String serverInfo(@PathVariable String server){
-        String str =  jrpcClient.newRequest()
+        String str = Request.newInstance().setClient(jrpcClient)
                 .setServer(server)
                 .setMethod("getServerInfo")
                 .send().json();
-
         return str;
     }
 

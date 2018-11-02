@@ -23,7 +23,7 @@ public class JrpcClientAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(JrpcClient.class)
-    public JrpcClient JrpcClient() {
+    public JrpcClient jrpcClient() {
         ClientConfig config = new ClientConfig();
         config.setZkHost(properties.getZkHost());
         config.setZkRoot(properties.getZkRoot());

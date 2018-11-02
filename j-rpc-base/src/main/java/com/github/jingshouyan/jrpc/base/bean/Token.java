@@ -16,6 +16,7 @@ public class Token {
     private String userId;
     private String ticket;
     private String ext;
+    private String traceId;
 
     public boolean valid(){
         return userId != null && ticket != null;
@@ -26,12 +27,14 @@ public class Token {
         userId = tokenBean.getUserId();
         ticket = tokenBean.getTicket();
         ext = tokenBean.getExt();
+        traceId = tokenBean.getTraceId();
     }
 
     public TokenBean tokenBean(){
         return new TokenBean()
                 .setUserId(userId)
                 .setTicket(ticket)
+                .setTraceId(traceId)
                 .setExt(ext);
     }
 

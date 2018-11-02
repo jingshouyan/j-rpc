@@ -55,29 +55,21 @@ public class JrpcClient {
         });
     }
 
-    public Request newRequest(){
-        return new Request(this);
-    }
-
     public Map<String,List<ServerInfo>> serverMap(){
         return zkDiscover.serverMap();
     }
 
-    private Rsp send(Request request) {
+    public Rsp send(Request request) {
         Transport transport = null;
         Rsp rsp;
         try{
             ServerInfo serverInfo = zkDiscover.getServerInfo(request.getRouter());
             log.info("server {} ==> {}", serverInfo.getName() ,serverInfo.key());
-            Trace trace = ThreadLocalUtil.getTrace();
-            String traceId = trace.newTraceId();
-
             transport = transportProvider.get(serverInfo);
             TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
             Jrpc.Client client = new Jrpc.Client(tProtocol);
             TokenBean tokenBean = request.getToken().tokenBean();
-            tokenBean.setTraceId(traceId);
-            ReqBean reqBean = new ReqBean(request.method,request.param);
+            ReqBean reqBean = new ReqBean(request.getMethod(),request.getParam());
             if(request.isOneway()){
                 client.send(tokenBean,reqBean);
                 rsp = RspUtil.success();
@@ -96,74 +88,5 @@ public class JrpcClient {
         }
         return rsp;
     }
-
-
-
-
-
-    @Getter@ToString(exclude = {"builder"})
-    public class Request{
-        private Router router = new Router();
-
-        private Token token = new Token();
-
-        private String method;
-
-        private String param;
-
-        private boolean oneway;
-
-        private JrpcClient builder;
-
-        private Request(JrpcClient builder) {
-            this.builder = builder;
-        }
-
-        public Request setToken(Token token) {
-            this.token = token;
-            return this;
-        }
-
-        public Request setMethod(String method){
-            this.method = method;
-            return this;
-        }
-        public Request setParam(String param){
-            this.param = param;
-            return this;
-        }
-        public Request setParamObj(Object paramObj){
-            this.param = JsonUtil.toJsonString(paramObj);
-            return this;
-        }
-        public Request setOneway(boolean oneway){
-            this.oneway = oneway;
-            return this;
-        }
-
-        public Request setServer(String server){
-            router.setServer(server);
-            return this;
-        }
-
-        public Request setVersion(String version){
-            router.setVersion(version);
-            return this;
-        }
-
-        public Request setInstance(String instance){
-            router.setInstance(instance);
-            return this;
-        }
-
-        public Rsp send(){
-            log.info("call rpc req: {}",this);
-            Rsp rsp = builder.send(this);
-            log.info("call rpc rsp: {}",rsp);
-            return rsp;
-        }
-
-    }
-
 
 }

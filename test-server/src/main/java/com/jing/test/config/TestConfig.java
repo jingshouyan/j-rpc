@@ -33,7 +33,7 @@ public class TestConfig {
 
     /** Controls aspects of tracing such as the name that shows up in the UI */
     @Bean
-    Tracing tracing(@Value("${j-rpc.server.name}") String serviceName) {
+    Tracing tracing(@Value("${spring.application.name}") String serviceName) {
         return Tracing.newBuilder()
                 .localServiceName(serviceName)
                 .propagationFactory(ExtraFieldPropagation.newFactory(B3Propagation.FACTORY, "user-name"))
