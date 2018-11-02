@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.server.method.handler;
 
+import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
@@ -19,8 +20,9 @@ import java.lang.reflect.Type;
  * #date 2018/11/1 15:50
  */
 @Slf4j
-public class MethodHandler {
+public class ServerActionHandler implements ActionHandler {
 
+    @Override
     public Rsp handle(Token token, Req req) {
         long start = System.nanoTime();
         Rsp rsp = null;

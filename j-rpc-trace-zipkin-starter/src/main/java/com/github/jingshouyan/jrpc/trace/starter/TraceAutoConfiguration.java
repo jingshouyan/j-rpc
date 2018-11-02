@@ -5,6 +5,8 @@ import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.B3Propagation;
 import brave.propagation.ExtraFieldPropagation;
 import brave.propagation.ThreadLocalCurrentTraceContext;
+import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
+import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -62,6 +64,17 @@ public class TraceAutoConfiguration {
                         .build()
                 )
                 .spanReporter(spanReporter()).build();
+    }
+    @Bean
+    @ConditionalOnMissingBean(ServerTrace.class)
+    ServerTrace serverTrace(Tracing tracing){
+        return new ServerTrace(tracing,properties);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ClientTrace.class)
+    ClientTrace clientTrace(Tracing tracing){
+        return new ClientTrace(tracing,properties);
     }
 
     private String tracingName(){

@@ -39,45 +39,12 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
-        <!-- Instruments the underlying HttpClient requests that call the backend -->
-        <dependency>
-            <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave-instrumentation-httpclient</artifactId>
-        </dependency>
-
-        <!-- Integrates so you can use log patterns like %X{traceId}/%X{spanId} -->
-        <dependency>
-            <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave-context-slf4j</artifactId>
-        </dependency>
-
-        <!-- The below are needed to report traces to http://localhost:9411/api/v2/spans -->
-        <dependency>
-            <groupId>io.zipkin.brave</groupId>
-            <artifactId>brave</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.zipkin.reporter2</groupId>
-            <artifactId>zipkin-sender-okhttp3</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>com.github.jingshouyan</groupId>
             <artifactId>j-rpc-trace-zipkin-starter</artifactId>
-            <version>0.1.0</version>
         </dependency>
     </dependencies>
 
-    <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>io.zipkin.brave</groupId>
-                <artifactId>brave-bom</artifactId>
-                <version>5.5.0</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+
 
 </project>

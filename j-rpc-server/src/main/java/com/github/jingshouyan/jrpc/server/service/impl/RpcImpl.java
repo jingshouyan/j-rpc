@@ -8,7 +8,7 @@ import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.thread.ThreadLocalUtil;
-import com.github.jingshouyan.jrpc.server.method.handler.MethodHandler;
+import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import lombok.extern.slf4j.Slf4j;
 
@@ -19,9 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class RpcImpl implements Rpc {
 
-    private final MethodHandler handler;
+    private final ServerActionHandler handler;
 
-    public RpcImpl(MethodHandler handler){
+    public RpcImpl(ServerActionHandler handler){
         this.handler = handler;
     }
 

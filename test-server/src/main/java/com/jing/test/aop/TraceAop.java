@@ -25,8 +25,8 @@ import org.springframework.stereotype.Component;
  * @author jingshouyan
  * #date 2018/11/1 11:39
  */
-@Component
-@Aspect
+//@Component
+//@Aspect
 @Slf4j(topic = "Trace-Log")
 public class TraceAop {
 
@@ -40,13 +40,13 @@ public class TraceAop {
     private static final String TAG_DATA = "out_data";
     private static final String TAG_ERROR = "error";
 
-    @Pointcut("bean(methodHandler)")
+//    @Pointcut("bean(methodHandler)")
     public void aspect() {
     }
     @Autowired
     private Tracing tracing;
 
-    @Around("aspect()")
+//    @Around("aspect()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         Object[] args = joinPoint.getArgs();
         Token token = (Token)args[0];

@@ -34,30 +34,6 @@ import zipkin2.reporter.okhttp3.OkHttpSender;
 @Import(SpanCustomizingAsyncHandlerInterceptor.class)
 public class DocConfig implements WebMvcConfigurer {
 
-    /** Configuration for how to send spans to Zipkin */
-    @Bean
-    Sender sender() {
-        return OkHttpSender.create("http://127.0.0.1:9411/api/v2/spans");
-    }
-
-    /** Configuration for how to buffer spans into messages for Zipkin */
-    @Bean AsyncReporter<Span> spanReporter() {
-        return AsyncReporter.create(sender());
-    }
-
-    /** Controls aspects of tracing such as the name that shows up in the UI */
-    @Bean Tracing tracing() {
-        return Tracing.newBuilder()
-                .localServiceName("api-doc")
-                .propagationFactory(ExtraFieldPropagation.newFactory(B3Propagation.FACTORY, "user-name"))
-                .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
-                        // puts trace IDs into logs
-                        .addScopeDecorator(MDCScopeDecorator.create())
-                        .build()
-                )
-                .spanReporter(spanReporter()).build();
-    }
-
     /** decides how to name and tag spans. By default they are named the same as the http method. */
     @Bean HttpTracing httpTracing(Tracing tracing) {
         return HttpTracing.create(tracing);

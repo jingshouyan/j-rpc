@@ -4,7 +4,7 @@ package com.github.jingshouyan.jrpc.trace.starter.constant;
  * @author jingshouyan
  * #date 2018/11/2 20:01
  */
-public interface TraceConstant {    
+public interface TraceConstant {
     String CS = "cs";
     String SR = "sr";
     String SS = "ss";

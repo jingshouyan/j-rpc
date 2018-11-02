@@ -1,9 +1,10 @@
 package com.github.jingshouyan.jrpc.client;
 
+import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.client.discover.Router;
+import com.github.jingshouyan.jrpc.base.bean.Router;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
@@ -20,11 +21,7 @@ public class Request{
 
     private Token token = new Token();
 
-    private String method;
-
-    private String param;
-
-    private boolean oneway;
+    private Req req = new Req();
 
     private JrpcClient client;
 
@@ -44,19 +41,20 @@ public class Request{
     }
 
     public Request setMethod(String method){
-        this.method = method;
+        req.setMethod(method);
         return this;
     }
     public Request setParam(String param){
-        this.param = param;
+        req.setParam(param);
         return this;
     }
     public Request setParamObj(Object paramObj){
-        this.param = JsonUtil.toJsonString(paramObj);
+        String param = JsonUtil.toJsonString(paramObj);
+        req.setParam(param);
         return this;
     }
     public Request setOneway(boolean oneway){
-        this.oneway = oneway;
+        req.setOneway(oneway);
         return this;
     }
 
@@ -76,9 +74,10 @@ public class Request{
     }
 
     public Rsp send(){
+        req.setRouter(router);
         long start = System.nanoTime();
         log.info("call rpc req: {}",this);
-        Rsp rsp = client.send(this);
+        Rsp rsp = client.handle(token,req);
         log.info("call rpc rsp: {}",rsp);
         long end = System.nanoTime();
         log.info("call rpc use: {}ns", end - start);

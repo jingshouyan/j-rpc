@@ -4,8 +4,6 @@ import brave.Span;
 import brave.Tracer;
 import brave.Tracing;
 import brave.propagation.B3SingleFormat;
-import brave.propagation.TraceContext;
-import brave.propagation.TraceContextOrSamplingFlags;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
@@ -19,20 +17,20 @@ import org.aspectj.lang.annotation.Pointcut;
 
 /**
  * @author jingshouyan
- * #date 2018/11/2 20:00
+ * #date 2018/11/2 21:45
  */
 @Aspect
-public class ServerTrace implements TraceConstant {
+public class ClientTrace implements TraceConstant {
 
     private Tracer tracer;
     private TraceProperties properties;
 
-    public ServerTrace(Tracing tracing, TraceProperties properties){
+    public ClientTrace(Tracing tracing,TraceProperties properties){
         this.tracer = tracing.tracer();
         this.properties = properties;
     }
 
-    @Pointcut("bean(serverActionHandler) && execution(* *.handle(..))")
+    @Pointcut("bean(jrpcClient) && execution(* *.handle(..))")
     public void aspect() {
     }
 
@@ -42,12 +40,13 @@ public class ServerTrace implements TraceConstant {
         Object[] args = joinPoint.getArgs();
         Token token = (Token)args[0];
         Req req = (Req) args[1];
-        Span span = span(token.getTraceId());
+        Span span = span();
+        token.setTraceId(traceId(span));
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
-            span.name(req.getMethod())
-                    .annotate(SR)
-                    .tag(TAG_TICKET,""+token.getTicket())
-                    .tag(TAG_USER_ID,""+token.getUserId());
+            span.name("call "+req.getRouter().getServer()+":"+req.getMethod())
+                    .annotate(CS)
+                    .tag(TAG_USER_ID, ""+token.getUserId())
+                    .tag(TAG_TICKET, ""+token.getTicket());
 
             Object result = joinPoint.proceed();
             if (result instanceof Rsp) {
@@ -59,7 +58,7 @@ public class ServerTrace implements TraceConstant {
                             .tag(TAG_DATA,""+rsp.getData());
                 }
             }
-            span = span.annotate(SS);
+            span.annotate(CR);
             return result;
         }catch (Throwable e){
             span.tag(TAG_ERROR,e.getClass().getSimpleName()+":"+e.getMessage());
@@ -70,17 +69,15 @@ public class ServerTrace implements TraceConstant {
     }
 
 
-    private Span span(String trace){
-        if(null != trace){
-            TraceContextOrSamplingFlags traceContextOrSamplingFlags =B3SingleFormat.parseB3SingleFormat(trace);
-            if(traceContextOrSamplingFlags !=null ){
-                TraceContext context = traceContextOrSamplingFlags.context();
-                if(context != null){
-                    return tracer.joinSpan(context).start();
-                }
-            }
+    private Span span(){
+        Span currentSpan = tracer.currentSpan();
+        if(currentSpan != null) {
+            return tracer.newChild(currentSpan.context()).start();
         }
         return tracer.newTrace().start();
     }
 
+    private String traceId(Span span){
+        return B3SingleFormat.writeB3SingleFormat(span.context());
+    }
 }

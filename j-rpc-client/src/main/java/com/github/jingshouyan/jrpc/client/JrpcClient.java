@@ -1,26 +1,23 @@
 package com.github.jingshouyan.jrpc.client;
 
+import com.github.jingshouyan.jrpc.base.action.ActionHandler;
+import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import com.github.jingshouyan.jrpc.base.bean.Trace;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JException;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
-import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
-import com.github.jingshouyan.jrpc.base.util.thread.ThreadLocalUtil;
 import com.github.jingshouyan.jrpc.client.config.ClientConfig;
 import com.github.jingshouyan.jrpc.client.discover.DiscoverEvent;
-import com.github.jingshouyan.jrpc.client.discover.Router;
 import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import com.github.jingshouyan.jrpc.client.transport.TransportProvider;
 import lombok.Getter;
-import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -34,7 +31,8 @@ import java.util.Map;
  * #date 2018/10/26 9:42
  */
 @Slf4j
-public class JrpcClient {
+@Getter
+public class JrpcClient implements ActionHandler {
 
     private ClientConfig config;
     private ZkDiscover zkDiscover;
@@ -59,18 +57,19 @@ public class JrpcClient {
         return zkDiscover.serverMap();
     }
 
-    public Rsp send(Request request) {
+    @Override
+    public Rsp handle(Token token, Req req) {
         Transport transport = null;
         Rsp rsp;
         try{
-            ServerInfo serverInfo = zkDiscover.getServerInfo(request.getRouter());
+            ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
             log.info("server {} ==> {}", serverInfo.getName() ,serverInfo.key());
             transport = transportProvider.get(serverInfo);
             TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
             Jrpc.Client client = new Jrpc.Client(tProtocol);
-            TokenBean tokenBean = request.getToken().tokenBean();
-            ReqBean reqBean = new ReqBean(request.getMethod(),request.getParam());
-            if(request.isOneway()){
+            TokenBean tokenBean = token.tokenBean();
+            ReqBean reqBean = req.reqBean();
+            if(req.isOneway()){
                 client.send(tokenBean,reqBean);
                 rsp = RspUtil.success();
             }else{

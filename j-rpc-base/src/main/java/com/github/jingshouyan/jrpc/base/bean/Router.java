@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.client.discover;
+package com.github.jingshouyan.jrpc.base.bean;
 
 import lombok.Data;
 

@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.server.run;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.server.method.handler.MethodHandler;
+import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
@@ -110,7 +110,7 @@ public class ServeRunner {
     public static void main(String[] args) throws Exception {
         ServerInfo serverInfo = new ServerInfo();
         serverInfo.setPort(9099);
-        ServeRunner s = ServeRunner.getInstance().setIface(new RpcImpl(new MethodHandler())).setServerInfo(serverInfo);
+        ServeRunner s = ServeRunner.getInstance().setIface(new RpcImpl(new ServerActionHandler())).setServerInfo(serverInfo);
         s.start();
         Thread.sleep(10000);
         s.stop();
