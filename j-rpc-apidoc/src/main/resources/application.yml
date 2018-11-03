@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: doc-api
+j-rpc:
+  trace:
+    more: true

@@ -3,7 +3,7 @@
         <!-- encoders are assigned the messageType
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
-            <pattern>!@#$`%d`${SERVER_NAME:-server}`%X{SERVER_INSTANCE:-instance}`%X{TRACE_ID}`%-5level`%thread`%logger{20}`%msg %n</pattern>
+            <pattern>!@#$`%d`[%X{traceId}/%X{spanId}/%X{parentId}]`%-5level`%thread`%logger{20}`%msg %n</pattern>
         </encoder>
     </appender>
     <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">

@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author jingshouyan
@@ -21,6 +23,8 @@ import java.util.Map;
  */
 @Controller
 public class DocController {
+
+    ExecutorService exec = Executors.newFixedThreadPool(10);
 
     @Resource
     private JrpcClient jrpcClient;
@@ -45,6 +49,12 @@ public class DocController {
                 .setServer(server)
                 .setMethod("getServerInfo")
                 .send().json();
+        exec.execute(()->{
+            Request.newInstance().setClient(jrpcClient)
+                    .setServer(server)
+                    .setMethod("getServerInfo")
+                    .send().json();
+        });
         return str;
     }
 

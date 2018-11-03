@@ -7,7 +7,6 @@ import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.base.util.thread.ThreadLocalUtil;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import lombok.extern.slf4j.Slf4j;
@@ -37,7 +36,6 @@ public class RpcImpl implements Rpc {
 
 
     private RspBean run(TokenBean tokenBean, ReqBean reqBean,boolean oneway){
-        ThreadLocalUtil.setTraceId(tokenBean.getTraceId());
         Token token = new Token(tokenBean);
         Req req = new Req();
         req.setMethod(reqBean.getMethod());
@@ -50,8 +48,6 @@ public class RpcImpl implements Rpc {
         rspBean.setMessage(rsp.getMessage());
         String json = JsonUtil.toJsonString(rsp.getData());
         rspBean.setResult(json);
-
-        ThreadLocalUtil.removeTrace();
         return rspBean;
     }
 
