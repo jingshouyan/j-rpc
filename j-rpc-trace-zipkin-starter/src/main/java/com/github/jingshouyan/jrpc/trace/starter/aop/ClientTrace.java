@@ -27,6 +27,7 @@ public class ClientTrace implements TraceConstant {
 
     public ClientTrace(Tracing tracing,TraceProperties properties){
         this.tracer = tracing.tracer();
+
         this.properties = properties;
     }
 

@@ -2,9 +2,8 @@ package com.github.jingshouyan.jrpc.trace.starter;
 
 import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
-import brave.propagation.B3Propagation;
-import brave.propagation.ExtraFieldPropagation;
-import brave.propagation.ThreadLocalCurrentTraceContext;
+import brave.propagation.*;
+import com.alibaba.ttl.TransmittableThreadLocal;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
 import lombok.extern.slf4j.Slf4j;
@@ -56,9 +55,10 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(Tracing.class)
     Tracing tracing() {
+
         return Tracing.newBuilder()
                 .localServiceName(tracingName())
-                .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
+                .currentTraceContext(TtlCurrentTraceContext.newBuilder()
                         // puts trace IDs into logs
                         .addScopeDecorator(MDCScopeDecorator.create())
                         .build()
