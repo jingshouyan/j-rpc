@@ -83,6 +83,7 @@ public class DocController {
                 log.info("R:TL_TEST:{}",TL_TEST.get());
                 Request.newInstance().setClient(jrpcClient)
                         .setServer(server)
+                        .setOneway(true)
                         .setMethod("getServerInfo")
                         .send().json();
 //            });

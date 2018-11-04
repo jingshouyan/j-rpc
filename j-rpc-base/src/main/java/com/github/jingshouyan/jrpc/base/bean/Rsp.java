@@ -1,10 +1,13 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
+import com.github.jingshouyan.jrpc.base.code.Code;
+import com.github.jingshouyan.jrpc.base.exception.JException;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -25,6 +28,17 @@ public class Rsp {
         this.code = rspBean.getCode();
         this.message = rspBean.getMessage();
         this.result = rspBean.getResult();
+    }
+
+    public Rsp checkSuccess() {
+        if (code != Code.SUCCESS){
+            Object data = null;
+            if(!StringUtils.isBlank(result)){
+                data = JsonUtil.toBean(result,Object.class);
+            }
+            throw new JException(code,data);
+        }
+        return this;
     }
 
     public <T> T get(Class<T> clazz){
