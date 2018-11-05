@@ -14,7 +14,8 @@ import java.util.Map;
  */
 @Slf4j
 public class ZkUtil {
-
+    public static final int SESSION_TIMEOUT = 3000;
+    public static final int CONNECTION_TIMEOUT = 4000;
     private static final Map<String,CuratorFramework> CLIENT_MAP = Maps.newConcurrentMap();
 
     public static CuratorFramework getClient(String connectString) {
@@ -22,6 +23,8 @@ public class ZkUtil {
             log.debug("new zk client[{}].",key);
             CuratorFramework client = CuratorFrameworkFactory
                     .builder().connectString(key).canBeReadOnly(true)
+                    .connectionTimeoutMs(CONNECTION_TIMEOUT)
+                    .sessionTimeoutMs(SESSION_TIMEOUT)
                     .retryPolicy(new RetryForever(5000))
                     .build();
             client.start();

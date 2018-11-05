@@ -22,9 +22,6 @@ public class TransportProvider {
         this.cfg = cfg;
     }
     static{
-//        cfg.setMinIdle(TRANSPORT_POOL_MIN_IDLE);
-//        cfg.setMaxIdle(TRANSPORT_POOL_MAX_IDLE);
-//        cfg.setMaxTotal(TRANSPORT_POOL_MAX_TOTAL);
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
             log.info("client stop. clean transport pool");
             TRANSPORT_POOL_MAP.forEach((key,transport)->{
