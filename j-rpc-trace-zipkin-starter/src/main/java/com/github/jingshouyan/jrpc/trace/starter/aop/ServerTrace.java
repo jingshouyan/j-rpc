@@ -42,7 +42,7 @@ public class ServerTrace implements TraceConstant {
         Object[] args = joinPoint.getArgs();
         Token token = (Token)args[0];
         Req req = (Req) args[1];
-        Span span = span(token.getTraceId());
+        Span span = span(token.get(HEADER_TRACE));
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
             span.name(req.getMethod())
                     .annotate(SR)

@@ -5,6 +5,7 @@ package com.github.jingshouyan.jrpc.trace.starter.constant;
  * #date 2018/11/2 20:01
  */
 public interface TraceConstant {
+    String HEADER_TRACE = "X-B3-SIMPLE";
     String CS = "cs";
     String SR = "sr";
     String SS = "ss";

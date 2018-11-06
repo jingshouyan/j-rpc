@@ -42,7 +42,7 @@ public class ClientTrace implements TraceConstant {
         Token token = (Token)args[0];
         Req req = (Req) args[1];
         Span span = span();
-        token.setTraceId(traceId(span));
+        token.set(HEADER_TRACE,traceId(span));
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
             span.name("call "+req.getRouter().getServer()+":"+req.getMethod())
                     .annotate(CS)

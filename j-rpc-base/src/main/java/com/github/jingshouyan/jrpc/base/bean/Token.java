@@ -1,22 +1,24 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.google.common.collect.Maps;
+import lombok.*;
+
+import java.util.Map;
 
 /**
  * @author jingshouyan
  * @date 2018/4/14 23:10
  */
-@Data@Builder@AllArgsConstructor
+@Builder@AllArgsConstructor
 @NoArgsConstructor
 public class Token {
+    @Getter@Setter
     private String userId;
+    @Getter@Setter
     private String ticket;
-    private String ext;
-    private String traceId;
+
+    private Map<String,String> headers = Maps.newHashMap();
 
     public boolean valid(){
         return userId != null && ticket != null;
@@ -26,23 +28,27 @@ public class Token {
     public Token(TokenBean tokenBean){
         userId = tokenBean.getUserId();
         ticket = tokenBean.getTicket();
-        ext = tokenBean.getExt();
-        traceId = tokenBean.getTraceId();
+        if(tokenBean.getHeaders()!=null && !tokenBean.getHeaders().isEmpty()){
+            headers.putAll(tokenBean.headers);
+        }
     }
 
     public TokenBean tokenBean(){
         return new TokenBean()
                 .setUserId(userId)
                 .setTicket(ticket)
-                .setTraceId(traceId)
-                .setExt(ext);
+                .setHeaders(headers);
     }
 
-    public Token copy(){
-        Token token = new Token();
-        token.setUserId(userId);
-        token.setTicket(ticket);
-        token.setExt(ext);
-        return token;
+    public Token set(String key,String value){
+        if(key != null && value != null){
+            headers.put(key,value);
+        }
+        return this;
     }
+
+    public String get(String key){
+        return headers.get(key);
+    }
+
 }
