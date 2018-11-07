@@ -24,7 +24,6 @@ public class Transport {
             return false;
         }
         try {
-
             socket.sendUrgentData(0xFF);
             log.info("test socket connect : open");
             return true;
