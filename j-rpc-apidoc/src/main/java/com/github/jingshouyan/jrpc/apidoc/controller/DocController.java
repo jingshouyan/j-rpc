@@ -56,7 +56,7 @@ public class DocController {
         }
         return RspUtil.success(serverInfos);
     }
-    private static final TransmittableThreadLocal<String> TL_TEST = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<String> TL_TEST = new TransmittableThreadLocal<>();
     @RequestMapping("server/{server}")
     @ResponseBody
     public String serverInfo(@PathVariable String server){
@@ -76,21 +76,20 @@ public class DocController {
 //                }
 //            });
 //        }
-        IntStream.range(0,10)
-                .parallel()
-                .forEach(i ->{
-//            exec.execute(()->{
-                log.info("R:TL_TEST:{}",TL_TEST.get());
-                Request.newInstance().setClient(jrpcClient)
-                        .setServer(server)
-                        .setOneway(true)
-                        .setMethod("getServerInfo")
-                        .send().json();
-//            });
-        });
+//        IntStream.range(0,100)
+//                .parallel()
+//                .forEach(i ->{
+////            exec.execute(()->{
+//                log.info("R:TL_TEST:{}",TL_TEST.get());
+////                Request.newInstance().setClient(jrpcClient)
+////                        .setServer(server)
+////                        .setOneway(true)
+////                        .setMethod("getServerInfo")
+////                        .send().json();
+////            });
+//        });
 
-        List<String> list = new ArrayList<>();
-        list.parallelStream().mapToInt(String::length).sum();
+
 
         return str;
     }

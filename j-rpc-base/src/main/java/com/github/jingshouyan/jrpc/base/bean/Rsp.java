@@ -35,8 +35,11 @@ public class Rsp {
             Object data = null;
             if(!StringUtils.isBlank(result)){
                 data = JsonUtil.toBean(result,Object.class);
+                if(data != null){
+                    throw new JException(code,data);
+                }
             }
-            throw new JException(code,data);
+            throw new JException(code);
         }
         return this;
     }

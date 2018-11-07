@@ -11,7 +11,7 @@ import java.util.Map;
  * @date 2018/4/14 23:10
  */
 @Builder@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor@ToString
 public class Token {
     @Getter@Setter
     private String userId;
