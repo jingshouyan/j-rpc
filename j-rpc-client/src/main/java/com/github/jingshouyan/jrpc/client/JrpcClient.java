@@ -46,11 +46,11 @@ public class JrpcClient implements ActionHandler {
         cfg.setMaxIdle(config.getPoolMaxIdle());
         cfg.setMaxTotal(config.getPoolMaxTotal());
         this.transportProvider = new TransportProvider(cfg);
-//        zkDiscover.addListener((event, serverInfo) -> {
-//            if(event == DiscoverEvent.REMOVE){
-//                this.transportProvider.close(serverInfo);
-//            }
-//        });
+        zkDiscover.addListener((event, serverInfo) -> {
+            if(event == DiscoverEvent.REMOVE){
+                this.transportProvider.close(serverInfo);
+            }
+        });
     }
 
     public Map<String,List<ServerInfo>> serverMap(){
