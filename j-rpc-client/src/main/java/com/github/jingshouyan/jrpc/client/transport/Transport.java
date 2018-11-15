@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
+import java.io.Closeable;
 import java.io.IOException;
 import java.net.Socket;
 
@@ -13,7 +14,7 @@ import java.net.Socket;
  * @date 2018/4/18 10:59
  */
 @Data@Slf4j
-public class Transport {
+public class Transport implements Closeable {
 
     private String key;
     private TTransport tTransport;
@@ -30,6 +31,13 @@ public class Transport {
         } catch (IOException e) {
             log.warn("test socket connect : closed");
             return false;
+        }
+    }
+
+    @Override
+    public void close() {
+        if(tTransport.isOpen()) {
+            tTransport.close();
         }
     }
 }
