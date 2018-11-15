@@ -41,7 +41,6 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
             transport.setKey(serverInfo.key());
             transport.setTTransport(tTransport);
             transport.setSocket(socket.getSocket());
-            socket.getSocket().setOOBInline(true);
             return transport;
         } catch (Exception e) {
             log.warn("client pool make object error.",e);
