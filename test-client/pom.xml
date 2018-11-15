@@ -18,6 +18,10 @@
             <artifactId>j-rpc-client-starter</artifactId>
         </dependency>
         <dependency>
+            <groupId>com.github.jingshouyan</groupId>
+            <artifactId>j-rpc-trace-zipkin-starter</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
