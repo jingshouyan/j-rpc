@@ -25,7 +25,7 @@ public class Transport {
         }
         try {
             socket.sendUrgentData(0xFF);
-            log.info("test socket connect : open");
+            log.debug("test socket connect : open");
             return true;
         } catch (IOException e) {
             log.warn("test socket connect : closed");
