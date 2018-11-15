@@ -1,0 +1,27 @@
+<configuration>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <!-- encoders are assigned the messageType
+             ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
+        <encoder>
+            <pattern>!@#$`%d`[%X{traceId}/%X{spanId}/%X{parentId}]`%-5level`%thread`%logger{20}`%msg %n</pattern>
+        </encoder>
+    </appender>
+    <appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_ROOT_PATH:-.}/${SERVER_NAME:-server}.log</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <maxHistory>30</maxHistory>
+            <fileNamePattern>${LOG_ROOT_PATH:-.}/${SERVER_NAME:-server}-%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>100MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+        <encoder>
+            <pattern>!@#$`%d`${SERVER_NAME:-server}`${SERVER_INSTANCE:-instance}`%X{TRACE_ID}`%-5level`%thread`%logger{20}`%msg %n</pattern>
+        </encoder>
+    </appender>
+    <logger name="org.springframework" level="ERROR" />
+    <logger name="org.apache" level="ERROR" />
+    <root level="${LOG_LEVEL:-DEBUG}">
+        <appender-ref ref="${LOG_REF:-STDOUT}"/>
+    </root>
+</configuration>

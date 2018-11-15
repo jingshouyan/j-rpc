@@ -1,6 +1,8 @@
 spring:
   application:
     name: doc-api
+server:
+  port: 9876
 j-rpc:
   trace:
     more: true
