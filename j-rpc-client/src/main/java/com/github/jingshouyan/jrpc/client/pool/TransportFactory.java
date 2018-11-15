@@ -54,7 +54,7 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
     }
 
     @Override
-    public void destroyObject(PooledObject<Transport> p) throws Exception {
+    public void destroyObject(PooledObject<Transport> p){
         Transport transport = p.getObject();
         if(transport != null){
             transport.close();
@@ -64,9 +64,6 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
     @Override
     public boolean validateObject(PooledObject<Transport> p) {
         Transport transport = p.getObject();
-        if(transport != null && transport.isOpen()){
-            return true;
-        }
-        return false;
+        return transport != null && transport.isOpen();
     }
 }
