@@ -23,7 +23,7 @@ public class TransportPool implements Closeable {
             innerPool.close();
         }
         innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo),conf);
-//        innerPool.setTestOnBorrow(true);
+        innerPool.setTestOnBorrow(true);
     }
 
     /**
