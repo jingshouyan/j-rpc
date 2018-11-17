@@ -1,0 +1,11 @@
+j-rpc:
+  server:
+    version: v2.0
+    port: 8999
+    name: test-client
+  trace:
+    more: true
+
+
+
+

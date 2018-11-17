@@ -75,12 +75,7 @@ public class Request{
 
     public Rsp send(){
         req.setRouter(router);
-        long start = System.nanoTime();
-        log.info("call rpc req: {}",this);
         Rsp rsp = client.handle(token,req);
-        log.info("call rpc rsp: {}",rsp);
-        long end = System.nanoTime();
-        log.info("call rpc use: {}ns", end - start);
         return rsp;
     }
 

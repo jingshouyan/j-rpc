@@ -21,15 +21,19 @@ public class Transport implements Closeable {
     private Socket socket;
 
     public boolean isOpen(){
+        long start = System.nanoTime();
         if(socket == null) {
             return false;
         }
         try {
-            socket.sendUrgentData(0xFF);
-            log.debug("test socket connect : open");
+            for (int i = 0; i < 1; i++) {
+                socket.sendUrgentData(0xFF);
+            }
+
+            log.debug("test socket connect : open,use: {} ns",System.nanoTime() - start);
             return true;
         } catch (IOException e) {
-            log.warn("test socket connect : closed");
+            log.warn("test socket connect : closed,use: {} ns",System.nanoTime() - start);
             return false;
         }
     }

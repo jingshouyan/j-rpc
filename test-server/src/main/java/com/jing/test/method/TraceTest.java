@@ -6,8 +6,12 @@ import com.github.jingshouyan.jrpc.client.Request;
 import com.github.jingshouyan.jrpc.client.starter.JrpcClientAutoConfiguration;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.starter.ServerProperties;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 /**
  * @author jingshouyan
@@ -15,6 +19,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class TraceTest implements Method<Integer,Integer> {
+
+    public static final ExecutorService exec = Executors.newFixedThreadPool(20,new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
 
     @Autowired
     ServerProperties properties;
@@ -25,12 +31,20 @@ public class TraceTest implements Method<Integer,Integer> {
     @Override
     public Integer action(Token token, Integer i) {
         if(i!=null && i>0){
-            Request.newInstance().setClient(client)
-                    .setServer(properties.getName())
-                    .setMethod("traceTest")
-                    .setParamObj(i-1)
-                    .setOneway(true)
-                    .send();
+            exec.execute(
+                    () -> {
+                        for (int j = 0; j < 2; j++) {
+                            Request.newInstance().setClient(client)
+                                    .setServer(properties.getName())
+                                    .setMethod("traceTest")
+                                    .setParamObj(i-1)
+                                    .setOneway(true)
+                                    .send();
+                        }
+
+                    }
+            );
+
         }
         return i;
     }

@@ -23,14 +23,14 @@ public class ClientTest {
 
     @Test
     public void test() {
-        IntStream.rangeClosed(0,1)
+        IntStream.rangeClosed(0,0)
 //                .parallel()
                 .forEach(i -> {
                     Rsp rsp = Request.newInstance()
                             .setClient(jrpcClient)
                             .setServer("test")
                             .setMethod("traceTest")
-                            .setParamObj(1000)
+                            .setParamObj(12)
                             .send();
             System.out.println(rsp);
         });

@@ -46,11 +46,11 @@ public class JrpcClient implements ActionHandler {
         cfg.setMaxIdle(config.getPoolMaxIdle());
         cfg.setMaxTotal(config.getPoolMaxTotal());
         this.transportProvider = new TransportProvider(cfg);
-//        zkDiscover.addListener((event, serverInfo) -> {
-//            if(event == DiscoverEvent.REMOVE){
-//                this.transportProvider.close(serverInfo);
-//            }
-//        });
+        zkDiscover.addListener((event, serverInfo) -> {
+            if(event == DiscoverEvent.REMOVE){
+                this.transportProvider.close(serverInfo);
+            }
+        });
     }
 
     public Map<String,List<ServerInfo>> serverMap(){
@@ -59,6 +59,9 @@ public class JrpcClient implements ActionHandler {
 
     @Override
     public Rsp handle(Token token, Req req) {
+        long start = System.nanoTime();
+        log.info("call rpc token: {}",token);
+        log.info("call rpc req: {}",req);
         Transport transport = null;
         Rsp rsp;
         try{
@@ -85,6 +88,9 @@ public class JrpcClient implements ActionHandler {
             transportProvider.invalid(transport);
             rsp = RspUtil.error(Code.CLIENT_ERROR,e);
         }
+        log.info("call rpc rsp: {}",rsp);
+        long end = System.nanoTime();
+        log.info("call rpc use: {}ns", end - start);
         return rsp;
     }
 
