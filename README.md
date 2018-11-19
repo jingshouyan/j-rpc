@@ -3,7 +3,6 @@ J-rpc 基于thrift 的json 格式 rpc调用框架
 
 https://github.com/jingshouyan/j-rpc
 
-[TOC]
 
 ## 目录结构
 
