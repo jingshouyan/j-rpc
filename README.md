@@ -144,5 +144,5 @@ jrpc:
 ```sh
 # 启动时注入 TransmittableThreadLocal
 # 主要用于使用线程池和forkjoin框架时 span 信息传递
-java -javaagent:path/to/transmittable-thread-local-2.x.x.jar test-server.jar
+java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.jar
 ```
