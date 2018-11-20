@@ -24,7 +24,7 @@ server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树
 ### server:
 
 #### 1. 引入pom
-```pom
+```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-server-starter</artifactId>
@@ -86,7 +86,7 @@ public class TraceTest implements Method<Integer,Integer> {
 ### client:
 
 #### 1. 引入pom
-```pom
+```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-client-starter</artifactId>
@@ -125,7 +125,7 @@ Rsp rsp = Request.newInstance() // 新建request
 
 #### 1. 引入pom
 
-```pom
+```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-trace-zipkin-starter</artifactId>
