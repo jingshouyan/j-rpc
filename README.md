@@ -137,6 +137,8 @@ Rsp rsp = Request.newInstance() // 新建request
 ```yaml
 jrpc:
   trace:
+    name: trace-xxx # 链路名称，可选，若无取 jrpc.server.name 或 spring.application.name
+    endpoint: http://127.0.0.1:9411/api/v2/spans # zipkin 接口地址
     more: true # 更多调用信息 default: false
 ```
 
