@@ -11,11 +11,14 @@ import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.util.MonitorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.DisposableBean;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -27,7 +30,8 @@ import javax.annotation.Resource;
 @Slf4j
 @Configuration
 @EnableConfigurationProperties(ServerProperties.class)
-public class JrpcServerAutoConfiguration implements DisposableBean {
+@Order(1)
+public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Resource
     private ServerProperties properties;
@@ -54,8 +58,12 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
         return rpc;
     }
 
-    @PostConstruct
-    public void init(){
+    @Override
+    public void run(ApplicationArguments args) {
+        init();
+    }
+
+    private void init(){
         ServerInfo info = new ServerInfo();
         info.setZkHost(properties.getZkHost());
         info.setZkRoot(properties.getZkRoot());
@@ -73,10 +81,4 @@ public class JrpcServerAutoConfiguration implements DisposableBean {
         ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }
 
-
-
-    @Override
-    public void destroy() {
-
-    }
 }
