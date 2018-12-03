@@ -15,11 +15,11 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class D {
+public class D implements CrudConstant{
     @NotNull
     private String bean;
     @NotNull
-    private String type = CrudConstant.TYPE_SINGLE;
+    private String type = TYPE_SINGLE;
 
     private Object id;
 

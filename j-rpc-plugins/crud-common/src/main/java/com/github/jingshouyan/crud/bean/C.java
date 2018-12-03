@@ -12,11 +12,11 @@ import javax.validation.constraints.NotNull;
  * 12/3/18 2:39 PM
  */
 @Getter@Setter@ToString
-public class C {
+public class C implements CrudConstant {
     @NotNull
     private String bean;
     @NotNull
-    private String type = CrudConstant.TYPE_SINGLE;
+    private String type = TYPE_SINGLE;
     @NotNull
     private String data;
 }

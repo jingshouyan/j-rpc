@@ -14,11 +14,11 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class U {
+public class U implements CrudConstant{
     @NotNull
     private String bean;
     @NotNull
-    private String type = CrudConstant.TYPE_SINGLE;
+    private String type = TYPE_SINGLE;
     @NotNull
     private String data;
 }
