@@ -11,7 +11,7 @@ import java.util.Set;
  * #date 2018/10/23 20:40
  */
 @Data
-public class TestBean2<T,R,X> extends BaseBean<T>{
+public class TestBean2<T,R,X> extends TestBean<T> {
     private String test;
     private List<T> data;
     private List<Map<String,R>> mapList;

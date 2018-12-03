@@ -1,23 +1,39 @@
 package com.jing.test.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.jingshouyan.jdbc.comm.annotaion.Column;
+import com.github.jingshouyan.jdbc.comm.annotaion.Key;
+import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
+import com.github.jingshouyan.jdbc.comm.bean.EncryptType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 /**
  * @author jingshouyan
- * @date 2018/4/19 10:22
+ * 11/29/18 5:20 PM
  */
-@Getter
-@Setter
-@ToString(callSuper = true)
-public class UserBean {
+@Getter@Setter@ToString
+public class UserBean extends BaseBean {
+    @Key
     private String id;
-    private String username;
+
+    @Column(encryptType = EncryptType.FLIED,encryptKey = "id")
+    private String name;
+
+    private Integer age;
+
+    @Column(encryptType = EncryptType.FIXED,encryptKey = "abcd",json = true)
+    private List<String> tags;
+
+    @Column(value = "NICK_NAME_TT4")
     private String nickname;
-    private String icon;
-    @JsonIgnore
-    private String pwHash;
-    private Integer userType;
+
+
+
+    @Override
+    public String idPrefix() {
+        return "U";
+    }
 }

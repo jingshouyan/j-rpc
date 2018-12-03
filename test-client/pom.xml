@@ -26,6 +26,12 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.github.jingshouyan</groupId>
+            <artifactId>crud-common</artifactId>
+            <version>0.1.0</version>
+        </dependency>
     </dependencies>
 
 

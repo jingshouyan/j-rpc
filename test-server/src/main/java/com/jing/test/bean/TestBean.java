@@ -7,6 +7,6 @@ import lombok.Data;
  * #date 2018/10/27 11:11
  */
 @Data
-public class BaseBean<T> {
+public class TestBean<T> {
     private T t;
 }

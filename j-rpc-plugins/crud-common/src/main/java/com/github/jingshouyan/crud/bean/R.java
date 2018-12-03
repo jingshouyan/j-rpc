@@ -18,15 +18,13 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class R {
+public class R implements CrudConstant{
     @NotNull
     private String bean;
-    @NotNull
     private List<Condition> conditions = new ArrayList<>();
-    @NotNull
     private Page page = new Page();
     @NotNull
-    private String type = CrudConstant.TYPE_SINGLE;
+    private String type = TYPE_SINGLE;
 
     private Object id;
 

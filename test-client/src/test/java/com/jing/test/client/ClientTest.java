@@ -1,8 +1,12 @@
 package com.jing.test.client;
 
+import com.github.jingshouyan.crud.bean.R;
+import com.github.jingshouyan.jdbc.comm.bean.Page;
+import com.github.jingshouyan.jdbc.comm.util.ConditionUtil;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
+import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,7 +25,7 @@ public class ClientTest {
     @Resource
     private JrpcClient jrpcClient;
 
-    @Test
+//    @Test
     public void test() {
         IntStream.rangeClosed(0,0)
 //                .parallel()
@@ -35,8 +39,46 @@ public class ClientTest {
             System.out.println(rsp);
         });
 
+    }
 
+    @Test
+    public void single(){
+        query(R.TYPE_SINGLE);
+    }
 
+    @Test
+    public void multiple(){
+        query(R.TYPE_MULTIPLE);
+    }
 
+    @Test
+    public void page(){
+        query(R.TYPE_PAGE);
+    }
+    @Test
+    public void list(){
+        query(R.TYPE_LIST);
+    }
+
+    @Test
+    public void limit(){
+        query(R.TYPE_LIMIT);
+    }
+
+    private void query(String type){
+        R r = new R();
+        r.setId("U18001");
+        r.setIds(Lists.newArrayList("U18001","U20001"));
+        r.setType(type);
+        r.setPage(new Page());
+        r.setConditions(ConditionUtil.newInstance().field("age").gt(20).conditions());
+        r.setBean("user");
+        Rsp rsp = Request.newInstance()
+                .setClient(jrpcClient)
+                .setServer("test")
+                .setMethod("retrieve")
+                .setParamObj(r)
+                .send();
+        System.out.println(rsp);
     }
 }
