@@ -9,7 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>crud-dql-starter</artifactId>
+    <artifactId>crud-dml-starter</artifactId>
 
     <dependencies>
         <dependency>
@@ -24,8 +24,6 @@
             <groupId>com.github.jingshouyan</groupId>
             <artifactId>j-jdbc-core</artifactId>
         </dependency>
-
     </dependencies>
-
 
 </project>

@@ -15,10 +15,28 @@
     <modules>
         <module>crud-common</module>
         <module>crud-dql-starter</module>
+        <module>crud-dml-starter</module>
     </modules>
+
+
 
     <dependencyManagement>
         <dependencies>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>crud-common</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>crud-dql-starter</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>crud-dml-starter</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
             <dependency>
                 <groupId>com.github.jingshouyan</groupId>
                 <artifactId>j-jdbc-parent</artifactId>
