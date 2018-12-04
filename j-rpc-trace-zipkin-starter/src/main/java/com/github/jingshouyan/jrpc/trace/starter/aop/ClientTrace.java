@@ -59,6 +59,9 @@ public class ClientTrace implements TraceConstant {
                     span.tag(TAG_PARAM,""+req.getParam())
                             .tag(TAG_DATA,""+rsp.getResult());
                 }
+                if(rsp.getCode() != Code.SUCCESS) {
+                    span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
+                }
             }
             span.annotate(CR);
             return result;

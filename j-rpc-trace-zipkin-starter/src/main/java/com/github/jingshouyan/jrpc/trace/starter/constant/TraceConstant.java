@@ -17,5 +17,5 @@ public interface TraceConstant {
     String TAG_CODE = "o.code";
     String TAG_MESSAGE = "o.message";
     String TAG_DATA = "o.data";
-    String TAG_ERROR = "o.error";
+    String TAG_ERROR = "error";
 }

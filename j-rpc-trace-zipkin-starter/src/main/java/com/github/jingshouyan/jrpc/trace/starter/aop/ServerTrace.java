@@ -59,6 +59,9 @@ public class ServerTrace implements TraceConstant {
                     span.tag(TAG_PARAM,""+req.getParam())
                             .tag(TAG_DATA,""+rsp.getData());
                 }
+                if(rsp.getCode() != Code.SUCCESS) {
+                    span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
+                }
             }
             span = span.annotate(SS);
             return result;
