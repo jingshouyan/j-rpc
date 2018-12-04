@@ -5,9 +5,7 @@ import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.B3Propagation;
 import brave.propagation.ExtraFieldPropagation;
 import brave.propagation.ThreadLocalCurrentTraceContext;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import zipkin2.Span;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
@@ -44,4 +42,6 @@ public class TestConfig {
                 )
                 .spanReporter(spanReporter()).build();
     }
+
+
 }
