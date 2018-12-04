@@ -26,10 +26,12 @@ public class Token {
 
 
     public Token(TokenBean tokenBean){
-        userId = tokenBean.getUserId();
-        ticket = tokenBean.getTicket();
-        if(tokenBean.getHeaders()!=null && !tokenBean.getHeaders().isEmpty()){
-            headers.putAll(tokenBean.headers);
+        if (tokenBean != null) {
+            userId = tokenBean.getUserId();
+            ticket = tokenBean.getTicket();
+            if (tokenBean.getHeaders() != null && !tokenBean.getHeaders().isEmpty()) {
+                headers.putAll(tokenBean.headers);
+            }
         }
     }
 
