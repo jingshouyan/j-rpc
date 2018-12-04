@@ -13,8 +13,12 @@ https://github.com/jingshouyan/j-rpc
 5. j-rpc-client-starter # 基于 springboot-starter 对j-rpc-client 的封装
 6. j-rpc-trace-zipkin-starter # 基于 springboot-starter 和 zipkin 的服务调用追踪
 7. j-rpc-apidoc # 根据线上服务方法生成的接口文档
-8. test-server # 测试服务示例
-9. test-client # client测试示例
+8. j-rpc-plugins # 服务接口插件
+   1. crud-common # crud 接口基础包 https://github.com/jingshouyan/j-jdbc
+   2. crud-dql-starter # 查询接口
+   3. crud-dml-starter # 新增、修该、删除接口
+9. test-server # 测试服务示例
+10. test-client # client测试示例
 
 
 server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树，将所有服务信息缓存到内存中。当发起一次调用请求时根据服务名，版本号，服务实例名等路由信息来获取一个连接信息，然后根据连接信息创建一个连接池（如果该连接池已存在，复用），从连接池取出一个将数据发送到 server。
