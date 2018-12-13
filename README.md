@@ -1,5 +1,5 @@
 # j-rpc
-J-rpc 基于thrift 的 json 格式 rpc调用框架
+j-rpc 基于thrift 的 json 格式 rpc调用框架
 
 https://github.com/jingshouyan/j-rpc
 
