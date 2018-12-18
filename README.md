@@ -152,3 +152,5 @@ jrpc:
 # 主要用于使用线程池和forkjoin框架时 span 信息传递
 java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.jar
 ```
+### 示例
+https://github.com/jingshouyan/j-rpc-demo
