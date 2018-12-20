@@ -78,16 +78,5 @@ public interface Method<T,R> {
      * @param t 入参
      * @return 执行结果
      */
-    default R validAndAction(Token token, T t){
-        validate(t);
-        return action(token, t);
-    }
-
-    /**
-     * 执行业务
-     * @param token 用户信息
-     * @param t 入参
-     * @return 执行结果
-     */
     R action(Token token, T t);
 }

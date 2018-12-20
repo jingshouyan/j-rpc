@@ -44,7 +44,8 @@ public class ServerActionHandler implements ActionHandler {
                 log.info("call [{}] param: {}",methodName,param);
                 throw new JException(Code.JSON_PARSE_ERROR,e);
             }
-            Object data = method.validAndAction(token,obj);
+            method.validate(obj);
+            Object data = method.action(token,obj);
             rsp = RspUtil.success(data);
         }catch (JException e){
             rsp = RspUtil.error(e);
