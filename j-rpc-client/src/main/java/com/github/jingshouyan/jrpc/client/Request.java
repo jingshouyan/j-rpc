@@ -44,7 +44,7 @@ public class Request{
         req.setMethod(method);
         return this;
     }
-    public Request setParam(String param){
+    public Request setParamJson(String param){
         req.setParam(param);
         return this;
     }
