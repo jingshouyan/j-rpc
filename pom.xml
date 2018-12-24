@@ -20,5 +20,6 @@
         <module>j-rpc-apidoc</module>
         <module>j-rpc-trace-zipkin-starter</module>
         <module>j-rpc-plugins</module>
+        <module>j-rpc-hmily-starter</module>
     </modules>
 </project>
