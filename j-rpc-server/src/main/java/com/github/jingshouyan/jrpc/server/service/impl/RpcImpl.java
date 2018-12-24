@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.server.service.impl;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
+import com.github.jingshouyan.jrpc.base.concurrent.threadlocal.TokenContextLocal;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
@@ -37,6 +38,7 @@ public class RpcImpl implements Rpc {
 
     private RspBean run(TokenBean tokenBean, ReqBean reqBean,boolean oneway){
         Token token = new Token(tokenBean);
+        TokenContextLocal.getInstance().set(token);
         Req req = new Req();
         req.setMethod(reqBean.getMethod());
         req.setParam(reqBean.getParam());
@@ -48,6 +50,7 @@ public class RpcImpl implements Rpc {
         rspBean.setMessage(rsp.getMessage());
         String json = JsonUtil.toJsonString(rsp.getData());
         rspBean.setResult(json);
+        TokenContextLocal.getInstance().remove();
         return rspBean;
     }
 
