@@ -16,7 +16,7 @@ https://github.com/jingshouyan/j-rpc
 8. j-rpc-plugins # 服务接口插件
    1. crud-common # crud 接口基础包 https://github.com/jingshouyan/j-jdbc
    2. crud-dql-starter # 查询接口
-   3. crud-dml-starter # 新增、修该、删除接口
+   3. crud-dml-starter # 新增、修改、删除接口
 9. test-server # 测试服务示例
 10. test-client # client测试示例
 
@@ -167,5 +167,7 @@ jrpc:
 # 主要用于使用线程池和forkjoin框架时 span 信息传递
 java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.jar
 ```
+
+
 ### 示例
 https://github.com/jingshouyan/j-rpc-demo
