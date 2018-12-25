@@ -64,9 +64,6 @@ public class JrpcHmilyTransactionInterceptor implements HmilyTransactionIntercep
             hmilyTransactionContext = JsonUtil.toBean(context, HmilyTransactionContext.class);
         } else {
             hmilyTransactionContext = HmilyTransactionContextLocal.getInstance().get();
-            if (Objects.nonNull(hmilyTransactionContext)) {
-                hmilyTransactionContext.setRole(HmilyRoleEnum.SPRING_CLOUD.getCode());
-            }
         }
         return hmilyTransactionAspectService.invoke(hmilyTransactionContext, pjp);
     }
