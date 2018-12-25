@@ -26,7 +26,7 @@ server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树
 ## 基本用法
 
 ### server:
-
+> 参见 test-server
 #### 1. 引入pom
 ```mvn
 <dependency>
@@ -52,43 +52,42 @@ j-rpc:
 
 #### 3. 实现 Method<T,R> 接口
 ```java
-// 方法名为注册到 spring 中的名称
-@Component("traceTest")
-public class TraceTest implements Method<Integer,Integer> {
+@Data
+public class IdQuery {
+    //基于 validation 的注解,如果验证不通过会返回 Code.PARAM_INVALID 错误码,如果想返回自定义的错误码,message 设置如下
+    @NotNull(message = BaseConstant.INVALID_CODE_PREFIX + TestCode.NAME_IS_NULL)
+    @Size(min = 4,max = 20)
+    private String name;
 
-    public static final ExecutorService exec = Executors.newFixedThreadPool(20,new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
+    @Min(5)@Max(99)
+    private int age = 10;
 
-    @Autowired
-    ServerProperties properties;
+    @NotNull@Size(min = 1,max= 100)
+    private List<String> ids;
+}
+```
+```java
+@Component("getUserInfo")
+public class GetUserInfo implements Method<IdQuery,List<UserBean>> {
 
-    @Autowired
-    JrpcClient client;
-
+    // 本方法只会在 idQuery 校验成功执行
     @Override
-    public Integer action(Token token, Integer i) {
-        if(i!=null && i>0){
-            exec.execute(
-                    () -> {
-                        for (int j = 0; j < 2; j++) {
-                            Request.newInstance().setClient(client)
-                                    .setServer(properties.getName())
-                                    .setMethod("traceTest")
-                                    .setParamObj(i-1)
-                                    .setOneway(true)
-                                    .send();
-                        }
-
-                    }
-            );
-
-        }
-        return i;
+    public List<UserBean> action(Token token,IdQuery idQuery) {
+        // throw new JException(TestCode.JUST_ERROR);  //通过异常返回错误码
+//         throw new JException(TestCode.JUST_ERROR,idQuery);  //通过异常返回错误码,并返回一些数据
+        return idQuery.getIds().stream().map(id -> {
+            UserBean userBean = new UserBean();
+            userBean.setId(id);
+            userBean.setAge(idQuery.getAge());
+            userBean.setName(idQuery.getName());
+            return userBean;
+        }).collect(Collectors.toList());
     }
 }
 ```
 
 ### client:
-
+> 参见 test-client
 #### 1. 引入pom
 ```mvn
 <dependency>
@@ -113,15 +112,31 @@ j-rpc:
 #### 3. 调用方法
 ```java
 
-@Resource
-private JrpcClient jrpcClient;
+    @Resource
+    private JrpcClient jrpcClient;
 
-Rsp rsp = Request.newInstance() // 新建request
-            .setClient(jrpcClient) // 设置 client
-            .setServer("test") // 路由信息：服务名
-            .setMethod("traceTest") // 路由信息： 方法名
-            .setParamObj(12) // 请求参数对象
-            .send(); // 发送请求
+    public void test2(){
+        IdQuery idQuery = new IdQuery();
+        idQuery.setName("zhangsan");
+        idQuery.setAge(77);
+        idQuery.setIds(Lists.newArrayList("123","345"));
+
+        Token token = new Token();
+
+        Rsp rsp = Request.newInstance()
+                .setClient(jrpcClient) //设置发送客户端
+                .setServer("test")     //调用的服务名
+//                .setVersion("2.0")   //服务的版本号,只选择向 2.0 版本的服务发送数据,没找到会有相应的错误码
+//                .setInstance("test-111") //服务实例名,多个实例可以指定发送到对应的服务,没找到会有相应的错误码
+                .setMethod("getUserInfo") //服务方法名
+                .setToken(token) // 设置token ,可选 token 信息
+                .setParamObj(idQuery) //请求参数对象,也可以使用 setParamJson 直接设置json字符串
+                .setOneway(true) //是否为 oneway 调用,
+                .send() //发送请求,这时已经得到 Rsp 对象
+                .checkSuccess(); //检查 返回码,不为 SUCCESS 则抛出异常
+        List<UserBean> userBeans = rsp.list(UserBean.class); //rsp中result实际为json字符串.list为将json反序列化为 List对象
+        List<UserBean> userBeans1 = rsp.get(List.class,UserBean.class); //也可以使用 get 带泛型的反序列化
+    }
 
 ```
 
