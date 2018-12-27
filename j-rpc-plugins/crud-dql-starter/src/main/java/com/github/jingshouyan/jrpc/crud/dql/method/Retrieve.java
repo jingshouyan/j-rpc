@@ -20,7 +20,7 @@ public class Retrieve implements Method<R,Object> ,CrudConstant {
 
     private ApplicationContext ctx;
 
-    public static final int NOT_FUND_BY_ID = -999;
+    public static final int NOT_FUND_BY_ID = -301;
     static {
         Code.regCode(NOT_FUND_BY_ID,"not fund by id");
     }

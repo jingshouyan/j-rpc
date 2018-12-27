@@ -5,6 +5,7 @@ import com.github.jingshouyan.crud.bean.D;
 import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
+import com.github.jingshouyan.jrpc.crud.dml.ManipulationProperties;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import org.springframework.context.ApplicationContext;
 
@@ -14,12 +15,14 @@ import org.springframework.context.ApplicationContext;
  */
 public class Delete extends BaseCrud implements Method<D,Object> {
 
-    public Delete(ApplicationContext ctx){
+    public Delete(ApplicationContext ctx, ManipulationProperties properties){
         super(ctx);
+        initAllows(properties.getDelete());
     }
 
     @Override
     public Object action(Token token,D d) {
+        accessCheck(d.getBean());
         BaseDao<BaseBean> dao = dao(d.getBean());
         switch (d.getType()) {
             case TYPE_SINGLE:
