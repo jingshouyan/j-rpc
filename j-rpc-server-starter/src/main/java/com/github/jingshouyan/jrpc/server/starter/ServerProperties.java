@@ -15,8 +15,8 @@ public class ServerProperties {
     private String zkHost = "127.0.0.1:2181";
     private String zkRoot = "/com.github.jingshouyan.jrpc";
     private String name = "j-rpc";
-    private String version = "v1.0";
-    private String host = "127.0.0.1";
+    private String version = "1.0";
+    private String host;
     private int port = 8888;
     private int timeout = 5000;
     private int maxReadBufferBytes = 25 * 1024 * 1024;

@@ -10,11 +10,14 @@ import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.util.MonitorUtil;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
+import org.springframework.cloud.commons.util.InetUtils;
+import org.springframework.cloud.commons.util.InetUtilsProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +25,7 @@ import org.springframework.core.annotation.Order;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.net.InetAddress;
 
 /**
  * @author jingshouyan
@@ -29,12 +33,14 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Configuration
-@EnableConfigurationProperties(ServerProperties.class)
+@EnableConfigurationProperties({ServerProperties.class})
 @Order(1)
 public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Resource
     private ServerProperties properties;
+    @Resource
+    private InetUtilsProperties inetUtilsProperties;
 
     @Resource
     private ApplicationContext ctx;
@@ -69,7 +75,13 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         info.setZkRoot(properties.getZkRoot());
         info.setName(properties.getName());
         info.setVersion(properties.getVersion());
-        info.setHost(properties.getHost());
+        if(Strings.isBlank(properties.getHost())){
+            InetUtils inetUtils = new InetUtils(inetUtilsProperties);
+            InetAddress inetAddress = inetUtils.findFirstNonLoopbackAddress();
+            info.setHost(inetAddress.getHostAddress());
+        }else {
+            info.setHost(properties.getHost());
+        }
         info.setPort(properties.getPort());
         info.setStartAt("");
         info.setTimeout(properties.getTimeout());
@@ -80,5 +92,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
         ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }
+
+
 
 }
