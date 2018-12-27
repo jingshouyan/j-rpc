@@ -41,6 +41,7 @@ server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树
 j-rpc:
   server:
     version: v2.0 #服务版本号 default：v1.0
+    host: 127.0.0.1 #本机host,默认使用 InetUtils.findFirstNonLoopbackAddress
     port: 8999 #端口号 default：8888
     name: test #服务名 default：j-rpc
     timeout: 5000 # 接口超时时间 default：5000
