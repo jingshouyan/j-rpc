@@ -15,6 +15,6 @@ public class TestCode {
     static {
         Code.regCode(NAME_IS_NULL,"name is null");
         Code.regCode(JUST_ERROR,"就是想返回个错误");
-        Code.regCode(JUST_ERROR,"就是想返回个错误并且带点数据");
+        Code.regCode(JUST_ERROR_WITH_DATA,"就是想返回个错误并且带点数据");
     }
 }
