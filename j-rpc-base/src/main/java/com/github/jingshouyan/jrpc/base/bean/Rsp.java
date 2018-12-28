@@ -30,8 +30,12 @@ public class Rsp {
         this.result = rspBean.getResult();
     }
 
+    public boolean success(){
+        return code == Code.SUCCESS;
+    }
+
     public Rsp checkSuccess() {
-        if (code != Code.SUCCESS){
+        if (!success()){
             Object data = null;
             if(!StringUtils.isBlank(result)){
                 data = JsonUtil.toBean(result,Object.class);
