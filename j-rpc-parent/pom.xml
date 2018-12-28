@@ -109,6 +109,22 @@
                 <artifactId>j-rpc-trace-zipkin-starter</artifactId>
                 <version>${j-rpc.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>crud-common</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>crud-dql-starter</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>crud-dml-starter</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
+
             <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
             <dependency>
                 <groupId>org.hibernate</groupId>
