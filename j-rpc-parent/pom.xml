@@ -124,6 +124,11 @@
                 <artifactId>crud-dml-starter</artifactId>
                 <version>${j-rpc.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.github.jingshouyan</groupId>
+                <artifactId>j-rpc-hmily-starter</artifactId>
+                <version>${j-rpc.version}</version>
+            </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
             <dependency>
