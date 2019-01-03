@@ -18,7 +18,7 @@
             <artifactId>hmily-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-base</artifactId>
         </dependency>
         <dependency>
