@@ -17,8 +17,6 @@
     </parent>
 
     <properties>
-        <dependencies-output-dir>/data/java/lib</dependencies-output-dir>
-        <j-rpc.version>0.1.0</j-rpc.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
         <zookeeper.version>3.4.10</zookeeper.version>
@@ -80,54 +78,54 @@
         <dependencies>
             <!-- j-rpc -->
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-base</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-server</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-server-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-client</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-client-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-trace-zipkin-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-common</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-dql-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-dml-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-hmily-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
 
             <!-- https://mvnrepository.com/artifact/org.hibernate/hibernate-validator -->
