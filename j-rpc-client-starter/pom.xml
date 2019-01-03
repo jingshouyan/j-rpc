@@ -23,7 +23,7 @@
             <optional>true</optional>
         </dependency>
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-client</artifactId>
         </dependency>
         <dependency>
