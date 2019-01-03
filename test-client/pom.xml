@@ -14,11 +14,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-client-starter</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-trace-zipkin-starter</artifactId>
         </dependency>
         <dependency>
@@ -28,7 +28,7 @@
         </dependency>
 
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>crud-common</artifactId>
             <version>0.1.0</version>
         </dependency>
