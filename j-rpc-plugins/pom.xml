@@ -18,24 +18,22 @@
         <module>crud-dml-starter</module>
     </modules>
 
-
-
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-common</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-dql-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
-                <groupId>com.github.jingshouyan</groupId>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-dml-starter</artifactId>
-                <version>${j-rpc.version}</version>
+                <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.github.jingshouyan</groupId>

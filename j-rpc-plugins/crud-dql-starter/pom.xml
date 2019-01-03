@@ -13,11 +13,11 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>crud-common</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.github.jingshouyan</groupId>
+            <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-server-starter</artifactId>
         </dependency>
         <dependency>
