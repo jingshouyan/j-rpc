@@ -66,7 +66,7 @@
         <bcpkix-jdk15on.version>1.59</bcpkix-jdk15on.version>
         <spring-eureka.version>1.4.4.RELEASE</spring-eureka.version>
         <HikariCP.version>2.7.8</HikariCP.version>
-        <jackson.version>2.9.6</jackson.version>
+        <jackson.version>2.9.8</jackson.version>
         <netty-socketio.version>1.7.7</netty-socketio.version>
         <geoip2.version>2.12.0</geoip2.version>
         <caffeine.version>2.6.2</caffeine.version>
