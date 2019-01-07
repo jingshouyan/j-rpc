@@ -53,12 +53,6 @@ public class ClientTrace implements TraceConstant {
             Object result = joinPoint.proceed();
             if (result instanceof Rsp) {
                 Rsp rsp = (Rsp) result;
-                span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
-                        .tag(TAG_MESSAGE,"" + rsp.getMessage());
-                if(properties.isMore() || rsp.getCode()!= Code.SUCCESS){
-                    span.tag(TAG_PARAM,""+req.getParam())
-                            .tag(TAG_DATA,""+rsp.getResult());
-                }
                 if(rsp.getCode() != Code.SUCCESS) {
                     span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
                 }

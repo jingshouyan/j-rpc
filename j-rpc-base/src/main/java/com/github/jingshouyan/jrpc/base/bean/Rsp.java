@@ -22,6 +22,16 @@ public class Rsp {
     private String result;
     private Object data;
 
+    public String getResult(){
+        if(result == null && data == null){
+            return null;
+        }
+        if(result == null && data != null){
+            result = JsonUtil.toJsonString(data);
+        }
+        return result;
+    }
+
     public Rsp(){}
 
     public Rsp(RspBean rspBean) {

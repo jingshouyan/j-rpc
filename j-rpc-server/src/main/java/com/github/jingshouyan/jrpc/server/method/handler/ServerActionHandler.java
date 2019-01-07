@@ -54,7 +54,7 @@ public class ServerActionHandler implements ActionHandler {
             rsp = RspUtil.error(Code.SERVER_ERROR,e);
         }
         long end = System.nanoTime();
-        log.info("call [{}] end. {}",methodName,rsp);
+        log.info("call [{}] end. {}",methodName,rsp.json());
         log.info("call [{}] use {} ns",methodName,end - start);
         return rsp;
     }
