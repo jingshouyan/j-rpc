@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.crud.dml.method;
 
 
 import com.github.jingshouyan.crud.bean.D;
-import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
+import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.crud.dml.ManipulationProperties;
@@ -23,7 +23,7 @@ public class Delete extends BaseCrud implements Method<D,Object> {
     @Override
     public Object action(Token token,D d) {
         accessCheck(d.getBean());
-        BaseDao<BaseBean> dao = dao(d.getBean());
+        BaseDao<BaseDO> dao = dao(d.getBean());
         switch (d.getType()) {
             case TYPE_SINGLE:
                 return dao.delete(d.getId());

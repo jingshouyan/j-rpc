@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.crud.dql.method;
 
 import com.github.jingshouyan.crud.bean.R;
 import com.github.jingshouyan.crud.constant.CrudConstant;
-import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
+import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
@@ -29,16 +29,16 @@ public class Retrieve implements Method<R,Object> ,CrudConstant {
         this.ctx = ctx;
     }
 
-    private BaseDao<BaseBean> dao(String beanName){
+    private BaseDao<BaseDO> dao(String beanName){
         String daoImplName = beanName + "DaoImpl";
-        BaseDao<BaseBean> dao = ctx.getBean(daoImplName,BaseDao.class);
+        BaseDao<BaseDO> dao = ctx.getBean(daoImplName,BaseDao.class);
         Preconditions.checkNotNull(dao, beanName + "DaoImpl not found.");
         return dao;
     }
 
     @Override
     public Object action(Token token,R r) {
-        BaseDao<BaseBean> dao = dao(r.getBean());
+        BaseDao<BaseDO> dao = dao(r.getBean());
         switch (r.getType()){
             case TYPE_SINGLE:
                 return dao.find(r.getId()).orElseThrow(()-> new JException(NOT_FUND_BY_ID));

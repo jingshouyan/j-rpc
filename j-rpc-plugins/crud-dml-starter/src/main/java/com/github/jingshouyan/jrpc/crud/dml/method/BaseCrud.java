@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.crud.dml.method;
 
 import com.github.jingshouyan.crud.constant.CrudConstant;
-import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
+import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JException;
@@ -33,9 +33,9 @@ public abstract class BaseCrud implements CrudConstant {
         this.ctx = ctx;
     }
 
-    protected BaseDao<BaseBean> dao(String beanName){
+    protected BaseDao<BaseDO> dao(String beanName){
         String daoImplName = beanName + "DaoImpl";
-        BaseDao<BaseBean> dao = ctx.getBean(daoImplName,BaseDao.class);
+        BaseDao<BaseDO> dao = ctx.getBean(daoImplName,BaseDao.class);
         Preconditions.checkNotNull(dao, beanName + "DaoImpl not found.");
         return dao;
     }

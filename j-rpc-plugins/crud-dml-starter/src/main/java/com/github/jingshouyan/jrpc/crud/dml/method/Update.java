@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.crud.dml.method;
 
 
 import com.github.jingshouyan.crud.bean.U;
-import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
+import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
@@ -24,8 +24,8 @@ public class Update extends BaseCrud implements Method<U,Object> {
     @Override
     public Object action(Token token,U u) {
         accessCheck(u.getBean());
-        BaseDao<BaseBean> dao = dao(u.getBean());
-        Class<BaseBean> clazz = dao.getClazz();
+        BaseDao<BaseDO> dao = dao(u.getBean());
+        Class<BaseDO> clazz = dao.getClazz();
         switch (u.getType()){
             case TYPE_SINGLE:
                 return dao.update(JsonUtil.toBean(u.getData(),clazz));

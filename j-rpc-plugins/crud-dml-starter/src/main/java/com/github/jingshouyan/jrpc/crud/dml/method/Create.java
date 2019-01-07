@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.crud.dml.method;
 
 
 import com.github.jingshouyan.crud.bean.C;
-import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
+import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
@@ -29,15 +29,15 @@ public class Create extends BaseCrud implements Method<C,Object> {
     @Override
     public Object action(Token token,C c) {
         accessCheck(c.getBean());
-        BaseDao<BaseBean> dao = dao(c.getBean());
-        Class<BaseBean> clazz = dao.getClazz();
+        BaseDao<BaseDO> dao = dao(c.getBean());
+        Class<BaseDO> clazz = dao.getClazz();
         switch (c.getType()){
             case TYPE_SINGLE:
-                BaseBean bean = JsonUtil.toBean(c.getData(),clazz);
+                BaseDO bean = JsonUtil.toBean(c.getData(),clazz);
                 dao.insert(bean);
                 return bean;
             case TYPE_MULTIPLE:
-                List<BaseBean> list = JsonUtil.toList(c.getData(),clazz);
+                List<BaseDO> list = JsonUtil.toList(c.getData(),clazz);
                 dao.batchInsert(list);
                 return list;
             default:
