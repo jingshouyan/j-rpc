@@ -2,8 +2,8 @@ package com.jing.test.client;
 
 import com.github.jingshouyan.jdbc.comm.annotaion.Column;
 import com.github.jingshouyan.jdbc.comm.annotaion.Key;
-import com.github.jingshouyan.jdbc.comm.bean.BaseBean;
 import com.github.jingshouyan.jdbc.comm.bean.EncryptType;
+import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -15,7 +15,7 @@ import java.util.List;
  * 11/29/18 5:20 PM
  */
 @Getter@Setter@ToString
-public class UserBean extends BaseBean {
+public class UserBean extends BaseDO {
     @Key
     private String id;
 
