@@ -21,6 +21,8 @@ public interface Method<T,R> {
 
     Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
 
+    int MAX_ERROR = 6;
+
     /**
      * 子类调用时获取接口中的第一个泛型
      * @return 泛型
@@ -55,7 +57,11 @@ public interface Method<T,R> {
     default void validate(T t){
         Set<ConstraintViolation<T>> cvs = VALIDATOR.validate(t);
         StringBuilder sb = new StringBuilder();
+        int i = 0;
         for (ConstraintViolation<T> cv : cvs) {
+            if(i >= MAX_ERROR){
+                break;
+            }
             String message = cv.getMessage();
             if(message.startsWith(BaseConstant.INVALID_CODE_PREFIX)){
                 int code = Integer.parseInt(message.substring(BaseConstant.INVALID_CODE_PREFIX.length()));
@@ -65,6 +71,7 @@ public interface Method<T,R> {
             sb.append(" ");
             sb.append(message);
             sb.append("\t");
+            i++;
         }
         if(!cvs.isEmpty()){
             sb.deleteCharAt(sb.length()-1);
