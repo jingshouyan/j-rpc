@@ -21,5 +21,6 @@
         <module>j-rpc-trace-zipkin-starter</module>
         <module>j-rpc-plugins</module>
         <module>j-rpc-hmily-starter</module>
+        <module>j-rpc-forward-starter</module>
     </modules>
 </project>
