@@ -24,7 +24,7 @@ import org.springframework.core.annotation.Order;
  * #date 2018/11/2 20:00
  */
 @Aspect
-@Order(Ordered.HIGHEST_PRECEDENCE)
+@Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class ServerTrace implements TraceConstant {
 
     private Tracer tracer;
