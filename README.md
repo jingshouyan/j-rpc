@@ -11,14 +11,17 @@ https://github.com/jingshouyan/j-rpc
 3. j-rpc-client # client 包
 4. j-rpc-server-starter # 基于 springboot-starter 对j-rpc-server 的封装
 5. j-rpc-client-starter # 基于 springboot-starter 对j-rpc-client 的封装
-6. j-rpc-trace-zipkin-starter # 基于 springboot-starter 和 zipkin 的服务调用追踪
-7. j-rpc-apidoc # 根据线上服务方法生成的接口文档
-8. j-rpc-plugins # 服务接口插件
+6. j-rpc-forward-starter # 接口转发模块
+7. j-rpc-trace-zipkin-starter # 基于 springboot-starter 和 zipkin 的服务调用追踪
+8. j-rpc-apidoc # 根据线上服务方法生成的接口文档
+9. j-rpc-plugins # 服务接口插件
    1. crud-common # crud 接口基础包 https://github.com/jingshouyan/j-jdbc
    2. crud-dql-starter # 查询接口
    3. crud-dml-starter # 新增、修改、删除接口
-9. test-server # 测试服务示例
-10. test-client # client测试示例
+10. j-rpc-hmily-starter # 基于 hmily 的 tcc 分布式事务组件,未完成
+10. test-server # 测试服务示例
+11. test-client # client测试示例
+12. test-server-forward # 转发测试
 
 
 server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树，将所有服务信息缓存到内存中。当发起一次调用请求时根据服务名，版本号，服务实例名等路由信息来获取一个连接信息，然后根据连接信息创建一个连接池（如果该连接池已存在，复用），从连接池取出一个将数据发送到 server。
@@ -112,7 +115,8 @@ j-rpc:
 
 #### 3. 调用方法
 ```java
-
+public class Test 
+{
     @Resource
     private JrpcClient jrpcClient;
 
@@ -138,7 +142,30 @@ j-rpc:
         List<UserBean> userBeans = rsp.list(UserBean.class); //rsp中result实际为json字符串.list为将json反序列化为 List对象
         List<UserBean> userBeans1 = rsp.get(List.class,UserBean.class); //也可以使用 get 带泛型的反序列化
     }
+}
 
+```
+
+### 接口转发模块
+
+#### 1. 引入pom
+
+```mvn
+<dependency>
+    <groupId>com.github.jingshouyan</groupId>
+    <artifactId>j-rpc-forward-starter</artifactId>
+    <version>${jrpc.version}</version>
+</dependency>
+```
+
+#### 2. 添加 spring 配置信息
+
+```yaml
+jrpc:
+  forward:
+    methods:  #格式: 本服务方法名: 转发服务名,对应方法名
+      forwardTest: test,testMethod
+      forwardTest2: test2,testMethod
 ```
 
 ### zipkin 集成
