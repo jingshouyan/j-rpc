@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>j-rpc-parent</artifactId>
+        <groupId>com.github.jingshouyan</groupId>
+        <version>0.1.0</version>
+        <relativePath>../j-rpc-parent/pom.xml</relativePath>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>test-server-forward</artifactId>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.github.jingshouyan</groupId>
+            <artifactId>j-rpc-forward-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.github.jingshouyan</groupId>
+            <artifactId>j-rpc-trace-zipkin-starter</artifactId>
+        </dependency>
+    </dependencies>
+
+</project>

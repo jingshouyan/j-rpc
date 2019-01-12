@@ -109,6 +109,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>j-rpc-forward-starter</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>crud-common</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -1,0 +1,14 @@
+j-rpc:
+  server:
+    version: 1.0
+    port: 8991
+    name: forward
+  trace:
+    more: true
+  forward:
+    methods:
+      forwardTest: test,testMethod
+
+
+
+

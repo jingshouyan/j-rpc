@@ -22,5 +22,6 @@
         <module>j-rpc-plugins</module>
         <module>j-rpc-hmily-starter</module>
         <module>j-rpc-forward-starter</module>
+        <module>test-server-forward</module>
     </modules>
 </project>

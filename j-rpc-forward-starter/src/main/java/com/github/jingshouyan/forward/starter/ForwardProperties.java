@@ -11,7 +11,7 @@ import java.util.Map;
  * #date 2019/1/12 11:13
  */
 @Data
-@ConfigurationProperties(prefix = "j-rpc.proxy")
+@ConfigurationProperties(prefix = "j-rpc.forward")
 public class ForwardProperties {
     private Map<String,String[]> methods = Maps.newHashMap();
 }
