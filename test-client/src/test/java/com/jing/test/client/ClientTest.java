@@ -11,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.IntStream;
 
@@ -61,6 +62,22 @@ public class ClientTest {
             System.out.println(rsp);
         });
 
+
+
+    }
+
+    @Test
+    public void testForward(){
+        List<String> strings = new ArrayList<>();
+        strings.add("abc");
+        strings.add("sdf");
+        Rsp rsp = Request.newInstance()
+                .setClient(jrpcClient)
+                .setServer("forward")
+                .setMethod("forwardTest")
+                .setParamObj(strings)
+                .setOneway(true)
+                .send();
     }
 
 
