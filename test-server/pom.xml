@@ -50,6 +50,11 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>j-rpc-forward-starter</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>crud-dql-starter</artifactId>
             <version>0.1.0</version>
         </dependency>

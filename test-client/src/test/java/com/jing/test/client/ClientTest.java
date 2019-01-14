@@ -68,16 +68,19 @@ public class ClientTest {
 
     @Test
     public void testForward(){
-        List<String> strings = new ArrayList<>();
-        strings.add("abc");
-        strings.add("sdf");
-        Rsp rsp = Request.newInstance()
-                .setClient(jrpcClient)
-                .setServer("forward")
-                .setMethod("forwardTest")
-                .setParamObj(strings)
-                .setOneway(true)
-                .send();
+        for (int i = 0; i < 10; i++) {
+            List<String> strings = new ArrayList<>();
+            strings.add("abc");
+            strings.add("sdf");
+            Rsp rsp = Request.newInstance()
+                    .setClient(jrpcClient)
+                    .setServer("forward")
+                    .setMethod("forwardTest")
+                    .setParamObj(strings)
+//                .setOneway(true)
+                    .send();
+        }
+
     }
 
 
