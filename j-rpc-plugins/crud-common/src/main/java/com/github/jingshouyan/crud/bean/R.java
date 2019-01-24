@@ -29,4 +29,6 @@ public class R implements CrudConstant{
     private Object id;
 
     private List<Object> ids;
+
+    private List<String> fields;
 }
