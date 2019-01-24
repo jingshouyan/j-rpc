@@ -41,15 +41,15 @@ public class Retrieve implements Method<R,Object> ,CrudConstant {
         BaseDao<BaseDO> dao = dao(r.getBean());
         switch (r.getType()){
             case TYPE_SINGLE:
-                return dao.find(r.getId()).orElseThrow(()-> new JException(NOT_FUND_BY_ID));
+                return dao.findField(r.getId(),r.getFields()).orElseThrow(()-> new JException(NOT_FUND_BY_ID));
             case TYPE_MULTIPLE:
-                return dao.findByIds(r.getIds());
+                return dao.findByIdsField(r.getIds(),r.getFields());
             case TYPE_LIST:
-                return dao.query(r.getConditions());
+                return dao.queryField(r.getConditions(),r.getFields());
             case TYPE_LIMIT:
-                return dao.queryLimit(r.getConditions(), r.getPage());
+                return dao.queryFieldLimit(r.getConditions(), r.getPage(), r.getFields());
             case TYPE_PAGE:
-                return dao.queryPage(r.getConditions(), r.getPage());
+                return dao.queryFieldPage(r.getConditions(), r.getPage(), r.getFields());
             default:
                 throw new UnsupportedOperationException("unsupported retrieve type: "+r.getType());
         }
