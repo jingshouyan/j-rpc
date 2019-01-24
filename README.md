@@ -198,7 +198,7 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
 
 
 ### 查询插件
-#### 1. 引入pom
+#### 引入pom
 
 ```mvn
 <dependency>
@@ -207,7 +207,28 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
     <version>${jrpc-version></version>
 </dependency>
 ```
+[retrieve](j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java) 方法注册到服务
 
+### 增删改插件
+#### 1.引入pom
 
+```mvn
+<dependency>
+    <groupId>com.github.jingshouyan</groupId>
+    <artifactId>crud-dml-starter</artifactId>
+    <version>${jrpc-version></version>
+</dependency>
+```
+
+#### 2. 添加 spring 配置信息
+```yml
+j-rpc:
+  server:
+    plugin:
+      crud:
+        create: * # * 表示允许全部,默认为 * ,将所有dao 的 insert/batchInsert 方法暴露到服务
+        update: user,account # userDao, accountDao 的 update/batchUpdate 方法暴露到服务
+        delete: user # userDao 的 delete/delete4List 方法暴露到服务
+```
 ### 示例
 https://github.com/jingshouyan/j-rpc-demo
