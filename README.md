@@ -35,7 +35,7 @@ server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-server-starter</artifactId>
-    <version>${jrpc.version}</version>
+    <version>${jrpc-version}</version>
 </dependency>
 ```
 
@@ -97,7 +97,7 @@ public class GetUserInfo implements Method<IdQuery,List<UserBean>> {
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-client-starter</artifactId>
-    <version>${jrpc.version}</version>
+    <version>${jrpc-version}</version>
 </dependency>
 ```
 
@@ -154,7 +154,7 @@ public class Test
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc-forward-starter</artifactId>
-    <version>${jrpc.version}</version>
+    <version>${jrpc-version}</version>
 </dependency>
 ```
 
@@ -194,6 +194,18 @@ jrpc:
 # 启动时注入 TransmittableThreadLocal
 # 主要用于使用线程池和forkjoin框架时 span 信息传递
 java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.jar
+```
+
+
+### 查询插件
+#### 1. 引入pom
+
+```mvn
+<dependency>
+    <groupId>com.github.jingshouyan</groupId>
+    <artifactId>crud-dql-starter</artifactId>
+    <version>${jrpc-version></version>
+</dependency>
 ```
 
 
