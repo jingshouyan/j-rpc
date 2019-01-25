@@ -15,7 +15,8 @@ https://github.com/jingshouyan/j-rpc
 7. j-rpc-trace-zipkin-starter # 基于 springboot-starter 和 zipkin 的服务调用追踪
 8. j-rpc-apidoc # 根据线上服务方法生成的接口文档
 9. j-rpc-plugins # 服务接口插件
-   1. crud-common # crud 接口基础包 https://github.com/jingshouyan/j-jdbc
+    基于 [j-jdbc][2] 的接口增强
+   1. crud-common # crud 接口基础包
    2. crud-dql-starter # 查询接口
    3. crud-dml-starter # 新增、修改、删除接口
 10. j-rpc-hmily-starter # 基于 hmily 的 tcc 分布式事务组件,未完成
@@ -209,7 +210,6 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
 ```
 [retrieve][11] 方法自动注册到服务
 
-#### 调用示例
 
 ### 增删改插件
 #### 1.引入pom
@@ -221,6 +221,9 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
     <version>${jrpc-version></version>
 </dependency>
 ```
+[create][12] 方法自动注册到服务
+[update][13] 方法自动注册到服务
+[delete][14] 方法自动注册到服务
 
 #### 2. 添加 spring 配置信息
 ```yml
@@ -236,4 +239,8 @@ j-rpc:
 https://github.com/jingshouyan/j-rpc-demo
 
 [1]: https://github.com/jingshouyan/j-rpc "j-rpc"
+[2]: https://github.com/jingshouyan/j-jdbc "j-jdbc"
 [11]: j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java "retrieve"
+[12]: j-rpc-plugins/crud-dml-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Create.java "create"
+[13]: j-rpc-plugins/crud-dml-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Update.java "update"
+[14]: j-rpc-plugins/crud-dml-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Delete.java "delete"
