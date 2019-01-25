@@ -1,4 +1,4 @@
-# j-rpc
+# [j-rpc][1]
 j-rpc 基于thrift 的 json 格式 rpc调用框架
 
 https://github.com/jingshouyan/j-rpc
@@ -207,7 +207,9 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
     <version>${jrpc-version></version>
 </dependency>
 ```
-[retrieve][1] 方法注册到服务
+[retrieve][11] 方法自动注册到服务
+
+#### 调用示例
 
 ### 增删改插件
 #### 1.引入pom
@@ -233,4 +235,5 @@ j-rpc:
 ### 示例
 https://github.com/jingshouyan/j-rpc-demo
 
-[1]: j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java "retrieve"
+[1]: https://github.com/jingshouyan/j-rpc "j-rpc"
+[11]: j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java "retrieve"
