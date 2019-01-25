@@ -208,7 +208,7 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
     <version>${jrpc-version></version>
 </dependency>
 ```
-[retrieve][11] 方法自动注册到服务
+> [retrieve][11] 方法自动注册到服务
 
 
 ### 增删改插件
@@ -221,9 +221,9 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
     <version>${jrpc-version></version>
 </dependency>
 ```
-[create][12] 方法自动注册到服务
-[update][13] 方法自动注册到服务
-[delete][14] 方法自动注册到服务
+> [create][12] 方法自动注册到服务
+> [update][13] 方法自动注册到服务
+> [delete][14] 方法自动注册到服务
 
 #### 2. 添加 spring 配置信息
 ```yml
