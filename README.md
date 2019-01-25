@@ -210,6 +210,10 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
 ```
 > [retrieve][11] 方法自动注册到服务
 
+#### client 调用
+```java
+
+```
 
 ### 增删改插件
 #### 1.引入pom
