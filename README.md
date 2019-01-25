@@ -207,7 +207,7 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
     <version>${jrpc-version></version>
 </dependency>
 ```
-[retrieve](j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java) 方法注册到服务
+[retrieve][1] 方法注册到服务
 
 ### 增删改插件
 #### 1.引入pom
@@ -232,3 +232,5 @@ j-rpc:
 ```
 ### 示例
 https://github.com/jingshouyan/j-rpc-demo
+
+[1]: j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java "retrieve"
