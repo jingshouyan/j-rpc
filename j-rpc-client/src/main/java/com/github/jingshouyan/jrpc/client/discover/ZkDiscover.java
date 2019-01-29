@@ -65,7 +65,7 @@ public class ZkDiscover {
                 throw new JException(Code.SERVER_NOT_FOUND);
             }
             if(router.getInstance() != null ){
-                return infos.stream().filter(i -> i.key().equals(router.getInstance()))
+                return infos.stream().filter(i -> i.getInstance().equals(router.getInstance()))
                         .findFirst().orElseThrow(() -> new JException(Code.INSTANCE_NOT_FUND));
             }
             if(router.getVersion() != null) {
@@ -104,9 +104,9 @@ public class ZkDiscover {
                         if (event.getType() == TreeCacheEvent.Type.NODE_REMOVED && null == info) {
                             info = new ServerInfo();
                             String[] strings = path.split("/");
-                            String key = strings[strings.length - 1];
+                            String instance = strings[strings.length - 1];
                             String name = strings[strings.length - 2];
-                            info.key(key);
+                            info.setInstance(instance);
                             info.setName(name);
                         }
                         handle(event.getType(), info);
@@ -159,7 +159,7 @@ public class ZkDiscover {
     private void update(ServerInfo info){
         List<ServerInfo> list = map.get(info.getName());
         if(null != list){
-            list.stream().filter(i -> i.key().equals(info.key()))
+            list.stream().filter(i -> i.getInstance().equals(info.getInstance()))
                     .forEach(i -> i.update(info));
         }
     }
@@ -167,7 +167,7 @@ public class ZkDiscover {
     private void remove(ServerInfo info){
         List<ServerInfo> list = map.get(info.getName());
         if(null != list){
-            list.removeIf(i -> i.key().equals(info.key()));
+            list.removeIf(i -> i.getInstance().equals(info.getInstance()));
         }
     }
 

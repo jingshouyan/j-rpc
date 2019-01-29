@@ -26,7 +26,7 @@ public class SimpleSelector implements Selector {
     @Override
     public List<ServerInfo> versionFilter(List<ServerInfo> infos, String version) {
         return infos.stream()
-                .filter(i -> version.equalsIgnoreCase(i.key()))
+                .filter(i -> version.equalsIgnoreCase(i.getVersion()))
                 .collect(Collectors.toList());
     }
 

@@ -31,7 +31,7 @@ public class TransportProvider {
     }
 
     public Transport get(ServerInfo serverInfo) throws Exception{
-        return TRANSPORT_POOL_MAP.computeIfAbsent(serverInfo.key(),key->new TransportPool(serverInfo,cfg)).get();
+        return TRANSPORT_POOL_MAP.computeIfAbsent(serverInfo.getInstance(),key->new TransportPool(serverInfo,cfg)).get();
     }
 
     public void restore(Transport transport){
@@ -59,7 +59,7 @@ public class TransportProvider {
     }
 
     public void close(ServerInfo serverInfo) {
-        TransportPool transportPool = TRANSPORT_POOL_MAP.remove(serverInfo.key());
+        TransportPool transportPool = TRANSPORT_POOL_MAP.remove(serverInfo.getInstance());
         if(null != transportPool){
             transportPool.close();
         }

@@ -72,7 +72,7 @@ public class ZkRegister implements Register{
 
     private String fullPath(ServerInfo serverInfo) {
         String serverNamespace = serverInfo.getZkRoot() + "/" + serverInfo.getName();
-        String fullPath = serverNamespace + "/" +serverInfo.key();
+        String fullPath = serverNamespace + "/" +serverInfo.getInstance();
         return fullPath;
     }
 

@@ -68,7 +68,8 @@ public class JrpcClient implements ActionHandler {
         Rsp rsp;
         try{
             ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
-            log.info("server {} ==> {}", serverInfo.getName() ,serverInfo.key());
+            log.info("server {} ==> {},{}:{}",
+                    serverInfo.getName() ,serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
             transport = transportProvider.get(serverInfo);
             TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
             Jrpc.Client client = new Jrpc.Client(tProtocol);
