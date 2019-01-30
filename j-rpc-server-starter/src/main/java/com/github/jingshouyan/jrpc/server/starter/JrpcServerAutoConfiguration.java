@@ -5,6 +5,7 @@ import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.method.inner.GetServerInfo;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
+import com.github.jingshouyan.jrpc.server.method.inner.Ping;
 import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
@@ -49,6 +50,12 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
     @ConditionalOnMissingBean(GetServerInfo.class)
     public GetServerInfo getServerInfo(){
         return new GetServerInfo();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(Ping.class)
+    public Ping ping() {
+        return new Ping();
     }
 
     @Bean
