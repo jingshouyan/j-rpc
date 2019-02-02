@@ -34,8 +34,8 @@
         <guava.version>18.0</guava.version>
         <jbcrypt.version>0.4</jbcrypt.version>
         <commons-configuration.version>1.10</commons-configuration.version>
-        <lombok.version>1.16.18</lombok.version>
-        <lombok-maven-plugin.version>1.16.18.0</lombok-maven-plugin.version>
+        <lombok.version>1.18.4</lombok.version>
+        <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <javax-mail.version>1.4.7</javax-mail.version>
         <javax-activation.version>1.1.1</javax-activation.version>
         <ckeditor-java-core.version>3.5.3</ckeditor-java-core.version>
