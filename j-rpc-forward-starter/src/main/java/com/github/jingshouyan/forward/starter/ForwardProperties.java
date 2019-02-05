@@ -13,5 +13,5 @@ import java.util.Map;
 @Data
 @ConfigurationProperties(prefix = "j-rpc.forward")
 public class ForwardProperties {
-    private Map<String,String[]> methods = Maps.newHashMap();
+    private Map<String,String> methods = Maps.newHashMap();
 }

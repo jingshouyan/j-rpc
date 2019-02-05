@@ -7,7 +7,7 @@ j-rpc:
     more: true
   forward:
     methods:
-      forwardTest: test,testMethod
+      forwardTest: test.testMethod
 
 
 

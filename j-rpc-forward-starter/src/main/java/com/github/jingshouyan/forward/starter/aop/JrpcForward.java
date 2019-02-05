@@ -35,7 +35,8 @@ public class JrpcForward {
         Token token = (Token)args[0];
         Req req = (Req) args[1];
         if(properties.getMethods().containsKey(req.getMethod())) {
-            String[] strings = properties.getMethods().get(req.getMethod());
+            String str = properties.getMethods().get(req.getMethod());
+            String[] strings = str.split("\\.");
             String server = strings[0];
             String method = strings[1];
             log.debug("{} forward to {}.{}",req.getMethod(),server,method);
