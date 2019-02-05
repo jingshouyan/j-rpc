@@ -23,5 +23,6 @@
         <module>j-rpc-hmily-starter</module>
         <module>j-rpc-forward-starter</module>
         <module>test-server-forward</module>
+        <module>j-rpc-trace-common</module>
     </modules>
 </project>
