@@ -67,6 +67,11 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.github.jingshouyan</groupId>
+            <artifactId>j-rpc-trace-common</artifactId>
+        </dependency>
+
 
         <dependency>
             <groupId>com.alibaba</groupId>
