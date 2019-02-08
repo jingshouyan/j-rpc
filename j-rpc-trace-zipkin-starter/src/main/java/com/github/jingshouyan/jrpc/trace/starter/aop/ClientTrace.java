@@ -38,6 +38,9 @@ public class ClientTrace implements TraceConstant {
 
     @Around("aspect()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+        if(!properties.isOn()) {
+            return joinPoint.proceed();
+        }
         Object[] args = joinPoint.getArgs();
         Token token = (Token)args[0];
         Req req = (Req) args[1];

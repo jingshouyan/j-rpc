@@ -6,6 +6,7 @@ import brave.propagation.*;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
+import com.github.jingshouyan.jrpc.trace.starter.aop.SpanXTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -75,6 +76,11 @@ public class TraceAutoConfiguration {
     @ConditionalOnMissingBean(ClientTrace.class)
     ClientTrace clientTrace(Tracing tracing){
         return new ClientTrace(tracing,properties);
+    }
+    @Bean
+    @ConditionalOnMissingBean(SpanXTrace.class)
+    SpanXTrace spanXTrace(Tracing tracing) {
+        return new SpanXTrace(tracing, properties);
     }
 
     private String tracingName(){
