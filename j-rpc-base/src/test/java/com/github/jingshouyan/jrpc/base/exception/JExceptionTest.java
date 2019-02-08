@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.base.exception;
 
 import org.junit.Test;
 
-import java.util.concurrent.Executors;
 
 /**
  * @author jingshouyan

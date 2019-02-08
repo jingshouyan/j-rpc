@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.trace.starter;
 import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.*;
+import brave.sampler.CountingSampler;
 import com.alibaba.ttl.TransmittableThreadLocal;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
@@ -64,6 +65,7 @@ public class TraceAutoConfiguration {
                         .addScopeDecorator(MDCScopeDecorator.create())
                         .build()
                 )
+                .sampler(CountingSampler.create(properties.getRate()))
                 .spanReporter(spanReporter()).build();
     }
     @Bean

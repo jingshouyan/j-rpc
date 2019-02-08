@@ -7,7 +7,6 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.apache.commons.lang.StringUtils;
 
 import java.util.List;
 
@@ -47,7 +46,7 @@ public class Rsp {
     public Rsp checkSuccess() {
         if (!success()){
             Object data = null;
-            if(!StringUtils.isBlank(result)){
+            if(null != result){
                 data = JsonUtil.toBean(result,Object.class);
                 if(data != null){
                     throw new JException(code,data);

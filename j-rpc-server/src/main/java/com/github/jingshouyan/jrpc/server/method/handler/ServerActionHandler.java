@@ -11,7 +11,6 @@ import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang.StringUtils;
 
 import java.lang.reflect.Type;
 
@@ -28,7 +27,7 @@ public class ServerActionHandler implements ActionHandler {
         Rsp rsp = null;
         String methodName = req.getMethod();
         String param = req.getParam();
-        if(StringUtils.isBlank(param)){
+        if(null == param){
             param = "{}";
         }
         try{
