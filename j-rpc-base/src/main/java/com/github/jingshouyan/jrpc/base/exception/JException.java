@@ -14,7 +14,8 @@ public class JException extends RuntimeException{
     private Object data;
 
     public JException(int code){
-        this(code,null);
+        super("JException:" + code);
+        this.code = code;
     }
 
     public JException(int code, Object data){
