@@ -43,18 +43,22 @@ public class Rsp {
         return code == Code.SUCCESS;
     }
 
-    public Rsp checkSuccess() {
+    public Rsp checkSuccess(int newCode) {
         if (!success()){
             Object data = null;
             if(null != result){
                 data = JsonUtil.toBean(result,Object.class);
                 if(data != null){
-                    throw new JException(code,data);
+                    throw new JException(newCode,data);
                 }
             }
-            throw new JException(code);
+            throw new JException(newCode);
         }
         return this;
+    }
+
+    public Rsp checkSuccess() {
+        return checkSuccess(code);
     }
 
     public <T> T get(Class<T> clazz){
