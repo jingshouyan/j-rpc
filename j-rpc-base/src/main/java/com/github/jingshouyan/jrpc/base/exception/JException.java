@@ -14,17 +14,19 @@ public class JException extends RuntimeException{
     private Object data;
 
     public JException(int code){
-        this.code = code;
+        this(code,null);
     }
 
     public JException(int code, Object data){
+        super("JException:" + code);
         this.code = code;
         this.data = data;
     }
 
-    public JException(int code, String message){
+    public JException(int code,Object data, String message){
         super(message);
         this.code = code;
+        this.data = data;
     }
 
     public JException(int code, Throwable cause){

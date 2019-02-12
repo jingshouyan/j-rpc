@@ -75,7 +75,7 @@ public interface Method<T,R> {
         }
         if(!cvs.isEmpty()){
             sb.deleteCharAt(sb.length()-1);
-            throw new JException(Code.PARAM_INVALID,sb.toString());
+            throw new JException(Code.PARAM_INVALID, null, sb.toString());
         }
     }
 
