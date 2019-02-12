@@ -45,7 +45,7 @@ public class Rsp {
 
     public Rsp checkSuccess(int newCode) {
         if (!success()){
-            Object data = null;
+            Object data;
             if(null != result){
                 data = JsonUtil.toBean(result,Object.class);
                 if(data != null){
