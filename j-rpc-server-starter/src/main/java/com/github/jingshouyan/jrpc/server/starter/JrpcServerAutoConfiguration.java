@@ -73,10 +73,16 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        init();
+        addMethod();
+        if(properties.isRegister()) {
+            registerZk();
+        }
     }
 
-    private void init(){
+    private void addMethod() {
+        ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
+    }
+    private void registerZk(){
         ServerInfo info = new ServerInfo();
         info.setZkHost(properties.getZkHost());
         info.setZkRoot(properties.getZkRoot());
@@ -97,7 +103,6 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         info.setMonitorInfo(MonitorUtil.monitor());
 
         ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
-        ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }
 
 

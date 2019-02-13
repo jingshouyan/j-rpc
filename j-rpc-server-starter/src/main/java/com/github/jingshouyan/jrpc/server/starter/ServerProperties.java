@@ -20,5 +20,5 @@ public class ServerProperties {
     private int port = 8888;
     private int timeout = 5000;
     private int maxReadBufferBytes = 25 * 1024 * 1024;
-
+    private boolean register = true;
 }
