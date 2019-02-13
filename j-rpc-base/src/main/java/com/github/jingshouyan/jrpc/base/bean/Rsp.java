@@ -47,6 +47,9 @@ public class Rsp {
         if (!success()){
             Object data;
             if(null != result){
+                if(newCode == code) {
+                    Code.regIfAbsent(code,message);
+                }
                 data = JsonUtil.toBean(result,Object.class);
                 if(data != null){
                     throw new JException(newCode,data);

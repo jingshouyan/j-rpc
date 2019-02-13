@@ -71,6 +71,10 @@ public class Code {
         CODE_MAP.put(code, message);
     }
 
+    public static void regIfAbsent(int code, String message) {
+        CODE_MAP.putIfAbsent(code,message);
+    }
+
     public static Map<Integer,String> getCodeMap(){
         return Maps.newHashMap(CODE_MAP);
     }
