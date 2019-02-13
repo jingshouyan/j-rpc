@@ -17,7 +17,7 @@ public class MethodHolder {
     private static final Map<String,Method> METHOD_MAP = Maps.newConcurrentMap();
 
     public static void addMethod(String methodName,Method method){
-        log.info("add method: {} ===> {}",methodName,method);
+        log.debug("add method: {} ===> {}",methodName,method);
         METHOD_MAP.put(methodName,method);
     }
 

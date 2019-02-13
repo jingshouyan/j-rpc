@@ -31,16 +31,16 @@ public class ServerActionHandler implements ActionHandler {
             param = "{}";
         }
         try{
-            log.info("call [{}] start.",methodName);
-            log.info("call [{}] token: {}",methodName,token);
+            log.debug("call [{}] start.",methodName);
+            log.debug("call [{}] token: {}",methodName,token);
             Method method = MethodHolder.getMethod(methodName);
             Type clazz = method.getInputType();
             Object obj;
             try {
                 obj = JsonUtil.toBean(param, clazz);
-                log.info("call [{}] param: {}",methodName,obj);
+                log.debug("call [{}] param: {}",methodName,obj);
             }catch (Exception e){
-                log.info("call [{}] param: {}",methodName,param);
+                log.debug("call [{}] param: {}",methodName,param);
                 throw new JException(Code.JSON_PARSE_ERROR,e);
             }
             method.validate(obj);
@@ -53,8 +53,8 @@ public class ServerActionHandler implements ActionHandler {
             rsp = RspUtil.error(Code.SERVER_ERROR,e);
         }
         long end = System.nanoTime();
-        log.info("call [{}] end. {}",methodName,rsp.json());
-        log.info("call [{}] use {} ns",methodName,end - start);
+        log.debug("call [{}] end. {}",methodName,rsp.json());
+        log.debug("call [{}] use {} ns",methodName,end - start);
         return rsp;
     }
 

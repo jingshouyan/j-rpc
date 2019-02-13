@@ -99,7 +99,7 @@ public class ZkDiscover {
                         data = byte2String(childData.getData());
                     }
                     ServerInfo info = toInfo(data);
-                    log.info("tree changed messageType:[{}] path:[{}] data:[{}]", type, path, data);
+                    log.debug("tree changed messageType:[{}] path:[{}] data:[{}]", type, path, data);
                     if (null != info || event.getType() == TreeCacheEvent.Type.INITIALIZED || event.getType() == TreeCacheEvent.Type.NODE_REMOVED) {
                         if (event.getType() == TreeCacheEvent.Type.NODE_REMOVED && null == info) {
                             info = new ServerInfo();

@@ -23,7 +23,7 @@ public class TransportProvider {
     }
     static{
         Runtime.getRuntime().addShutdownHook(new Thread(()->{
-            log.info("client stop. clean transport pool");
+            log.debug("client stop. clean transport pool");
             TRANSPORT_POOL_MAP.forEach((key,transport)->{
                 transport.close();
             });

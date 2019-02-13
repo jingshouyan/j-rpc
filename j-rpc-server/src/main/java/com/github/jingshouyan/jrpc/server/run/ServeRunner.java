@@ -48,7 +48,7 @@ public class ServeRunner {
 
     public ServeRunner setServerInfo(ServerInfo serverInfo) {
         if(this.serverInfo == null){
-            log.info("set server info : {}",serverInfo);
+            log.debug("set server info : {}",serverInfo);
             this.serverInfo = serverInfo;
         }else {
             log.warn("server info is already set.");
@@ -60,7 +60,7 @@ public class ServeRunner {
 
     public ServeRunner setIface(Rpc rpc){
         if(this.rpc == null){
-            log.info("set server impl: {}", rpc);
+            log.debug("set server impl: {}", rpc);
             this.rpc = rpc;
         }
         initServer();
@@ -85,18 +85,18 @@ public class ServeRunner {
                     if(!tserver.isServing()){
                         break;
                     }
-                    log.info("waiting ...");
+                    log.debug("waiting ...");
                     Thread.sleep(2000);
                 }catch (Exception e){}
             }
-            log.info("server run...");
+            log.debug("server run...");
             try{
                 tserver.serve();
             }catch (Exception e){
                 log.error("server start failed.",e);
                 System.exit(-1);
             }
-            log.info("server stop...");
+            log.debug("server stop...");
         });
         register.register(tserver,serverInfo);
     }

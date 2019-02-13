@@ -62,13 +62,13 @@ public class JrpcClient implements ActionHandler {
     @Override
     public Rsp handle(Token token, Req req) {
         long start = System.nanoTime();
-        log.info("call rpc token: {}",token);
-        log.info("call rpc req: {}",req);
+        log.debug("call rpc token: {}",token);
+        log.debug("call rpc req: {}",req);
         Transport transport = null;
         Rsp rsp;
         try{
             ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
-            log.info("server {} ==> {},{}:{}",
+            log.debug("server {} ==> {},{}:{}",
                     serverInfo.getName() ,serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
             transport = transportProvider.get(serverInfo);
             TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
@@ -91,9 +91,9 @@ public class JrpcClient implements ActionHandler {
             transportProvider.invalid(transport);
             rsp = RspUtil.error(Code.CLIENT_ERROR,e);
         }
-        log.info("call rpc rsp: {}",rsp);
+        log.debug("call rpc rsp: {}",rsp);
         long end = System.nanoTime();
-        log.info("call rpc use: {}ns", end - start);
+        log.debug("call rpc use: {}ns", end - start);
         return rsp;
     }
 

@@ -29,18 +29,18 @@ public class ZkRegister implements Register{
                 if(!tserver.isServing()){
                     break;
                 }
-                log.info("waiting for server start");
+                log.debug("waiting for server start");
                 Thread.sleep(2000);
             }catch (Exception e){}
 
         }
         CuratorFramework client = ZkUtil.getClient(info.getZkHost());
         try{
-            log.info("register zk starting...");
+            log.debug("register zk starting...");
             String path = fullPath(info);
             deleteZkNode(client,info);
             createZkNode(client,info);
-            log.info("serviceInstance:[{}]", info);
+            log.debug("serviceInstance:[{}]", info);
 
             TreeCache cache = new TreeCache(client, path);
             cache.getListenable().addListener((cf,event)->{
@@ -54,7 +54,7 @@ public class ZkRegister implements Register{
             cache.start();
             Runtime.getRuntime().addShutdownHook(new Thread(()->{
                 try{
-                    log.info("server stop...");
+                    log.debug("server stop...");
                     cache.close();
                     deleteZkNode(client,info);
                     client.close();
@@ -85,7 +85,7 @@ public class ZkRegister implements Register{
                 creatingParentContainersIfNeeded()
                 .withMode(CreateMode.EPHEMERAL)
                 .forPath(path, data.getBytes());
-        log.info("create zk node :{},data:{}",path,data);
+        log.debug("create zk node :{},data:{}",path,data);
         return realPath;
     }
     @SneakyThrows
@@ -95,6 +95,6 @@ public class ZkRegister implements Register{
         if(stat != null){
             client.delete().forPath(path);
         }
-        log.info("delete zk node [{}] .",path);
+        log.debug("delete zk node [{}] .",path);
     }
 }

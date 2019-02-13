@@ -28,7 +28,7 @@ public class ThreadSelectorServer implements Server{
         int workerThreads = cpuNum * 4;
         TServer server = null;
         try {
-            log.info("thrift service starting...[port:{}]", port);
+            log.debug("thrift service starting...[port:{}]", port);
             TNonblockingServerSocket serverTransport = new TNonblockingServerSocket(port);
             //多线程半同步半异步
             TThreadedSelectorServer.Args tArgs = new TThreadedSelectorServer.Args(serverTransport);
@@ -42,12 +42,12 @@ public class ThreadSelectorServer implements Server{
             tArgs.protocolFactory(new TBinaryProtocol.Factory());
             // 多线程半同步半异步的服务模型
             server = new TThreadedSelectorServer(tArgs);
-            log.info("{} = {}", SELECTOR_THREADS, selectorThreads);
-            log.info("{} = {}", WORKER_THREADS, workerThreads);
+            log.debug("{} = {}", SELECTOR_THREADS, selectorThreads);
+            log.debug("{} = {}", WORKER_THREADS, workerThreads);
         } catch (Exception e) {
             log.error("thrift service start failed", e);
         }
-        log.info("thrift service started.  [port:{}]", port);
+        log.debug("thrift service started.  [port:{}]", port);
         return server;
     }
 }
