@@ -81,6 +81,10 @@ public class ServerTrace implements TraceConstant {
 
 
     private Span span(String trace){
+        Span currentSpan = tracer.currentSpan();
+        if(currentSpan != null) {
+            return tracer.newChild(currentSpan.context()).start();
+        }
         if(null != trace){
             TraceContextOrSamplingFlags traceContextOrSamplingFlags =B3SingleFormat.parseB3SingleFormat(trace);
             if(traceContextOrSamplingFlags !=null ){
