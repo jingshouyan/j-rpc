@@ -89,7 +89,7 @@ public class JrpcClient implements ActionHandler {
         } catch (Exception e) {
             log.error("call rpc error.",e);
             transportProvider.invalid(transport);
-            rsp = RspUtil.error(Code.CLIENT_ERROR,e);
+            rsp = RspUtil.error(Code.CLIENT_ERROR);
         }
         log.debug("call rpc rsp: {}",rsp);
         long end = System.nanoTime();

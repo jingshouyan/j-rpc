@@ -12,6 +12,8 @@ public class JException extends RuntimeException{
     private int code;
     @Getter
     private Object data;
+    @Getter
+    private String detail;
 
     public JException(int code){
         super("JException:" + code);
@@ -24,10 +26,11 @@ public class JException extends RuntimeException{
         this.data = data;
     }
 
-    public JException(int code,Object data, String message){
-        super(message);
+    public JException(int code,Object data, String detail){
+        super("JException:" + code);
         this.code = code;
         this.data = data;
+        this.detail = detail;
     }
 
     public JException(int code, Throwable cause){

@@ -50,7 +50,7 @@ public class ServerActionHandler implements ActionHandler {
             rsp = RspUtil.error(e);
         }catch (Exception e){
             log.error("call [{}] error.",methodName,e);
-            rsp = RspUtil.error(Code.SERVER_ERROR,e);
+            rsp = RspUtil.error(Code.SERVER_ERROR);
         }
         long end = System.nanoTime();
         log.debug("call [{}] end. {}",methodName,rsp.json());
