@@ -38,9 +38,6 @@ public class ClientTrace implements TraceConstant {
 
     @Around("aspect()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        if(!properties.isOn()) {
-            return joinPoint.proceed();
-        }
         Object[] args = joinPoint.getArgs();
         Token token = (Token)args[0];
         Req req = (Req) args[1];
@@ -56,6 +53,8 @@ public class ClientTrace implements TraceConstant {
             Object result = joinPoint.proceed();
             if (result instanceof Rsp) {
                 Rsp rsp = (Rsp) result;
+                span.tag(TAG_CODE, "" + rsp.getCode())
+                        .tag(TAG_MESSAGE, "" + rsp.getMessage());
                 if(rsp.getCode() != Code.SUCCESS) {
                     span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
                 }

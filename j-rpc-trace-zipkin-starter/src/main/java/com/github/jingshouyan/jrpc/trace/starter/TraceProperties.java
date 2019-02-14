@@ -19,5 +19,4 @@ public class TraceProperties {
 
     private boolean more = false;
 
-    private boolean on = true;
 }

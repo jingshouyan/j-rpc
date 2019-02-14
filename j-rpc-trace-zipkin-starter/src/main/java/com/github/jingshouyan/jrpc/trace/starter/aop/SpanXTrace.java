@@ -32,9 +32,6 @@ public class SpanXTrace implements TraceConstant {
 
     @Around("execution(@com.github.jingshouyan.jrpc.trace.annotation.SpanX * *(..)) && @annotation(spanX)")
     public Object around(ProceedingJoinPoint joinPoint, SpanX spanX) throws Throwable {
-        if(!properties.isOn()) {
-            return joinPoint.proceed();
-        }
         Span span = span();
         String spanName = spanX.spanName();
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
