@@ -71,8 +71,8 @@ public class JrpcClient implements ActionHandler {
             log.debug("server {} ==> {},{}:{}",
                     serverInfo.getName() ,serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
             transport = transportProvider.get(serverInfo);
-            TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
-            Jrpc.Client client = new Jrpc.Client(tProtocol);
+            Jrpc.Client client = transport.getClient();
+            log.debug("get client use {} ns",System.nanoTime() - start);
             TokenBean tokenBean = token.tokenBean();
             ReqBean reqBean = req.reqBean();
             if(req.isOneway()){
@@ -82,6 +82,7 @@ public class JrpcClient implements ActionHandler {
                 RspBean rspBean = client.call(tokenBean,reqBean);
                 rsp = new Rsp(rspBean);
             }
+            log.debug("send use {} ns",System.nanoTime() - start);
             transportProvider.restore(transport);
         }catch (JException e) {
             transportProvider.restore(transport);
