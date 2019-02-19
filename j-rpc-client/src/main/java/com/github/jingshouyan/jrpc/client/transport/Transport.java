@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.client.transport;
 
+import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.transport.TSocket;
@@ -19,6 +20,7 @@ public class Transport implements Closeable {
     private String key;
     private TTransport tTransport;
     private Socket socket;
+    private Jrpc.Client client;
 
     public boolean isOpen(){
         long start = System.nanoTime();

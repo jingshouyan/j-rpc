@@ -1,12 +1,15 @@
 package com.github.jingshouyan.jrpc.client.pool;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.thrift.protocol.TBinaryProtocol;
+import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
@@ -42,6 +45,9 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
             transport.setKey(serverInfo.getInstance());
             transport.setTTransport(tTransport);
             transport.setSocket(socket.getSocket());
+            TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
+            Jrpc.Client client = new Jrpc.Client(tProtocol);
+            transport.setClient(client);
             return transport;
         } catch (Exception e) {
             log.warn("client pool make object error.",e);
