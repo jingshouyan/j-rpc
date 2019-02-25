@@ -11,6 +11,8 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.TException;
+import org.apache.thrift.async.AsyncMethodCallback;
 
 /**
  * @author jingshouyan
@@ -35,8 +37,18 @@ public class RpcImpl implements Rpc {
         run(token,req,true);
     }
 
+    @Override
+    public void call(TokenBean token, ReqBean req, AsyncMethodCallback<RspBean> resultHandler) throws TException {
+        RspBean rspBean = run(token,req,false);
+        resultHandler.onComplete(rspBean);
+    }
 
-    private RspBean run(TokenBean tokenBean, ReqBean reqBean,boolean oneway){
+    @Override
+    public void send(TokenBean token, ReqBean req, AsyncMethodCallback<Void> resultHandler) throws TException {
+        run(token,req,true);
+    }
+
+    private RspBean run(TokenBean tokenBean, ReqBean reqBean, boolean oneway){
         Token token = new Token(tokenBean);
         TokenContextLocal.getInstance().set(token);
         Req req = new Req();

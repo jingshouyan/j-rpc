@@ -21,4 +21,5 @@ public class ServerProperties {
     private int timeout = 5000;
     private int maxReadBufferBytes = 25 * 1024 * 1024;
     private boolean register = true;
+    private boolean async = false;
 }

@@ -30,6 +30,7 @@ public class ServerInfo {
     private String updatedAt;
     private MonitorInfo monitorInfo;
     private String instance;
+    private boolean async = false;
 
 
     public void update(ServerInfo serverInfo){
