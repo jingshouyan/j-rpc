@@ -10,9 +10,15 @@ import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TException;
 import org.apache.thrift.async.AsyncMethodCallback;
+
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingDeque;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author jingshouyan
@@ -20,6 +26,7 @@ import org.apache.thrift.async.AsyncMethodCallback;
  */
 @Slf4j
 public class RpcImpl implements Rpc {
+
 
     private final ServerActionHandler handler;
 
@@ -38,13 +45,13 @@ public class RpcImpl implements Rpc {
     }
 
     @Override
-    public void call(TokenBean token, ReqBean req, AsyncMethodCallback<RspBean> resultHandler) throws TException {
+    public void call(TokenBean token, ReqBean req, AsyncMethodCallback<RspBean> resultHandler) {
         RspBean rspBean = run(token,req,false);
         resultHandler.onComplete(rspBean);
     }
 
     @Override
-    public void send(TokenBean token, ReqBean req, AsyncMethodCallback<Void> resultHandler) throws TException {
+    public void send(TokenBean token, ReqBean req, AsyncMethodCallback<Void> resultHandler) {
         run(token,req,true);
     }
 

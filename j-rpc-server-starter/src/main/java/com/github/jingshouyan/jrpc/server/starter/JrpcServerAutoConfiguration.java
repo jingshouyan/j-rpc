@@ -27,6 +27,8 @@ import org.springframework.core.annotation.Order;
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.net.InetAddress;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  * @author jingshouyan
@@ -83,6 +85,8 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
     }
     private void registerZk(){
+        LocalDateTime now = LocalDateTime.now();
+        String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         ServerInfo info = new ServerInfo();
         info.setZkHost(properties.getZkHost());
         info.setZkRoot(properties.getZkRoot());
@@ -97,10 +101,12 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         }
         info.setPort(properties.getPort());
         info.setAsync(properties.isAsync());
-        info.setStartAt("");
+        info.setStartAt(nowStr);
         info.setTimeout(properties.getTimeout());
         info.setMaxReadBufferBytes(properties.getMaxReadBufferBytes());
         info.setUpdatedAt("");
+        info.setSelector(properties.getSelector());
+        info.setWorker(properties.getWorker());
         info.setMonitorInfo(MonitorUtil.monitor());
 
         ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();

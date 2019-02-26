@@ -18,15 +18,12 @@ import org.apache.thrift.transport.TNonblockingServerSocket;
 @Slf4j
 public class ThreadSelectorServer implements Server{
 
-    private static final String SELECTOR_THREADS = "thrift.selectorThreads";
-    private static final String WORKER_THREADS = "thrift.workerThreads";
 
     @Override
     public TServer getServer(Rpc service, ServerInfo serverInfo) {
         int port = serverInfo.getPort();
-        int cpuNum = Runtime.getRuntime().availableProcessors();
-        int selectorThreads = cpuNum * 2;
-        int workerThreads = cpuNum * 4;
+        int selectorThreads = serverInfo.getSelector();
+        int workerThreads = serverInfo.getWorker();
         TServer server = null;
         try {
             log.debug("thrift service starting...[port:{}],async:[{}]", port, serverInfo.isAsync());
@@ -48,8 +45,7 @@ public class ThreadSelectorServer implements Server{
             tArgs.protocolFactory(new TBinaryProtocol.Factory());
             // 多线程半同步半异步的服务模型
             server = new TThreadedSelectorServer(tArgs);
-            log.debug("{} = {}", SELECTOR_THREADS, selectorThreads);
-            log.debug("{} = {}", WORKER_THREADS, workerThreads);
+            log.debug("selector = {}, worker = {}", selectorThreads ,workerThreads);
         } catch (Exception e) {
             log.error("thrift service start failed", e);
         }

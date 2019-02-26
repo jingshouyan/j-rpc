@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.server.starter;
 
+import com.github.jingshouyan.jrpc.base.constant.BaseConstant;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -22,4 +23,6 @@ public class ServerProperties {
     private int maxReadBufferBytes = 25 * 1024 * 1024;
     private boolean register = true;
     private boolean async = false;
+    private int selector = BaseConstant.CPU_NUM * 2;
+    private int worker = BaseConstant.CPU_NUM * 4;
 }

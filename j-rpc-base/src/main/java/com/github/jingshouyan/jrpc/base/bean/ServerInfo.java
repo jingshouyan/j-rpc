@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.github.jingshouyan.jrpc.base.constant.BaseConstant;
 import lombok.Data;
 
 import java.util.UUID;
@@ -14,6 +15,7 @@ public class ServerInfo {
     public ServerInfo(){
         instance = UUID.randomUUID().toString().toLowerCase();
     }
+
 
     @JsonIgnore
     private String zkHost = "127.0.0.1:2181";
@@ -31,6 +33,8 @@ public class ServerInfo {
     private MonitorInfo monitorInfo;
     private String instance;
     private boolean async = false;
+    private int selector = BaseConstant.CPU_NUM * 2;
+    private int worker = BaseConstant.CPU_NUM * 4;
 
 
     public void update(ServerInfo serverInfo){
