@@ -23,5 +23,5 @@ public class D implements CrudConstant{
 
     private Object id;
 
-    private List<Object> ids;
+    private List<?> ids;
 }
