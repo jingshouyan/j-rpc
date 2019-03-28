@@ -26,7 +26,7 @@ public class ThreadSelectorServer implements Server{
         int workerThreads = serverInfo.getWorker();
         TServer server = null;
         try {
-            log.debug("thrift service starting...[port:{}],async:[{}]", port, serverInfo.isAsync());
+            log.debug("thrift service starting...[port:{}]", port);
             TNonblockingServerSocket serverTransport = new TNonblockingServerSocket(port);
             //多线程半同步半异步
             TThreadedSelectorServer.Args tArgs = new TThreadedSelectorServer.Args(serverTransport);

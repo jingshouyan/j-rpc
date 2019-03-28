@@ -32,7 +32,6 @@ public class ServerInfo {
     private String updatedAt;
     private MonitorInfo monitorInfo;
     private String instance;
-    private boolean async = false;
     private int selector = BaseConstant.CPU_NUM * 2;
     private int worker = BaseConstant.CPU_NUM * 4;
 

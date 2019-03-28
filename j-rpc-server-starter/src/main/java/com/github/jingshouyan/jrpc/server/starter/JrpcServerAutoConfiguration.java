@@ -98,7 +98,6 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
             info.setHost(properties.getHost());
         }
         info.setPort(properties.getPort());
-        info.setAsync(properties.isAsync());
         info.setStartAt(nowStr);
         info.setTimeout(properties.getTimeout());
         info.setMaxReadBufferBytes(properties.getMaxReadBufferBytes());

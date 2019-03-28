@@ -26,8 +26,19 @@ public class ServerActionHandler implements ActionHandler {
 
     @Override
     public Single<Rsp> handle(Token token, Req req) {
-
         long start = System.nanoTime();
+        log.debug("call [{}] start.",req.getMethod());
+        log.debug("call [{}] token: {}",req.getMethod(),token);
+        Single<Rsp> single = call(token,req);
+        Single<Rsp> single2 = single.doAfterSuccess(rsp -> {
+            long end = System.nanoTime();
+            log.debug("call [{}] end. {}",req.getMethod(), rsp.json());
+            log.debug("call [{}] use {} ns",req.getMethod(), end - start);
+        });
+        return single2;
+    }
+
+    private Single<Rsp> call(Token token, Req req) {
         Rsp rsp = null;
         String methodName = req.getMethod();
         String param = req.getParam();
@@ -35,8 +46,6 @@ public class ServerActionHandler implements ActionHandler {
             param = "{}";
         }
         try{
-            log.debug("call [{}] start.",methodName);
-            log.debug("call [{}] token: {}",methodName,token);
             BaseMethod baseMethod = MethodHolder.getMethod(methodName);
             Type clazz = baseMethod.getInputType();
             Object obj;
@@ -57,16 +66,12 @@ public class ServerActionHandler implements ActionHandler {
                 Single<?> single = asyncMethod.action(token,obj);
                 return single.map(RspUtil::success);
             }
-
         }catch (JException e){
             rsp = RspUtil.error(e);
         }catch (Exception e){
             log.error("call [{}] error.",methodName,e);
             rsp = RspUtil.error(Code.SERVER_ERROR);
         }
-        long end = System.nanoTime();
-        log.debug("call [{}] end. {}",methodName,rsp.json());
-        log.debug("call [{}] use {} ns",methodName,end - start);
         return Single.just(rsp);
     }
 

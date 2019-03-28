@@ -49,7 +49,7 @@ public class ClientTest {
         List<UserBean> userBeans1 = rsp.get(List.class,UserBean.class); //也可以使用 get 带泛型的反序列化
     }
 
-    @Test
+//    @Test
     public void test() {
         IntStream.rangeClosed(0,0)
 //                .parallel()
@@ -69,7 +69,7 @@ public class ClientTest {
 
     @Test
     public void testForward(){
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 1000; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("abc");
             strings.add("sdf");
@@ -78,6 +78,23 @@ public class ClientTest {
                     .setServer("forward")
                     .setMethod("forwardTest")
                     .setParamObj(strings)
+//                .setOneway(true)
+                    .send();
+        }
+
+    }
+
+    @Test
+    public void testForward2(){
+        for (int i = 0; i < 1000; i++) {
+            List<String> strings = new ArrayList<>();
+            strings.add("abc");
+            strings.add("sdf");
+            Rsp rsp = Request.newInstance()
+                    .setClient(jrpcClient)
+                    .setServer("forward")
+                    .setMethod("asyncTest")
+                    .setParamObj("asdflaskdj")
 //                .setOneway(true)
                     .send();
         }
