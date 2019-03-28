@@ -1,6 +1,8 @@
 package com.github.jingshouyan.jrpc.server.method.handler;
 
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
@@ -27,15 +29,19 @@ public class ServerActionHandler implements ActionHandler {
     @Override
     public Single<Rsp> handle(Token token, Req req) {
         long start = System.nanoTime();
-        log.debug("call [{}] start.",req.getMethod());
-        log.debug("call [{}] token: {}",req.getMethod(),token);
+        String method = req.getMethod();
+        log.debug("action [{}] token: {}",method,token);
+        log.debug("action [{}] param: {}.",method,req.getParam());
         Single<Rsp> single = call(token,req);
-        Single<Rsp> single2 = single.doAfterSuccess(rsp -> {
+        single = single.doAfterSuccess(rsp -> {
             long end = System.nanoTime();
-            log.debug("call [{}] end. {}",req.getMethod(), rsp.json());
-            log.debug("call [{}] use {} ns",req.getMethod(), end - start);
+            log.debug("action [{}] end. rsp: {}",req.getMethod(), rsp.json());
+            log.debug("action [{}] use {} ns",req.getMethod(), end - start);
         });
-        return single2;
+        for (ActionInterceptor interceptor : ActionInterceptorHolder.getServerInterceptors()) {
+            single = interceptor.around(token,req,single);
+        }
+        return single;
     }
 
     private Single<Rsp> call(Token token, Req req) {
@@ -51,9 +57,7 @@ public class ServerActionHandler implements ActionHandler {
             Object obj;
             try {
                 obj = JsonUtil.toBean(param, clazz);
-                log.debug("call [{}] param: {}",methodName,obj);
             }catch (Exception e){
-                log.debug("call [{}] param: {}",methodName,param);
                 throw new JException(Code.JSON_PARSE_ERROR,e);
             }
             baseMethod.validate(obj);

@@ -1,6 +1,8 @@
 package com.github.jingshouyan.jrpc.client;
 
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
@@ -61,17 +63,29 @@ public class JrpcClient implements ActionHandler {
     @Override
     public Single<Rsp> handle(Token token, Req req) {
         long start = System.nanoTime();
-        log.debug("call rpc token: {}",token);
-        log.debug("call rpc req: {}",req);
+        String server = req.getRouter().getServer();
+        String method = req.getMethod();
+        log.debug("call [{}.{}] token: {}", server, method, token);
+        log.debug("call [{}.{}] req: {}", server, method, req);
+        Single<Rsp> single = call(token,req);
+        single = single.doAfterSuccess(rsp -> {
+            long end = System.nanoTime();
+            log.debug("call [{}.{}] rsp: {}", server, method, rsp);
+            log.debug("call [{}.{}] use: {}ns", server, method, end - start);
+        });
+        for (ActionInterceptor interceptor : ActionInterceptorHolder.getClientInterceptors()) {
+            single = interceptor.around(token,req,single);
+        }
+        return single;
+    }
+
+    public Single<Rsp> call(Token token, Req req) {
         Transport transport = null;
         Rsp rsp;
         try{
             ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
-            log.debug("server {} ==> {},{}:{}",
-                    serverInfo.getName() ,serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
             transport = transportProvider.get(serverInfo);
             Jrpc.Client client = transport.getClient();
-            log.debug("get client use {} ns",System.nanoTime() - start);
             TokenBean tokenBean = token.tokenBean();
             ReqBean reqBean = req.reqBean();
             if(req.isOneway()){
@@ -81,7 +95,6 @@ public class JrpcClient implements ActionHandler {
                 RspBean rspBean = client.call(tokenBean,reqBean);
                 rsp = new Rsp(rspBean);
             }
-            log.debug("send use {} ns",System.nanoTime() - start);
             transportProvider.restore(transport);
         }catch (JException e) {
             transportProvider.restore(transport);
@@ -91,9 +104,6 @@ public class JrpcClient implements ActionHandler {
             transportProvider.invalid(transport);
             rsp = RspUtil.error(Code.CLIENT_ERROR);
         }
-        log.debug("call rpc rsp: {}",rsp);
-        long end = System.nanoTime();
-        log.debug("call rpc use: {}ns", end - start);
         return Single.just(rsp);
     }
 
