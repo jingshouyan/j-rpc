@@ -2,9 +2,8 @@ package com.github.jingshouyan.jrpc.trace.starter;
 
 import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
-import brave.propagation.*;
+import brave.propagation.TtlCurrentTraceContext;
 import brave.sampler.CountingSampler;
-import com.alibaba.ttl.TransmittableThreadLocal;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.SpanXTrace;

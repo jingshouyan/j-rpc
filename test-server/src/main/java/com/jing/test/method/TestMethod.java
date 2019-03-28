@@ -1,10 +1,10 @@
 package com.jing.test.method;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
 
 import com.github.jingshouyan.jrpc.base.bean.CodeInfo;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.server.method.Method;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Sets;
 import com.jing.test.bean.TestBean2;
 import com.jing.test.bean.TestBean3;
 import org.springframework.stereotype.Component;

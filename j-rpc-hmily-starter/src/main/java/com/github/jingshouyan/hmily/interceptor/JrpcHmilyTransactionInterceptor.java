@@ -24,7 +24,6 @@ import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.dromara.hmily.common.bean.context.HmilyTransactionContext;
 import org.dromara.hmily.common.constant.CommonConstant;
-import org.dromara.hmily.common.enums.HmilyRoleEnum;
 import org.dromara.hmily.core.concurrent.threadlocal.HmilyTransactionContextLocal;
 import org.dromara.hmily.core.interceptor.HmilyTransactionInterceptor;
 import org.dromara.hmily.core.service.HmilyTransactionAspectService;
@@ -32,8 +31,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.Objects;
 
 
 /**

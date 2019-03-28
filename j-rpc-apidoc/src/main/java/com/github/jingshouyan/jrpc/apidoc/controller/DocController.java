@@ -1,7 +1,6 @@
 package com.github.jingshouyan.jrpc.apidoc.controller;
 
 import brave.Tracing;
-import com.alibaba.ttl.TransmittableThreadLocal;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
@@ -15,12 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-import java.util.stream.IntStream;
 
 /**
  * @author jingshouyan

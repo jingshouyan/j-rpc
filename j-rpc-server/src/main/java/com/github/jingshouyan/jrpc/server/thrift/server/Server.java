@@ -1,7 +1,6 @@
 package com.github.jingshouyan.jrpc.server.thrift.server;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import org.apache.thrift.server.TServer;
 

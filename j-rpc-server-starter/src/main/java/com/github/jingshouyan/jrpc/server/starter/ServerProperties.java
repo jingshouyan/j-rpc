@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.server.starter;
 
 import com.github.jingshouyan.jrpc.base.constant.BaseConstant;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
 /**

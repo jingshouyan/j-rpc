@@ -1,10 +1,10 @@
 package com.github.jingshouyan.jrpc.client;
 
 import com.github.jingshouyan.jrpc.base.bean.Req;
+import com.github.jingshouyan.jrpc.base.bean.Router;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import com.github.jingshouyan.jrpc.base.bean.Router;
 import io.reactivex.Single;
 import lombok.Getter;
 import lombok.ToString;

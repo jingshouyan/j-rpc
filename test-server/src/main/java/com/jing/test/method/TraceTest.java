@@ -3,7 +3,6 @@ package com.jing.test.method;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
-import com.github.jingshouyan.jrpc.client.starter.JrpcClientAutoConfiguration;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.starter.ServerProperties;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;

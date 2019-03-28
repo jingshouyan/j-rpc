@@ -10,6 +10,7 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.trace.starter.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.starter.constant.TraceConstant;
+import io.reactivex.Single;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -51,21 +52,25 @@ public class ClientTrace implements TraceConstant {
                     .tag(TAG_TICKET, ""+token.getTicket());
 
             Object result = joinPoint.proceed();
-            if (result instanceof Rsp) {
-                Rsp rsp = (Rsp) result;
-                span.tag(TAG_CODE, "" + rsp.getCode())
-                        .tag(TAG_MESSAGE, "" + rsp.getMessage());
-                if(rsp.getCode() != Code.SUCCESS) {
-                    span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
-                }
+            if (result instanceof Single) {
+                Single<Rsp> rspSingle = (Single<Rsp>) result;
+                rspSingle.doAfterSuccess(rsp -> {
+                    span.tag(TAG_CODE, "" + rsp.getCode())
+                            .tag(TAG_MESSAGE, "" + rsp.getMessage());
+                    if(rsp.getCode() != Code.SUCCESS) {
+                        span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
+                    }
+                    span.annotate(CR);
+                    span.finish();
+                });
+
             }
-            span.annotate(CR);
             return result;
         }catch (Throwable e){
             span.tag(TAG_ERROR,e.getClass().getSimpleName()+":"+e.getMessage());
-            throw e;
-        }finally {
+            span.annotate(CR);
             span.finish();
+            throw e;
         }
     }
 

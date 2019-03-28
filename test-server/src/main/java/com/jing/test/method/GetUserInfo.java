@@ -1,11 +1,9 @@
 package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import com.github.jingshouyan.jrpc.base.exception.JException;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.jing.test.bean.IdQuery;
 import com.jing.test.bean.UserBean;
-import com.jing.test.constant.TestCode;
 import org.springframework.stereotype.Component;
 
 import java.util.List;

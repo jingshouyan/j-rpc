@@ -21,8 +21,6 @@ import io.reactivex.Single;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
-import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
 
 import java.util.List;
 import java.util.Map;

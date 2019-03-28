@@ -3,7 +3,6 @@ package com.github.jingshouyan.jrpc.client.transport;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 
 import java.io.Closeable;

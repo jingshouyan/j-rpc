@@ -1,10 +1,10 @@
 package com.github.jingshouyan.forward.starter.aop;
 
+import com.github.jingshouyan.forward.starter.ForwardProperties;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
-import com.github.jingshouyan.forward.starter.ForwardProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;

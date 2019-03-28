@@ -1,10 +1,10 @@
 package com.jing.test.client;
-import com.github.jingshouyan.jrpc.base.bean.Token;
-import com.google.common.collect.Lists;
 
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
+import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
+import com.google.common.collect.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -69,7 +69,7 @@ public class ClientTest {
 
     @Test
     public void testForward(){
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < 1; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("abc");
             strings.add("sdf");
