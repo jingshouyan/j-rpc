@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.base.action;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
+import io.reactivex.Single;
 
 /**
  * @author jingshouyan
@@ -15,5 +16,5 @@ public interface ActionHandler {
      * @param req req
      * @return rsp
      */
-    Rsp handle(Token token, Req req);
+    Single<Rsp> handle(Token token, Req req);
 }

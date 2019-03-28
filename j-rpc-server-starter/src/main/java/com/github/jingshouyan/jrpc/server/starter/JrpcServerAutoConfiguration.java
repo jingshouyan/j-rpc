@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.server.starter;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.server.method.BaseMethod;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.method.inner.GetServerInfo;
 import com.github.jingshouyan.jrpc.server.method.Method;
@@ -82,7 +83,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
     }
 
     private void addMethod() {
-        ctx.getBeansOfType(Method.class).forEach(MethodHolder::addMethod);
+        ctx.getBeansOfType(BaseMethod.class).forEach(MethodHolder::addMethod);
     }
     private void registerZk(){
         LocalDateTime now = LocalDateTime.now();

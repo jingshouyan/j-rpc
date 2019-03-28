@@ -47,7 +47,7 @@ public class JrpcForward {
                     .setToken(token)
                     .setParamJson(req.getParam())
                     .setOneway(req.isOneway())
-                    .send();
+                    .asyncSend();
         }
         return joinPoint.proceed();
     }

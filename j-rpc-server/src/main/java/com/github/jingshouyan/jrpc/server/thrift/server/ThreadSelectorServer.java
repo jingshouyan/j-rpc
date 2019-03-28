@@ -30,12 +30,7 @@ public class ThreadSelectorServer implements Server{
             TNonblockingServerSocket serverTransport = new TNonblockingServerSocket(port);
             //多线程半同步半异步
             TThreadedSelectorServer.Args tArgs = new TThreadedSelectorServer.Args(serverTransport);
-            TProcessor tprocessor;
-            if(serverInfo.isAsync()){
-                tprocessor = new Jrpc.AsyncProcessor<>(service);
-            } else{
-                tprocessor = new Jrpc.Processor<>(service);
-            }
+            TProcessor tprocessor = new Jrpc.AsyncProcessor<>(service);;
             tArgs.processor(tprocessor);
             tArgs.transportFactory(new TFramedTransport.Factory());
             //设置读的最大参数块 默认最大long，容易引起内存溢出，必须限制

@@ -17,6 +17,7 @@ import com.github.jingshouyan.jrpc.client.discover.DiscoverEvent;
 import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import com.github.jingshouyan.jrpc.client.transport.TransportProvider;
+import io.reactivex.Single;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
@@ -60,7 +61,7 @@ public class JrpcClient implements ActionHandler {
     }
 
     @Override
-    public Rsp handle(Token token, Req req) {
+    public Single<Rsp> handle(Token token, Req req) {
         long start = System.nanoTime();
         log.debug("call rpc token: {}",token);
         log.debug("call rpc req: {}",req);
@@ -95,7 +96,7 @@ public class JrpcClient implements ActionHandler {
         log.debug("call rpc rsp: {}",rsp);
         long end = System.nanoTime();
         log.debug("call rpc use: {}ns", end - start);
-        return rsp;
+        return Single.just(rsp);
     }
 
 }
