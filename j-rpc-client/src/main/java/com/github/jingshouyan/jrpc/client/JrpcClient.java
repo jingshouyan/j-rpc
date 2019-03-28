@@ -65,17 +65,19 @@ public class JrpcClient implements ActionHandler {
         long start = System.nanoTime();
         String server = req.getRouter().getServer();
         String method = req.getMethod();
-        log.debug("call [{}.{}] token: {}", server, method, token);
-        log.debug("call [{}.{}] req: {}", server, method, req);
-        Single<Rsp> single = call(token,req);
-        single = single.doAfterSuccess(rsp -> {
+        ActionHandler handler = (t, r) -> {
+            log.debug("call [{}.{}] token: {}", server, method, token);
+            log.debug("call [{}.{}] req: {}", server, method, req);
+            return this.call(t,r);
+        };
+        for (ActionInterceptor interceptor : ActionInterceptorHolder.getClientInterceptors()) {
+            handler = interceptor.around(token,req,handler);
+        }
+        Single<Rsp> single = handler.handle(token,req).doAfterSuccess(rsp -> {
             long end = System.nanoTime();
             log.debug("call [{}.{}] rsp: {}", server, method, rsp);
             log.debug("call [{}.{}] use: {}ns", server, method, end - start);
         });
-        for (ActionInterceptor interceptor : ActionInterceptorHolder.getClientInterceptors()) {
-            single = interceptor.around(token,req,single);
-        }
         return single;
     }
 

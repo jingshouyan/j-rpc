@@ -12,7 +12,7 @@ import io.reactivex.Single;
 
 public interface ActionInterceptor extends Comparable<ActionInterceptor>{
 
-    Single<Rsp> around(Token token ,Req req ,Single<Rsp> single);
+    ActionHandler around(Token token ,Req req ,ActionHandler handler);
 
     default int order() {
         return 0;

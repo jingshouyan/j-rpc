@@ -4,6 +4,7 @@ import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.TtlCurrentTraceContext;
 import brave.sampler.CountingSampler;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
 import com.github.jingshouyan.jrpc.trace.starter.aop.SpanXTrace;
@@ -70,13 +71,17 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ServerTrace.class)
     ServerTrace serverTrace(Tracing tracing){
-        return new ServerTrace(tracing,properties);
+        ServerTrace serverTrace = new ServerTrace(tracing, properties);
+        ActionInterceptorHolder.addServerInterceptor(serverTrace);
+        return serverTrace;
     }
 
     @Bean
     @ConditionalOnMissingBean(ClientTrace.class)
     ClientTrace clientTrace(Tracing tracing){
-        return new ClientTrace(tracing,properties);
+        ClientTrace clientTrace = new ClientTrace(tracing,properties);
+        ActionInterceptorHolder.addClientInterceptor(clientTrace);
+        return clientTrace;
     }
     @Bean
     @ConditionalOnMissingBean(SpanXTrace.class)

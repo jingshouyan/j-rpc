@@ -81,9 +81,11 @@ public class Rsp {
         sb.append("{\"code\":");
         sb.append(code);
         sb.append(",\"message\":\"");
-        message = message.replace('"','\'');
-        message = message.replace('\n',' ');
-        sb.append(message);
+        if(null != message) {
+            message = message.replace('"','\'');
+            message = message.replace('\n',' ');
+            sb.append(message);
+        }
         sb.append("\"");
         if (result == null && data != null) {
             result = JsonUtil.toJsonString(data);

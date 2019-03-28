@@ -30,17 +30,21 @@ public class ServerActionHandler implements ActionHandler {
     public Single<Rsp> handle(Token token, Req req) {
         long start = System.nanoTime();
         String method = req.getMethod();
-        log.debug("action [{}] token: {}",method,token);
-        log.debug("action [{}] param: {}.",method,req.getParam());
-        Single<Rsp> single = call(token,req);
-        single = single.doAfterSuccess(rsp -> {
+
+        ActionHandler handler = (t,r)-> {
+            log.debug("action [{}] token: {}",method,token);
+            log.debug("action [{}] param: {}.",method,req.getParam());
+            return this.call(t,r);
+        };
+
+        for (ActionInterceptor interceptor : ActionInterceptorHolder.getServerInterceptors()) {
+            handler = interceptor.around(token,req,handler);
+        }
+        Single<Rsp> single = handler.handle(token,req).doAfterSuccess(rsp -> {
             long end = System.nanoTime();
             log.debug("action [{}] end. rsp: {}",req.getMethod(), rsp.json());
             log.debug("action [{}] use {} ns",req.getMethod(), end - start);
         });
-        for (ActionInterceptor interceptor : ActionInterceptorHolder.getServerInterceptors()) {
-            single = interceptor.around(token,req,single);
-        }
         return single;
     }
 

@@ -3,9 +3,12 @@ package com.github.jingshouyan.jrpc.trace.starter.aop;
 import brave.Span;
 import brave.Tracer;
 import brave.Tracing;
+import brave.context.rxjava2.CurrentTraceContextAssemblyTracking;
 import brave.propagation.B3SingleFormat;
 import brave.propagation.TraceContext;
 import brave.propagation.TraceContextOrSamplingFlags;
+import com.github.jingshouyan.jrpc.base.action.ActionHandler;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
@@ -13,6 +16,7 @@ import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.trace.starter.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.starter.constant.TraceConstant;
 import io.reactivex.Single;
+import lombok.AllArgsConstructor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,61 +30,48 @@ import org.springframework.core.annotation.Order;
  */
 @Aspect
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
-public class ServerTrace implements TraceConstant {
+public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
     private TraceProperties properties;
 
-    public ServerTrace(Tracing tracing, TraceProperties properties){
+    public ServerTrace(Tracing tracing,TraceProperties properties){
         this.tracer = tracing.tracer();
         this.properties = properties;
+        CurrentTraceContextAssemblyTracking contextTracking = CurrentTraceContextAssemblyTracking
+                .create(tracing.currentTraceContext());
+        contextTracking.enable();
     }
 
-    @Pointcut("bean(serverActionHandler) && execution(* *.handle(..))")
-    public void aspect() {
-    }
-
-
-    @Around("aspect()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object[] args = joinPoint.getArgs();
-        Token token = (Token)args[0];
-        Req req = (Req) args[1];
+    @Override
+    public ActionHandler around(Token token, Req req, ActionHandler handler) {
         final Span span = span(token.get(HEADER_TRACE));
-        try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
-            span.name(req.getMethod())
-                    .annotate(SR)
-                    .tag(TAG_METHOD,""+req.getMethod())
-                    .tag(TAG_TICKET,""+token.getTicket())
-                    .tag(TAG_USER_ID,""+token.getUserId());
-
-            Object result = joinPoint.proceed();
-            if (result instanceof Single) {
-                Single<Rsp> rspSingle = (Single<Rsp>) result;
-                rspSingle.doAfterSuccess(rsp -> {
-                    span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
-                            .tag(TAG_MESSAGE,"" + rsp.getMessage());
-                    if(properties.isMore() || !rsp.success()){
-                        span.tag(TAG_PARAM,""+req.getParam())
-                                .tag(TAG_DATA,""+rsp.getResult());
-                    }
-                    if(rsp.getCode() != Code.SUCCESS) {
-                        span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
-                    }
-                    span.annotate(SS);
-                    span.finish();
-                });
+        Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
+        span.name(req.getMethod())
+                .annotate(SR)
+                .tag(TAG_METHOD,""+req.getMethod())
+                .tag(TAG_TICKET,""+token.getTicket())
+                .tag(TAG_USER_ID,""+token.getUserId());
+        return (t,r) -> handler.handle(t,r).doAfterSuccess(rsp -> {
+            span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
+                    .tag(TAG_MESSAGE,"" + rsp.getMessage());
+            if(properties.isMore() || !rsp.success()){
+                span.tag(TAG_PARAM,""+req.getParam())
+                        .tag(TAG_DATA,""+rsp.getResult());
             }
-            return result;
-        }catch (Throwable e){
-            span.tag(TAG_ERROR,e.getClass().getSimpleName()+":"+e.getMessage());
+            if(rsp.getCode() != Code.SUCCESS) {
+                span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
+            }
             span.annotate(SS);
             span.finish();
-            throw e;
-        }finally {
-        }
+            spanInScope.close();
+        });
     }
 
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE;
+    }
 
     private Span span(String trace){
         Span currentSpan = tracer.currentSpan();

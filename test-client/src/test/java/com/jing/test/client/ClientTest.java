@@ -69,7 +69,7 @@ public class ClientTest {
 
     @Test
     public void testForward(){
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 1; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("abc");
             strings.add("sdf");

@@ -1,6 +1,7 @@
 package com.github.jingshouyan.forward.starter.aop;
 
 import com.github.jingshouyan.forward.starter.ForwardProperties;
+import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
@@ -27,22 +28,22 @@ public class JrpcForward implements ActionInterceptor {
     private ForwardProperties properties;
 
     @Override
-    public Single<Rsp> around(Token token, Req req, Single<Rsp> single) {
+    public ActionHandler around(Token token, Req req, ActionHandler handler) {
         if(properties.getMethods().containsKey(req.getMethod())) {
             String str = properties.getMethods().get(req.getMethod());
             String[] strings = str.split("\\.");
             String server = strings[0];
             String method = strings[1];
             log.debug("{} forward to {}.{}",req.getMethod(),server,method);
-            return Request.newInstance()
+            return (t,r) -> Request.newInstance()
                     .setClient(client)
                     .setServer(server)
                     .setMethod(method)
-                    .setToken(token)
-                    .setParamJson(req.getParam())
-                    .setOneway(req.isOneway())
+                    .setToken(t)
+                    .setParamJson(r.getParam())
+                    .setOneway(r.isOneway())
                     .asyncSend();
         }
-        return single;
+        return handler;
     }
 }
