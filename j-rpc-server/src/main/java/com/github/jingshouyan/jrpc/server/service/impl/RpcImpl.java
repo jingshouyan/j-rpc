@@ -35,7 +35,7 @@ public class RpcImpl implements Rpc {
 
     @Override
     public void send(TokenBean token, ReqBean req, AsyncMethodCallback<Void> resultHandler) {
-        run(token,req,true);
+        run(token,req,true).subscribe();
     }
 
     private Single<RspBean> run(TokenBean tokenBean, ReqBean reqBean, boolean oneway){
