@@ -1,10 +1,13 @@
 package com.github.jingshouyan.forward.starter.aop;
 
 import com.github.jingshouyan.forward.starter.ForwardProperties;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
+import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
+import io.reactivex.Single;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -17,23 +20,14 @@ import org.aspectj.lang.annotation.Pointcut;
  * #date 2019/1/12 11:25
  */
 @Slf4j
-@Aspect
 @AllArgsConstructor
-public class JrpcForward {
+public class JrpcForward implements ActionInterceptor {
 
     private JrpcClient client;
     private ForwardProperties properties;
 
-    @Pointcut("bean(serverActionHandler) && execution(* *.handle(..))")
-    public void aspect() {
-    }
-
-
-    @Around("aspect()")
-    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        Object[] args = joinPoint.getArgs();
-        Token token = (Token)args[0];
-        Req req = (Req) args[1];
+    @Override
+    public Single<Rsp> around(Token token, Req req, Single<Rsp> single) {
         if(properties.getMethods().containsKey(req.getMethod())) {
             String str = properties.getMethods().get(req.getMethod());
             String[] strings = str.split("\\.");
@@ -49,6 +43,6 @@ public class JrpcForward {
                     .setOneway(req.isOneway())
                     .asyncSend();
         }
-        return joinPoint.proceed();
+        return single;
     }
 }

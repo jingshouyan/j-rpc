@@ -1,6 +1,7 @@
 package com.github.jingshouyan.forward.starter;
 
 import com.github.jingshouyan.forward.starter.aop.JrpcForward;
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
@@ -26,7 +27,9 @@ public class ForwardAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(JrpcForward.class)
     JrpcForward jrpcForward(){
-        return new JrpcForward(client,properties);
+        JrpcForward forward = new JrpcForward(client,properties);
+        ActionInterceptorHolder.addServerInterceptor(forward);
+        return forward;
     }
 
 }
