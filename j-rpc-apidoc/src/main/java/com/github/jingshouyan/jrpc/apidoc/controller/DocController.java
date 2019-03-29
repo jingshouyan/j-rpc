@@ -42,7 +42,7 @@ public class DocController {
 
     @RequestMapping("servers")
     @ResponseBody
-    public Rsp serverMap(){
+    public String serverMap(){
 
         Map<String,List<ServerInfo>> map = jrpcClient.serverMap();
         List<ServerInfo> serverInfos = Lists.newArrayList();
@@ -51,7 +51,7 @@ public class DocController {
                 serverInfos.add(l.get(0));
             }
         }
-        return RspUtil.success(serverInfos);
+        return RspUtil.success(serverInfos).json();
     }
 
     @RequestMapping("server/{server}")
