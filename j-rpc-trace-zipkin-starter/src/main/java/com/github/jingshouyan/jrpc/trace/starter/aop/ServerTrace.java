@@ -43,6 +43,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     public ActionHandler around(Token token, Req req, ActionHandler handler) {
         return (t,r) -> {
             final Span span = span(token.get(HEADER_TRACE));
+
             Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
             span.name(req.getMethod())
                     .annotate(SR)
@@ -51,8 +52,6 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                     .tag(TAG_USER_ID,""+token.getUserId());
 
             Single<Rsp> single = handler.handle(t,r).doOnSuccess(rsp -> {
-                span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
-                        .tag(TAG_MESSAGE,"" + rsp.getMessage());
                 if(properties.isMore() || !rsp.success()){
                     span.tag(TAG_PARAM,""+req.getParam())
                             .tag(TAG_DATA,""+rsp.getResult());
@@ -60,8 +59,15 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                 if(rsp.getCode() != Code.SUCCESS) {
                     span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
                 }
-                span.annotate(SS);
-                span.finish();
+                span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
+                        .tag(TAG_MESSAGE,"" + rsp.getMessage())
+                        .annotate(SS)
+                        .finish();
+                spanInScope.close();
+            }).doOnError(e -> {
+                span.tag(TAG_ERROR,"" + e.getMessage())
+                        .annotate(SS)
+                        .finish();
                 spanInScope.close();
             });
             return single;
@@ -74,10 +80,6 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     }
 
     private Span span(String trace){
-        Span currentSpan = tracer.currentSpan();
-        if(currentSpan != null) {
-            return tracer.newChild(currentSpan.context()).start();
-        }
         if(null != trace){
             TraceContextOrSamplingFlags traceContextOrSamplingFlags =B3SingleFormat.parseB3SingleFormat(trace);
             if(traceContextOrSamplingFlags !=null ){

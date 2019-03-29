@@ -71,6 +71,7 @@ public class ServerActionHandler implements ActionHandler {
                                             emitter.onSuccess(RspUtil.error(Code.SERVER_ERROR));
                                         }
                                     });
+                    return;
                 }
             }catch (JException e){
                 rsp = RspUtil.error(e);

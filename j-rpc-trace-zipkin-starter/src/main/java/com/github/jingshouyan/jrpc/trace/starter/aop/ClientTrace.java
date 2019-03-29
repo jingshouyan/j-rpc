@@ -35,23 +35,27 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
 
         return (t,r) -> {
 
-            final Span span = span();
+            final Span span = span().annotate(CS);
             token.set(HEADER_TRACE,traceId(span));
             Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
             span.name(req.getRouter().getServer()+"."+req.getMethod())
-                    .annotate(CS)
                     .tag(TAG_METHOD,""+req.getMethod())
                     .tag(TAG_TICKET,""+token.getTicket())
                     .tag(TAG_USER_ID,""+token.getUserId());
 
             return handler.handle(t, r).doOnSuccess(rsp -> {
-                span.tag(TAG_CODE, String.valueOf(rsp.getCode()))
-                        .tag(TAG_MESSAGE, "" + rsp.getMessage());
                 if (rsp.getCode() != Code.SUCCESS) {
                     span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());
                 }
-                span.annotate(CR);
-                span.finish();
+                span.tag(TAG_CODE, String.valueOf(rsp.getCode()))
+                        .tag(TAG_MESSAGE, "" + rsp.getMessage())
+                        .annotate(CR)
+                        .finish();
+                spanInScope.close();
+            }).doOnError(e -> {
+                span.tag(TAG_ERROR, "" + e.getMessage())
+                        .annotate(CR)
+                        .finish();
                 spanInScope.close();
             });
         };

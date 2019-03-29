@@ -47,6 +47,9 @@ public class LogInterceptor implements ActionInterceptor {
                 long end = System.nanoTime();
                 log.debug("{} end. rsp: {}", actionInfo, rsp.json());
                 log.debug("{} use {} ns", actionInfo, end - start);
+            }).doOnError(e -> {
+                long end = System.nanoTime();
+                log.debug("{} use {} ns,error", actionInfo, end - start,e);
             });
             return single;
         };
