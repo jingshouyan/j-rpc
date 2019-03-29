@@ -62,9 +62,16 @@ public class ClientTest {
                             .send();
             System.out.println(rsp);
         });
+    }
 
-
-
+    @Test
+    public void traceTest2(){
+        Request.newInstance()
+                .setClient(jrpcClient)
+                .setServer("test")
+                .setMethod("traceTest2")
+                .setParamObj(12)
+                .asyncSend().subscribe(System.out::println);
     }
 
     @Test
