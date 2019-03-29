@@ -152,7 +152,8 @@
 						url: "servers",
 						data: {},
 						success: function(data){
-							cb && cb(data);
+							var resdata = util.isString(data) ? JSON.parse(data): data;
+							cb && cb(resdata);
 						}
 					});
 				},
