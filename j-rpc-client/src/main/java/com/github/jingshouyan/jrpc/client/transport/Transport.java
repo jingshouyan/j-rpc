@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.client.transport;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.transport.TNonblockingSocket;
 import org.apache.thrift.transport.TTransport;
 
 import java.io.Closeable;
@@ -17,20 +18,20 @@ import java.net.Socket;
 public class Transport implements Closeable {
 
     private String key;
-    private TTransport tTransport;
-    private Socket socket;
-    private Jrpc.Client client;
+
+    private Jrpc.AsyncClient asyncClient;
+    private TNonblockingSocket nonblockingSocket;
 
     public boolean isOpen(){
+
         long start = System.nanoTime();
-        if(socket == null) {
+        if(nonblockingSocket == null) {
             return false;
         }
         try {
             for (int i = 0; i < 1; i++) {
-                socket.sendUrgentData(0xFF);
+                nonblockingSocket.getSocketChannel().socket().sendUrgentData(0xFF);
             }
-
             log.debug("test socket connect : open,use: {} ns",System.nanoTime() - start);
             return true;
         } catch (IOException e) {
@@ -41,8 +42,8 @@ public class Transport implements Closeable {
 
     @Override
     public void close() {
-        if(tTransport.isOpen()) {
-            tTransport.close();
+        if(nonblockingSocket.isOpen()) {
+            nonblockingSocket.close();
         }
     }
 }

@@ -8,11 +8,17 @@ import org.apache.commons.pool2.BasePooledObjectFactory;
 import org.apache.commons.pool2.PooledObject;
 import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
+import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TFramedTransport;
+import org.apache.thrift.transport.TNonblockingSocket;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+
+import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 
 /**
@@ -23,6 +29,15 @@ import org.apache.thrift.transport.TTransport;
 public class TransportFactory extends BasePooledObjectFactory<Transport> implements PooledObjectFactory<Transport> {
 
     private ServerInfo serverInfo;
+    private static TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
+    Supplier<TAsyncClientManager> supplier = () -> {
+        try{
+            return new TAsyncClientManager();
+        }catch (Exception e){
+            throw new RuntimeException(e);
+        }
+    };
+    TAsyncClientManager clientManager = supplier.get();
 
     public TransportFactory(ServerInfo serverInfo) {
         this.serverInfo = serverInfo;
@@ -32,22 +47,15 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
     public Transport create() {
         try {
             Transport transport = new Transport();
-            TSocket socket = new TSocket(serverInfo.getHost(), serverInfo.getPort());
-            socket.getSocket().setKeepAlive(true);
-            socket.getSocket().setTcpNoDelay(true);
-            socket.getSocket().setSoLinger(false, 0);
-            socket.setTimeout(serverInfo.getTimeout());
-            TTransport tTransport = new TFramedTransport(socket, serverInfo.getMaxReadBufferBytes());
 
-            tTransport.open();
+            TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(),serverInfo.getTimeout());
+
+            Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory,clientManager,nonblockingSocket);
+            transport.setNonblockingSocket(nonblockingSocket);
+            transport.setAsyncClient(asyncClient);
+
             log.debug("client pool make object success. {}==>{},{}:{}",
                     serverInfo.getName(),serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
-            transport.setKey(serverInfo.getInstance());
-            transport.setTTransport(tTransport);
-            transport.setSocket(socket.getSocket());
-            TProtocol tProtocol = new TBinaryProtocol(transport.getTTransport());
-            Jrpc.Client client = new Jrpc.Client(tProtocol);
-            transport.setClient(client);
             return transport;
         } catch (Exception e) {
             log.warn("client pool make object error.",e);

@@ -19,7 +19,7 @@ public class RspUtil {
     }
 
     public static Rsp error(int code) {
-        return error(code, null, null);
+        return error(code, Code.getMessage(code), null);
     }
     /**
      * @param code 错误码
@@ -51,4 +51,6 @@ public class RspUtil {
         res.setMessage(message);
         return res;
     }
+
+
 }

@@ -20,9 +20,11 @@ import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import com.github.jingshouyan.jrpc.client.transport.TransportProvider;
 import io.reactivex.Single;
+import io.reactivex.SingleEmitter;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.apache.thrift.async.AsyncMethodCallback;
 
 import java.util.List;
 import java.util.Map;
@@ -70,32 +72,64 @@ public class JrpcClient implements ActionHandler {
         return single;
     }
 
-    public Single<Rsp> call(Token token, Req req) {
-        Transport transport = null;
-        Rsp rsp;
-        try{
-            ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
-            transport = transportProvider.get(serverInfo);
-            Jrpc.Client client = transport.getClient();
-            TokenBean tokenBean = token.tokenBean();
-            ReqBean reqBean = req.reqBean();
-            if(req.isOneway()){
-                client.send(tokenBean,reqBean);
-                rsp = RspUtil.success();
-            }else{
-                RspBean rspBean = client.call(tokenBean,reqBean);
-                rsp = new Rsp(rspBean);
+    private Single<Rsp> call(Token token, Req req) {
+        return Single.create(emitter -> {
+            Transport transport = null;
+            Rsp rsp;
+            try{
+                ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
+                transport = transportProvider.get(serverInfo);
+                Jrpc.AsyncClient client = transport.getAsyncClient();
+                TokenBean tokenBean = token.tokenBean();
+                ReqBean reqBean = req.reqBean();
+                if(req.isOneway()){
+                    client.send(tokenBean, reqBean, new AsyncMethodCallback<Void>() {
+                        @Override
+                        public void onComplete(Void aVoid) {
+                            emitter.onSuccess(RspUtil.success());
+                        }
+                        @Override
+                        public void onError(Exception e) {
+                            JrpcClient.onError(emitter,e);
+                        }
+                    });
+                }else{
+                    client.call(tokenBean, reqBean, new AsyncMethodCallback<RspBean>() {
+                        @Override
+                        public void onComplete(RspBean rspBean) {
+                            Rsp rsp1 = new Rsp(rspBean);
+                            emitter.onSuccess(rsp1);
+                        }
+
+                        @Override
+                        public void onError(Exception e) {
+                            JrpcClient.onError(emitter,e);
+                        }
+                    });
+                }
+                return;
+            }catch (JException e) {
+                transportProvider.restore(transport);
+                rsp = RspUtil.error(e);
+            } catch (Exception e) {
+                log.error("call rpc error.",e);
+                transportProvider.invalid(transport);
+                rsp = RspUtil.error(Code.CLIENT_ERROR);
             }
-            transportProvider.restore(transport);
-        }catch (JException e) {
-            transportProvider.restore(transport);
-            rsp = RspUtil.error(e);
-        } catch (Exception e) {
-            log.error("call rpc error.",e);
-            transportProvider.invalid(transport);
+            emitter.onSuccess(rsp);
+        });
+    }
+
+
+    private static void onError(SingleEmitter<Rsp> emitter,Exception e) {
+        Rsp rsp;
+        if(e instanceof JException) {
+            rsp = RspUtil.error((JException)e);
+        } else {
             rsp = RspUtil.error(Code.CLIENT_ERROR);
+            log.error("call rpc error.",e);
         }
-        return Single.just(rsp);
+        emitter.onSuccess(rsp);
     }
 
 }

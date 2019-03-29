@@ -5,6 +5,7 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
 import com.google.common.collect.Lists;
+import lombok.SneakyThrows;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -65,13 +66,20 @@ public class ClientTest {
     }
 
     @Test
+    @SneakyThrows
     public void traceTest2(){
-        Request.newInstance()
-                .setClient(jrpcClient)
-                .setServer("test")
-                .setMethod("traceTest2")
-                .setParamObj(12)
-                .asyncSend().subscribe(System.out::println);
+        IntStream.rangeClosed(0,110)
+//                .parallel()
+                .forEach(i -> {
+                    Request.newInstance()
+                            .setClient(jrpcClient)
+                            .setServer("test")
+                            .setMethod("traceTest2")
+                            .setParamObj(3)
+                            .asyncSend().subscribe(System.out::println);
+                });
+
+        Thread.sleep(5000);
     }
 
     @Test
