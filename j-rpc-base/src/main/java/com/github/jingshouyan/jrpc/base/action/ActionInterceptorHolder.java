@@ -21,12 +21,12 @@ public class ActionInterceptorHolder {
         return SERVER_INTERCEPTORS;
     }
 
-    public static void addClientInterceptor(ActionInterceptor interceptor) {
+    public static synchronized void addClientInterceptor(ActionInterceptor interceptor) {
         CLIENT_INTERCEPTORS.add(interceptor);
         Collections.sort(CLIENT_INTERCEPTORS);
     }
 
-    public static void addServerInterceptor(ActionInterceptor interceptor) {
+    public static synchronized void addServerInterceptor(ActionInterceptor interceptor) {
         SERVER_INTERCEPTORS.add(interceptor);
         Collections.sort(SERVER_INTERCEPTORS);
     }

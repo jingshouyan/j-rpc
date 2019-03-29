@@ -10,10 +10,12 @@ import brave.propagation.TraceContextOrSamplingFlags;
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
+import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.trace.starter.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.starter.constant.TraceConstant;
+import io.reactivex.Single;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -39,27 +41,31 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     @Override
     public ActionHandler around(Token token, Req req, ActionHandler handler) {
-        final Span span = span(token.get(HEADER_TRACE));
-        Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
-        span.name(req.getMethod())
-                .annotate(SR)
-                .tag(TAG_METHOD,""+req.getMethod())
-                .tag(TAG_TICKET,""+token.getTicket())
-                .tag(TAG_USER_ID,""+token.getUserId());
-        return (t,r) -> handler.handle(t,r).doAfterSuccess(rsp -> {
-            span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
-                    .tag(TAG_MESSAGE,"" + rsp.getMessage());
-            if(properties.isMore() || !rsp.success()){
-                span.tag(TAG_PARAM,""+req.getParam())
-                        .tag(TAG_DATA,""+rsp.getResult());
-            }
-            if(rsp.getCode() != Code.SUCCESS) {
-                span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
-            }
-            span.annotate(SS);
-            span.finish();
-            spanInScope.close();
-        });
+        return (t,r) -> {
+            final Span span = span(token.get(HEADER_TRACE));
+            Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
+            span.name(req.getMethod())
+                    .annotate(SR)
+                    .tag(TAG_METHOD,""+req.getMethod())
+                    .tag(TAG_TICKET,""+token.getTicket())
+                    .tag(TAG_USER_ID,""+token.getUserId());
+
+            Single<Rsp> single = handler.handle(t,r).doOnSuccess(rsp -> {
+                span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
+                        .tag(TAG_MESSAGE,"" + rsp.getMessage());
+                if(properties.isMore() || !rsp.success()){
+                    span.tag(TAG_PARAM,""+req.getParam())
+                            .tag(TAG_DATA,""+rsp.getResult());
+                }
+                if(rsp.getCode() != Code.SUCCESS) {
+                    span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
+                }
+                span.annotate(SS);
+                span.finish();
+                spanInScope.close();
+            });
+            return single;
+        };
     }
 
     @Override

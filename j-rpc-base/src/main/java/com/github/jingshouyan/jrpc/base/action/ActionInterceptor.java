@@ -13,10 +13,18 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor>{
     ActionHandler around(Token token ,Req req ,ActionHandler handler);
 
     default int order() {
-        return 0;
+        return 10;
     }
 
     default int compareTo(ActionInterceptor that) {
-        return this.order() - that.order();
+        int a = this.order();
+        int b = that.order();
+        if(a == b){
+            return 0;
+        }else if(a > b) {
+            return 1;
+        }else {
+            return -1;
+        }
     }
 }
