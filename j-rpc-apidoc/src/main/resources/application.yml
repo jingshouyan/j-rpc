@@ -6,3 +6,4 @@ server:
 j-rpc:
   trace:
     more: true
+    rate: 1.0

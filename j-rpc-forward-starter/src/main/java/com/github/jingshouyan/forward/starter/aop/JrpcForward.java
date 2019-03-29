@@ -46,4 +46,9 @@ public class JrpcForward implements ActionInterceptor {
         }
         return handler;
     }
+
+    @Override
+    public int order() {
+        return Integer.MIN_VALUE + 1;
+    }
 }

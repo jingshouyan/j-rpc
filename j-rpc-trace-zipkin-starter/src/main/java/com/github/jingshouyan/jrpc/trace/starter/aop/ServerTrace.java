@@ -70,7 +70,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE;
+        return Integer.MAX_VALUE;
     }
 
     private Span span(String trace){

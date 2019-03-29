@@ -30,4 +30,11 @@ public class ActionInterceptorHolder {
         SERVER_INTERCEPTORS.add(interceptor);
         Collections.sort(SERVER_INTERCEPTORS);
     }
+
+    static {
+        LogInterceptor serverLog = new LogInterceptor(true);
+        LogInterceptor clientLog = new LogInterceptor(false);
+        addServerInterceptor(serverLog);
+        addClientInterceptor(clientLog);
+    }
 }

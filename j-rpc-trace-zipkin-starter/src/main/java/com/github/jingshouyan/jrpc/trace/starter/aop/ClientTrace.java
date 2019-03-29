@@ -100,6 +100,10 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
         }
     }
 
+    @Override
+    public int order() {
+        return Integer.MAX_VALUE;
+    }
 
     private Span span(){
         Span currentSpan = tracer.currentSpan();
