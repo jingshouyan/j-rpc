@@ -49,38 +49,40 @@ public class ServerActionHandler implements ActionHandler {
     }
 
     private Single<Rsp> call(Token token, Req req) {
-        Rsp rsp = null;
-        String methodName = req.getMethod();
-        String param = req.getParam();
-        if(null == param){
-            param = "{}";
-        }
-        try{
-            BaseMethod baseMethod = MethodHolder.getMethod(methodName);
-            Type clazz = baseMethod.getInputType();
-            Object obj;
-            try {
-                obj = JsonUtil.toBean(param, clazz);
+        return Single.create(emitter -> {
+            Rsp rsp = null;
+            String methodName = req.getMethod();
+            String param = req.getParam();
+            if(null == param){
+                param = "{}";
+            }
+            try{
+                BaseMethod baseMethod = MethodHolder.getMethod(methodName);
+                Type clazz = baseMethod.getInputType();
+                Object obj;
+                try {
+                    obj = JsonUtil.toBean(param, clazz);
+                }catch (Exception e){
+                    throw new JException(Code.JSON_PARSE_ERROR,e);
+                }
+                baseMethod.validate(obj);
+                if(baseMethod instanceof Method) {
+                    Method method = (Method) baseMethod;
+                    Object data = method.action(token,obj);
+                    rsp = RspUtil.success(data);
+                } else if(baseMethod instanceof AsyncMethod){
+                    AsyncMethod asyncMethod = (AsyncMethod) baseMethod;
+                    Single<?> single = asyncMethod.action(token,obj);
+                    single.map(RspUtil::success).subscribe(emitter::onSuccess);
+                }
+            }catch (JException e){
+                rsp = RspUtil.error(e);
             }catch (Exception e){
-                throw new JException(Code.JSON_PARSE_ERROR,e);
+                log.error("call [{}] error.",methodName,e);
+                rsp = RspUtil.error(Code.SERVER_ERROR);
             }
-            baseMethod.validate(obj);
-            if(baseMethod instanceof Method) {
-                Method method = (Method) baseMethod;
-                Object data = method.action(token,obj);
-                rsp = RspUtil.success(data);
-            } else if(baseMethod instanceof AsyncMethod){
-                AsyncMethod asyncMethod = (AsyncMethod) baseMethod;
-                Single<?> single = asyncMethod.action(token,obj);
-                return single.map(RspUtil::success);
-            }
-        }catch (JException e){
-            rsp = RspUtil.error(e);
-        }catch (Exception e){
-            log.error("call [{}] error.",methodName,e);
-            rsp = RspUtil.error(Code.SERVER_ERROR);
-        }
-        return Single.just(rsp);
+            emitter.onSuccess(rsp);
+        });
     }
 
 }
