@@ -67,6 +67,19 @@ public class ClientTest {
 
     @Test
     @SneakyThrows
+    public void asyncErr(){
+        Request.newInstance()
+                .setClient(jrpcClient)
+                .setServer("test")
+                .setMethod("asyncErr")
+                .setParamObj(12)
+                .asyncSend()
+                .subscribe(System.err::println);
+        Thread.sleep(1000);
+    }
+
+    @Test
+    @SneakyThrows
     public void traceTest2(){
         IntStream.rangeClosed(0,110)
 //                .parallel()
