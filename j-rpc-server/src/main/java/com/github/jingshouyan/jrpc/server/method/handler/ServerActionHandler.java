@@ -61,7 +61,16 @@ public class ServerActionHandler implements ActionHandler {
                 } else if(baseMethod instanceof AsyncMethod){
                     AsyncMethod asyncMethod = (AsyncMethod) baseMethod;
                     Single<?> single = asyncMethod.action(token,obj);
-                    single.map(RspUtil::success).subscribe(emitter::onSuccess);
+                    single.map(RspUtil::success)
+                            .subscribe(emitter::onSuccess,
+                                    e -> {
+                                        if (e instanceof JException) {
+                                            emitter.onSuccess(RspUtil.error((JException) e));
+                                        } else {
+                                            log.error("call [{}] error.",methodName,e);
+                                            emitter.onSuccess(RspUtil.error(Code.SERVER_ERROR));
+                                        }
+                                    });
                 }
             }catch (JException e){
                 rsp = RspUtil.error(e);
