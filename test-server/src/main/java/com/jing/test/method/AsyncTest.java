@@ -2,7 +2,6 @@ package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
-import io.reactivex.Scheduler;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import lombok.extern.slf4j.Slf4j;

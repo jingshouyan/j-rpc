@@ -4,11 +4,9 @@ import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.transport.TNonblockingSocket;
-import org.apache.thrift.transport.TTransport;
 
 import java.io.Closeable;
 import java.io.IOException;
-import java.net.Socket;
 
 /**
  * @author jingshouyan

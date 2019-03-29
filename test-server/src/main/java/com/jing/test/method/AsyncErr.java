@@ -1,10 +1,8 @@
 package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import com.github.jingshouyan.jrpc.base.exception.JException;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
 import io.reactivex.Single;
-import io.reactivex.schedulers.Schedulers;
 import org.springframework.stereotype.Component;
 
 /**

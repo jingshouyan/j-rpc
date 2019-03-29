@@ -10,14 +10,9 @@ import org.apache.commons.pool2.PooledObjectFactory;
 import org.apache.commons.pool2.impl.DefaultPooledObject;
 import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.protocol.TBinaryProtocol;
-import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
-import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingSocket;
-import org.apache.thrift.transport.TSocket;
-import org.apache.thrift.transport.TTransport;
 
-import java.util.function.Consumer;
 import java.util.function.Supplier;
 
 
