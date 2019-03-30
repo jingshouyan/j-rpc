@@ -21,7 +21,6 @@ import java.util.concurrent.Executors;
 @Component("traceTest2")
 public class TraceTest2 implements AsyncMethod<Integer,Integer> {
 
-    public static final ExecutorService exec = Executors.newFixedThreadPool(20,new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
 
     @Autowired
     ServerProperties properties;
@@ -33,20 +32,14 @@ public class TraceTest2 implements AsyncMethod<Integer,Integer> {
     public Single<Integer> action(Token token, Integer i) {
         return Single.fromCallable(()-> {
             if(i!=null && i>0){
-                exec.execute(
-                        () -> {
-                            for (int j = 0; j < 2; j++) {
-                                Request.newInstance().setClient(client)
-                                        .setServer(properties.getName())
-                                        .setMethod("traceTest2")
-                                        .setParamObj(i-1)
-                                        .setOneway(true)
-                                        .asyncSend().subscribe();
-                            }
-
-                        }
-                );
-
+                for (int j = 0; j < 2; j++) {
+                    Request.newInstance().setClient(client)
+                            .setServer(properties.getName())
+                            .setMethod("traceTest2")
+                            .setParamObj(i-1)
+                            .setOneway(true)
+                            .asyncSend().subscribe();
+                }
             }
             return i;
         }).subscribeOn(Schedulers.io());

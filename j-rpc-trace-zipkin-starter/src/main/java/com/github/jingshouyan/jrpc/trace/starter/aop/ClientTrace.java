@@ -37,27 +37,29 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
 
             final Span span = span().annotate(CS);
             token.set(HEADER_TRACE,traceId(span));
-            Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
-            span.name(req.getRouter().getServer()+"."+req.getMethod())
-                    .tag(TAG_METHOD,""+req.getMethod())
-                    .tag(TAG_TICKET,""+token.getTicket())
-                    .tag(TAG_USER_ID,""+token.getUserId());
+            try(Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
+                span.name(req.getRouter().getServer()+"."+req.getMethod())
+                        .tag(TAG_METHOD,""+req.getMethod())
+                        .tag(TAG_TICKET,""+token.getTicket())
+                        .tag(TAG_USER_ID,""+token.getUserId());
+                return handler.handle(t, r).doOnSuccess(rsp -> {
+                    if (rsp.getCode() != Code.SUCCESS) {
+                        span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());
+                    }
+                    span.tag(TAG_CODE, String.valueOf(rsp.getCode()))
+                            .tag(TAG_MESSAGE, "" + rsp.getMessage())
+                            .annotate(CR)
+                            .finish();
+//                    spanInScope.close();
+                }).doOnError(e -> {
+                    span.tag(TAG_ERROR, "" + e.getMessage())
+                            .annotate(CR)
+                            .finish();
+//                    spanInScope.close();
+                });
+            }
 
-            return handler.handle(t, r).doOnSuccess(rsp -> {
-                if (rsp.getCode() != Code.SUCCESS) {
-                    span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());
-                }
-                span.tag(TAG_CODE, String.valueOf(rsp.getCode()))
-                        .tag(TAG_MESSAGE, "" + rsp.getMessage())
-                        .annotate(CR)
-                        .finish();
-                spanInScope.close();
-            }).doOnError(e -> {
-                span.tag(TAG_ERROR, "" + e.getMessage())
-                        .annotate(CR)
-                        .finish();
-                spanInScope.close();
-            });
+
         };
     }
 

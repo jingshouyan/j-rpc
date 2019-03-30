@@ -50,16 +50,16 @@ public class ClientTest {
         List<UserBean> userBeans1 = rsp.get(List.class,UserBean.class); //也可以使用 get 带泛型的反序列化
     }
 
-//    @Test
+    @Test
     public void test() {
-        IntStream.rangeClosed(0,0)
+        IntStream.rangeClosed(0,10)
 //                .parallel()
                 .forEach(i -> {
                     Rsp rsp = Request.newInstance()
                             .setClient(jrpcClient)
                             .setServer("test")
                             .setMethod("traceTest")
-                            .setParamObj(12)
+                            .setParamObj(3)
                             .send();
             System.out.println(rsp);
         });
