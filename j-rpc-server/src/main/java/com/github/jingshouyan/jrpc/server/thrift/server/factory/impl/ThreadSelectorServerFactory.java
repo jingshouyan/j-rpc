@@ -1,8 +1,9 @@
-package com.github.jingshouyan.jrpc.server.thrift.server;
+package com.github.jingshouyan.jrpc.server.thrift.server.factory.impl;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
+import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TProcessor;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -16,7 +17,7 @@ import org.apache.thrift.transport.TNonblockingServerSocket;
  * #date 2018/10/24 23:53
  */
 @Slf4j
-public class ThreadSelectorServer implements Server{
+public class ThreadSelectorServerFactory implements ServerFactory {
 
 
     @Override
@@ -30,7 +31,7 @@ public class ThreadSelectorServer implements Server{
             TNonblockingServerSocket serverTransport = new TNonblockingServerSocket(port);
             //多线程半同步半异步
             TThreadedSelectorServer.Args tArgs = new TThreadedSelectorServer.Args(serverTransport);
-            TProcessor tprocessor = new Jrpc.AsyncProcessor<>(service);;
+            TProcessor tprocessor = new Jrpc.AsyncProcessor<>(service);
             tArgs.processor(tprocessor);
             tArgs.transportFactory(new TFramedTransport.Factory());
             //设置读的最大参数块 默认最大long，容易引起内存溢出，必须限制

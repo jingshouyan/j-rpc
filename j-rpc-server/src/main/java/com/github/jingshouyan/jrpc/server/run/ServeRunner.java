@@ -4,7 +4,7 @@ import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
-import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
+import com.github.jingshouyan.jrpc.server.thrift.server.factory.util.ServerFactoryUtil;
 import com.github.jingshouyan.jrpc.server.thrift.server.register.Register;
 import com.github.jingshouyan.jrpc.server.thrift.server.register.ZkRegister;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -69,7 +69,7 @@ public class ServeRunner {
 
     private void initServer() {
         if(serverInfo != null && rpc != null){
-            this.tserver = ServerFactory.getServer().getServer(rpc,serverInfo);
+            this.tserver = ServerFactoryUtil.getFactory().getServer(rpc,serverInfo);
         }
     }
 
