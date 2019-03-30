@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.client.transport;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.thrift.async.TAsyncClientManager;
 import org.apache.thrift.transport.TNonblockingSocket;
 
 import java.io.Closeable;
@@ -19,6 +20,7 @@ public class Transport implements Closeable {
 
     private Jrpc.AsyncClient asyncClient;
     private TNonblockingSocket nonblockingSocket;
+    private TAsyncClientManager clientManager;
 
     public boolean isOpen(){
 
@@ -40,6 +42,7 @@ public class Transport implements Closeable {
 
     @Override
     public void close() {
+        clientManager.stop();
         if(nonblockingSocket.isOpen()) {
             nonblockingSocket.close();
         }

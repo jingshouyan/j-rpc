@@ -25,14 +25,6 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
 
     private ServerInfo serverInfo;
     private static TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
-    Supplier<TAsyncClientManager> supplier = () -> {
-        try{
-            return new TAsyncClientManager();
-        }catch (Exception e){
-            throw new RuntimeException(e);
-        }
-    };
-    TAsyncClientManager clientManager = supplier.get();
 
     public TransportFactory(ServerInfo serverInfo) {
         this.serverInfo = serverInfo;
@@ -45,11 +37,11 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
             transport.setKey(serverInfo.getInstance());
 
             TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(),serverInfo.getTimeout());
-//            TAsyncClientManager clientManager = new TAsyncClientManager();
+            TAsyncClientManager clientManager = new TAsyncClientManager();
             Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory,clientManager,nonblockingSocket);
             transport.setNonblockingSocket(nonblockingSocket);
             transport.setAsyncClient(asyncClient);
-
+            transport.setClientManager(clientManager);
             log.debug("client pool make object success. {}==>{},{}:{}",
                     serverInfo.getName(),serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
             return transport;

@@ -5,7 +5,9 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
 import com.google.common.collect.Lists;
+import io.reactivex.schedulers.Schedulers;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -22,6 +24,7 @@ import java.util.stream.IntStream;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringBootTest(classes = App.class)
+@Slf4j
 public class ClientTest {
     @Resource
     private JrpcClient jrpcClient;
@@ -82,7 +85,7 @@ public class ClientTest {
     @Test
     @SneakyThrows
     public void traceTest2(){
-        IntStream.rangeClosed(0,0)
+        IntStream.rangeClosed(0,100)
 //                .parallel()
                 .forEach(i -> {
                     Request.newInstance()
@@ -90,10 +93,20 @@ public class ClientTest {
                             .setServer("test")
                             .setMethod("traceTest2")
                             .setParamObj(9)
-                            .asyncSend().subscribe(System.out::println);
+                            .asyncSend()
+                            .subscribeOn(Schedulers.newThread())
+                            .subscribe(rsp ->{
+                                        try{
+                                           Thread.sleep(1000);
+                                        }catch (Exception e) {
+                                            e.printStackTrace();
+                                        }
+                                        log.info("--------->>{}",rsp);
+                                    }
+                            );
                 });
 
-        Thread.sleep(5000);
+        Thread.sleep(500000000);
     }
 
     @Test
@@ -124,17 +137,17 @@ public class ClientTest {
 
     @Test
     public void testForward(){
-        for (int i = 0; i < 1000; i++) {
+        for (int i = 0; i < 100000; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("abc");
             strings.add("sdf");
-            Rsp rsp = Request.newInstance()
+            Request.newInstance()
                     .setClient(jrpcClient)
                     .setServer("forward")
                     .setMethod("forwardTest")
                     .setParamObj(strings)
 //                .setOneway(true)
-                    .send();
+                    .asyncSend().subscribe(System.err::println);
         }
 
     }
