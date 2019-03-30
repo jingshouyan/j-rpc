@@ -1,7 +1,6 @@
 package com.github.jingshouyan.jrpc.apidoc.controller;
 
 import brave.Tracing;
-import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.client.JrpcClient;

@@ -13,8 +13,6 @@ import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TNonblockingSocket;
 
-import java.util.function.Supplier;
-
 
 /**
  * @author jingshouyan
