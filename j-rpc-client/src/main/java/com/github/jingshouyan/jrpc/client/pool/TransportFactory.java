@@ -42,9 +42,10 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
     public Transport create() {
         try {
             Transport transport = new Transport();
+            transport.setKey(serverInfo.getInstance());
 
             TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(),serverInfo.getTimeout());
-
+//            TAsyncClientManager clientManager = new TAsyncClientManager();
             Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory,clientManager,nonblockingSocket);
             transport.setNonblockingSocket(nonblockingSocket);
             transport.setAsyncClient(asyncClient);

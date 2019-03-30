@@ -42,7 +42,7 @@ public class TraceTest2 implements AsyncMethod<Integer,Integer> {
                 }
             }
             return i;
-        }).subscribeOn(Schedulers.io());
+        });
 
     }
 }

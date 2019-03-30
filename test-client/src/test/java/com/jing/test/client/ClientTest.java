@@ -68,11 +68,12 @@ public class ClientTest {
     @Test
     @SneakyThrows
     public void asyncErr(){
+        for(int i = 0;i<1000;i++)
         Request.newInstance()
                 .setClient(jrpcClient)
                 .setServer("test")
                 .setMethod("asyncErr")
-                .setParamObj(12)
+                .setParamObj(i)
                 .asyncSend()
                 .subscribe(System.err::println);
         Thread.sleep(1000);
@@ -81,7 +82,7 @@ public class ClientTest {
     @Test
     @SneakyThrows
     public void traceTest2(){
-        IntStream.rangeClosed(0,110)
+        IntStream.rangeClosed(0,1100)
 //                .parallel()
                 .forEach(i -> {
                     Request.newInstance()
@@ -93,6 +94,37 @@ public class ClientTest {
                 });
 
         Thread.sleep(5000);
+    }
+
+    @Test
+    public void t2() {
+//        Request.newInstance()
+//                .setClient(jrpcClient)
+//                .setServer("test")
+//                .setMethod("traceTest2")
+//                .setParamObj(3)
+//                .asyncSend().subscribe(System.out::println);
+        Request.newInstance()
+                .setClient(jrpcClient)
+                .setServer("test")
+                .setMethod("traceTest2")
+                .setParamObj(3)
+                .asyncSend()
+//                .subscribe();
+                .subscribe(rsp -> {
+                    System.err.println(rsp);
+                    Request.newInstance()
+                            .setClient(jrpcClient)
+                            .setServer("test")
+                            .setMethod("traceTest")
+                            .setParamObj(2)
+                            .asyncSend()
+                            .subscribe();
+                });
+
+        try{
+            Thread.sleep(5000);
+        }catch (Exception e){}
     }
 
     @Test

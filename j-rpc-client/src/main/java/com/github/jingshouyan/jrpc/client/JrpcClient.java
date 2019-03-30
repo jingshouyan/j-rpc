@@ -79,6 +79,8 @@ public class JrpcClient implements ActionHandler {
             try{
                 ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
                 transport = transportProvider.get(serverInfo);
+                // 必须在接收完数据才能放连接池.
+                Transport transport2 = transport;
                 Jrpc.AsyncClient client = transport.getAsyncClient();
                 TokenBean tokenBean = token.tokenBean();
                 ReqBean reqBean = req.reqBean();
@@ -86,10 +88,12 @@ public class JrpcClient implements ActionHandler {
                     client.send(tokenBean, reqBean, new AsyncMethodCallback<Void>() {
                         @Override
                         public void onComplete(Void aVoid) {
+                            transportProvider.restore(transport2);
                             emitter.onSuccess(RspUtil.success());
                         }
                         @Override
                         public void onError(Exception e) {
+                            transportProvider.invalid(transport2);
                             JrpcClient.onError(emitter,e);
                         }
                     });
@@ -97,16 +101,18 @@ public class JrpcClient implements ActionHandler {
                     client.call(tokenBean, reqBean, new AsyncMethodCallback<RspBean>() {
                         @Override
                         public void onComplete(RspBean rspBean) {
-                            Rsp rsp1 = new Rsp(rspBean);
-                            emitter.onSuccess(rsp1);
+                            transportProvider.restore(transport2);
+                            emitter.onSuccess(new Rsp(rspBean));
                         }
 
                         @Override
                         public void onError(Exception e) {
+                            transportProvider.invalid(transport2);
                             JrpcClient.onError(emitter,e);
                         }
                     });
                 }
+
                 return;
             }catch (JException e) {
                 transportProvider.restore(transport);
