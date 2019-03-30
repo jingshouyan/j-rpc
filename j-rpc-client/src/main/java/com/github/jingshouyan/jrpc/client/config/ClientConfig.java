@@ -11,6 +11,6 @@ public class ClientConfig {
     private String zkHost = "127.0.0.1:2181";
     private String zkRoot = "/com.github.jingshouyan.jrpc";;
     private int poolMinIdle = 10;
-    private int poolMaxIdle = 50;
-    private int poolMaxTotal = 200;
+    private int poolMaxIdle = 200;
+    private int poolMaxTotal = 2000;
 }

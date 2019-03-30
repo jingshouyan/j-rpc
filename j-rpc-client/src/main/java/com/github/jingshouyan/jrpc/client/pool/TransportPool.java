@@ -17,6 +17,8 @@ public class TransportPool implements Closeable {
     @Getter
     private ServerInfo serverInfo;
 
+    private static final int BORROW_TIMEOUT = 3000;
+
     public TransportPool(ServerInfo serverInfo, GenericObjectPoolConfig conf){
         this.serverInfo = serverInfo;
         if(innerPool!=null){
@@ -31,7 +33,7 @@ public class TransportPool implements Closeable {
      * @throws Exception
      */
     public Transport get() throws Exception{
-        return innerPool.borrowObject();
+        return innerPool.borrowObject(BORROW_TIMEOUT);
     }
 
     /**

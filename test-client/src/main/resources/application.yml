@@ -3,8 +3,8 @@ j-rpc:
     zkHost: 127.0.0.1:2181 # zk 连接地址 default：127.0.0.1:2181
     zkRoot: /com.github.jingshouyan.jrpc #zk 服务注册根目录
     poolMinIdle: 10 # 连接池配置
-    poolMaxIdle: 50
-    poolMaxTotal: 200
+    poolMaxIdle: 200
+    poolMaxTotal: 2000
 
   trace:
     more: true

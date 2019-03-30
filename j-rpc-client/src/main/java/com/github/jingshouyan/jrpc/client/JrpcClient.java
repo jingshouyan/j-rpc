@@ -49,6 +49,7 @@ public class JrpcClient implements ActionHandler {
         cfg.setMaxIdle(config.getPoolMaxIdle());
         cfg.setMaxTotal(config.getPoolMaxTotal());
         cfg.setTestWhileIdle(true);
+
         cfg.setTimeBetweenEvictionRunsMillis(10000);
         this.transportProvider = new TransportProvider(cfg);
         zkDiscover.addListener((event, serverInfo) -> {

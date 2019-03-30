@@ -82,14 +82,14 @@ public class ClientTest {
     @Test
     @SneakyThrows
     public void traceTest2(){
-        IntStream.rangeClosed(0,1100)
+        IntStream.rangeClosed(0,0)
 //                .parallel()
                 .forEach(i -> {
                     Request.newInstance()
                             .setClient(jrpcClient)
                             .setServer("test")
                             .setMethod("traceTest2")
-                            .setParamObj(3)
+                            .setParamObj(9)
                             .asyncSend().subscribe(System.out::println);
                 });
 
@@ -98,12 +98,7 @@ public class ClientTest {
 
     @Test
     public void t2() {
-//        Request.newInstance()
-//                .setClient(jrpcClient)
-//                .setServer("test")
-//                .setMethod("traceTest2")
-//                .setParamObj(3)
-//                .asyncSend().subscribe(System.out::println);
+        for(int i = 0;i<1000;i++)
         Request.newInstance()
                 .setClient(jrpcClient)
                 .setServer("test")
