@@ -22,10 +22,12 @@ import org.apache.thrift.transport.TNonblockingSocket;
 public class TransportFactory extends BasePooledObjectFactory<Transport> implements PooledObjectFactory<Transport> {
 
     private ServerInfo serverInfo;
+    private TAsyncClientManager clientManager;
     private static TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 
-    public TransportFactory(ServerInfo serverInfo) {
+    public TransportFactory(ServerInfo serverInfo,TAsyncClientManager clientManager) {
         this.serverInfo = serverInfo;
+        this.clientManager = clientManager;
     }
 
     @Override
@@ -35,11 +37,9 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
             transport.setKey(serverInfo.getInstance());
 
             TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(),serverInfo.getTimeout());
-            TAsyncClientManager clientManager = new TAsyncClientManager();
             Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory,clientManager,nonblockingSocket);
             transport.setNonblockingSocket(nonblockingSocket);
             transport.setAsyncClient(asyncClient);
-            transport.setClientManager(clientManager);
             log.debug("client pool make object success. {}==>{},{}:{}",
                     serverInfo.getName(),serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
             return transport;

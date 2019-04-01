@@ -20,7 +20,6 @@ public class Transport implements Closeable {
 
     private Jrpc.AsyncClient asyncClient;
     private TNonblockingSocket nonblockingSocket;
-    private TAsyncClientManager clientManager;
 
     public boolean isOpen(){
 
@@ -42,7 +41,6 @@ public class Transport implements Closeable {
 
     @Override
     public void close() {
-        clientManager.stop();
         if(nonblockingSocket.isOpen()) {
             nonblockingSocket.close();
         }

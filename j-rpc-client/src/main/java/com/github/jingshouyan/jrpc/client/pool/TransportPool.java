@@ -3,10 +3,13 @@ package com.github.jingshouyan.jrpc.client.pool;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.Getter;
+import lombok.SneakyThrows;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
+import org.apache.thrift.async.TAsyncClientManager;
 
 import java.io.Closeable;
+import java.util.function.Supplier;
 
 /**
  * @author jingshouyan
@@ -17,14 +20,18 @@ public class TransportPool implements Closeable {
     @Getter
     private ServerInfo serverInfo;
 
+    private TAsyncClientManager clientManager;
+
     private static final int BORROW_TIMEOUT = 3000;
 
+    @SneakyThrows
     public TransportPool(ServerInfo serverInfo, GenericObjectPoolConfig conf){
         this.serverInfo = serverInfo;
         if(innerPool!=null){
             innerPool.close();
         }
-        innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo),conf);
+        clientManager = new TAsyncClientManager();
+        innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo,clientManager),conf);
     }
 
     /**
@@ -55,6 +62,7 @@ public class TransportPool implements Closeable {
 
     @Override
     public void close() {
+        clientManager.stop();
         innerPool.close();
     }
 }

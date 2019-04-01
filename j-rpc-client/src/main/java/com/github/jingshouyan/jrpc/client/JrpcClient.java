@@ -19,6 +19,7 @@ import com.github.jingshouyan.jrpc.client.discover.DiscoverEvent;
 import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import com.github.jingshouyan.jrpc.client.transport.TransportProvider;
+import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
 import lombok.Getter;
@@ -28,19 +29,24 @@ import org.apache.thrift.async.AsyncMethodCallback;
 
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.*;
+import java.util.function.BiConsumer;
+import java.util.function.BiFunction;
 
 /**
  * @author jingshouyan
  * #date 2018/10/26 9:42
  */
 @Slf4j
-@Getter
 public class JrpcClient implements ActionHandler {
 
     private ClientConfig config;
     private ZkDiscover zkDiscover;
-    private TransportProvider transportProvider;
+    private final TransportProvider transportProvider;
 
+    private final ExecutorService callbackExec;
+    private final BiConsumer<SingleEmitter<Rsp>,Rsp> success;
+    private final BiConsumer<SingleEmitter<Rsp>,Exception> error;
     public JrpcClient(ClientConfig config){
         this.config = config;
         this.zkDiscover = new ZkDiscover(config.getZkHost(), config.getZkRoot());
@@ -49,7 +55,6 @@ public class JrpcClient implements ActionHandler {
         cfg.setMaxIdle(config.getPoolMaxIdle());
         cfg.setMaxTotal(config.getPoolMaxTotal());
         cfg.setTestWhileIdle(true);
-
         cfg.setTimeBetweenEvictionRunsMillis(10000);
         this.transportProvider = new TransportProvider(cfg);
         zkDiscover.addListener((event, serverInfo) -> {
@@ -57,6 +62,27 @@ public class JrpcClient implements ActionHandler {
                 this.transportProvider.close(serverInfo);
             }
         });
+
+        //callback 执行线程池
+        callbackExec = new ThreadPoolExecutor(config.getCallbackThreadPoolSize(),
+                config.getCallbackThreadPoolSize(), 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(),
+                new ThreadFactoryBuilder().setNameFormat("callback-%d").build(),
+                new ThreadPoolExecutor.CallerRunsPolicy()
+        );
+        //success 执行方法
+        success = (emitter, rsp) -> callbackExec.execute(() -> emitter.onSuccess(rsp));
+        //error 执行方法
+        error = (emitter, e) -> {
+            Rsp rsp;
+            if(e instanceof JException) {
+                rsp = RspUtil.error((JException)e);
+            } else {
+                rsp = RspUtil.error(Code.CLIENT_ERROR);
+                log.error("call rpc error.",e);
+            }
+            success.accept(emitter, rsp);
+        };
+
     }
 
     public Map<String,List<ServerInfo>> serverMap(){
@@ -90,12 +116,12 @@ public class JrpcClient implements ActionHandler {
                         @Override
                         public void onComplete(Void aVoid) {
                             transportProvider.restore(transport2);
-                            emitter.onSuccess(RspUtil.success());
+                            success.accept(emitter, RspUtil.success());
                         }
                         @Override
                         public void onError(Exception e) {
                             transportProvider.invalid(transport2);
-                            JrpcClient.onError(emitter,e);
+                            error.accept(emitter,e);
                         }
                     });
                 }else{
@@ -103,17 +129,16 @@ public class JrpcClient implements ActionHandler {
                         @Override
                         public void onComplete(RspBean rspBean) {
                             transportProvider.restore(transport2);
-                            emitter.onSuccess(new Rsp(rspBean));
+                            success.accept(emitter,new Rsp(rspBean));
                         }
 
                         @Override
                         public void onError(Exception e) {
                             transportProvider.invalid(transport2);
-                            JrpcClient.onError(emitter,e);
+                            error.accept(emitter,e);
                         }
                     });
                 }
-
                 return;
             }catch (JException e) {
                 transportProvider.restore(transport);
@@ -127,16 +152,5 @@ public class JrpcClient implements ActionHandler {
         });
     }
 
-
-    private static void onError(SingleEmitter<Rsp> emitter,Exception e) {
-        Rsp rsp;
-        if(e instanceof JException) {
-            rsp = RspUtil.error((JException)e);
-        } else {
-            rsp = RspUtil.error(Code.CLIENT_ERROR);
-            log.error("call rpc error.",e);
-        }
-        emitter.onSuccess(rsp);
-    }
 
 }
