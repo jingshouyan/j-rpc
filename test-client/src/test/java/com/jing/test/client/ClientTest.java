@@ -71,7 +71,7 @@ public class ClientTest {
     @Test
     @SneakyThrows
     public void asyncErr(){
-        for(int i = 0;i<1000;i++)
+        for(int i = 0;i<100000;i++)
         Request.newInstance()
                 .setClient(jrpcClient)
                 .setServer("test")
@@ -79,7 +79,7 @@ public class ClientTest {
                 .setParamObj(i)
                 .asyncSend()
                 .subscribe(System.err::println);
-        Thread.sleep(1000);
+//        Thread.sleep(1000);
     }
 
     @Test

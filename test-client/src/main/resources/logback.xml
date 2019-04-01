@@ -21,7 +21,7 @@
     </appender>
     <logger name="org.springframework" level="ERROR" />
     <logger name="org.apache" level="ERROR" />
-    <root level="${LOG_LEVEL:-DEBUG}">
+    <root level="${LOG_LEVEL:-INFO}">
         <appender-ref ref="${LOG_REF:-STDOUT}"/>
     </root>
 </configuration>

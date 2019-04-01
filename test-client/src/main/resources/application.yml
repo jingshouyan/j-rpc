@@ -4,7 +4,7 @@ j-rpc:
     zkRoot: /com.github.jingshouyan.jrpc #zk 服务注册根目录
     poolMinIdle: 10 # 连接池配置
     poolMaxIdle: 200
-    poolMaxTotal: 2000
+    poolMaxTotal: 200
 
   trace:
     more: true
