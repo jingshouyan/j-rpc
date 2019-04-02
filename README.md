@@ -55,7 +55,7 @@ j-rpc:
 
 ```
 
-#### 3. 实现 Method<T,R> 接口
+#### 3. 实现 Method<T,R> 接口 或 AsyncMethod<T,R> 接口
 ```java
 @Data
 public class IdQuery {
@@ -87,6 +87,29 @@ public class GetUserInfo implements Method<IdQuery,List<UserBean>> {
             userBean.setName(idQuery.getName());
             return userBean;
         }).collect(Collectors.toList());
+    }
+}
+```
+```java
+@Component("getUserInfo2")
+public class GetUserInfo2 implements AsyncMethod<IdQuery,List<UserBean>> {
+
+    // 本方法只会在 idQuery 校验成功执行
+    @Override
+    public Single<List<UserBean>> action(Token token,IdQuery idQuery) {
+        // throw new JException(TestCode.JUST_ERROR);  //通过异常返回错误码
+//         throw new JException(TestCode.JUST_ERROR,idQuery);  //通过异常返回错误码,并返回一些数据
+        return Single.fromCallable(() -> {
+                throw new JException(TestCode.JUST_ERROR,idQuery);//任何位置都可以使用来返回
+                return idQuery.getIds().stream().map(id -> {
+                    UserBean userBean = new UserBean();
+                    userBean.setId(id);
+                    userBean.setAge(idQuery.getAge());
+                    userBean.setName(idQuery.getName());
+                    return userBean;
+                }).collect(Collectors.toList());
+        );
+
     }
 }
 ```
