@@ -15,5 +15,5 @@ public class ClientConfig {
     private int poolMaxIdle = 200;
     private int poolMaxTotal = 2000;
 
-    private int callbackThreadPoolSize = BaseConstant.CPU_NUM;
+    private int callbackThreadPoolSize = BaseConstant.CPU_NUM * 2;
 }
