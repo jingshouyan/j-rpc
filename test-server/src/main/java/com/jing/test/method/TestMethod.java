@@ -24,7 +24,7 @@ public class TestMethod implements Method<List<String>,TestBean2<CodeInfo,String
     @Override
     public TestBean2<CodeInfo,String,TestBean3> action(Token token, List<String> strings) {
         TestBean2 testBean2 = new TestBean2();
-        testBean2.setTest("11222");
+        testBean2.setTest(strings.get(0));
         CodeInfo codeInfo = new CodeInfo();
         codeInfo.setCode(100);
         codeInfo.setMessage("1123");

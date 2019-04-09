@@ -161,7 +161,9 @@ public class Test
                 .setToken(token) // 设置token ,可选 token 信息
                 .setParamObj(idQuery) //请求参数对象,也可以使用 setParamJson 直接设置json字符串
                 .setOneway(true) //是否为 oneway 调用,
+                //asyncSend() 得到 Single<Rsp> 对象,异步调用模式
                 .send() //发送请求,这时已经得到 Rsp 对象
+
                 .checkSuccess(); //检查 返回码,不为 SUCCESS 则抛出异常
         List<UserBean> userBeans = rsp.list(UserBean.class); //rsp中result实际为json字符串.list为将json反序列化为 List对象
         List<UserBean> userBeans1 = rsp.get(List.class,UserBean.class); //也可以使用 get 带泛型的反序列化

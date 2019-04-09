@@ -49,10 +49,10 @@ public class TransportProvider {
             return;
         }
         try{
-        TransportPool transportPool = TRANSPORT_POOL_MAP.get(transport.getKey());
-        if(null != transportPool){
-            transportPool.invalid(transport);
-        }
+            TransportPool transportPool = TRANSPORT_POOL_MAP.get(transport.getKey());
+            if(null != transportPool){
+                transportPool.invalid(transport);
+            }
         }catch (Exception e){
             log.error("pool invalid object error",e);
         }
