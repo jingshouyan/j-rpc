@@ -152,6 +152,22 @@ public class ClientTest {
     }
 
     @Test
+    public void testMethod(){
+        for (int i = 0; i < 100_000_000; i++) {
+            List<String> strings = new ArrayList<>();
+            strings.add("" + i);
+            Request.newInstance()
+                    .setClient(jrpcClient)
+                    .setServer("test")
+                    .setMethod("testMethod")
+                    .setParamObj(strings)
+//                .setOneway(true)
+                    .asyncSend().subscribe(System.err::println);
+        }
+
+    }
+
+    @Test
     public void testForward2(){
         for (int i = 0; i < 1000; i++) {
             List<String> strings = new ArrayList<>();
