@@ -39,7 +39,8 @@ public class JrpcForward implements ActionInterceptor {
                     .setParamJson(r.getParam())
                     .setOneway(r.isOneway())
                     .asyncSend()
-                    .timeout(3, TimeUnit.SECONDS);
+//                    .timeout(3, TimeUnit.SECONDS)
+                    ;
         }
         return handler;
     }

@@ -13,7 +13,7 @@ public class ClientConfig {
     private String zkRoot = "/com.github.jingshouyan.jrpc";
     private int poolMinIdle = 10;
     private int poolMaxIdle = 200;
-    private int poolMaxTotal = 2000;
+    private int poolMaxTotal = 500;
 
     private int callbackThreadPoolSize = BaseConstant.CPU_NUM * 2;
 }
