@@ -47,7 +47,7 @@ public class ZkRegister implements Register{
                 if(event.getType() == TreeCacheEvent.Type.NODE_REMOVED
                         && path.equals(event.getData().getPath())
                         && tserver.isServing()){
-                    log.warn("node deleted,re");
+                    log.warn("node deleted,register again.");
                     createZkNode(client,info);
                 }
             });
