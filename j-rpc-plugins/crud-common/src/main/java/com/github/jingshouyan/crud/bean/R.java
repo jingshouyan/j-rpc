@@ -9,6 +9,7 @@ import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -28,7 +29,7 @@ public class R implements CrudConstant{
 
     private Object id;
 
-    private List<?> ids;
+    private Collection<?> ids;
 
     private List<String> fields;
 }
