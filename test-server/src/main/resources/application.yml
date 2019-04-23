@@ -5,6 +5,7 @@ j-rpc:
     name: test
   trace:
     more: true
+    rate: 0.0
 
 
 

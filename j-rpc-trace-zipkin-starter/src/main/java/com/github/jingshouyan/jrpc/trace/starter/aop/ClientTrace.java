@@ -20,11 +20,9 @@ import com.github.jingshouyan.jrpc.trace.starter.constant.TraceConstant;
 public class ClientTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
-    private TraceProperties properties;
 
     public ClientTrace(Tracing tracing,TraceProperties properties){
         this.tracer = tracing.tracer();
-        this.properties = properties;
         CurrentTraceContextAssemblyTracking contextTracking = CurrentTraceContextAssemblyTracking
                 .create(tracing.currentTraceContext());
         contextTracking.enable();
@@ -50,12 +48,10 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
                             .tag(TAG_MESSAGE, "" + rsp.getMessage())
                             .annotate(CR)
                             .finish();
-//                    spanInScope.close();
                 }).doOnError(e -> {
                     span.tag(TAG_ERROR, "" + e.getMessage())
                             .annotate(CR)
                             .finish();
-//                    spanInScope.close();
                 });
             }
 

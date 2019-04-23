@@ -21,6 +21,7 @@ import org.apache.zookeeper.data.Stat;
 @Slf4j
 public class ZkRegister implements Register{
 
+    private static final String DEFAULT_CHARSET = "utf-8";
 
     @Override
     public void register(TServer tserver, ServerInfo info) {
@@ -84,7 +85,7 @@ public class ZkRegister implements Register{
         String realPath = client.create().
                 creatingParentContainersIfNeeded()
                 .withMode(CreateMode.EPHEMERAL)
-                .forPath(path, data.getBytes());
+                .forPath(path, data.getBytes(DEFAULT_CHARSET));
         log.debug("create zk node :{},data:{}",path,data);
         return realPath;
     }

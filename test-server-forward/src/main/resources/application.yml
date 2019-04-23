@@ -5,7 +5,7 @@ j-rpc:
     name: forward
   trace:
     more: true
-    rate: 1.0
+    rate: 0.0
   forward:
     methods:
       forwardTest: test.testMethod

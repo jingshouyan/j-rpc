@@ -33,7 +33,6 @@ public class DocController {
     public DocController(Tracing tracing){
         ExecutorService exec = Executors.newFixedThreadPool(10);
         this.exec = tracing.currentTraceContext().executorService(exec);
-        this.exec = exec;
     }
 
     @Resource

@@ -21,11 +21,9 @@ public class SpanXTrace implements TraceConstant {
 
 
     private Tracer tracer;
-    private TraceProperties properties;
 
     public SpanXTrace(Tracing tracing, TraceProperties properties){
         this.tracer = tracing.tracer();
-        this.properties = properties;
     }
 
 

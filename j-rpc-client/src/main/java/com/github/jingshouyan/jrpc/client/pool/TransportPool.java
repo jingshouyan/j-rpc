@@ -27,9 +27,6 @@ public class TransportPool implements Closeable {
     @SneakyThrows
     public TransportPool(ServerInfo serverInfo, GenericObjectPoolConfig conf){
         this.serverInfo = serverInfo;
-        if(innerPool!=null){
-            innerPool.close();
-        }
         clientManager = new TAsyncClientManager();
         innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo,clientManager),conf);
     }
