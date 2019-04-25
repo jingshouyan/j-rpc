@@ -22,14 +22,16 @@ import com.github.jingshouyan.jrpc.client.transport.TransportProvider;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import io.reactivex.Single;
 import io.reactivex.SingleEmitter;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.async.AsyncMethodCallback;
 
 import java.util.List;
 import java.util.Map;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 import java.util.function.BiConsumer;
 
 /**

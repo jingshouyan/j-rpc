@@ -1,6 +1,9 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
+import com.google.common.collect.Lists;
 import lombok.Data;
+
+import java.util.List;
 
 /**
  * @author jingshouyan
@@ -11,4 +14,5 @@ public class FieldInfo {
     private String name;
     private String type;
     private String remark;
+    private List<String> annotations = Lists.newArrayList();
 }

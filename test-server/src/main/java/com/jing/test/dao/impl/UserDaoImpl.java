@@ -16,6 +16,7 @@ import java.util.HashMap;
 public class UserDaoImpl extends BaseDaoImpl<UserBean> implements UserDao {
 
 
+    @Override
     public SqlRowSet test(){
         SqlRowSet rowSet = template.queryForRowSet("select * from UserBean where 1=2",new HashMap<>());
 

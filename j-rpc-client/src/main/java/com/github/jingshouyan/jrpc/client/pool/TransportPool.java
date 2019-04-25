@@ -9,7 +9,6 @@ import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.async.TAsyncClientManager;
 
 import java.io.Closeable;
-import java.util.function.Supplier;
 
 /**
  * @author jingshouyan

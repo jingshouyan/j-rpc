@@ -69,7 +69,7 @@ public class ClassInfoUtil {
                 c.setName(field.getName());
                 Annotation[] annotations = field.getAnnotations();
                 for (Annotation annotation : annotations){
-                    c.getAnnotations().add(annotation.annotationType().getSimpleName());
+                    c.getAnnotations().add(annotation.toString());
                 }
                 classInfo.getFields().add(c);
             }
@@ -144,6 +144,10 @@ public class ClassInfoUtil {
         if(isCollectionOrMap(clazz)){
             return;
         }
+        Annotation[] annotations = clazz.getAnnotations();
+        for (Annotation annotation: annotations) {
+            typeInfo.getAnnotations().add(annotation.toString());
+        }
         List<FieldInfo>fieldInfos = Lists.newArrayList();
         JavaType temp = javaType;
         while (temp!=null && !temp.isJavaLangObject()){
@@ -158,6 +162,12 @@ public class ClassInfoUtil {
                 }
                 FieldInfo fieldInfo = new FieldInfo();
                 fieldInfo.setName(field.getName());
+
+                Annotation[] fieldAnnotations = field.getAnnotations();
+                for (Annotation annotation: fieldAnnotations) {
+                    fieldInfo.getAnnotations().add(annotation.toString());
+                }
+
                 JavaType jtype = JsonUtil.getJavaType(field.getGenericType(),temp.getBindings());
 
                 types(jtype,typeInfos);

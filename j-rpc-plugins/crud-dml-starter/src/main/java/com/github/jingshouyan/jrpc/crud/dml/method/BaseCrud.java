@@ -19,6 +19,8 @@ import java.util.Set;
 public abstract class BaseCrud implements CrudConstant {
 
     public static final int NOT_ALLOWED = -302;
+    public static final String ALL = "*";
+
     static {
         Code.regCode(NOT_ALLOWED,"not allowed");
     }
@@ -45,7 +47,7 @@ public abstract class BaseCrud implements CrudConstant {
      * @param beanNames 允许的 bean
      */
     void initAllows(String beanNames){
-        if("*".equals(beanNames)){
+        if(ALL.equals(beanNames)){
             all = true;
         } else {
             String[] ss = beanNames.split(",");

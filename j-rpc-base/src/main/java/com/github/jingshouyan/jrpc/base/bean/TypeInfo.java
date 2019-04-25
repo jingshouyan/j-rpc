@@ -14,4 +14,5 @@ public class TypeInfo {
     private String type;
     private String remark;
     private List<FieldInfo> fields = Lists.newArrayList();
+    private List<String> annotations = Lists.newArrayList();
 }

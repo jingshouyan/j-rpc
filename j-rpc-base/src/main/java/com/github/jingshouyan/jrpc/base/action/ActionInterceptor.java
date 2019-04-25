@@ -10,12 +10,24 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 
 public interface ActionInterceptor extends Comparable<ActionInterceptor>{
 
+    /**
+     *
+     * @param token
+     * @param req
+     * @param handler
+     * @return
+     */
     ActionHandler around(Token token ,Req req ,ActionHandler handler);
 
+    /**
+     * order of interceptor
+     * @return order
+     */
     default int order() {
         return 10;
     }
 
+    @Override
     default int compareTo(ActionInterceptor that) {
         int a = this.order();
         int b = that.order();

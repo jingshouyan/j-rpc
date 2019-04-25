@@ -18,18 +18,25 @@ public interface BaseMethod<T,R> {
     int MAX_ERROR = 6;
 
     /**
-     * 子类调用时获取接口中的第一个泛型
+     * 子类调用时获取接口中的入参泛型
      * @return 泛型
      */
-    @SuppressWarnings("unchecked")
     default Type getInputType() {
         return getType(0);
     }
-
+    /**
+     * 子类调用时获取接口中的返回值泛型
+     * @return 泛型
+     */
     default Type getOutputType() {
         return getType(1);
     }
 
+    /**
+     * 获取实现类指定的泛型
+     * @param index 序号
+     * @return 泛型
+     */
     default Type getType(int index){
         Type type = null;
         Type[] ts = getClass().getGenericInterfaces();
