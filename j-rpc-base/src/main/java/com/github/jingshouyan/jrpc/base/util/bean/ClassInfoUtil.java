@@ -9,15 +9,20 @@ import com.github.jingshouyan.jrpc.base.bean.FieldInfo;
 import com.github.jingshouyan.jrpc.base.bean.TypeInfo;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.google.common.collect.Lists;
+import lombok.SneakyThrows;
 
+import javax.validation.Constraint;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
+import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author jingshouyan
@@ -25,9 +30,7 @@ import java.util.Map;
  */
 public class ClassInfoUtil {
 
-    public static ClassInfo getClassInfo(Type type, int deep){
-        return getClassInfo(type,TypeBindings.emptyBindings(),deep);
-    }
+
 
     public static BeanInfo beanInfo(Type type) {
         BeanInfo beanInfo = new BeanInfo();
@@ -39,44 +42,6 @@ public class ClassInfoUtil {
         return beanInfo;
     }
 
-    private static ClassInfo getClassInfo(Type type, TypeBindings typeBindings, int deep){
-        ClassInfo classInfo = new ClassInfo();
-        JavaType javaType = JsonUtil.getJavaType(type,typeBindings);
-        classInfo.setJavaType(javaType);
-        Class<?> clazz = javaType.getRawClass();
-        classInfo.setType(clazz.getSimpleName());
-        classInfo.setDeep(deep);
-        if(deep > 0 && !isSimpleType(clazz)) {
-            if(isCollectionOrMap(clazz)){
-                List<JavaType> generics = javaType.getBindings().getTypeParameters();
-                for (JavaType g : generics) {
-                    ClassInfo gc = getClassInfo(g,TypeBindings.emptyBindings(),deep);
-                    classInfo.getGenerics().add(gc);
-                }
-            }
-            Field[] fields = clazz.getDeclaredFields();
-            for (Field field : fields){
-                int mod = field.getModifiers();
-                //静态属性
-                if (Modifier.isStatic(mod)) {
-                    continue;
-                }
-                //排除添加 @Ignore 的属性
-                if (field.isAnnotationPresent(JsonIgnore.class)) {
-                    continue;
-                }
-                ClassInfo c = getClassInfo(field.getGenericType(),javaType.getBindings(),deep -1);
-                c.setName(field.getName());
-                Annotation[] annotations = field.getAnnotations();
-                for (Annotation annotation : annotations){
-                    c.getAnnotations().add(annotation.toString());
-                }
-                classInfo.getFields().add(c);
-            }
-        }
-
-        return classInfo;
-    }
 
     private static boolean isCollectionOrMap(Class<?> clazz){
         if(Collection.class.isAssignableFrom(clazz)){
@@ -145,9 +110,7 @@ public class ClassInfoUtil {
             return;
         }
         Annotation[] annotations = clazz.getAnnotations();
-        for (Annotation annotation: annotations) {
-            typeInfo.getAnnotations().add(annotation.toString());
-        }
+        typeInfo.setAnnotations(annotations(annotations));
         List<FieldInfo>fieldInfos = Lists.newArrayList();
         JavaType temp = javaType;
         while (temp!=null && !temp.isJavaLangObject()){
@@ -164,9 +127,7 @@ public class ClassInfoUtil {
                 fieldInfo.setName(field.getName());
 
                 Annotation[] fieldAnnotations = field.getAnnotations();
-                for (Annotation annotation: fieldAnnotations) {
-                    fieldInfo.getAnnotations().add(annotation.toString());
-                }
+                fieldInfo.setAnnotations(annotations(fieldAnnotations));
 
                 JavaType jtype = JsonUtil.getJavaType(field.getGenericType(),temp.getBindings());
 
@@ -189,5 +150,78 @@ public class ClassInfoUtil {
     }
 
 
+    private static List<String> annotations(Annotation[] annotations) {
+        return Stream.of(annotations)
+                .filter(annotation -> annotation.annotationType().isAnnotationPresent(Constraint.class))
+                .map(ClassInfoUtil::annotationStr).collect(Collectors.toList());
+    }
+
+    @SneakyThrows
+    private static String annotationStr(Annotation annotation) {
+        StringBuilder sb = new StringBuilder();
+        Class<?> clazz = annotation.annotationType();
+        sb.append(clazz.getSimpleName());
+        StringBuilder sb2 = new StringBuilder();
+        Method[] methods = clazz.getDeclaredMethods();
+        for (Method m : methods) {
+            int modifiers = m.getModifiers();
+            if(Modifier.isStatic(modifiers)){
+                continue;
+            }
+            if(m.getParameterCount() > 0){
+                continue;
+            }
+            String name = m.getName();
+            Object value = m.invoke(annotation);
+            String valueStr = valueStr(value);
+            if(valueStr == null) {
+                continue;
+            }
+            sb2.append(name);
+            sb2.append("=");
+            sb2.append(valueStr);
+            sb2.append(",");
+        }
+        if(sb2.length() > 0) {
+            sb2.deleteCharAt(sb2.length() -1);
+            sb.append("(");
+            sb.append(sb2);
+            sb.append(")");
+        }
+        return sb.toString();
+    }
+
+    private static String valueStr(Object value) {
+        if(value == null) {
+            return null;
+        }
+        if(value instanceof String) {
+            String str = (String) value;
+            if("".equals(str)){
+                return null;
+            }
+            if(str.startsWith("{")&&str.endsWith("}")){
+                return null;
+            }
+            return str;
+        }
+        if(value.getClass().isArray()) {
+            Object[] objects = (Object[]) value;
+            if(objects.length == 0){
+                return null;
+            }
+            return Lists.newArrayList(objects).toString();
+        }
+        return value.toString();
+    }
+
+    public static void main(String[] args) {
+
+        String[] a = {"abc","def"};
+        Object[] c = a;
+        List<String> b = Stream.of(a).collect(Collectors.toList());
+        System.out.println(a);
+        System.out.println(b);
+    }
 
 }

@@ -65,5 +65,23 @@ public class TransportProvider {
         }
     }
 
+    public void loseSingle(ServerInfo serverInfo) {
+        try{
+            TransportPool pool = TRANSPORT_POOL_MAP.get(serverInfo.getInstance());
+            if(pool != null) {
+                Transport transport = pool.get();
+                boolean open = transport.isOpen();
+                if(!open) {
+                    close(serverInfo);
+                } else {
+                    pool.restore(transport);
+                }
+            }
+        }catch (Exception e) {
+            close(serverInfo);
+        }
+
+    }
+
 
 }
