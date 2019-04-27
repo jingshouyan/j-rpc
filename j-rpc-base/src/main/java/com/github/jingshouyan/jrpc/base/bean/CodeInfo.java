@@ -13,4 +13,5 @@ import lombok.*;
 public class CodeInfo {
     private int code;
     private String message;
+    private String whoUse;
 }

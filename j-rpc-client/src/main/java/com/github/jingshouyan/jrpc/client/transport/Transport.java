@@ -27,10 +27,10 @@ public class Transport implements Closeable {
             return false;
         }
         try {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < 2; i++) {
                 nonblockingSocket.getSocketChannel().socket().sendUrgentData(0xFF);
             }
-            log.debug("test socket connect : open,use: {} ns",System.nanoTime() - start);
+            log.trace("test socket connect : open,use: {} ns",System.nanoTime() - start);
             return true;
         } catch (IOException e) {
             log.warn("test socket connect : closed,use: {} ns",System.nanoTime() - start);

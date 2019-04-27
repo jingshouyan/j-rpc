@@ -32,7 +32,7 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
     private List<CodeInfo> codes(){
         List<CodeInfo> codes = Lists.newArrayList();
         Code.getCodeMap().forEach((k,v) -> {
-            codes.add(new CodeInfo(k,v));
+            codes.add(new CodeInfo(k,v,null));
         });
         codes.sort(Comparator.comparingInt(CodeInfo::getCode));
         return codes;
