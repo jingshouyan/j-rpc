@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class DocApp {
 
     public static void main(String[] args) {
-        SpringApplication.run(DocApp.class);
+        SpringApplication.run(DocApp.class,args);
     }
 }
 
