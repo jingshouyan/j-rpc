@@ -6,7 +6,7 @@ import lombok.Getter;
  * @author jingshouyan
  * #date 2018/10/16 17:13
  */
-public class JException extends RuntimeException{
+public class JrpcException extends RuntimeException{
 
     @Getter
     private int code;
@@ -15,25 +15,25 @@ public class JException extends RuntimeException{
     @Getter
     private String detail;
 
-    public JException(int code){
-        super("JException:" + code);
+    public JrpcException(int code){
+        super("JrpcException:" + code);
         this.code = code;
     }
 
-    public JException(int code, Object data){
-        super("JException:" + code);
+    public JrpcException(int code, Object data){
+        super("JrpcException:" + code);
         this.code = code;
         this.data = data;
     }
 
-    public JException(int code,Object data, String detail){
-        super("JException:" + code);
+    public JrpcException(int code, Object data, String detail){
+        super("JrpcException:" + code);
         this.code = code;
         this.data = data;
         this.detail = detail;
     }
 
-    public JException(int code, Throwable cause){
+    public JrpcException(int code, Throwable cause){
         super(cause);
         this.code = code;
     }

@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.server.method;
 
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.constant.BaseConstant;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.Validation;
@@ -10,7 +10,10 @@ import javax.validation.Validator;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Set;
-
+/**
+ * @author jingshouyan
+ * 11/29/18 5:26 PM
+ */
 public interface BaseMethod<T,R> {
 
     Validator VALIDATOR = Validation.buildDefaultValidatorFactory().getValidator();
@@ -67,7 +70,7 @@ public interface BaseMethod<T,R> {
             String message = cv.getMessage();
             if(message.startsWith(BaseConstant.INVALID_CODE_PREFIX)){
                 int code = Integer.parseInt(message.substring(BaseConstant.INVALID_CODE_PREFIX.length()));
-                throw new JException(code);
+                throw new JrpcException(code);
             }
             sb.append(cv.getPropertyPath().toString());
             sb.append(" ");
@@ -77,7 +80,7 @@ public interface BaseMethod<T,R> {
         }
         if(!cvs.isEmpty()){
             sb.deleteCharAt(sb.length()-1);
-            throw new JException(Code.PARAM_INVALID, null, sb.toString());
+            throw new JrpcException(Code.PARAM_INVALID, null, sb.toString());
         }
     }
 

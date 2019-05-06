@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.crud.dml.method;
 
 
-import com.github.jingshouyan.crud.bean.C;
+import com.github.jingshouyan.crud.bean.CreateDTO;
 import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
@@ -16,7 +16,7 @@ import java.util.List;
  * @author jingshouyan
  * 12/3/18 5:10 PM
  */
-public class Create extends BaseCrud implements Method<C,Object> {
+public class Create extends BaseCrud implements Method<CreateDTO,Object> {
 
 
 
@@ -26,21 +26,21 @@ public class Create extends BaseCrud implements Method<C,Object> {
     }
 
     @Override
-    public Object action(Token token,C c) {
-        accessCheck(c.getBean());
-        BaseDao<BaseDO> dao = dao(c.getBean());
+    public Object action(Token token, CreateDTO createDTO) {
+        accessCheck(createDTO.getBean());
+        BaseDao<BaseDO> dao = dao(createDTO.getBean());
         Class<BaseDO> clazz = dao.getClazz();
-        switch (c.getType()){
+        switch (createDTO.getType()){
             case TYPE_SINGLE:
-                BaseDO bean = JsonUtil.toBean(c.getData(),clazz);
+                BaseDO bean = JsonUtil.toBean(createDTO.getData(),clazz);
                 dao.insert(bean);
                 return bean;
             case TYPE_MULTIPLE:
-                List<BaseDO> list = JsonUtil.toList(c.getData(),clazz);
+                List<BaseDO> list = JsonUtil.toList(createDTO.getData(),clazz);
                 dao.batchInsert(list);
                 return list;
             default:
-                throw new UnsupportedOperationException("unsupported insert type: "+c.getType());
+                throw new UnsupportedOperationException("unsupported insert type: "+ createDTO.getType());
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import lombok.Getter;
@@ -52,10 +52,10 @@ public class Rsp {
                 }
                 data = JsonUtil.toBean(result,Object.class);
                 if(data != null){
-                    throw new JException(newCode,data);
+                    throw new JrpcException(newCode,data);
                 }
             }
-            throw new JException(newCode);
+            throw new JrpcException(newCode);
         }
         return this;
     }

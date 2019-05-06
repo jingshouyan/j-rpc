@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 /**
  * @author jingshouyan
@@ -14,11 +15,13 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class U implements CrudConstant{
+public class DeleteDTO implements CrudConstant{
     @NotNull
     private String bean;
     @NotNull
     private String type = TYPE_SINGLE;
-    @NotNull
-    private String data;
+
+    private Object id;
+
+    private List<?> ids;
 }

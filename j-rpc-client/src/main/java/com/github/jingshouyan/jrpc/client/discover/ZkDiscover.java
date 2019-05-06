@@ -3,7 +3,7 @@ package com.github.jingshouyan.jrpc.client.discover;
 import com.github.jingshouyan.jrpc.base.bean.Router;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.zk.ZkUtil;
 import com.github.jingshouyan.jrpc.client.discover.selector.Selector;
@@ -62,23 +62,23 @@ public class ZkDiscover {
             latch.await(LATCH_TIMEOUT,TimeUnit.MILLISECONDS);
             List<ServerInfo> infos = map.get(router.getServer());
             if(infos == null || infos.isEmpty()){
-                throw new JException(Code.SERVER_NOT_FOUND);
+                throw new JrpcException(Code.SERVER_NOT_FOUND);
             }
             if(router.getInstance() != null ){
                 return infos.stream().filter(i -> i.getInstance().equals(router.getInstance()))
-                        .findFirst().orElseThrow(() -> new JException(Code.INSTANCE_NOT_FUND));
+                        .findFirst().orElseThrow(() -> new JrpcException(Code.INSTANCE_NOT_FUND));
             }
             if(router.getVersion() != null) {
                 infos = selector.versionFilter(infos,router.getVersion());
                 if(infos.isEmpty()){
-                    throw new JException(Code.SERVER_NOT_FOUND);
+                    throw new JrpcException(Code.SERVER_NOT_FOUND);
                 }
             }
             return selector.pickOne(infos);
-        } catch (JException e) {
+        } catch (JrpcException e) {
             throw e;
         } catch (Exception e) {
-            throw new JException(Code.GET_SERVER_ADDRESS_TIMEOUT,e);
+            throw new JrpcException(Code.GET_SERVER_ADDRESS_TIMEOUT,e);
         }
     }
 

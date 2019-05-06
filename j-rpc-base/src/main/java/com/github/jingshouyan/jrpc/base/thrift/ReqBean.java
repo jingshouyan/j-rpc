@@ -53,7 +53,9 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
      */
     public static _Fields findByThriftIdOrThrow(int fieldId) {
       _Fields fields = findByThriftId(fieldId);
-      if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+      if (fields == null) {
+        throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+      }
       return fields;
     }
 
@@ -73,10 +75,12 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
       _fieldName = fieldName;
     }
 
+    @Override
     public short getThriftFieldId() {
       return _thriftId;
     }
 
+    @Override
     public String getFieldName() {
       return _fieldName;
     }
@@ -118,6 +122,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
     }
   }
 
+  @Override
   public ReqBean deepCopy() {
     return new ReqBean(this);
   }
@@ -178,6 +183,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
     }
   }
 
+  @Override
   public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
     switch (field) {
     case METHOD:
@@ -199,6 +205,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
     }
   }
 
+  @Override
   @org.apache.thrift.annotation.Nullable
   public Object getFieldValue(_Fields field) {
     switch (field) {
@@ -213,6 +220,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
   }
 
   /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+  @Override
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -229,35 +237,43 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
 
   @Override
   public boolean equals(Object that) {
-    if (that == null)
+    if (that == null) {
       return false;
-    if (that instanceof ReqBean)
+    }
+    if (that instanceof ReqBean) {
       return this.equals((ReqBean)that);
+    }
     return false;
   }
 
   public boolean equals(ReqBean that) {
-    if (that == null)
+    if (that == null) {
       return false;
-    if (this == that)
+    }
+    if (this == that) {
       return true;
+    }
 
     boolean this_present_method = true && this.isSetMethod();
     boolean that_present_method = true && that.isSetMethod();
     if (this_present_method || that_present_method) {
-      if (!(this_present_method && that_present_method))
+      if (!(this_present_method && that_present_method)) {
         return false;
-      if (!this.method.equals(that.method))
+      }
+      if (!this.method.equals(that.method)) {
         return false;
+      }
     }
 
     boolean this_present_param = true && this.isSetParam();
     boolean that_present_param = true && that.isSetParam();
     if (this_present_param || that_present_param) {
-      if (!(this_present_param && that_present_param))
+      if (!(this_present_param && that_present_param)) {
         return false;
-      if (!this.param.equals(that.param))
+      }
+      if (!this.param.equals(that.param)) {
         return false;
+      }
     }
 
     return true;
@@ -268,12 +284,14 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
     int hashCode = 1;
 
     hashCode = hashCode * 8191 + ((isSetMethod()) ? 131071 : 524287);
-    if (isSetMethod())
+    if (isSetMethod()) {
       hashCode = hashCode * 8191 + method.hashCode();
+    }
 
     hashCode = hashCode * 8191 + ((isSetParam()) ? 131071 : 524287);
-    if (isSetParam())
+    if (isSetParam()) {
       hashCode = hashCode * 8191 + param.hashCode();
+    }
 
     return hashCode;
   }
@@ -309,15 +327,18 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
     return 0;
   }
 
+  @Override
   @org.apache.thrift.annotation.Nullable
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
+  @Override
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
+  @Override
   public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
@@ -334,7 +355,9 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
       sb.append(this.method);
     }
     first = false;
-    if (!first) sb.append(", ");
+    if (!first) {
+      sb.append(", ");
+    }
     sb.append("param:");
     if (this.param == null) {
       sb.append("null");
@@ -368,6 +391,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
   }
 
   private static class ReqBeanStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    @Override
     public ReqBeanStandardScheme getScheme() {
       return new ReqBeanStandardScheme();
     }
@@ -375,6 +399,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
 
   private static class ReqBeanStandardScheme extends org.apache.thrift.scheme.StandardScheme<ReqBean> {
 
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol iprot, ReqBean struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
@@ -412,6 +437,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
       struct.validate();
     }
 
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol oprot, ReqBean struct) throws org.apache.thrift.TException {
       struct.validate();
 
@@ -433,6 +459,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
   }
 
   private static class ReqBeanTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    @Override
     public ReqBeanTupleScheme getScheme() {
       return new ReqBeanTupleScheme();
     }

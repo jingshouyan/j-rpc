@@ -31,8 +31,6 @@ public class ServeRunner {
     );
 
     @Getter
-    private State state = State.INIT;
-    @Getter
     private ServerInfo serverInfo;
 
     private TServer tserver;
@@ -119,17 +117,4 @@ public class ServeRunner {
         Executors.newFixedThreadPool(1);
     }
 
-
-    public enum State {
-        INIT("init"),
-        STARTING("starting"),
-        RUNNING("running"),
-        STOPPING("stopping"),
-        STOPPED("stopped");
-        private String name;
-
-        private State(String name) {
-            this.name = name;
-        }
-    }
 }

@@ -9,5 +9,9 @@ import org.springframework.jdbc.support.rowset.SqlRowSet;
  * 11/29/18 5:26 PM
  */
 public interface UserDao extends BaseDao<UserBean> {
+    /**
+     * 测试
+     * @return 测试
+     */
     SqlRowSet test();
 }

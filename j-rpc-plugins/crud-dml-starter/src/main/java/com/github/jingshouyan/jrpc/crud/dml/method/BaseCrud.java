@@ -4,7 +4,7 @@ import com.github.jingshouyan.crud.constant.CrudConstant;
 import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -66,6 +66,6 @@ public abstract class BaseCrud implements CrudConstant {
         if(all || allows.contains(beanName)){
             return;
         }
-        throw new JException(NOT_ALLOWED);
+        throw new JrpcException(NOT_ALLOWED);
     }
 }

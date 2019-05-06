@@ -58,7 +58,9 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
      */
     public static _Fields findByThriftIdOrThrow(int fieldId) {
       _Fields fields = findByThriftId(fieldId);
-      if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+      if (fields == null) {
+          throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+      }
       return fields;
     }
 
@@ -78,10 +80,12 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
       _fieldName = fieldName;
     }
 
+    @Override
     public short getThriftFieldId() {
       return _thriftId;
     }
 
+    @Override
     public String getFieldName() {
       return _fieldName;
     }
@@ -132,6 +136,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     }
   }
 
+  @Override
   public RspBean deepCopy() {
     return new RspBean(this);
   }
@@ -217,6 +222,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     }
   }
 
+  @Override
   public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
     switch (field) {
     case CODE:
@@ -246,6 +252,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     }
   }
 
+  @Override
   @org.apache.thrift.annotation.Nullable
   public Object getFieldValue(_Fields field) {
     switch (field) {
@@ -263,6 +270,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
   }
 
   /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+  @Override
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -281,44 +289,54 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
 
   @Override
   public boolean equals(Object that) {
-    if (that == null)
-      return false;
-    if (that instanceof RspBean)
-      return this.equals((RspBean)that);
+    if (that == null) {
+        return false;
+    }
+    if (that instanceof RspBean) {
+        return this.equals((RspBean)that);
+    }
     return false;
   }
 
   public boolean equals(RspBean that) {
-    if (that == null)
-      return false;
-    if (this == that)
-      return true;
+    if (that == null) {
+        return false;
+    }
+    if (this == that) {
+        return true;
+    }
 
     boolean this_present_code = true;
     boolean that_present_code = true;
     if (this_present_code || that_present_code) {
-      if (!(this_present_code && that_present_code))
-        return false;
-      if (this.code != that.code)
-        return false;
+      if (!(this_present_code && that_present_code)) {
+          return false;
+      }
+      if (this.code != that.code) {
+          return false;
+      }
     }
 
     boolean this_present_message = true && this.isSetMessage();
     boolean that_present_message = true && that.isSetMessage();
     if (this_present_message || that_present_message) {
-      if (!(this_present_message && that_present_message))
-        return false;
-      if (!this.message.equals(that.message))
-        return false;
+      if (!(this_present_message && that_present_message)) {
+          return false;
+      }
+      if (!this.message.equals(that.message)) {
+          return false;
+      }
     }
 
     boolean this_present_result = true && this.isSetResult();
     boolean that_present_result = true && that.isSetResult();
     if (this_present_result || that_present_result) {
-      if (!(this_present_result && that_present_result))
-        return false;
-      if (!this.result.equals(that.result))
-        return false;
+      if (!(this_present_result && that_present_result)) {
+          return false;
+      }
+      if (!this.result.equals(that.result)) {
+          return false;
+      }
     }
 
     return true;
@@ -331,12 +349,14 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     hashCode = hashCode * 8191 + code;
 
     hashCode = hashCode * 8191 + ((isSetMessage()) ? 131071 : 524287);
-    if (isSetMessage())
-      hashCode = hashCode * 8191 + message.hashCode();
+    if (isSetMessage()) {
+        hashCode = hashCode * 8191 + message.hashCode();
+    }
 
     hashCode = hashCode * 8191 + ((isSetResult()) ? 131071 : 524287);
-    if (isSetResult())
-      hashCode = hashCode * 8191 + result.hashCode();
+    if (isSetResult()) {
+        hashCode = hashCode * 8191 + result.hashCode();
+    }
 
     return hashCode;
   }
@@ -382,15 +402,18 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     return 0;
   }
 
+  @Override
   @org.apache.thrift.annotation.Nullable
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
+  @Override
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
+  @Override
   public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
@@ -403,7 +426,9 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     sb.append("code:");
     sb.append(this.code);
     first = false;
-    if (!first) sb.append(", ");
+    if (!first) {
+        sb.append(", ");
+    }
     sb.append("message:");
     if (this.message == null) {
       sb.append("null");
@@ -411,7 +436,9 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
       sb.append(this.message);
     }
     first = false;
-    if (!first) sb.append(", ");
+    if (!first) {
+        sb.append(", ");
+    }
     sb.append("result:");
     if (this.result == null) {
       sb.append("null");
@@ -447,6 +474,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
   }
 
   private static class RspBeanStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    @Override
     public RspBeanStandardScheme getScheme() {
       return new RspBeanStandardScheme();
     }
@@ -454,6 +482,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
 
   private static class RspBeanStandardScheme extends org.apache.thrift.scheme.StandardScheme<RspBean> {
 
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol iprot, RspBean struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
@@ -499,6 +528,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
       struct.validate();
     }
 
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol oprot, RspBean struct) throws org.apache.thrift.TException {
       struct.validate();
 
@@ -523,6 +553,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
   }
 
   private static class RspBeanTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    @Override
     public RspBeanTupleScheme getScheme() {
       return new RspBeanTupleScheme();
     }

@@ -73,8 +73,8 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
 
 
     public static void main(String[] args) {
-        GetServerInfo GetServerInfo = new GetServerInfo();
-        InterfaceInfo serverInfo = GetServerInfo.action(new Token(),new Empty());
+        GetServerInfo getServerInfo = new GetServerInfo();
+        InterfaceInfo serverInfo = getServerInfo.action(new Token(),new Empty());
         System.out.println(JsonUtil.toJsonString(serverInfo));
     }
 

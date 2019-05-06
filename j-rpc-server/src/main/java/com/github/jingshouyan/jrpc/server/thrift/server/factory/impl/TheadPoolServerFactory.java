@@ -13,6 +13,10 @@ import org.apache.thrift.server.TThreadPoolServer;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TNonblockingServerSocket;
 
+/**
+ * @author jingshouyan
+ * 11/29/18 5:26 PM
+ */
 @Slf4j
 public class TheadPoolServerFactory implements ServerFactory {
 

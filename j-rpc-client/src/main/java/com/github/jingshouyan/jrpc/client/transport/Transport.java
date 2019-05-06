@@ -14,7 +14,7 @@ import java.io.IOException;
  */
 @Data@Slf4j
 public class Transport implements Closeable {
-
+    private static final int LOOP = 2;
     private String key;
 
     private Jrpc.AsyncClient asyncClient;
@@ -27,7 +27,7 @@ public class Transport implements Closeable {
             return false;
         }
         try {
-            for (int i = 0; i < 2; i++) {
+            for (int i = 0; i < LOOP; i++) {
                 nonblockingSocket.getSocketChannel().socket().sendUrgentData(0xFF);
             }
             log.trace("test socket connect : open,use: {} ns",System.nanoTime() - start);

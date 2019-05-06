@@ -28,9 +28,11 @@ public class Jrpc {
   public static class Client extends org.apache.thrift.TServiceClient implements Iface {
     public static class Factory implements org.apache.thrift.TServiceClientFactory<Client> {
       public Factory() {}
+      @Override
       public Client getClient(org.apache.thrift.protocol.TProtocol prot) {
         return new Client(prot);
       }
+      @Override
       public Client getClient(org.apache.thrift.protocol.TProtocol iprot, org.apache.thrift.protocol.TProtocol oprot) {
         return new Client(iprot, oprot);
       }
@@ -45,6 +47,7 @@ public class Jrpc {
       super(iprot, oprot);
     }
 
+    @Override
     public RspBean call(TokenBean token, ReqBean req) throws org.apache.thrift.TException
     {
       send_call(token, req);
@@ -69,6 +72,7 @@ public class Jrpc {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "call failed: unknown result");
     }
 
+    @Override
     public void send(TokenBean token, ReqBean req) throws org.apache.thrift.TException
     {
       send_send(token, req);
@@ -91,6 +95,7 @@ public class Jrpc {
         this.clientManager = clientManager;
         this.protocolFactory = protocolFactory;
       }
+      @Override
       public AsyncClient getAsyncClient(org.apache.thrift.transport.TNonblockingTransport transport) {
         return new AsyncClient(protocolFactory, clientManager, transport);
       }
@@ -100,6 +105,7 @@ public class Jrpc {
       super(protocolFactory, clientManager, transport);
     }
 
+    @Override
     public void call(TokenBean token, ReqBean req, org.apache.thrift.async.AsyncMethodCallback<RspBean> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       call_call method_call = new call_call(token, req, resultHandler, this, ___protocolFactory, ___transport);
@@ -116,6 +122,7 @@ public class Jrpc {
         this.req = req;
       }
 
+      @Override
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("call", org.apache.thrift.protocol.TMessageType.CALL, 0));
         call_args args = new call_args();
@@ -125,6 +132,7 @@ public class Jrpc {
         prot.writeMessageEnd();
       }
 
+      @Override
       public RspBean getResult() throws org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
@@ -135,6 +143,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public void send(TokenBean token, ReqBean req, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
       checkReady();
       send_call method_call = new send_call(token, req, resultHandler, this, ___protocolFactory, ___transport);
@@ -151,6 +160,7 @@ public class Jrpc {
         this.req = req;
       }
 
+      @Override
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
         prot.writeMessageBegin(new org.apache.thrift.protocol.TMessage("send", org.apache.thrift.protocol.TMessageType.ONEWAY, 0));
         send_args args = new send_args();
@@ -160,6 +170,7 @@ public class Jrpc {
         prot.writeMessageEnd();
       }
 
+      @Override
       public Void getResult() throws org.apache.thrift.TException {
         if (getState() != State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
@@ -193,10 +204,12 @@ public class Jrpc {
         super("call");
       }
 
+      @Override
       public call_args getEmptyArgsInstance() {
         return new call_args();
       }
 
+      @Override
       protected boolean isOneway() {
         return false;
       }
@@ -206,6 +219,7 @@ public class Jrpc {
         return false;
       }
 
+      @Override
       public call_result getResult(I iface, call_args args) throws org.apache.thrift.TException {
         call_result result = new call_result();
         result.success = iface.call(args.token, args.req);
@@ -218,10 +232,12 @@ public class Jrpc {
         super("send");
       }
 
+      @Override
       public send_args getEmptyArgsInstance() {
         return new send_args();
       }
 
+      @Override
       protected boolean isOneway() {
         return true;
       }
@@ -231,6 +247,7 @@ public class Jrpc {
         return false;
       }
 
+      @Override
       public org.apache.thrift.TBase getResult(I iface, send_args args) throws org.apache.thrift.TException {
         iface.send(args.token, args.req);
         return null;
@@ -260,13 +277,16 @@ public class Jrpc {
         super("call");
       }
 
+      @Override
       public call_args getEmptyArgsInstance() {
         return new call_args();
       }
 
+      @Override
       public org.apache.thrift.async.AsyncMethodCallback<RspBean> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<RspBean>() { 
+          @Override
           public void onComplete(RspBean o) {
             call_result result = new call_result();
             result.success = o;
@@ -280,6 +300,7 @@ public class Jrpc {
               onError(e);
             }
           }
+          @Override
           public void onError(Exception e) {
             byte msgType = org.apache.thrift.protocol.TMessageType.REPLY;
             org.apache.thrift.TSerializable msg;
@@ -307,10 +328,12 @@ public class Jrpc {
         };
       }
 
+      @Override
       protected boolean isOneway() {
         return false;
       }
 
+      @Override
       public void start(I iface, call_args args, org.apache.thrift.async.AsyncMethodCallback<RspBean> resultHandler) throws org.apache.thrift.TException {
         iface.call(args.token, args.req,resultHandler);
       }
@@ -321,15 +344,19 @@ public class Jrpc {
         super("send");
       }
 
+      @Override
       public send_args getEmptyArgsInstance() {
         return new send_args();
       }
 
+      @Override
       public org.apache.thrift.async.AsyncMethodCallback<Void> getResultHandler(final org.apache.thrift.server.AbstractNonblockingServer.AsyncFrameBuffer fb, final int seqid) {
         final org.apache.thrift.AsyncProcessFunction fcall = this;
         return new org.apache.thrift.async.AsyncMethodCallback<Void>() { 
+          @Override
           public void onComplete(Void o) {
           }
+          @Override
           public void onError(Exception e) {
             if (e instanceof org.apache.thrift.transport.TTransportException) {
               _LOGGER.error("TTransportException inside handler", e);
@@ -341,10 +368,12 @@ public class Jrpc {
         };
       }
 
+      @Override
       protected boolean isOneway() {
         return true;
       }
 
+      @Override
       public void start(I iface, send_args args, org.apache.thrift.async.AsyncMethodCallback<Void> resultHandler) throws org.apache.thrift.TException {
         iface.send(args.token, args.req,resultHandler);
       }
@@ -398,7 +427,9 @@ public class Jrpc {
        */
       public static _Fields findByThriftIdOrThrow(int fieldId) {
         _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        if (fields == null) {
+          throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        }
         return fields;
       }
 
@@ -418,10 +449,12 @@ public class Jrpc {
         _fieldName = fieldName;
       }
 
+      @Override
       public short getThriftFieldId() {
         return _thriftId;
       }
 
+      @Override
       public String getFieldName() {
         return _fieldName;
       }
@@ -463,6 +496,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public call_args deepCopy() {
       return new call_args(this);
     }
@@ -523,6 +557,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
       switch (field) {
       case TOKEN:
@@ -544,6 +579,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     @org.apache.thrift.annotation.Nullable
     public Object getFieldValue(_Fields field) {
       switch (field) {
@@ -558,6 +594,7 @@ public class Jrpc {
     }
 
     /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -574,35 +611,43 @@ public class Jrpc {
 
     @Override
     public boolean equals(Object that) {
-      if (that == null)
+      if (that == null) {
         return false;
-      if (that instanceof call_args)
+      }
+      if (that instanceof call_args) {
         return this.equals((call_args)that);
+      }
       return false;
     }
 
     public boolean equals(call_args that) {
-      if (that == null)
+      if (that == null) {
         return false;
-      if (this == that)
+      }
+      if (this == that) {
         return true;
+      }
 
       boolean this_present_token = true && this.isSetToken();
       boolean that_present_token = true && that.isSetToken();
       if (this_present_token || that_present_token) {
-        if (!(this_present_token && that_present_token))
+        if (!(this_present_token && that_present_token)) {
           return false;
-        if (!this.token.equals(that.token))
+        }
+        if (!this.token.equals(that.token)) {
           return false;
+        }
       }
 
       boolean this_present_req = true && this.isSetReq();
       boolean that_present_req = true && that.isSetReq();
       if (this_present_req || that_present_req) {
-        if (!(this_present_req && that_present_req))
+        if (!(this_present_req && that_present_req)) {
           return false;
-        if (!this.req.equals(that.req))
+        }
+        if (!this.req.equals(that.req)) {
           return false;
+        }
       }
 
       return true;
@@ -613,12 +658,14 @@ public class Jrpc {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + ((isSetToken()) ? 131071 : 524287);
-      if (isSetToken())
+      if (isSetToken()) {
         hashCode = hashCode * 8191 + token.hashCode();
+      }
 
       hashCode = hashCode * 8191 + ((isSetReq()) ? 131071 : 524287);
-      if (isSetReq())
+      if (isSetReq()) {
         hashCode = hashCode * 8191 + req.hashCode();
+      }
 
       return hashCode;
     }
@@ -654,15 +701,18 @@ public class Jrpc {
       return 0;
     }
 
+    @Override
     @org.apache.thrift.annotation.Nullable
     public _Fields fieldForId(int fieldId) {
       return _Fields.findByThriftId(fieldId);
     }
 
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       scheme(iprot).read(iprot, this);
     }
 
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       scheme(oprot).write(oprot, this);
     }
@@ -679,7 +729,9 @@ public class Jrpc {
         sb.append(this.token);
       }
       first = false;
-      if (!first) sb.append(", ");
+      if (!first) {
+        sb.append(", ");
+      }
       sb.append("req:");
       if (this.req == null) {
         sb.append("null");
@@ -719,6 +771,7 @@ public class Jrpc {
     }
 
     private static class call_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
       public call_argsStandardScheme getScheme() {
         return new call_argsStandardScheme();
       }
@@ -726,6 +779,7 @@ public class Jrpc {
 
     private static class call_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<call_args> {
 
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol iprot, call_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
@@ -765,6 +819,7 @@ public class Jrpc {
         struct.validate();
       }
 
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol oprot, call_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
@@ -786,6 +841,7 @@ public class Jrpc {
     }
 
     private static class call_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
       public call_argsTupleScheme getScheme() {
         return new call_argsTupleScheme();
       }
@@ -875,7 +931,9 @@ public class Jrpc {
        */
       public static _Fields findByThriftIdOrThrow(int fieldId) {
         _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        if (fields == null) {
+          throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        }
         return fields;
       }
 
@@ -895,10 +953,12 @@ public class Jrpc {
         _fieldName = fieldName;
       }
 
+      @Override
       public short getThriftFieldId() {
         return _thriftId;
       }
 
+      @Override
       public String getFieldName() {
         return _fieldName;
       }
@@ -933,6 +993,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public call_result deepCopy() {
       return new call_result(this);
     }
@@ -967,6 +1028,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
       switch (field) {
       case SUCCESS:
@@ -980,6 +1042,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     @org.apache.thrift.annotation.Nullable
     public Object getFieldValue(_Fields field) {
       switch (field) {
@@ -991,6 +1054,7 @@ public class Jrpc {
     }
 
     /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -1005,26 +1069,32 @@ public class Jrpc {
 
     @Override
     public boolean equals(Object that) {
-      if (that == null)
+      if (that == null) {
         return false;
-      if (that instanceof call_result)
+      }
+      if (that instanceof call_result) {
         return this.equals((call_result)that);
+      }
       return false;
     }
 
     public boolean equals(call_result that) {
-      if (that == null)
+      if (that == null) {
         return false;
-      if (this == that)
+      }
+      if (this == that) {
         return true;
+      }
 
       boolean this_present_success = true && this.isSetSuccess();
       boolean that_present_success = true && that.isSetSuccess();
       if (this_present_success || that_present_success) {
-        if (!(this_present_success && that_present_success))
+        if (!(this_present_success && that_present_success)) {
           return false;
-        if (!this.success.equals(that.success))
+        }
+        if (!this.success.equals(that.success)) {
           return false;
+        }
       }
 
       return true;
@@ -1035,8 +1105,9 @@ public class Jrpc {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + ((isSetSuccess()) ? 131071 : 524287);
-      if (isSetSuccess())
+      if (isSetSuccess()) {
         hashCode = hashCode * 8191 + success.hashCode();
+      }
 
       return hashCode;
     }
@@ -1062,15 +1133,18 @@ public class Jrpc {
       return 0;
     }
 
+    @Override
     @org.apache.thrift.annotation.Nullable
     public _Fields fieldForId(int fieldId) {
       return _Fields.findByThriftId(fieldId);
     }
 
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       scheme(iprot).read(iprot, this);
     }
 
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       scheme(oprot).write(oprot, this);
       }
@@ -1116,6 +1190,7 @@ public class Jrpc {
     }
 
     private static class call_resultStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
       public call_resultStandardScheme getScheme() {
         return new call_resultStandardScheme();
       }
@@ -1123,6 +1198,7 @@ public class Jrpc {
 
     private static class call_resultStandardScheme extends org.apache.thrift.scheme.StandardScheme<call_result> {
 
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol iprot, call_result struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
@@ -1153,6 +1229,7 @@ public class Jrpc {
         struct.validate();
       }
 
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol oprot, call_result struct) throws org.apache.thrift.TException {
         struct.validate();
 
@@ -1169,6 +1246,7 @@ public class Jrpc {
     }
 
     private static class call_resultTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
       public call_resultTupleScheme getScheme() {
         return new call_resultTupleScheme();
       }
@@ -1252,7 +1330,9 @@ public class Jrpc {
        */
       public static _Fields findByThriftIdOrThrow(int fieldId) {
         _Fields fields = findByThriftId(fieldId);
-        if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        if (fields == null) {
+          throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+        }
         return fields;
       }
 
@@ -1272,10 +1352,12 @@ public class Jrpc {
         _fieldName = fieldName;
       }
 
+      @Override
       public short getThriftFieldId() {
         return _thriftId;
       }
 
+      @Override
       public String getFieldName() {
         return _fieldName;
       }
@@ -1317,6 +1399,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public send_args deepCopy() {
       return new send_args(this);
     }
@@ -1377,6 +1460,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
       switch (field) {
       case TOKEN:
@@ -1398,6 +1482,7 @@ public class Jrpc {
       }
     }
 
+    @Override
     @org.apache.thrift.annotation.Nullable
     public Object getFieldValue(_Fields field) {
       switch (field) {
@@ -1412,6 +1497,7 @@ public class Jrpc {
     }
 
     /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    @Override
     public boolean isSet(_Fields field) {
       if (field == null) {
         throw new IllegalArgumentException();
@@ -1428,35 +1514,43 @@ public class Jrpc {
 
     @Override
     public boolean equals(Object that) {
-      if (that == null)
+      if (that == null) {
         return false;
-      if (that instanceof send_args)
+      }
+      if (that instanceof send_args) {
         return this.equals((send_args)that);
+      }
       return false;
     }
 
     public boolean equals(send_args that) {
-      if (that == null)
+      if (that == null) {
         return false;
-      if (this == that)
+      }
+      if (this == that) {
         return true;
+      }
 
       boolean this_present_token = true && this.isSetToken();
       boolean that_present_token = true && that.isSetToken();
       if (this_present_token || that_present_token) {
-        if (!(this_present_token && that_present_token))
+        if (!(this_present_token && that_present_token)) {
           return false;
-        if (!this.token.equals(that.token))
+        }
+        if (!this.token.equals(that.token)) {
           return false;
+        }
       }
 
       boolean this_present_req = true && this.isSetReq();
       boolean that_present_req = true && that.isSetReq();
       if (this_present_req || that_present_req) {
-        if (!(this_present_req && that_present_req))
+        if (!(this_present_req && that_present_req)) {
           return false;
-        if (!this.req.equals(that.req))
+        }
+        if (!this.req.equals(that.req)) {
           return false;
+        }
       }
 
       return true;
@@ -1467,12 +1561,14 @@ public class Jrpc {
       int hashCode = 1;
 
       hashCode = hashCode * 8191 + ((isSetToken()) ? 131071 : 524287);
-      if (isSetToken())
+      if (isSetToken()) {
         hashCode = hashCode * 8191 + token.hashCode();
+      }
 
       hashCode = hashCode * 8191 + ((isSetReq()) ? 131071 : 524287);
-      if (isSetReq())
+      if (isSetReq()) {
         hashCode = hashCode * 8191 + req.hashCode();
+      }
 
       return hashCode;
     }
@@ -1508,15 +1604,18 @@ public class Jrpc {
       return 0;
     }
 
+    @Override
     @org.apache.thrift.annotation.Nullable
     public _Fields fieldForId(int fieldId) {
       return _Fields.findByThriftId(fieldId);
     }
 
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
       scheme(iprot).read(iprot, this);
     }
 
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
       scheme(oprot).write(oprot, this);
     }
@@ -1533,7 +1632,9 @@ public class Jrpc {
         sb.append(this.token);
       }
       first = false;
-      if (!first) sb.append(", ");
+      if (!first) {
+        sb.append(", ");
+      }
       sb.append("req:");
       if (this.req == null) {
         sb.append("null");
@@ -1573,6 +1674,7 @@ public class Jrpc {
     }
 
     private static class send_argsStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
       public send_argsStandardScheme getScheme() {
         return new send_argsStandardScheme();
       }
@@ -1580,6 +1682,7 @@ public class Jrpc {
 
     private static class send_argsStandardScheme extends org.apache.thrift.scheme.StandardScheme<send_args> {
 
+      @Override
       public void read(org.apache.thrift.protocol.TProtocol iprot, send_args struct) throws org.apache.thrift.TException {
         org.apache.thrift.protocol.TField schemeField;
         iprot.readStructBegin();
@@ -1619,6 +1722,7 @@ public class Jrpc {
         struct.validate();
       }
 
+      @Override
       public void write(org.apache.thrift.protocol.TProtocol oprot, send_args struct) throws org.apache.thrift.TException {
         struct.validate();
 
@@ -1640,6 +1744,7 @@ public class Jrpc {
     }
 
     private static class send_argsTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+      @Override
       public send_argsTupleScheme getScheme() {
         return new send_argsTupleScheme();
       }

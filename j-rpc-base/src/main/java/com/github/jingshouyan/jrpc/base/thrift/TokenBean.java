@@ -58,7 +58,9 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
      */
     public static _Fields findByThriftIdOrThrow(int fieldId) {
       _Fields fields = findByThriftId(fieldId);
-      if (fields == null) throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+      if (fields == null) {
+          throw new IllegalArgumentException("Field " + fieldId + " doesn't exist!");
+      }
       return fields;
     }
 
@@ -78,10 +80,12 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
       _fieldName = fieldName;
     }
 
+    @Override
     public short getThriftFieldId() {
       return _thriftId;
     }
 
+    @Override
     public String getFieldName() {
       return _fieldName;
     }
@@ -133,6 +137,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
     }
   }
 
+  @Override
   public TokenBean deepCopy() {
     return new TokenBean(this);
   }
@@ -230,6 +235,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
     }
   }
 
+  @Override
   public void setFieldValue(_Fields field, @org.apache.thrift.annotation.Nullable Object value) {
     switch (field) {
     case USER_ID:
@@ -259,6 +265,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
     }
   }
 
+  @Override
   @org.apache.thrift.annotation.Nullable
   public Object getFieldValue(_Fields field) {
     switch (field) {
@@ -276,6 +283,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
   }
 
   /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+  @Override
   public boolean isSet(_Fields field) {
     if (field == null) {
       throw new IllegalArgumentException();
@@ -294,44 +302,54 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
 
   @Override
   public boolean equals(Object that) {
-    if (that == null)
-      return false;
-    if (that instanceof TokenBean)
-      return this.equals((TokenBean)that);
+    if (that == null) {
+        return false;
+    }
+    if (that instanceof TokenBean) {
+        return this.equals((TokenBean)that);
+    }
     return false;
   }
 
   public boolean equals(TokenBean that) {
-    if (that == null)
-      return false;
-    if (this == that)
-      return true;
+    if (that == null) {
+        return false;
+    }
+    if (this == that) {
+        return true;
+    }
 
     boolean this_present_userId = true && this.isSetUserId();
     boolean that_present_userId = true && that.isSetUserId();
     if (this_present_userId || that_present_userId) {
-      if (!(this_present_userId && that_present_userId))
-        return false;
-      if (!this.userId.equals(that.userId))
-        return false;
+      if (!(this_present_userId && that_present_userId)) {
+          return false;
+      }
+      if (!this.userId.equals(that.userId)) {
+          return false;
+      }
     }
 
     boolean this_present_ticket = true && this.isSetTicket();
     boolean that_present_ticket = true && that.isSetTicket();
     if (this_present_ticket || that_present_ticket) {
-      if (!(this_present_ticket && that_present_ticket))
-        return false;
-      if (!this.ticket.equals(that.ticket))
-        return false;
+      if (!(this_present_ticket && that_present_ticket)) {
+          return false;
+      }
+      if (!this.ticket.equals(that.ticket)) {
+          return false;
+      }
     }
 
     boolean this_present_headers = true && this.isSetHeaders();
     boolean that_present_headers = true && that.isSetHeaders();
     if (this_present_headers || that_present_headers) {
-      if (!(this_present_headers && that_present_headers))
-        return false;
-      if (!this.headers.equals(that.headers))
-        return false;
+      if (!(this_present_headers && that_present_headers)) {
+          return false;
+      }
+      if (!this.headers.equals(that.headers)) {
+          return false;
+      }
     }
 
     return true;
@@ -342,16 +360,19 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
     int hashCode = 1;
 
     hashCode = hashCode * 8191 + ((isSetUserId()) ? 131071 : 524287);
-    if (isSetUserId())
-      hashCode = hashCode * 8191 + userId.hashCode();
+    if (isSetUserId()) {
+        hashCode = hashCode * 8191 + userId.hashCode();
+    }
 
     hashCode = hashCode * 8191 + ((isSetTicket()) ? 131071 : 524287);
-    if (isSetTicket())
-      hashCode = hashCode * 8191 + ticket.hashCode();
+    if (isSetTicket()) {
+        hashCode = hashCode * 8191 + ticket.hashCode();
+    }
 
     hashCode = hashCode * 8191 + ((isSetHeaders()) ? 131071 : 524287);
-    if (isSetHeaders())
-      hashCode = hashCode * 8191 + headers.hashCode();
+    if (isSetHeaders()) {
+        hashCode = hashCode * 8191 + headers.hashCode();
+    }
 
     return hashCode;
   }
@@ -397,15 +418,18 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
     return 0;
   }
 
+  @Override
   @org.apache.thrift.annotation.Nullable
   public _Fields fieldForId(int fieldId) {
     return _Fields.findByThriftId(fieldId);
   }
 
+  @Override
   public void read(org.apache.thrift.protocol.TProtocol iprot) throws org.apache.thrift.TException {
     scheme(iprot).read(iprot, this);
   }
 
+  @Override
   public void write(org.apache.thrift.protocol.TProtocol oprot) throws org.apache.thrift.TException {
     scheme(oprot).write(oprot, this);
   }
@@ -422,7 +446,9 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
       sb.append(this.userId);
     }
     first = false;
-    if (!first) sb.append(", ");
+    if (!first) {
+        sb.append(", ");
+    }
     sb.append("ticket:");
     if (this.ticket == null) {
       sb.append("null");
@@ -430,7 +456,9 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
       sb.append(this.ticket);
     }
     first = false;
-    if (!first) sb.append(", ");
+    if (!first) {
+        sb.append(", ");
+    }
     sb.append("headers:");
     if (this.headers == null) {
       sb.append("null");
@@ -464,6 +492,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
   }
 
   private static class TokenBeanStandardSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    @Override
     public TokenBeanStandardScheme getScheme() {
       return new TokenBeanStandardScheme();
     }
@@ -471,6 +500,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
 
   private static class TokenBeanStandardScheme extends org.apache.thrift.scheme.StandardScheme<TokenBean> {
 
+    @Override
     public void read(org.apache.thrift.protocol.TProtocol iprot, TokenBean struct) throws org.apache.thrift.TException {
       org.apache.thrift.protocol.TField schemeField;
       iprot.readStructBegin();
@@ -528,6 +558,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
       struct.validate();
     }
 
+    @Override
     public void write(org.apache.thrift.protocol.TProtocol oprot, TokenBean struct) throws org.apache.thrift.TException {
       struct.validate();
 
@@ -562,6 +593,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
   }
 
   private static class TokenBeanTupleSchemeFactory implements org.apache.thrift.scheme.SchemeFactory {
+    @Override
     public TokenBeanTupleScheme getScheme() {
       return new TokenBeanTupleScheme();
     }

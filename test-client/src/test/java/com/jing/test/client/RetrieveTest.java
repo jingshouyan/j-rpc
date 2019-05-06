@@ -1,6 +1,6 @@
 package com.jing.test.client;
 
-import com.github.jingshouyan.crud.bean.R;
+import com.github.jingshouyan.crud.bean.RetrieveDTO;
 import com.github.jingshouyan.jdbc.comm.bean.Page;
 import com.github.jingshouyan.jdbc.comm.util.ConditionUtil;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
@@ -26,44 +26,44 @@ public class RetrieveTest {
 
     @Test
     public void single(){
-        query(R.TYPE_SINGLE);
+        query(RetrieveDTO.TYPE_SINGLE);
     }
 
     @Test
     public void multiple(){
-        query(R.TYPE_MULTIPLE);
+        query(RetrieveDTO.TYPE_MULTIPLE);
     }
 
     @Test
     public void page(){
-        query(R.TYPE_PAGE);
+        query(RetrieveDTO.TYPE_PAGE);
     }
 
     @Test
     public void list(){
-        query(R.TYPE_LIST);
+        query(RetrieveDTO.TYPE_LIST);
     }
 
     @Test
     public void limit(){
-        query(R.TYPE_LIMIT);
+        query(RetrieveDTO.TYPE_LIMIT);
     }
 
     private void query(String type){
-        R r = new R();
-        r.setId("U18001");
-        r.setIds(Lists.newArrayList("U18001","U20001"));
-        r.setType(type);
-        r.setPage(new Page());
-        r.setConditions(ConditionUtil.newInstance()
+        RetrieveDTO retrieveDTO = new RetrieveDTO();
+        retrieveDTO.setId("U18001");
+        retrieveDTO.setIds(Lists.newArrayList("U18001","U20001"));
+        retrieveDTO.setType(type);
+        retrieveDTO.setPage(new Page());
+        retrieveDTO.setConditions(ConditionUtil.newInstance()
 //                .field("age").gt(20)
                 .conditions());
-        r.setBean("user");
+        retrieveDTO.setBean("user");
         Rsp rsp = Request.newInstance()
                 .setClient(jrpcClient)
                 .setServer("test")
                 .setMethod("retrieve")
-                .setParamObj(r)
+                .setParamObj(retrieveDTO)
                 .send();
         System.out.println(rsp);
     }

@@ -15,6 +15,10 @@ import org.springframework.core.annotation.Order;
 
 import java.lang.reflect.Method;
 
+/**
+ * @author jingshouyan
+ * 11/29/18 5:26 PM
+ */
 @Aspect
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class SpanXTrace implements TraceConstant {

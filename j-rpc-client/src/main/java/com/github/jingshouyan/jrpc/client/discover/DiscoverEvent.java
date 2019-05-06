@@ -5,5 +5,10 @@ package com.github.jingshouyan.jrpc.client.discover;
  * #date 2018/10/26 16:21
  */
 public enum DiscoverEvent {
-    ADD,UPDATE,REMOVE
+    /* 新增 */
+    ADD,
+    /* 更新 */
+    UPDATE,
+    /* 移除 */
+    REMOVE
 }

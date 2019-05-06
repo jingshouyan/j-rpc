@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.server.method.holder;
 
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.server.method.BaseMethod;
 import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
@@ -23,11 +23,11 @@ public class MethodHolder {
 
     public static BaseMethod getMethod(String methodName){
         if(methodName == null){
-            throw new JException(Code.METHOD_NOT_FOUND);
+            throw new JrpcException(Code.METHOD_NOT_FOUND);
         }
         BaseMethod method = METHOD_MAP.get(methodName);
         if(method == null){
-            throw new JException(Code.METHOD_NOT_FOUND);
+            throw new JrpcException(Code.METHOD_NOT_FOUND);
         }
         return method;
     }

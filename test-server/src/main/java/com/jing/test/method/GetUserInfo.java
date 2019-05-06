@@ -16,11 +16,18 @@ import java.util.stream.Collectors;
 @Component("getUserInfo")
 public class GetUserInfo implements Method<IdQuery,List<UserBean>> {
 
-    // 本方法只会在 idQuery 校验成功执行
+
+
+    /**
+     * 本方法只会在 idQuery 校验成功执行
+     * @param token 用户信息
+     * @param idQuery
+     * @return
+     */
     @Override
     public List<UserBean> action(Token token,IdQuery idQuery) {
-        // throw new JException(TestCode.JUST_ERROR);  //通过异常返回错误码
-//         throw new JException(TestCode.JUST_ERROR,idQuery);  //通过异常返回错误码,并返回一些数据
+        // throw new JrpcException(TestCode.JUST_ERROR);  //通过异常返回错误码
+//         throw new JrpcException(TestCode.JUST_ERROR,idQuery);  //通过异常返回错误码,并返回一些数据
         return idQuery.getIds().stream().map(id -> {
             UserBean userBean = new UserBean();
             userBean.setId(id);

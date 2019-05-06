@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.base.util.rsp;
 
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 
 /**
  * @author jingshouyan
@@ -31,7 +31,7 @@ public class RspUtil {
         return error(code,Code.getMessage(code),result);
     }
 
-    public static Rsp error(JException e){
+    public static Rsp error(JrpcException e){
         int code = e.getCode();
         String message = Code.getMessage(code);
         String detail = e.getDetail();

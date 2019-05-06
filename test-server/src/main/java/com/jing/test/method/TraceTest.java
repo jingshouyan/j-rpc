@@ -9,8 +9,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.concurrent.*;
 
 /**
  * @author jingshouyan
@@ -18,9 +17,12 @@ import java.util.concurrent.Executors;
  */
 @Component
 public class TraceTest implements Method<Integer,Integer> {
+    private static final int LOOP = 2;
 
-    public static final ExecutorService exec = Executors.newFixedThreadPool(20,new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
-
+    private static final ExecutorService EXEC = new ThreadPoolExecutor(20, 20,
+            0L,TimeUnit.MILLISECONDS,
+            new LinkedBlockingQueue<Runnable>(),
+            new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
     @Autowired
     ServerProperties properties;
 
@@ -30,9 +32,9 @@ public class TraceTest implements Method<Integer,Integer> {
     @Override
     public Integer action(Token token, Integer i) {
         if(i!=null && i>0){
-            exec.execute(
+            EXEC.execute(
                     () -> {
-                        for (int j = 0; j < 2; j++) {
+                        for (int j = 0; j < LOOP; j++) {
                             Request.newInstance().setClient(client)
                                     .setServer(properties.getName())
                                     .setMethod("traceTest")

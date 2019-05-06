@@ -30,7 +30,8 @@ import java.util.stream.Stream;
  */
 public class ClassInfoUtil {
 
-
+    private static final String LEFT_BRACE = "{";
+    private static final String RIGHT_BRACE = "}";
 
     public static BeanInfo beanInfo(Type type) {
         BeanInfo beanInfo = new BeanInfo();
@@ -200,7 +201,7 @@ public class ClassInfoUtil {
             if("".equals(str)){
                 return null;
             }
-            if(str.startsWith("{")&&str.endsWith("}")){
+            if(str.startsWith(LEFT_BRACE)&&str.endsWith(RIGHT_BRACE)){
                 return null;
             }
             return str;

@@ -15,7 +15,7 @@ import org.springframework.stereotype.Component;
  */
 @Component("traceTest2")
 public class TraceTest2 implements AsyncMethod<Integer,Integer> {
-
+    private static final int LOOP = 2;
 
     @Autowired
     ServerProperties properties;
@@ -27,7 +27,7 @@ public class TraceTest2 implements AsyncMethod<Integer,Integer> {
     public Single<Integer> action(Token token, Integer i) {
         return Single.fromCallable(()-> {
             if(i!=null && i>0){
-                for (int j = 0; j < 2; j++) {
+                for (int j = 0; j < LOOP; j++) {
                     Request.newInstance().setClient(client)
                             .setServer(properties.getName())
                             .setMethod("traceTest2")

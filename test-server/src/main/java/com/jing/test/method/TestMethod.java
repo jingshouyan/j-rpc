@@ -28,10 +28,10 @@ public class TestMethod implements Method<List<String>,TestBean2<CodeInfo,String
         CodeInfo codeInfo = new CodeInfo();
         codeInfo.setCode(100);
         codeInfo.setMessage("1123");
-        Map<String,String> map = new HashMap<>();
+        Map<String,String> map = new HashMap<>(0);
         map.put("abc","eee");
         map.put("abc2","eee2");
-        Map<String,String> map2 = new HashMap<>();
+        Map<String,String> map2 = new HashMap<>(0);
         map2.put("2abc","eee");
         map2.put("2abc2","eee2");
         TestBean3 testBean3 = new TestBean3();

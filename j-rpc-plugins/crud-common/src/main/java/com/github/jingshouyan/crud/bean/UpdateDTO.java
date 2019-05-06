@@ -9,10 +9,12 @@ import javax.validation.constraints.NotNull;
 
 /**
  * @author jingshouyan
- * 12/3/18 2:39 PM
+ * 12/3/18 2:56 PM
  */
-@Getter@Setter@ToString
-public class C implements CrudConstant {
+@Getter
+@Setter
+@ToString
+public class UpdateDTO implements CrudConstant{
     @NotNull
     private String bean;
     @NotNull

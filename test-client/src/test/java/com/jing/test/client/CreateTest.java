@@ -1,6 +1,6 @@
 package com.jing.test.client;
 
-import com.github.jingshouyan.crud.bean.C;
+import com.github.jingshouyan.crud.bean.CreateDTO;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
@@ -29,15 +29,15 @@ public class CreateTest {
     public void single(){
         UserBean u = new UserBean();
         u.setName("heehdf地方");
-        C c = new C();
-        c.setType(C.TYPE_SINGLE);
-        c.setBean("user");
-        c.setData(JsonUtil.toJsonString(u));
+        CreateDTO createDTO = new CreateDTO();
+        createDTO.setType(CreateDTO.TYPE_SINGLE);
+        createDTO.setBean("user");
+        createDTO.setData(JsonUtil.toJsonString(u));
         Rsp rsp = Request.newInstance()
                 .setClient(jrpcClient)
                 .setServer("test")
                 .setMethod("create")
-                .setParamObj(c)
+                .setParamObj(createDTO)
                 .send();
         System.out.println(rsp);
     }
@@ -46,16 +46,16 @@ public class CreateTest {
     public void multiple(){
         UserBean u = new UserBean();
         u.setName("heehdf地方22");
-        C c = new C();
-        c.setType(C.TYPE_MULTIPLE);
-        c.setBean("user");
+        CreateDTO createDTO = new CreateDTO();
+        createDTO.setType(CreateDTO.TYPE_MULTIPLE);
+        createDTO.setBean("user");
         List<UserBean> userBeans = Lists.newArrayList();
-        c.setData(JsonUtil.toJsonString(userBeans));
+        createDTO.setData(JsonUtil.toJsonString(userBeans));
         Rsp rsp = Request.newInstance()
                 .setClient(jrpcClient)
                 .setServer("test")
                 .setMethod("create")
-                .setParamObj(c)
+                .setParamObj(createDTO)
                 .send();
         System.out.println(rsp);
     }

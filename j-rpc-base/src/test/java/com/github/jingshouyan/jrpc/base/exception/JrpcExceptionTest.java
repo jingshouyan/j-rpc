@@ -8,14 +8,14 @@ import org.junit.Test;
  * #date 2018/11/6 20:48
  */
 
-public class JExceptionTest {
+public class JrpcExceptionTest {
 
     @Test
     public void test(){
         Object a = "123";
         String b = "abc";
-        JException e = new JException(1,a);
-        JException e2 = new JException(1,b);
+        JrpcException e = new JrpcException(1,a);
+        JrpcException e2 = new JrpcException(1,b);
         System.out.println(e);
 
     }

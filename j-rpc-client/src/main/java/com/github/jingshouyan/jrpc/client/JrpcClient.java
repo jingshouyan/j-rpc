@@ -8,7 +8,7 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
@@ -75,8 +75,8 @@ public class JrpcClient implements ActionHandler {
         //error 执行方法
         error = (emitter, e) -> {
             Rsp rsp;
-            if(e instanceof JException) {
-                rsp = RspUtil.error((JException)e);
+            if(e instanceof JrpcException) {
+                rsp = RspUtil.error((JrpcException)e);
             } else {
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
                 log.error("call rpc error.",e);
@@ -141,7 +141,7 @@ public class JrpcClient implements ActionHandler {
                     });
                 }
                 return;
-            }catch (JException e) {
+            }catch (JrpcException e) {
                 transportProvider.restore(transport);
                 rsp = RspUtil.error(e);
             } catch (Exception e) {

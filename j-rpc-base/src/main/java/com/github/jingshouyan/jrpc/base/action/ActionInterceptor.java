@@ -11,7 +11,7 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 public interface ActionInterceptor extends Comparable<ActionInterceptor>{
 
     /**
-     *
+     * around handler
      * @param token
      * @param req
      * @param handler
@@ -27,6 +27,11 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor>{
         return 10;
     }
 
+    /**
+     * 比较
+     * @param that
+     * @return
+     */
     @Override
     default int compareTo(ActionInterceptor that) {
         int a = this.order();

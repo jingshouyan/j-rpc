@@ -4,7 +4,7 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
@@ -35,8 +35,8 @@ public class RpcImpl implements Rpc {
         Single<RspBean> rspBeanSingle = run(token,req,false);
         rspBeanSingle.subscribe(resultHandler::onComplete ,e -> {
             Rsp rsp;
-            if(e instanceof JException) {
-                rsp = RspUtil.error((JException) e);
+            if(e instanceof JrpcException) {
+                rsp = RspUtil.error((JrpcException) e);
             } else {
                 log.error("server error",e);
                 rsp = RspUtil.error(Code.SERVER_ERROR);

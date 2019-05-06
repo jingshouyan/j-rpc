@@ -1,12 +1,12 @@
 package com.github.jingshouyan.jrpc.crud.dql.method;
 
-import com.github.jingshouyan.crud.bean.R;
+import com.github.jingshouyan.crud.bean.RetrieveDTO;
 import com.github.jingshouyan.crud.constant.CrudConstant;
 import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import com.github.jingshouyan.jdbc.core.dao.BaseDao;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.google.common.base.Preconditions;
 import org.springframework.context.ApplicationContext;
@@ -16,7 +16,7 @@ import org.springframework.context.ApplicationContext;
  * @author jingshouyan
  * 12/3/18 4:14 PM
  */
-public class Retrieve implements Method<R,Object> ,CrudConstant {
+public class Retrieve implements Method<RetrieveDTO,Object> ,CrudConstant {
 
     private ApplicationContext ctx;
 
@@ -37,21 +37,21 @@ public class Retrieve implements Method<R,Object> ,CrudConstant {
     }
 
     @Override
-    public Object action(Token token,R r) {
-        BaseDao<BaseDO> dao = dao(r.getBean());
-        switch (r.getType()){
+    public Object action(Token token, RetrieveDTO retrieveDTO) {
+        BaseDao<BaseDO> dao = dao(retrieveDTO.getBean());
+        switch (retrieveDTO.getType()){
             case TYPE_SINGLE:
-                return dao.findField(r.getId(),r.getFields()).orElseThrow(()-> new JException(NOT_FUND_BY_ID));
+                return dao.findField(retrieveDTO.getId(),retrieveDTO.getFields()).orElseThrow(()-> new JrpcException(NOT_FUND_BY_ID));
             case TYPE_MULTIPLE:
-                return dao.findByIdsField(r.getIds(),r.getFields());
+                return dao.findByIdsField(retrieveDTO.getIds(),retrieveDTO.getFields());
             case TYPE_LIST:
-                return dao.queryField(r.getConditions(),r.getFields());
+                return dao.queryField(retrieveDTO.getConditions(),retrieveDTO.getFields());
             case TYPE_LIMIT:
-                return dao.queryFieldLimit(r.getConditions(), r.getPage(), r.getFields());
+                return dao.queryFieldLimit(retrieveDTO.getConditions(), retrieveDTO.getPage(), retrieveDTO.getFields());
             case TYPE_PAGE:
-                return dao.queryFieldPage(r.getConditions(), r.getPage(), r.getFields());
+                return dao.queryFieldPage(retrieveDTO.getConditions(), retrieveDTO.getPage(), retrieveDTO.getFields());
             default:
-                throw new UnsupportedOperationException("unsupported retrieve type: "+r.getType());
+                throw new UnsupportedOperationException("unsupported retrieve type: "+retrieveDTO.getType());
         }
     }
 

@@ -8,5 +8,10 @@ import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
  */
 public interface ServerInfoListener {
 
+    /**
+     * 执行事件
+     * @param event 事件
+     * @param serverInfo 服务信息
+     */
     void handle(DiscoverEvent event, ServerInfo serverInfo);
 }

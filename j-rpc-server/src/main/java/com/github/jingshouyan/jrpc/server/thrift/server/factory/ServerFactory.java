@@ -9,5 +9,11 @@ import org.apache.thrift.server.TServer;
  * #date 2018/10/24 23:55
  */
 public interface ServerFactory {
+    /**
+     * 获取TServer
+     * @param service service实现
+     * @param serverInfo 服务信息
+     * @return TServer
+     */
     TServer getServer(Rpc service, ServerInfo serverInfo);
 }

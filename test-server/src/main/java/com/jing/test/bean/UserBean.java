@@ -34,6 +34,6 @@ public class UserBean extends BaseDO {
 
     @Override
     public String idPrefix() {
-        return "U";
+        return "UpdateDTO";
     }
 }

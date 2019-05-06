@@ -7,7 +7,7 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.base.exception.JException;
+import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
@@ -51,7 +51,7 @@ public class ServerActionHandler implements ActionHandler {
                 try {
                     obj = JsonUtil.toBean(param, clazz);
                 }catch (Exception e){
-                    throw new JException(Code.JSON_PARSE_ERROR,e);
+                    throw new JrpcException(Code.JSON_PARSE_ERROR,e);
                 }
                 baseMethod.validate(obj);
                 if(baseMethod instanceof Method) {
@@ -64,8 +64,8 @@ public class ServerActionHandler implements ActionHandler {
                     single.map(RspUtil::success)
                             .subscribe(emitter::onSuccess,
                                     e -> {
-                                        if (e instanceof JException) {
-                                            emitter.onSuccess(RspUtil.error((JException) e));
+                                        if (e instanceof JrpcException) {
+                                            emitter.onSuccess(RspUtil.error((JrpcException) e));
                                         } else {
                                             log.error("call [{}] error.",methodName,e);
                                             emitter.onSuccess(RspUtil.error(Code.SERVER_ERROR));
@@ -73,7 +73,7 @@ public class ServerActionHandler implements ActionHandler {
                                     });
                     return;
                 }
-            }catch (JException e){
+            }catch (JrpcException e){
                 rsp = RspUtil.error(e);
             }catch (Exception e){
                 log.error("call [{}] error.",methodName,e);
