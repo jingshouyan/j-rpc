@@ -106,7 +106,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         info.setWorker(properties.getWorker());
         info.setMonitorInfo(MonitorUtil.monitor());
 
-        ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)). start();
+        ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
     }
 
 
