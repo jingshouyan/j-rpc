@@ -67,7 +67,7 @@ public class ZkRegister implements Register{
 
         }catch (Exception e){
             log.error("register zk error.",e);
-            System.exit(-1);
+            throw new RuntimeException(e);
         }
     }
 
