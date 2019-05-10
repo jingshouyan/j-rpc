@@ -68,7 +68,7 @@
 					}
 					$(self).find(".icon-switchstate").removeClass("icon-fold").addClass("icon-unfold");
 					$("#" + domId).siblings(".ore-menu-sub").remove();
-					$.get("server/" + serverName, {}, function(res){
+					$.get("api/server/" + serverName, {}, function(res){
 						
 						var _res = util.isString(res) ? JSON.parse(res): res
 						console.log(_res.data);
@@ -149,7 +149,7 @@
 				loadLeftMenu: function (cb){
 					$.ajax({
 						type: "GET",
-						url: "servers",
+						url: "api/servers",
 						data: {},
 						success: function(data){
 							var resdata = util.isString(data) ? JSON.parse(data): data;
