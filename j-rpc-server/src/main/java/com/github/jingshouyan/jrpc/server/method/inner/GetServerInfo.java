@@ -16,12 +16,12 @@ import java.util.List;
  * @author jingshouyan
  * #date 2018/10/23 11:42
  */
-public class GetServerInfo implements Method<Empty,InterfaceInfo> {
+public class GetServerInfo implements Method<Empty, InterfaceInfo> {
 
     private static final int DEEP = 5;
 
     @Override
-    public InterfaceInfo action(Token token,Empty empty) {
+    public InterfaceInfo action(Token token, Empty empty) {
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         interfaceInfo.setCodeInfos(codes());
         interfaceInfo.setMethodInfos(methods());
@@ -29,25 +29,27 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
         return interfaceInfo;
     }
 
-    private List<CodeInfo> codes(){
+    private List<CodeInfo> codes() {
         List<CodeInfo> codes = Lists.newArrayList();
-        Code.getCodeMap().forEach((k,v) -> {
-            codes.add(new CodeInfo(k,v,null));
+        Code.getCodeMap().forEach((k, v) -> {
+            codes.add(new CodeInfo(k, v, null));
         });
         codes.sort(Comparator.comparingInt(CodeInfo::getCode));
         return codes;
     }
 
-    private List<MethodInfo> methods(){
+    private List<MethodInfo> methods() {
         List<MethodInfo> methods = Lists.newArrayList();
         MethodHolder.getMethodMap().forEach((k, v) -> {
-            if(!(v instanceof GetServerInfo)) {
+            if (!(v instanceof GetServerInfo)) {
                 MethodInfo methodInfo = new MethodInfo();
                 methodInfo.setName(k);
                 BeanInfo input = ClassInfoUtil.beanInfo(v.getInputType());
                 BeanInfo output = ClassInfoUtil.beanInfo(v.getOutputType());
+                String rootType = output.getRootType();
+                rootType = "Rsp<" + rootType + ">";
                 TypeInfo rsp = new TypeInfo();
-                rsp.setType("Rsp");
+                rsp.setType(rootType);
                 FieldInfo code = new FieldInfo();
                 code.setType("int");
                 code.setName("code");
@@ -60,8 +62,8 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
                 data.setType(output.getRootType());
                 data.setName("data");
                 rsp.getFields().add(data);
-                output.setRootType("Rsp");
-                output.getTypes().add(0,rsp);
+                output.setRootType(rootType);
+                output.getTypes().add(0, rsp);
                 methodInfo.setInput(input);
                 methodInfo.setOutput(output);
                 methods.add(methodInfo);
@@ -71,10 +73,9 @@ public class GetServerInfo implements Method<Empty,InterfaceInfo> {
     }
 
 
-
     public static void main(String[] args) {
         GetServerInfo getServerInfo = new GetServerInfo();
-        InterfaceInfo serverInfo = getServerInfo.action(new Token(),new Empty());
+        InterfaceInfo serverInfo = getServerInfo.action(new Token(), new Empty());
         System.out.println(JsonUtil.toJsonString(serverInfo));
     }
 
