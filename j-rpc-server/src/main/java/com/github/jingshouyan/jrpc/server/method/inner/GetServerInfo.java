@@ -18,7 +18,6 @@ import java.util.List;
  */
 public class GetServerInfo implements Method<Empty, InterfaceInfo> {
 
-    private static final int DEEP = 5;
 
     @Override
     public InterfaceInfo action(Token token, Empty empty) {
@@ -31,9 +30,7 @@ public class GetServerInfo implements Method<Empty, InterfaceInfo> {
 
     private List<CodeInfo> codes() {
         List<CodeInfo> codes = Lists.newArrayList();
-        Code.getCodeMap().forEach((k, v) -> {
-            codes.add(new CodeInfo(k, v, null));
-        });
+        Code.getCodeMap().forEach((k, v) -> codes.add(new CodeInfo(k, v, null)));
         codes.sort(Comparator.comparingInt(CodeInfo::getCode));
         return codes;
     }
