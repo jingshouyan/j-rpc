@@ -28,11 +28,12 @@ public class ServerActionHandler implements ActionHandler {
 
     @Override
     public Single<Rsp> handle(Token token, Req req) {
-        ActionHandler handler =this::call;
+        ActionHandler handler = this::call;
         for (ActionInterceptor interceptor : ActionInterceptorHolder.getServerInterceptors()) {
-            handler = interceptor.around(token,req,handler);
+            final ActionHandler ah = handler;
+            handler = (t, r) -> interceptor.around(t, r, ah);
         }
-        Single<Rsp> single = handler.handle(token,req);
+        Single<Rsp> single = handler.handle(token, req);
         return single;
     }
 
@@ -41,42 +42,42 @@ public class ServerActionHandler implements ActionHandler {
             Rsp rsp = null;
             String methodName = req.getMethod();
             String param = req.getParam();
-            if(null == param){
+            if (null == param) {
                 param = "{}";
             }
-            try{
+            try {
                 BaseMethod baseMethod = MethodHolder.getMethod(methodName);
                 Type clazz = baseMethod.getInputType();
                 Object obj;
                 try {
                     obj = JsonUtil.toBean(param, clazz);
-                }catch (Exception e){
-                    throw new JrpcException(Code.JSON_PARSE_ERROR,e);
+                } catch (Exception e) {
+                    throw new JrpcException(Code.JSON_PARSE_ERROR, e);
                 }
                 baseMethod.validate(obj);
-                if(baseMethod instanceof Method) {
+                if (baseMethod instanceof Method) {
                     Method method = (Method) baseMethod;
-                    Object data = method.action(token,obj);
+                    Object data = method.action(token, obj);
                     rsp = RspUtil.success(data);
-                } else if(baseMethod instanceof AsyncMethod){
+                } else if (baseMethod instanceof AsyncMethod) {
                     AsyncMethod asyncMethod = (AsyncMethod) baseMethod;
-                    Single<?> single = asyncMethod.action(token,obj);
+                    Single<?> single = asyncMethod.action(token, obj);
                     single.map(RspUtil::success)
                             .subscribe(emitter::onSuccess,
                                     e -> {
                                         if (e instanceof JrpcException) {
                                             emitter.onSuccess(RspUtil.error((JrpcException) e));
                                         } else {
-                                            log.error("call [{}] error.",methodName,e);
+                                            log.error("call [{}] error.", methodName, e);
                                             emitter.onSuccess(RspUtil.error(Code.SERVER_ERROR));
                                         }
                                     });
                     return;
                 }
-            }catch (JrpcException e){
+            } catch (JrpcException e) {
                 rsp = RspUtil.error(e);
-            }catch (Exception e){
-                log.error("call [{}] error.",methodName,e);
+            } catch (Exception e) {
+                log.error("call [{}] error.", methodName, e);
                 rsp = RspUtil.error(Code.SERVER_ERROR);
             }
             emitter.onSuccess(rsp);

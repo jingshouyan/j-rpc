@@ -20,14 +20,14 @@ public class LogInterceptor implements ActionInterceptor {
 
     private StringBuilder actionInfo(Req req) {
         StringBuilder sb = new StringBuilder();
-        if(server){
+        if (server) {
             sb.append("action [")
                     .append(req.getMethod())
                     .append("] ");
         } else {
             sb.append("call [");
             Router router = req.getRouter();
-            if(router != null) {
+            if (router != null) {
                 sb.append(router.getServer()).append('.');
             }
             sb.append(req.getMethod())
@@ -37,28 +37,26 @@ public class LogInterceptor implements ActionInterceptor {
     }
 
     @Override
-    public ActionHandler around(Token token, Req req, ActionHandler handler) {
-        return (t,r) -> {
-            long start = System.nanoTime();
-            String actionInfo = actionInfo(req).toString();
-            log.debug("{} token: {}",actionInfo,token);
-            log.debug("{} param: {}.",actionInfo,req.getParam());
-            Single<Rsp> single = handler.handle(t, r).doOnSuccess(rsp -> {
-                long end = System.nanoTime();
-                if(rsp.success()) {
-                    log.debug("{} end. rsp: {}", actionInfo, rsp.json());
-                    log.debug("{} use {} ns", actionInfo, end - start);
-                } else {
-                    log.warn("{} end. rsp: {}", actionInfo, rsp.json());
-                    log.warn("{} use {} ns", actionInfo, end - start);
-                }
+    public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
+        long start = System.nanoTime();
+        String actionInfo = actionInfo(req).toString();
+        log.debug("{} token: {}", actionInfo, token);
+        log.debug("{} param: {}.", actionInfo, req.getParam());
+        Single<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
+            long end = System.nanoTime();
+            if (rsp.success()) {
+                log.debug("{} end. rsp: {}", actionInfo, rsp.json());
+                log.debug("{} use {} ns", actionInfo, end - start);
+            } else {
+                log.warn("{} end. rsp: {}", actionInfo, rsp.json());
+                log.warn("{} use {} ns", actionInfo, end - start);
+            }
 
-            }).doOnError(e -> {
-                long end = System.nanoTime();
-                log.debug("{} use {} ns,error", actionInfo, end - start,e);
-            });
-            return single;
-        };
+        }).doOnError(e -> {
+            long end = System.nanoTime();
+            log.debug("{} use {} ns,error", actionInfo, end - start, e);
+        });
+        return single;
     }
 
     @Override

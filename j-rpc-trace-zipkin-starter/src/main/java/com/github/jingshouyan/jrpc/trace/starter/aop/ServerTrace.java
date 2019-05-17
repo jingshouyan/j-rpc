@@ -31,7 +31,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     private Tracer tracer;
     private TraceProperties properties;
 
-    public ServerTrace(Tracing tracing,TraceProperties properties){
+    public ServerTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
         this.properties = properties;
         CurrentTraceContextAssemblyTracking contextTracking = CurrentTraceContextAssemblyTracking
@@ -40,38 +40,36 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     }
 
     @Override
-    public ActionHandler around(Token token, Req req, ActionHandler handler) {
-        return (t,r) -> {
-            final Span span = span(token.get(HEADER_TRACE));
+    public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
+        final Span span = span(token.get(HEADER_TRACE));
 
-            Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
-            span.name(req.getMethod())
-                    .annotate(SR)
-                    .tag(TAG_METHOD,""+req.getMethod())
-                    .tag(TAG_TICKET,""+token.getTicket())
-                    .tag(TAG_USER_ID,""+token.getUserId());
+        Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
+        span.name(req.getMethod())
+                .annotate(SR)
+                .tag(TAG_METHOD, "" + req.getMethod())
+                .tag(TAG_TICKET, "" + token.getTicket())
+                .tag(TAG_USER_ID, "" + token.getUserId());
 
-            Single<Rsp> single = handler.handle(t,r).doOnSuccess(rsp -> {
-                if(properties.isMore() || !rsp.success()){
-                    span.tag(TAG_PARAM,""+req.getParam())
-                            .tag(TAG_DATA,""+rsp.getResult());
-                }
-                if(rsp.getCode() != Code.SUCCESS) {
-                    span.tag(TAG_ERROR,rsp.getCode()+":"+rsp.getMessage());
-                }
-                span.tag(TAG_CODE,String.valueOf(rsp.getCode()))
-                        .tag(TAG_MESSAGE,"" + rsp.getMessage())
-                        .annotate(SS)
-                        .finish();
-                spanInScope.close();
-            }).doOnError(e -> {
-                span.tag(TAG_ERROR,"" + e.getMessage())
-                        .annotate(SS)
-                        .finish();
-                spanInScope.close();
-            });
-            return single;
-        };
+        Single<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
+            if (properties.isMore() || !rsp.success()) {
+                span.tag(TAG_PARAM, "" + req.getParam())
+                        .tag(TAG_DATA, "" + rsp.getResult());
+            }
+            if (rsp.getCode() != Code.SUCCESS) {
+                span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());
+            }
+            span.tag(TAG_CODE, String.valueOf(rsp.getCode()))
+                    .tag(TAG_MESSAGE, "" + rsp.getMessage())
+                    .annotate(SS)
+                    .finish();
+            spanInScope.close();
+        }).doOnError(e -> {
+            span.tag(TAG_ERROR, "" + e.getMessage())
+                    .annotate(SS)
+                    .finish();
+            spanInScope.close();
+        });
+        return single;
     }
 
     @Override
@@ -79,12 +77,12 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
         return Integer.MAX_VALUE;
     }
 
-    private Span span(String trace){
-        if(null != trace){
-            TraceContextOrSamplingFlags traceContextOrSamplingFlags =B3SingleFormat.parseB3SingleFormat(trace);
-            if(traceContextOrSamplingFlags !=null ){
+    private Span span(String trace) {
+        if (null != trace) {
+            TraceContextOrSamplingFlags traceContextOrSamplingFlags = B3SingleFormat.parseB3SingleFormat(trace);
+            if (traceContextOrSamplingFlags != null) {
                 TraceContext context = traceContextOrSamplingFlags.context();
-                if(context != null){
+                if (context != null) {
                     return tracer.joinSpan(context).start();
                 }
             }

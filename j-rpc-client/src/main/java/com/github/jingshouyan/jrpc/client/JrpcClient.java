@@ -94,7 +94,8 @@ public class JrpcClient implements ActionHandler {
     public Single<Rsp> handle(Token token, Req req) {
         ActionHandler handler = this::call;
         for (ActionInterceptor interceptor : ActionInterceptorHolder.getClientInterceptors()) {
-            handler = interceptor.around(token,req,handler);
+            final ActionHandler ah = handler;
+            handler = (t, r) -> interceptor.around(t, r, ah);
         }
         Single<Rsp> single = handler.handle(token,req);
         return single;
