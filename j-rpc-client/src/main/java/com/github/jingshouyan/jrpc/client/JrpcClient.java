@@ -145,7 +145,7 @@ public class JrpcClient implements ActionHandler {
             }catch (JrpcException e) {
                 transportProvider.restore(transport);
                 rsp = RspUtil.error(e);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 log.error("call rpc error.",e);
                 transportProvider.invalid(transport);
                 rsp = RspUtil.error(Code.CLIENT_ERROR);

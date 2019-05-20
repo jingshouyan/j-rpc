@@ -76,7 +76,7 @@ public class ServerActionHandler implements ActionHandler {
                 }
             } catch (JrpcException e) {
                 rsp = RspUtil.error(e);
-            } catch (Exception e) {
+            } catch (Throwable e) {
                 log.error("call [{}] error.", methodName, e);
                 rsp = RspUtil.error(Code.SERVER_ERROR);
             }
