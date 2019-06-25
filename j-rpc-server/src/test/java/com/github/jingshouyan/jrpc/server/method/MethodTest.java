@@ -23,9 +23,9 @@ public class MethodTest {
 //    }
 
     @Test
-    public void getServeInfo(){
+    public void getServeInfo() {
         GetServerInfo GetServerInfo = new GetServerInfo();
-        InterfaceInfo serverInfo = GetServerInfo.action(new Token(),new Empty());
+        InterfaceInfo serverInfo = GetServerInfo.action(new Token(), new Empty());
         String json = JsonUtil.toJsonString(serverInfo);
         System.out.println(json);
     }

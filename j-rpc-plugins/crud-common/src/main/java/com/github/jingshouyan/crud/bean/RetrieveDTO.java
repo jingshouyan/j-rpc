@@ -19,7 +19,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class RetrieveDTO implements CrudConstant{
+public class RetrieveDTO implements CrudConstant {
     @NotNull
     private String bean;
     private List<Condition> conditions = new ArrayList<>();

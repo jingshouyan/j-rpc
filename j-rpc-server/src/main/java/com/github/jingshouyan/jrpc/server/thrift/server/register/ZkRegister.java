@@ -19,7 +19,7 @@ import org.apache.zookeeper.data.Stat;
  * #date 2018/10/25 13:09
  */
 @Slf4j
-public class ZkRegister implements Register{
+public class ZkRegister implements Register {
 
     private static final String DEFAULT_CHARSET = "utf-8";
 
@@ -27,58 +27,59 @@ public class ZkRegister implements Register{
     public void register(TServer tserver, ServerInfo info) {
         while (true) {
             try {
-                if(!tserver.isServing()){
+                if (!tserver.isServing()) {
                     break;
                 }
                 log.debug("waiting for server start");
                 Thread.sleep(2000);
-            }catch (Exception e){}
+            } catch (Exception e) {
+            }
 
         }
         CuratorFramework client = ZkUtil.getClient(info.getZkHost());
-        try{
+        try {
             log.debug("register zk starting...");
             String path = fullPath(info);
-            deleteZkNode(client,info);
-            createZkNode(client,info);
+            deleteZkNode(client, info);
+            createZkNode(client, info);
             log.debug("serviceInstance:[{}]", info);
 
             TreeCache cache = new TreeCache(client, path);
-            cache.getListenable().addListener((cf,event)->{
-                if(event.getType() == TreeCacheEvent.Type.NODE_REMOVED
+            cache.getListenable().addListener((cf, event) -> {
+                if (event.getType() == TreeCacheEvent.Type.NODE_REMOVED
                         && path.equals(event.getData().getPath())
-                        && tserver.isServing()){
+                        && tserver.isServing()) {
                     log.warn("node deleted,register again.");
-                    createZkNode(client,info);
+                    createZkNode(client, info);
                 }
             });
             cache.start();
-            Runtime.getRuntime().addShutdownHook(new Thread(()->{
-                try{
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                try {
                     log.debug("server stop...");
                     cache.close();
-                    deleteZkNode(client,info);
+                    deleteZkNode(client, info);
                     client.close();
 
-                }catch (Exception e){
-                    log.error("delete zk node [{}] error.",path,e);
+                } catch (Exception e) {
+                    log.error("delete zk node [{}] error.", path, e);
                 }
             }));
 
-        }catch (Exception e){
-            log.error("register zk error.",e);
+        } catch (Exception e) {
+            log.error("register zk error.", e);
             throw new RuntimeException(e);
         }
     }
 
     private String fullPath(ServerInfo serverInfo) {
         String serverNamespace = serverInfo.getZkRoot() + "/" + serverInfo.getName();
-        String fullPath = serverNamespace + "/" +serverInfo.getInstance();
+        String fullPath = serverNamespace + "/" + serverInfo.getInstance();
         return fullPath;
     }
 
     @SneakyThrows
-    private String createZkNode(CuratorFramework client,ServerInfo info){
+    private String createZkNode(CuratorFramework client, ServerInfo info) {
         String path = fullPath(info);
         info.setMonitorInfo(MonitorUtil.monitor());
         String data = JsonUtil.toJsonString(info);
@@ -86,16 +87,17 @@ public class ZkRegister implements Register{
                 creatingParentContainersIfNeeded()
                 .withMode(CreateMode.EPHEMERAL)
                 .forPath(path, data.getBytes(DEFAULT_CHARSET));
-        log.debug("create zk node :{},data:{}",path,data);
+        log.debug("create zk node :{},data:{}", path, data);
         return realPath;
     }
+
     @SneakyThrows
-    private void deleteZkNode(CuratorFramework client,ServerInfo info){
+    private void deleteZkNode(CuratorFramework client, ServerInfo info) {
         String path = fullPath(info);
         Stat stat = client.checkExists().forPath(path);
-        if(stat != null){
+        if (stat != null) {
             client.delete().forPath(path);
         }
-        log.debug("delete zk node [{}] .",path);
+        log.debug("delete zk node [{}] .", path);
     }
 }

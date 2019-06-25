@@ -20,7 +20,7 @@ public class Req {
 
     private Router router;
 
-    public ReqBean reqBean(){
-        return new ReqBean(method,param);
+    public ReqBean reqBean() {
+        return new ReqBean(method, param);
     }
 }

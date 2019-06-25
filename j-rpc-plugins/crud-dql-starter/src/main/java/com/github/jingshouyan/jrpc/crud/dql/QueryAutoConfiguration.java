@@ -21,7 +21,7 @@ public class QueryAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(Retrieve.class)
-    public Retrieve retrieve(ApplicationContext ctx){
+    public Retrieve retrieve(ApplicationContext ctx) {
         return new Retrieve(ctx);
     }
 }

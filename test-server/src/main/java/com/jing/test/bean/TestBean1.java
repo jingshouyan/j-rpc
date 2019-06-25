@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
  */
 @Data
 public class TestBean1 {
-    @JsonIgnore@NotNull
-    private TestBean2<TestBean3,String,CodeInfo> testBean2;
+    @JsonIgnore
+    @NotNull
+    private TestBean2<TestBean3, String, CodeInfo> testBean2;
 }

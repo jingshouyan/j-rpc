@@ -14,70 +14,71 @@ import java.util.Map;
  */
 @Slf4j
 public class TransportProvider {
-    private static final Map<String,TransportPool> TRANSPORT_POOL_MAP = Maps.newConcurrentMap();
+    private static final Map<String, TransportPool> TRANSPORT_POOL_MAP = Maps.newConcurrentMap();
 
     private GenericObjectPoolConfig cfg;
 
-    public TransportProvider(GenericObjectPoolConfig cfg){
+    public TransportProvider(GenericObjectPoolConfig cfg) {
         this.cfg = cfg;
     }
-    static{
-        Runtime.getRuntime().addShutdownHook(new Thread(()->{
+
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             log.debug("client stop. clean transport pool");
-            TRANSPORT_POOL_MAP.forEach((key,transport)->{
+            TRANSPORT_POOL_MAP.forEach((key, transport) -> {
                 transport.close();
             });
         }));
     }
 
-    public Transport get(ServerInfo serverInfo) throws Exception{
-        return TRANSPORT_POOL_MAP.computeIfAbsent(serverInfo.getInstance(),key->new TransportPool(serverInfo,cfg)).get();
+    public Transport get(ServerInfo serverInfo) throws Exception {
+        return TRANSPORT_POOL_MAP.computeIfAbsent(serverInfo.getInstance(), key -> new TransportPool(serverInfo, cfg)).get();
     }
 
-    public void restore(Transport transport){
-        if(null == transport) {
+    public void restore(Transport transport) {
+        if (null == transport) {
             return;
         }
         TransportPool transportPool = TRANSPORT_POOL_MAP.get(transport.getKey());
-        if(null != transportPool){
+        if (null != transportPool) {
             transportPool.restore(transport);
         }
     }
 
-    public void invalid(Transport transport){
-        if(null == transport) {
+    public void invalid(Transport transport) {
+        if (null == transport) {
             return;
         }
-        try{
+        try {
             TransportPool transportPool = TRANSPORT_POOL_MAP.get(transport.getKey());
-            if(null != transportPool){
+            if (null != transportPool) {
                 transportPool.invalid(transport);
             }
-        }catch (Exception e){
-            log.error("pool invalid object error",e);
+        } catch (Exception e) {
+            log.error("pool invalid object error", e);
         }
     }
 
     public void close(ServerInfo serverInfo) {
         TransportPool transportPool = TRANSPORT_POOL_MAP.remove(serverInfo.getInstance());
-        if(null != transportPool){
+        if (null != transportPool) {
             transportPool.close();
         }
     }
 
     public void loseSingle(ServerInfo serverInfo) {
-        try{
+        try {
             TransportPool pool = TRANSPORT_POOL_MAP.get(serverInfo.getInstance());
-            if(pool != null) {
+            if (pool != null) {
                 Transport transport = pool.get();
                 boolean open = transport.isOpen();
-                if(!open) {
+                if (!open) {
                     close(serverInfo);
                 } else {
                     pool.restore(transport);
                 }
             }
-        }catch (Exception e) {
+        } catch (Exception e) {
             close(serverInfo);
         }
 

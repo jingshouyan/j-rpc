@@ -14,7 +14,7 @@ public class TokenContextLocal {
 
     private static final TokenContextLocal INSTANCE = new TokenContextLocal();
 
-    public static TokenContextLocal getInstance(){
+    public static TokenContextLocal getInstance() {
         return INSTANCE;
     }
 
@@ -22,11 +22,11 @@ public class TokenContextLocal {
         CURRENT_LOCAL.set(token);
     }
 
-    public Token get(){
+    public Token get() {
         return CURRENT_LOCAL.get();
     }
 
-    public void remove(){
+    public void remove() {
         CURRENT_LOCAL.remove();
     }
 }

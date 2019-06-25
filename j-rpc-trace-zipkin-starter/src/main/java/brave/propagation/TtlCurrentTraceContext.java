@@ -17,8 +17,8 @@ public class TtlCurrentTraceContext extends ThreadLocalCurrentTraceContext {
         return new TtlCurrentTraceContext();
     }
 
-    public TtlCurrentTraceContext(){
-        super(new Builder(),TTL);
+    public TtlCurrentTraceContext() {
+        super(new Builder(), TTL);
     }
 
     public static CurrentTraceContext.Builder newBuilder() {
@@ -29,7 +29,7 @@ public class TtlCurrentTraceContext extends ThreadLocalCurrentTraceContext {
 
         @Override
         public CurrentTraceContext build() {
-            return new ThreadLocalCurrentTraceContext(this,TTL);
+            return new ThreadLocalCurrentTraceContext(this, TTL);
         }
 
         Builder() {

@@ -12,7 +12,7 @@ import java.util.UUID;
  */
 @Data
 public class ServerInfo {
-    public ServerInfo(){
+    public ServerInfo() {
         instance = UUID.randomUUID().toString().toLowerCase();
     }
 
@@ -36,7 +36,7 @@ public class ServerInfo {
     private int worker = BaseConstant.CPU_NUM * 4;
 
 
-    public void update(ServerInfo serverInfo){
+    public void update(ServerInfo serverInfo) {
         this.updatedAt = serverInfo.updatedAt;
         this.monitorInfo = serverInfo.monitorInfo;
     }

@@ -22,7 +22,7 @@ public abstract class BaseCrud implements CrudConstant {
     public static final String ALL = "*";
 
     static {
-        Code.regCode(NOT_ALLOWED,"not allowed");
+        Code.regCode(NOT_ALLOWED, "not allowed");
     }
 
     @Autowired
@@ -31,39 +31,39 @@ public abstract class BaseCrud implements CrudConstant {
     private boolean all = false;
     private Set<String> allows = new HashSet<>();
 
-    public BaseCrud(ApplicationContext ctx){
+    public BaseCrud(ApplicationContext ctx) {
         this.ctx = ctx;
     }
 
-    protected BaseDao<BaseDO> dao(String beanName){
+    protected BaseDao<BaseDO> dao(String beanName) {
         String daoImplName = beanName + "DaoImpl";
-        BaseDao<BaseDO> dao = ctx.getBean(daoImplName,BaseDao.class);
+        BaseDao<BaseDO> dao = ctx.getBean(daoImplName, BaseDao.class);
         Preconditions.checkNotNull(dao, beanName + "DaoImpl not found.");
         return dao;
     }
 
     /**
      * init
+     *
      * @param beanNames 允许的 bean
      */
-    void initAllows(String beanNames){
-        if(ALL.equals(beanNames)){
+    void initAllows(String beanNames) {
+        if (ALL.equals(beanNames)) {
             all = true;
         } else {
             String[] ss = beanNames.split(",");
             allows = new HashSet<>(ss.length);
-            for (String bean : ss){
+            for (String bean : ss) {
                 allows.add(bean);
             }
         }
     }
 
     /**
-     *
      * @param beanName
      */
     void accessCheck(String beanName) {
-        if(all || allows.contains(beanName)){
+        if (all || allows.contains(beanName)) {
             return;
         }
         throw new JrpcException(NOT_ALLOWED);

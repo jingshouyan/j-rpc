@@ -25,19 +25,19 @@ public class ManipulationAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(Create.class)
-    public Create create(ApplicationContext ctx){
-        return new Create(ctx,properties);
+    public Create create(ApplicationContext ctx) {
+        return new Create(ctx, properties);
     }
 
     @Bean
     @ConditionalOnMissingBean(Update.class)
-    public Update update(ApplicationContext ctx){
-        return new Update(ctx,properties);
+    public Update update(ApplicationContext ctx) {
+        return new Update(ctx, properties);
     }
 
     @Bean
     @ConditionalOnMissingBean(Delete.class)
-    public Delete delete(ApplicationContext ctx){
-        return new Delete(ctx,properties);
+    public Delete delete(ApplicationContext ctx) {
+        return new Delete(ctx, properties);
     }
 }

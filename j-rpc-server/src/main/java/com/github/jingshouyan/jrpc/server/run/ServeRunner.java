@@ -25,7 +25,7 @@ public class ServeRunner {
     private static final long UPDATE_DELAY = 600;
 
     private static final ExecutorService SERVER_RUNNER_POOL = new ThreadPoolExecutor(1,
-            1,0L,TimeUnit.MICROSECONDS,new SynchronousQueue<>(),
+            1, 0L, TimeUnit.MICROSECONDS, new SynchronousQueue<>(),
             new ThreadFactoryBuilder().setNameFormat("server-runner-%d").build(),
             new ThreadPoolExecutor.AbortPolicy()
     );
@@ -39,16 +39,17 @@ public class ServeRunner {
 
     private Rpc rpc;
 
-    private ServeRunner(){ }
+    private ServeRunner() {
+    }
 
     @Getter
     private static ServeRunner instance = new ServeRunner();
 
     public ServeRunner setServerInfo(ServerInfo serverInfo) {
-        if(this.serverInfo == null){
-            log.debug("set server info : {}",serverInfo);
+        if (this.serverInfo == null) {
+            log.debug("set server info : {}", serverInfo);
             this.serverInfo = serverInfo;
-        }else {
+        } else {
             log.warn("server info is already set.");
         }
         initServer();
@@ -56,8 +57,8 @@ public class ServeRunner {
     }
 
 
-    public ServeRunner setIface(Rpc rpc){
-        if(this.rpc == null){
+    public ServeRunner setIface(Rpc rpc) {
+        if (this.rpc == null) {
             log.debug("set server impl: {}", rpc);
             this.rpc = rpc;
         }
@@ -66,43 +67,43 @@ public class ServeRunner {
     }
 
     private void initServer() {
-        if(serverInfo != null && rpc != null){
-            this.tserver = ServerFactoryUtil.getFactory().getServer(rpc,serverInfo);
+        if (serverInfo != null && rpc != null) {
+            this.tserver = ServerFactoryUtil.getFactory().getServer(rpc, serverInfo);
         }
     }
 
 
-    public void start(){
+    public void start() {
         LocalDateTime now = LocalDateTime.now();
         DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE_TIME;
         String nowStr = now.format(dtf);
         serverInfo.setStartAt(nowStr);
-        SERVER_RUNNER_POOL.execute(()-> {
+        SERVER_RUNNER_POOL.execute(() -> {
             while (true) {
                 try {
-                    if(!tserver.isServing()){
+                    if (!tserver.isServing()) {
                         break;
                     }
                     log.debug("waiting ...");
                     Thread.sleep(2000);
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
             }
             log.debug("server run...");
-            try{
+            try {
                 tserver.serve();
-            }catch (Exception e){
-                log.error("server start failed.",e);
+            } catch (Exception e) {
+                log.error("server start failed.", e);
                 System.exit(-1);
             }
             log.debug("server stop...");
         });
-        register.register(tserver,serverInfo);
+        register.register(tserver, serverInfo);
     }
 
-    public void stop(){
+    public void stop() {
         tserver.stop();
     }
-
 
 
     public static void main(String[] args) throws Exception {

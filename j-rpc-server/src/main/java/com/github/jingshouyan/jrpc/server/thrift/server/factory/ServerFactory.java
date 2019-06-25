@@ -11,7 +11,8 @@ import org.apache.thrift.server.TServer;
 public interface ServerFactory {
     /**
      * 获取TServer
-     * @param service service实现
+     *
+     * @param service    service实现
      * @param serverInfo 服务信息
      * @return TServer
      */

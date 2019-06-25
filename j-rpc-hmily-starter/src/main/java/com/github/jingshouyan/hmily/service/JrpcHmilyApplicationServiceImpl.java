@@ -24,10 +24,10 @@ public class JrpcHmilyApplicationServiceImpl implements HmilyApplicationService 
     @Override
     public String acquireName() {
         String tracingName = buildDefaultApplicationName();
-        if(!StringUtils.isEmpty(appName)){
+        if (!StringUtils.isEmpty(appName)) {
             tracingName = appName;
         }
-        if(!StringUtils.isEmpty(jRpcName)){
+        if (!StringUtils.isEmpty(jRpcName)) {
             tracingName = jRpcName;
         }
         return tracingName;

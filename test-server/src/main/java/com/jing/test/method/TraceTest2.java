@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * 11/15/18 4:08 PM
  */
 @Component("traceTest2")
-public class TraceTest2 implements AsyncMethod<Integer,Integer> {
+public class TraceTest2 implements AsyncMethod<Integer, Integer> {
     private static final int LOOP = 2;
 
     @Autowired
@@ -25,13 +25,13 @@ public class TraceTest2 implements AsyncMethod<Integer,Integer> {
 
     @Override
     public Single<Integer> action(Token token, Integer i) {
-        return Single.fromCallable(()-> {
-            if(i!=null && i>0){
+        return Single.fromCallable(() -> {
+            if (i != null && i > 0) {
                 for (int j = 0; j < LOOP; j++) {
                     Request.newInstance().setClient(client)
                             .setServer(properties.getName())
                             .setMethod("traceTest2")
-                            .setParamObj(i-1)
+                            .setParamObj(i - 1)
                             .setOneway(true)
                             .asyncSend().subscribe();
                 }

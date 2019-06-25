@@ -9,7 +9,7 @@ import com.github.jingshouyan.jrpc.server.method.Method;
  * #date 2019/1/30 18:46
  */
 
-public class Ping implements Method<Empty,Void> {
+public class Ping implements Method<Empty, Void> {
 
     @Override
     public Void action(Token token, Empty empty) {

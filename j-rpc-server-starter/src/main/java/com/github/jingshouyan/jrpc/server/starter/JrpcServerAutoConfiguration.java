@@ -48,7 +48,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Bean
     @ConditionalOnMissingBean(GetServerInfo.class)
-    public GetServerInfo getServerInfo(){
+    public GetServerInfo getServerInfo() {
         return new GetServerInfo();
     }
 
@@ -60,21 +60,21 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Bean
     @ConditionalOnMissingBean(ServerActionHandler.class)
-    public ServerActionHandler serverActionHandler(){
+    public ServerActionHandler serverActionHandler() {
         return new ServerActionHandler();
     }
 
     @Bean
     @ConditionalOnMissingBean(Rpc.class)
-    public Rpc rpc(ServerActionHandler serverActionHandler){
-        Rpc rpc  = new RpcImpl(serverActionHandler);
+    public Rpc rpc(ServerActionHandler serverActionHandler) {
+        Rpc rpc = new RpcImpl(serverActionHandler);
         return rpc;
     }
 
     @Override
     public void run(ApplicationArguments args) {
         addMethod();
-        if(properties.isRegister()) {
+        if (properties.isRegister()) {
             registerZk();
         }
     }
@@ -82,7 +82,8 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
     private void addMethod() {
         ctx.getBeansOfType(BaseMethod.class).forEach(MethodHolder::addMethod);
     }
-    private void registerZk(){
+
+    private void registerZk() {
         LocalDateTime now = LocalDateTime.now();
         String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         ServerInfo info = new ServerInfo();
@@ -90,11 +91,11 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         info.setZkRoot(properties.getZkRoot());
         info.setName(properties.getName());
         info.setVersion(properties.getVersion());
-        if(Strings.isBlank(properties.getHost())){
+        if (Strings.isBlank(properties.getHost())) {
             InetUtils inetUtils = new InetUtils(inetUtilsProperties);
             InetAddress inetAddress = inetUtils.findFirstNonLoopbackAddress();
             info.setHost(inetAddress.getHostAddress());
-        }else {
+        } else {
             info.setHost(properties.getHost());
         }
         info.setPort(properties.getPort());
@@ -108,7 +109,6 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
         ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
     }
-
 
 
 }

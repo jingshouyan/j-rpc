@@ -41,7 +41,7 @@ public class ThreadSelectorServerFactory implements ServerFactory {
             tArgs.protocolFactory(new TBinaryProtocol.Factory());
             // 多线程半同步半异步的服务模型
             server = new TThreadedSelectorServer(tArgs);
-            log.debug("selector = {}, worker = {}", selectorThreads ,workerThreads);
+            log.debug("selector = {}, worker = {}", selectorThreads, workerThreads);
         } catch (Exception e) {
             log.error("thrift service start failed", e);
         }

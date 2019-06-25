@@ -12,7 +12,8 @@ import java.io.IOException;
  * @author jingshouyan
  * @date 2018/4/18 10:59
  */
-@Data@Slf4j
+@Data
+@Slf4j
 public class Transport implements Closeable {
     private static final int LOOP = 2;
     private String key;
@@ -20,27 +21,27 @@ public class Transport implements Closeable {
     private Jrpc.AsyncClient asyncClient;
     private TNonblockingSocket nonblockingSocket;
 
-    public boolean isOpen(){
+    public boolean isOpen() {
 
         long start = System.nanoTime();
-        if(nonblockingSocket == null) {
+        if (nonblockingSocket == null) {
             return false;
         }
         try {
             for (int i = 0; i < LOOP; i++) {
                 nonblockingSocket.getSocketChannel().socket().sendUrgentData(0xFF);
             }
-            log.trace("test socket connect : open,use: {} ns",System.nanoTime() - start);
+            log.trace("test socket connect : open,use: {} ns", System.nanoTime() - start);
             return true;
         } catch (IOException e) {
-            log.warn("test socket connect : closed,use: {} ns",System.nanoTime() - start);
+            log.warn("test socket connect : closed,use: {} ns", System.nanoTime() - start);
             return false;
         }
     }
 
     @Override
     public void close() {
-        if(nonblockingSocket.isOpen()) {
+        if (nonblockingSocket.isOpen()) {
             nonblockingSocket.close();
         }
     }

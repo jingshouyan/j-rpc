@@ -7,5 +7,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface SpanX {
     String spanName() default "";
+
     boolean showData() default false;
 }

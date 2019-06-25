@@ -10,11 +10,11 @@ import org.springframework.stereotype.Component;
  * #date 2019/3/29 20:21
  */
 @Component("asyncErr")
-public class AsyncErr implements AsyncMethod<String,String> {
+public class AsyncErr implements AsyncMethod<String, String> {
 
     @Override
     public Single<String> action(Token token, String s) {
-        return Single.fromCallable(()->{
+        return Single.fromCallable(() -> {
             throw new RuntimeException("3123123");
         });
     }

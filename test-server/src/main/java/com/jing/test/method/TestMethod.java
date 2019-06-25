@@ -19,26 +19,26 @@ import java.util.Map;
  * #date 2018/10/23 20:38
  */
 @Component
-public class TestMethod implements Method<List<String>,TestBean2<CodeInfo,String,TestBean3>> {
+public class TestMethod implements Method<List<String>, TestBean2<CodeInfo, String, TestBean3>> {
 
     @Override
-    public TestBean2<CodeInfo,String,TestBean3> action(Token token, List<String> strings) {
+    public TestBean2<CodeInfo, String, TestBean3> action(Token token, List<String> strings) {
         TestBean2 testBean2 = new TestBean2();
         testBean2.setTest(strings.get(0));
         CodeInfo codeInfo = new CodeInfo();
         codeInfo.setCode(100);
         codeInfo.setMessage("1123");
-        Map<String,String> map = new HashMap<>(0);
-        map.put("abc","eee");
-        map.put("abc2","eee2");
-        Map<String,String> map2 = new HashMap<>(0);
-        map2.put("2abc","eee");
-        map2.put("2abc2","eee2");
+        Map<String, String> map = new HashMap<>(0);
+        map.put("abc", "eee");
+        map.put("abc2", "eee2");
+        Map<String, String> map2 = new HashMap<>(0);
+        map2.put("2abc", "eee");
+        map2.put("2abc2", "eee2");
         TestBean3 testBean3 = new TestBean3();
         testBean3.setTest("testBean3");
 
         testBean2.setData(Lists.newArrayList(codeInfo));
-        testBean2.setMapList(Lists.newArrayList(map,map2));
+        testBean2.setMapList(Lists.newArrayList(map, map2));
         testBean2.setSet(Sets.newHashSet(testBean3));
         testBean2.setT(codeInfo);
         return testBean2;

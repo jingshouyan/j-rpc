@@ -14,10 +14,10 @@ public class Trace {
     private String traceId;
     private AtomicInteger num = new AtomicInteger(0);
 
-    public String newTraceId(){
-        if(traceId == null) {
+    public String newTraceId() {
+        if (traceId == null) {
             traceId = UUID.randomUUID().toString();
         }
-        return traceId+"."+num.getAndIncrement();
+        return traceId + "." + num.getAndIncrement();
     }
 }

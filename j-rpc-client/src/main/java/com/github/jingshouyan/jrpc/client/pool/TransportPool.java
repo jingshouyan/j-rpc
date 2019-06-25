@@ -24,35 +24,38 @@ public class TransportPool implements Closeable {
     private static final int BORROW_TIMEOUT = 3000;
 
     @SneakyThrows
-    public TransportPool(ServerInfo serverInfo, GenericObjectPoolConfig conf){
+    public TransportPool(ServerInfo serverInfo, GenericObjectPoolConfig conf) {
         this.serverInfo = serverInfo;
         clientManager = new TAsyncClientManager();
-        innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo,clientManager),conf);
+        innerPool = new GenericObjectPool<>(new TransportFactory(serverInfo, clientManager), conf);
     }
 
     /**
      * 取
+     *
      * @return TTransport
      * @throws Exception
      */
-    public Transport get() throws Exception{
+    public Transport get() throws Exception {
         return innerPool.borrowObject(BORROW_TIMEOUT);
     }
 
     /**
      * 还
+     *
      * @param transport Transport
      */
-    public void restore(Transport transport){
+    public void restore(Transport transport) {
         innerPool.returnObject(transport);
     }
 
     /**
      * 失效
+     *
      * @param transport TTransport
      * @throws Exception
      */
-    public void invalid(Transport transport) throws Exception{
+    public void invalid(Transport transport) throws Exception {
         innerPool.invalidateObject(transport);
     }
 

@@ -16,12 +16,15 @@
             </timeBasedFileNamingAndTriggeringPolicy>
         </rollingPolicy>
         <encoder>
-            <pattern>!@#$`%d`${SERVER_NAME:-server}`${SERVER_INSTANCE:-instance}`%X{TRACE_ID}`%-5level`%thread`%logger{20}`%msg %n</pattern>
+            <pattern>
+                !@#$`%d`${SERVER_NAME:-server}`${SERVER_INSTANCE:-instance}`%X{TRACE_ID}`%-5level`%thread`%logger{20}`%msg
+                %n
+            </pattern>
         </encoder>
     </appender>
-    <logger name="org.springframework" level="ERROR" />
-    <logger name="org.apache" level="ERROR" />
-    <logger name="com.github.jingshouyan" level="DEBUG" />
+    <logger name="org.springframework" level="ERROR"/>
+    <logger name="org.apache" level="ERROR"/>
+    <logger name="com.github.jingshouyan" level="DEBUG"/>
     <root level="${LOG_LEVEL:-WARN}">
         <appender-ref ref="${LOG_REF:-STDOUT}"/>
     </root>

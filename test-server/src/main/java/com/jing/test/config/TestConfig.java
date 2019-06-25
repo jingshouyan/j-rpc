@@ -18,18 +18,25 @@ import zipkin2.reporter.okhttp3.OkHttpSender;
 //@Configuration
 public class TestConfig {
 
-    /** Configuration for how to send spans to Zipkin */
-    @Bean Sender sender() {
+    /**
+     * Configuration for how to send spans to Zipkin
+     */
+    @Bean
+    Sender sender() {
         return OkHttpSender.create("http://127.0.0.1:9411/api/v2/spans");
     }
 
-    /** Configuration for how to buffer spans into messages for Zipkin */
+    /**
+     * Configuration for how to buffer spans into messages for Zipkin
+     */
     @Bean
     AsyncReporter<Span> spanReporter() {
         return AsyncReporter.create(sender());
     }
 
-    /** Controls aspects of tracing such as the name that shows up in the UI */
+    /**
+     * Controls aspects of tracing such as the name that shows up in the UI
+     */
     @Bean
     Tracing tracing() {
         return Tracing.newBuilder()

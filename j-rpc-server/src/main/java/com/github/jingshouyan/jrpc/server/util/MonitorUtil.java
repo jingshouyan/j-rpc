@@ -18,13 +18,14 @@ public class MonitorUtil {
 
     private static final AtomicLong TOTAL_REQUEST = new AtomicLong(0);
     private static final AtomicLong TOTAL_COST = new AtomicLong(0);
-    public static MonitorInfo monitor(){
+
+    public static MonitorInfo monitor() {
         MonitorInfo monitorInfo = new MonitorInfo();
         monitorInfo.setTotalRequest(TOTAL_REQUEST.get());
         monitorInfo.setTotalCost(TOTAL_COST.get());
         monitorInfo.setTotalMemory(MENORY_BEAN.getHeapMemoryUsage().getInit());
         monitorInfo.setUsedMemory(MENORY_BEAN.getHeapMemoryUsage().getUsed());
-        monitorInfo.setFreeMemory(monitorInfo.getTotalMemory()-monitorInfo.getUsedMemory());
+        monitorInfo.setFreeMemory(monitorInfo.getTotalMemory() - monitorInfo.getUsedMemory());
         monitorInfo.setMaxMemory(MENORY_BEAN.getHeapMemoryUsage().getMax());
         monitorInfo.setOsName(OS_BEAN.getName());
         monitorInfo.setTotalThread(ManagementFactory.getThreadMXBean().getThreadCount());
@@ -32,7 +33,7 @@ public class MonitorUtil {
         return monitorInfo;
     }
 
-    private static void updateRequest(long cost){
+    private static void updateRequest(long cost) {
         TOTAL_REQUEST.incrementAndGet();
         TOTAL_COST.addAndGet(cost);
     }

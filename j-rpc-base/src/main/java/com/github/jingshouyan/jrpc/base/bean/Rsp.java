@@ -14,24 +14,27 @@ import java.util.List;
  * @author jingshouyan
  * 10/10/18 7:26 PM
  */
-@Getter@Setter@ToString
+@Getter
+@Setter
+@ToString
 public class Rsp {
     private int code;
     private String message;
     private String result;
     private Object data;
 
-    public String getResult(){
-        if(result == null && data == null){
+    public String getResult() {
+        if (result == null && data == null) {
             return null;
         }
-        if(result == null && data != null){
+        if (result == null && data != null) {
             result = JsonUtil.toJsonString(data);
         }
         return result;
     }
 
-    public Rsp(){}
+    public Rsp() {
+    }
 
     public Rsp(RspBean rspBean) {
         this.code = rspBean.getCode();
@@ -39,20 +42,20 @@ public class Rsp {
         this.result = rspBean.getResult();
     }
 
-    public boolean success(){
+    public boolean success() {
         return code == Code.SUCCESS;
     }
 
     public Rsp checkSuccess(int newCode) {
-        if (!success()){
+        if (!success()) {
             Object data;
-            if(null != result){
-                if(newCode == code) {
-                    Code.regIfAbsent(code,message);
+            if (null != result) {
+                if (newCode == code) {
+                    Code.regIfAbsent(code, message);
                 }
-                data = JsonUtil.toBean(result,Object.class);
-                if(data != null){
-                    throw new JrpcException(newCode,data);
+                data = JsonUtil.toBean(result, Object.class);
+                if (data != null) {
+                    throw new JrpcException(newCode, data);
                 }
             }
             throw new JrpcException(newCode);
@@ -64,33 +67,33 @@ public class Rsp {
         return checkSuccess(code);
     }
 
-    public <T> T get(Class<T> clazz){
-        return JsonUtil.toBean(result,clazz);
+    public <T> T get(Class<T> clazz) {
+        return JsonUtil.toBean(result, clazz);
     }
 
-    public <T> T get(Class<T> clazz,Class<?>... classes){
-        return JsonUtil.toBean(result,clazz,classes);
+    public <T> T get(Class<T> clazz, Class<?>... classes) {
+        return JsonUtil.toBean(result, clazz, classes);
     }
 
-    public <T> List<T> list(Class<T> clazz){
-        return JsonUtil.toList(result,clazz);
+    public <T> List<T> list(Class<T> clazz) {
+        return JsonUtil.toList(result, clazz);
     }
 
-    public String json(){
+    public String json() {
         StringBuilder sb = new StringBuilder();
         sb.append("{\"code\":");
         sb.append(code);
         sb.append(",\"message\":\"");
-        if(null != message) {
-            message = message.replace('"','\'');
-            message = message.replace('\n',' ');
+        if (null != message) {
+            message = message.replace('"', '\'');
+            message = message.replace('\n', ' ');
             sb.append(message);
         }
         sb.append("\"");
         if (result == null && data != null) {
             result = JsonUtil.toJsonString(data);
         }
-        if(result != null){
+        if (result != null) {
             sb.append(",\"data\":");
             sb.append(result);
         }

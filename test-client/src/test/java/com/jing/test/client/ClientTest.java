@@ -30,11 +30,11 @@ public class ClientTest {
     private JrpcClient jrpcClient;
 
     @Test
-    public void test2(){
+    public void test2() {
         IdQuery idQuery = new IdQuery();
         idQuery.setName("zhangsan");
         idQuery.setAge(77);
-        idQuery.setIds(Lists.newArrayList("123","345"));
+        idQuery.setIds(Lists.newArrayList("123", "345"));
 
         Token token = new Token();
 
@@ -50,12 +50,12 @@ public class ClientTest {
                 .send() //发送请求,这时已经得到 Rsp 对象
                 .checkSuccess(); //检查 返回码,不为 SUCCESS 则抛出异常
         List<UserBean> userBeans = rsp.list(UserBean.class); //rsp中result实际为json字符串.list为将json反序列化为 List对象
-        List<UserBean> userBeans1 = rsp.get(List.class,UserBean.class); //也可以使用 get 带泛型的反序列化
+        List<UserBean> userBeans1 = rsp.get(List.class, UserBean.class); //也可以使用 get 带泛型的反序列化
     }
 
     @Test
     public void test() {
-        IntStream.rangeClosed(0,10)
+        IntStream.rangeClosed(0, 10)
 //                .parallel()
                 .forEach(i -> {
                     Rsp rsp = Request.newInstance()
@@ -64,28 +64,28 @@ public class ClientTest {
                             .setMethod("traceTest")
                             .setParamObj(3)
                             .send();
-            System.out.println(rsp);
-        });
+                    System.out.println(rsp);
+                });
     }
 
     @Test
     @SneakyThrows
-    public void asyncErr(){
-        for(int i = 0;i<100000;i++)
-        Request.newInstance()
-                .setClient(jrpcClient)
-                .setServer("test")
-                .setMethod("asyncErr")
-                .setParamObj(i)
-                .asyncSend()
-                .subscribe(System.err::println);
+    public void asyncErr() {
+        for (int i = 0; i < 100000; i++)
+            Request.newInstance()
+                    .setClient(jrpcClient)
+                    .setServer("test")
+                    .setMethod("asyncErr")
+                    .setParamObj(i)
+                    .asyncSend()
+                    .subscribe(System.err::println);
 //        Thread.sleep(1000);
     }
 
     @Test
     @SneakyThrows
-    public void traceTest2(){
-        IntStream.rangeClosed(0,100)
+    public void traceTest2() {
+        IntStream.rangeClosed(0, 100)
 //                .parallel()
                 .forEach(i -> {
                     Request.newInstance()
@@ -95,13 +95,13 @@ public class ClientTest {
                             .setParamObj(9)
                             .asyncSend()
                             .subscribeOn(Schedulers.newThread())
-                            .subscribe(rsp ->{
-                                        try{
-                                           Thread.sleep(1000);
-                                        }catch (Exception e) {
+                            .subscribe(rsp -> {
+                                        try {
+                                            Thread.sleep(1000);
+                                        } catch (Exception e) {
                                             e.printStackTrace();
                                         }
-                                        log.info("--------->>{}",rsp);
+                                        log.info("--------->>{}", rsp);
                                     }
                             );
                 });
@@ -111,34 +111,34 @@ public class ClientTest {
 
     @Test
     public void t2() {
-        for(int i = 0;i<1000;i++)
-        Request.newInstance()
-                .setClient(jrpcClient)
-                .setServer("test")
-                .setMethod("traceTest2")
-                .setParamObj(3)
-                .asyncSend()
+        for (int i = 0; i < 1000; i++)
+            Request.newInstance()
+                    .setClient(jrpcClient)
+                    .setServer("test")
+                    .setMethod("traceTest2")
+                    .setParamObj(3)
+                    .asyncSend()
 //                .subscribe();
-                .subscribe(rsp -> {
-                    System.err.println(rsp);
-                    Request.newInstance()
-                            .setClient(jrpcClient)
-                            .setServer("test")
-                            .setMethod("traceTest")
-                            .setParamObj(2)
-                            .asyncSend()
-                            .subscribe();
-                });
+                    .subscribe(rsp -> {
+                        System.err.println(rsp);
+                        Request.newInstance()
+                                .setClient(jrpcClient)
+                                .setServer("test")
+                                .setMethod("traceTest")
+                                .setParamObj(2)
+                                .asyncSend()
+                                .subscribe();
+                    });
 
-        try{
+        try {
             Thread.sleep(5000);
-        } catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
     @Test
-    public void testForward(){
+    public void testForward() {
         for (int i = 0; i < 10_000_000; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("" + i);
@@ -154,7 +154,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testMethod(){
+    public void testMethod() {
         for (int i = 0; i < 10_000_000; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("" + i);
@@ -170,7 +170,7 @@ public class ClientTest {
     }
 
     @Test
-    public void testForward2(){
+    public void testForward2() {
         for (int i = 0; i < 1000; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("abc");

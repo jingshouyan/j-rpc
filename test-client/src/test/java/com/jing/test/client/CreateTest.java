@@ -26,7 +26,7 @@ public class CreateTest {
     private JrpcClient jrpcClient;
 
     @Test
-    public void single(){
+    public void single() {
         UserBean u = new UserBean();
         u.setName("heehdf地方");
         CreateDTO createDTO = new CreateDTO();
@@ -43,7 +43,7 @@ public class CreateTest {
     }
 
     @Test
-    public void multiple(){
+    public void multiple() {
         UserBean u = new UserBean();
         u.setName("heehdf地方22");
         CreateDTO createDTO = new CreateDTO();

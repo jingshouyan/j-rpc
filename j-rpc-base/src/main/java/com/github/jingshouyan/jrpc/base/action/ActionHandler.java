@@ -12,8 +12,9 @@ import io.reactivex.Single;
 public interface ActionHandler {
     /**
      * 执行请求
+     *
      * @param token token
-     * @param req req
+     * @param req   req
      * @return rsp
      */
     Single<Rsp> handle(Token token, Req req);

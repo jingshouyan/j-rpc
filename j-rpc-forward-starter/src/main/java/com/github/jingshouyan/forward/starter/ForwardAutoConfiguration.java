@@ -26,8 +26,8 @@ public class ForwardAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(JrpcForward.class)
-    JrpcForward jrpcForward(){
-        JrpcForward forward = new JrpcForward(client,properties);
+    JrpcForward jrpcForward() {
+        JrpcForward forward = new JrpcForward(client, properties);
         ActionInterceptorHolder.addServerInterceptor(forward);
         return forward;
     }

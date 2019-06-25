@@ -11,7 +11,9 @@ import javax.validation.constraints.NotNull;
  * @author jingshouyan
  * 12/3/18 2:39 PM
  */
-@Getter@Setter@ToString
+@Getter
+@Setter
+@ToString
 public class CreateDTO implements CrudConstant {
     @NotNull
     private String bean;

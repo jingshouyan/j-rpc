@@ -16,11 +16,11 @@ import java.util.Map;
 public class ZkUtil {
     public static final int SESSION_TIMEOUT = 3000;
     public static final int CONNECTION_TIMEOUT = 4000;
-    private static final Map<String,CuratorFramework> CLIENT_MAP = Maps.newConcurrentMap();
+    private static final Map<String, CuratorFramework> CLIENT_MAP = Maps.newConcurrentMap();
 
     public static CuratorFramework getClient(String connectString) {
-        return CLIENT_MAP.computeIfAbsent(connectString,key ->{
-            log.debug("new zk client[{}].",key);
+        return CLIENT_MAP.computeIfAbsent(connectString, key -> {
+            log.debug("new zk client[{}].", key);
             CuratorFramework client = CuratorFrameworkFactory
                     .builder().connectString(key).canBeReadOnly(true)
                     .connectionTimeoutMs(CONNECTION_TIMEOUT)
@@ -28,7 +28,7 @@ public class ZkUtil {
                     .retryPolicy(new RetryForever(5000))
                     .build();
             client.start();
-            log.debug("zk client[{}] started.",key);
+            log.debug("zk client[{}] started.", key);
             return client;
         });
     }

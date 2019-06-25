@@ -26,7 +26,7 @@ public class SpanXTrace implements TraceConstant {
 
     private Tracer tracer;
 
-    public SpanXTrace(Tracing tracing, TraceProperties properties){
+    public SpanXTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
     }
 
@@ -36,7 +36,7 @@ public class SpanXTrace implements TraceConstant {
         Span span = span();
         String spanName = spanX.spanName();
         Method method = ((MethodSignature) joinPoint.getSignature()).getMethod();
-        if("".equals(spanName)){
+        if ("".equals(spanName)) {
             spanName = method.getName();
         }
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
@@ -44,7 +44,7 @@ public class SpanXTrace implements TraceConstant {
                     .annotate(CS);
             Object result = joinPoint.proceed();
             span.tag(CALL_PATH, method.toString());
-            if(spanX.showData()){
+            if (spanX.showData()) {
                 Object[] args = joinPoint.getArgs();
                 for (int i = 0; i < args.length; i++) {
                     span.tag(TAG_ARG_PREFIX + i, "" + args[i]);
@@ -53,17 +53,17 @@ public class SpanXTrace implements TraceConstant {
             }
             span.annotate(CR);
             return result;
-        }catch (Throwable e){
-            span.tag(TAG_ERROR,e.getClass().getSimpleName()+":"+e.getMessage());
+        } catch (Throwable e) {
+            span.tag(TAG_ERROR, e.getClass().getSimpleName() + ":" + e.getMessage());
             throw e;
-        }finally {
+        } finally {
             span.finish();
         }
     }
 
-    private Span span(){
+    private Span span() {
         Span currentSpan = tracer.currentSpan();
-        if(currentSpan != null) {
+        if (currentSpan != null) {
             return tracer.newChild(currentSpan.context()).start();
         }
         return tracer.newTrace().start();

@@ -25,7 +25,7 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
     private TAsyncClientManager clientManager;
     private static TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
 
-    public TransportFactory(ServerInfo serverInfo,TAsyncClientManager clientManager) {
+    public TransportFactory(ServerInfo serverInfo, TAsyncClientManager clientManager) {
         this.serverInfo = serverInfo;
         this.clientManager = clientManager;
     }
@@ -36,15 +36,15 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
             Transport transport = new Transport();
             transport.setKey(serverInfo.getInstance());
 
-            TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(),serverInfo.getTimeout());
-            Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory,clientManager,nonblockingSocket);
+            TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(), serverInfo.getTimeout());
+            Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory, clientManager, nonblockingSocket);
             transport.setNonblockingSocket(nonblockingSocket);
             transport.setAsyncClient(asyncClient);
             log.debug("client pool make object success. {}==>{},{}:{}",
-                    serverInfo.getName(),serverInfo.getInstance(),serverInfo.getHost(),serverInfo.getPort());
+                    serverInfo.getName(), serverInfo.getInstance(), serverInfo.getHost(), serverInfo.getPort());
             return transport;
         } catch (Exception e) {
-            log.warn("client pool make object error.",e);
+            log.warn("client pool make object error.", e);
             throw new RuntimeException(e);
         }
     }
@@ -55,9 +55,9 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
     }
 
     @Override
-    public void destroyObject(PooledObject<Transport> p){
+    public void destroyObject(PooledObject<Transport> p) {
         Transport transport = p.getObject();
-        if(transport != null){
+        if (transport != null) {
             transport.close();
         }
     }

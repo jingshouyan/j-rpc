@@ -9,7 +9,8 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-@NoArgsConstructor@AllArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class CodeInfo {
     private int code;
     private String message;

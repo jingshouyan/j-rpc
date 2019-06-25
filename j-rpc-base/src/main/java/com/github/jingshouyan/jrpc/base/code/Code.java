@@ -41,12 +41,13 @@ public class Code {
         CODE_MAP.put(PARAM_INVALID, "param invalid");
         CODE_MAP.put(USERID_NOTSET, "userId not set");
         CODE_MAP.put(TICKET_NOTSET, "ticket not set");
-        CODE_MAP.put(BAD_REQUEST,"bad request");
-        CODE_MAP.put(PERMISSION_DENIED,"permission denied");
+        CODE_MAP.put(BAD_REQUEST, "bad request");
+        CODE_MAP.put(PERMISSION_DENIED, "permission denied");
     }
 
     /**
      * 获取错误信息
+     *
      * @param code 错误码
      * @return 错误信息
      */
@@ -60,7 +61,8 @@ public class Code {
 
     /**
      * 注册错误码
-     * @param code 错误码
+     *
+     * @param code    错误码
      * @param message 错误信息
      */
     public static void regCode(int code, String message) {
@@ -72,10 +74,10 @@ public class Code {
     }
 
     public static void regIfAbsent(int code, String message) {
-        CODE_MAP.putIfAbsent(code,message);
+        CODE_MAP.putIfAbsent(code, message);
     }
 
-    public static Map<Integer,String> getCodeMap(){
+    public static Map<Integer, String> getCodeMap() {
         return Maps.newHashMap(CODE_MAP);
     }
 }

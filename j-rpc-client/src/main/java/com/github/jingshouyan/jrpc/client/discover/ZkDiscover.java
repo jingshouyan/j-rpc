@@ -31,7 +31,7 @@ public class ZkDiscover {
 
     private static final long LATCH_TIMEOUT = 3000;
 
-    private final Map<String,List<ServerInfo>> map = Maps.newConcurrentMap();
+    private final Map<String, List<ServerInfo>> map = Maps.newConcurrentMap();
     private final CountDownLatch latch = new CountDownLatch(1);
     private String zkHost;
     private String zkRoot;
@@ -39,38 +39,38 @@ public class ZkDiscover {
 
     private final List<ServerInfoListener> listeners = Lists.newArrayList();
 
-    public void addListener(ServerInfoListener listener){
+    public void addListener(ServerInfoListener listener) {
         listeners.add(listener);
     }
 
 
     private CuratorFramework client;
 
-    public ZkDiscover(String zkHost,String zkRoot) {
+    public ZkDiscover(String zkHost, String zkRoot) {
         this.zkHost = zkHost;
         this.zkRoot = zkRoot;
         client = ZkUtil.getClient(zkHost);
         listen();
     }
 
-    public Map<String,List<ServerInfo>> serverMap(){
+    public Map<String, List<ServerInfo>> serverMap() {
         return map;
     }
 
-    public ServerInfo getServerInfo(Router router){
+    public ServerInfo getServerInfo(Router router) {
         try {
-            latch.await(LATCH_TIMEOUT,TimeUnit.MILLISECONDS);
+            latch.await(LATCH_TIMEOUT, TimeUnit.MILLISECONDS);
             List<ServerInfo> infos = map.get(router.getServer());
-            if(infos == null || infos.isEmpty()){
+            if (infos == null || infos.isEmpty()) {
                 throw new JrpcException(Code.SERVER_NOT_FOUND);
             }
-            if(router.getInstance() != null ){
+            if (router.getInstance() != null) {
                 return infos.stream().filter(i -> i.getInstance().equals(router.getInstance()))
                         .findFirst().orElseThrow(() -> new JrpcException(Code.INSTANCE_NOT_FUND));
             }
-            if(router.getVersion() != null) {
-                infos = selector.versionFilter(infos,router.getVersion());
-                if(infos.isEmpty()){
+            if (router.getVersion() != null) {
+                infos = selector.versionFilter(infos, router.getVersion());
+                if (infos.isEmpty()) {
                     throw new JrpcException(Code.SERVER_NOT_FOUND);
                 }
             }
@@ -78,17 +78,15 @@ public class ZkDiscover {
         } catch (JrpcException e) {
             throw e;
         } catch (Exception e) {
-            throw new JrpcException(Code.GET_SERVER_ADDRESS_TIMEOUT,e);
+            throw new JrpcException(Code.GET_SERVER_ADDRESS_TIMEOUT, e);
         }
     }
 
 
-
-
     private void listen() {
         try {
-            TreeCache cache = new TreeCache(client,zkRoot);
-            cache.getListenable().addListener((cl,event) -> {
+            TreeCache cache = new TreeCache(client, zkRoot);
+            cache.getListenable().addListener((cl, event) -> {
                 try {
                     String type = event.getType().name();
                     String path = null;
@@ -111,44 +109,44 @@ public class ZkDiscover {
                         }
                         handle(event.getType(), info);
                     }
-                }catch (Exception e){
-                    log.error("zk listener error.",e);
+                } catch (Exception e) {
+                    log.error("zk listener error.", e);
                 }
             });
             cache.start();
         } catch (Exception e) {
-            log.error("zk client error.",e);
+            log.error("zk client error.", e);
         }
     }
 
-    private void handle(TreeCacheEvent.Type type, ServerInfo info){
+    private void handle(TreeCacheEvent.Type type, ServerInfo info) {
         switch (type) {
             case NODE_ADDED:
                 add(info);
-                triggerEvent(DiscoverEvent.ADD,info);
+                triggerEvent(DiscoverEvent.ADD, info);
                 break;
             case NODE_UPDATED:
                 update(info);
-                triggerEvent(DiscoverEvent.UPDATE,info);
+                triggerEvent(DiscoverEvent.UPDATE, info);
                 break;
             case NODE_REMOVED:
                 remove(info);
-                triggerEvent(DiscoverEvent.REMOVE,info);
+                triggerEvent(DiscoverEvent.REMOVE, info);
                 break;
             case INITIALIZED:
                 latch.countDown();
                 break;
-                default:
+            default:
         }
     }
 
-    private void triggerEvent(DiscoverEvent event,ServerInfo info){
-        listeners.parallelStream().forEach(listener -> listener.handle(event,info));
+    private void triggerEvent(DiscoverEvent event, ServerInfo info) {
+        listeners.parallelStream().forEach(listener -> listener.handle(event, info));
     }
 
-    private void add(ServerInfo info){
-        map.compute(info.getName(),(name,infos) -> {
-            if (infos == null){
+    private void add(ServerInfo info) {
+        map.compute(info.getName(), (name, infos) -> {
+            if (infos == null) {
                 infos = Lists.newArrayList();
             }
             infos.add(info);
@@ -156,17 +154,17 @@ public class ZkDiscover {
         });
     }
 
-    private void update(ServerInfo info){
+    private void update(ServerInfo info) {
         List<ServerInfo> list = map.get(info.getName());
-        if(null != list){
+        if (null != list) {
             list.stream().filter(i -> i.getInstance().equals(info.getInstance()))
                     .forEach(i -> i.update(info));
         }
     }
 
-    private void remove(ServerInfo info){
+    private void remove(ServerInfo info) {
         List<ServerInfo> list = map.get(info.getName());
-        if(null != list){
+        if (null != list) {
             list.removeIf(i -> i.getInstance().equals(info.getInstance()));
         }
     }
@@ -185,10 +183,10 @@ public class ZkDiscover {
 
     @SneakyThrows
     private static String byte2String(byte[] b) {
-        if (b == null){
+        if (b == null) {
             return null;
         }
-        return new String(b,"utf-8");
+        return new String(b, "utf-8");
     }
 
 }

@@ -13,9 +13,9 @@ import org.springframework.context.ApplicationContext;
  * @author jingshouyan
  * 12/3/18 5:10 PM
  */
-public class Delete extends BaseCrud implements Method<DeleteDTO,Object> {
+public class Delete extends BaseCrud implements Method<DeleteDTO, Object> {
 
-    public Delete(ApplicationContext ctx, ManipulationProperties properties){
+    public Delete(ApplicationContext ctx, ManipulationProperties properties) {
         super(ctx);
         initAllows(properties.getDelete());
     }
@@ -30,7 +30,7 @@ public class Delete extends BaseCrud implements Method<DeleteDTO,Object> {
             case TYPE_MULTIPLE:
                 return dao.delete4List(deleteDTO.getIds());
             default:
-                throw new UnsupportedOperationException("unsupported delete type "+ deleteDTO.getType());
+                throw new UnsupportedOperationException("unsupported delete type " + deleteDTO.getType());
         }
     }
 }

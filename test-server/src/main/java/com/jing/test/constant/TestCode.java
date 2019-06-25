@@ -12,9 +12,10 @@ public class TestCode {
     public static final int NAME_IS_NULL = 200;
     public static final int JUST_ERROR = 201;
     public static final int JUST_ERROR_WITH_DATA = 202;
+
     static {
-        Code.regCode(NAME_IS_NULL,"name is null");
-        Code.regCode(JUST_ERROR,"就是想返回个错误");
-        Code.regCode(JUST_ERROR_WITH_DATA,"就是想返回个错误并且带点数据");
+        Code.regCode(NAME_IS_NULL, "name is null");
+        Code.regCode(JUST_ERROR, "就是想返回个错误");
+        Code.regCode(JUST_ERROR_WITH_DATA, "就是想返回个错误并且带点数据");
     }
 }

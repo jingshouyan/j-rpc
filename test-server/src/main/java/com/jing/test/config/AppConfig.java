@@ -16,10 +16,10 @@ import javax.sql.DataSource;
 public class AppConfig {
 
 
-    public static final String URL="jdbc:mysql://127.0.0.1:3306/DEMO_IM_USER?useUnicode=true&characterEncoding=utf8&useSSL=false&statementInterceptors=brave.mysql.TracingStatementInterceptor";
-    public static final String USERNAME="root";
-    public static final String PASSWORD="abcd1234";
-    public static final String DRIVER ="com.mysql.jdbc.Driver";
+    public static final String URL = "jdbc:mysql://127.0.0.1:3306/DEMO_IM_USER?useUnicode=true&characterEncoding=utf8&useSSL=false&statementInterceptors=brave.mysql.TracingStatementInterceptor";
+    public static final String USERNAME = "root";
+    public static final String PASSWORD = "abcd1234";
+    public static final String DRIVER = "com.mysql.jdbc.Driver";
 
     @Bean
     public NamedParameterJdbcTemplate namedParameterJdbcTemplate(DataSource dataSource) {
@@ -27,11 +27,11 @@ public class AppConfig {
     }
 
     @Bean
-    DataSource dataSource(){
+    DataSource dataSource() {
         return initDataSource();
     }
 
-    private DataSource initDataSource(){
+    private DataSource initDataSource() {
         HikariConfig config = new HikariConfig();
         config.setJdbcUrl(URL);
         config.setDriverClassName(DRIVER);
@@ -45,7 +45,6 @@ public class AppConfig {
         HikariDataSource dataSource = new HikariDataSource(config);
         return dataSource;
     }
-
 
 
 }

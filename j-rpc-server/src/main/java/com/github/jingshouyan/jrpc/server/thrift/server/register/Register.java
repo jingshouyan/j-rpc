@@ -10,7 +10,8 @@ import org.apache.thrift.server.TServer;
 public interface Register {
     /**
      * register server
-     * @param server TServer
+     *
+     * @param server     TServer
      * @param serverInfo server information
      */
     void register(TServer server, ServerInfo serverInfo);

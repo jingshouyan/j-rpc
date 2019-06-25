@@ -14,9 +14,9 @@ import org.springframework.context.ApplicationContext;
  * @author jingshouyan
  * 12/3/18 5:10 PM
  */
-public class Update extends BaseCrud implements Method<UpdateDTO,Object> {
+public class Update extends BaseCrud implements Method<UpdateDTO, Object> {
 
-    public Update(ApplicationContext ctx, ManipulationProperties properties){
+    public Update(ApplicationContext ctx, ManipulationProperties properties) {
         super(ctx);
         initAllows(properties.getUpdate());
     }
@@ -26,11 +26,11 @@ public class Update extends BaseCrud implements Method<UpdateDTO,Object> {
         accessCheck(updateDTO.getBean());
         BaseDao<BaseDO> dao = dao(updateDTO.getBean());
         Class<BaseDO> clazz = dao.getClazz();
-        switch (updateDTO.getType()){
+        switch (updateDTO.getType()) {
             case TYPE_SINGLE:
-                return dao.update(JsonUtil.toBean(updateDTO.getData(),clazz));
+                return dao.update(JsonUtil.toBean(updateDTO.getData(), clazz));
             case TYPE_MULTIPLE:
-                return dao.batchUpdate(JsonUtil.toList(updateDTO.getData(),clazz));
+                return dao.batchUpdate(JsonUtil.toList(updateDTO.getData(), clazz));
             default:
                 throw new UnsupportedOperationException("unsupported update type: " + updateDTO.getType());
         }

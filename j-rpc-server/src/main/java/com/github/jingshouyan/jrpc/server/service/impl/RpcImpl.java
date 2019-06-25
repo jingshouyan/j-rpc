@@ -26,19 +26,19 @@ public class RpcImpl implements Rpc {
 
     private final ServerActionHandler handler;
 
-    public RpcImpl(ServerActionHandler handler){
+    public RpcImpl(ServerActionHandler handler) {
         this.handler = handler;
     }
 
     @Override
     public void call(TokenBean token, ReqBean req, AsyncMethodCallback<RspBean> resultHandler) {
-        Single<RspBean> rspBeanSingle = run(token,req,false);
-        rspBeanSingle.subscribe(resultHandler::onComplete ,e -> {
+        Single<RspBean> rspBeanSingle = run(token, req, false);
+        rspBeanSingle.subscribe(resultHandler::onComplete, e -> {
             Rsp rsp;
-            if(e instanceof JrpcException) {
+            if (e instanceof JrpcException) {
                 rsp = RspUtil.error((JrpcException) e);
             } else {
-                log.error("server error",e);
+                log.error("server error", e);
                 rsp = RspUtil.error(Code.SERVER_ERROR);
             }
             resultHandler.onComplete(toRspBean(rsp));
@@ -47,16 +47,16 @@ public class RpcImpl implements Rpc {
 
     @Override
     public void send(TokenBean token, ReqBean req, AsyncMethodCallback<Void> resultHandler) {
-        run(token,req,true).subscribe();
+        run(token, req, true).subscribe();
     }
 
-    private Single<RspBean> run(TokenBean tokenBean, ReqBean reqBean, boolean oneway){
+    private Single<RspBean> run(TokenBean tokenBean, ReqBean reqBean, boolean oneway) {
         Token token = new Token(tokenBean);
         Req req = new Req();
         req.setMethod(reqBean.getMethod());
         req.setParam(reqBean.getParam());
         req.setOneway(oneway);
-        Single<Rsp> rspSingle = handler.handle(token,req);
+        Single<Rsp> rspSingle = handler.handle(token, req);
         return rspSingle.map(this::toRspBean);
     }
 
@@ -64,7 +64,7 @@ public class RpcImpl implements Rpc {
         RspBean rspBean = new RspBean();
         rspBean.setCode(rsp.getCode());
         rspBean.setMessage(rsp.getMessage());
-        if(rsp.getResult() != null) {
+        if (rsp.getResult() != null) {
             rspBean.setResult(rsp.getResult());
         } else {
             String json = JsonUtil.toJsonString(rsp.getData());

@@ -13,11 +13,11 @@ import org.springframework.stereotype.Component;
  */
 @Component("asyncTest")
 @Slf4j
-public class AsyncTest implements AsyncMethod<String,String> {
+public class AsyncTest implements AsyncMethod<String, String> {
 
     @Override
     public Single<String> action(Token token, String s) {
-        return Single.fromCallable(() -> "abc"+s)
+        return Single.fromCallable(() -> "abc" + s)
                 .subscribeOn(Schedulers.newThread());
     }
 }

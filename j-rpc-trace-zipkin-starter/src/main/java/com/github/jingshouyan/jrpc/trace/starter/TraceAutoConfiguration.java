@@ -39,21 +39,27 @@ public class TraceAutoConfiguration {
     private String appName;
 
 
-    /** Configuration for how to send spans to Zipkin */
+    /**
+     * Configuration for how to send spans to Zipkin
+     */
     @Bean
     @ConditionalOnMissingBean(Sender.class)
     Sender sender() {
         return OkHttpSender.create(properties.getEndpoint());
     }
 
-    /** Configuration for how to buffer spans into messages for Zipkin */
+    /**
+     * Configuration for how to buffer spans into messages for Zipkin
+     */
     @Bean
     @ConditionalOnMissingBean(AsyncReporter.class)
     AsyncReporter<Span> spanReporter() {
         return AsyncReporter.create(sender());
     }
 
-    /** Controls aspects of tracing such as the name that shows up in the UI */
+    /**
+     * Controls aspects of tracing such as the name that shows up in the UI
+     */
     @Bean
     @ConditionalOnMissingBean(Tracing.class)
     Tracing tracing() {
@@ -68,9 +74,10 @@ public class TraceAutoConfiguration {
                 .sampler(CountingSampler.create(properties.getRate()))
                 .spanReporter(spanReporter()).build();
     }
+
     @Bean
     @ConditionalOnMissingBean(ServerTrace.class)
-    ServerTrace serverTrace(Tracing tracing){
+    ServerTrace serverTrace(Tracing tracing) {
         ServerTrace serverTrace = new ServerTrace(tracing, properties);
         ActionInterceptorHolder.addServerInterceptor(serverTrace);
         return serverTrace;
@@ -78,26 +85,27 @@ public class TraceAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean(ClientTrace.class)
-    ClientTrace clientTrace(Tracing tracing){
-        ClientTrace clientTrace = new ClientTrace(tracing,properties);
+    ClientTrace clientTrace(Tracing tracing) {
+        ClientTrace clientTrace = new ClientTrace(tracing, properties);
         ActionInterceptorHolder.addClientInterceptor(clientTrace);
         return clientTrace;
     }
+
     @Bean
     @ConditionalOnMissingBean(SpanXTrace.class)
     SpanXTrace spanXTrace(Tracing tracing) {
         return new SpanXTrace(tracing, properties);
     }
 
-    private String tracingName(){
+    private String tracingName() {
         String tracingName = "zipkin-trace";
-        if(!StringUtils.isEmpty(appName)){
+        if (!StringUtils.isEmpty(appName)) {
             tracingName = appName;
         }
-        if(!StringUtils.isEmpty(jRpcName)){
+        if (!StringUtils.isEmpty(jRpcName)) {
             tracingName = jRpcName;
         }
-        if(!StringUtils.isEmpty(properties.getName())){
+        if (!StringUtils.isEmpty(properties.getName())) {
             tracingName = properties.getName();
         }
         return tracingName;

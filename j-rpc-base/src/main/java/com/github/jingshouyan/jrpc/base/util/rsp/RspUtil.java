@@ -21,21 +21,22 @@ public class RspUtil {
     public static Rsp error(int code) {
         return error(code, Code.getMessage(code), null);
     }
+
     /**
-     * @param code 错误码
-     * @param result  返回对象
+     * @param code   错误码
+     * @param result 返回对象
      * @return Rsp对象  msg根据code对应的消息 result json序列化
      * @Description 生成Rsp对象
      */
     public static Rsp error(int code, Object result) {
-        return error(code,Code.getMessage(code),result);
+        return error(code, Code.getMessage(code), result);
     }
 
-    public static Rsp error(JrpcException e){
+    public static Rsp error(JrpcException e) {
         int code = e.getCode();
         String message = Code.getMessage(code);
         String detail = e.getDetail();
-        if(detail != null) {
+        if (detail != null) {
             message += ":" + detail;
         }
         Object data = e.getData();
@@ -43,8 +44,7 @@ public class RspUtil {
     }
 
 
-
-    private static Rsp error(int code,String message,Object data){
+    private static Rsp error(int code, String message, Object data) {
         Rsp res = new Rsp();
         res.setCode(code);
         res.setData(data);

@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class DeleteDTO implements CrudConstant{
+public class DeleteDTO implements CrudConstant {
     @NotNull
     private String bean;
     @NotNull

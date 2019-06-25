@@ -46,9 +46,10 @@ public class JrpcClient implements ActionHandler {
     private final TransportProvider transportProvider;
 
     private final ExecutorService callbackExec;
-    private final BiConsumer<SingleEmitter<Rsp>,Rsp> success;
-    private final BiConsumer<SingleEmitter<Rsp>,Exception> error;
-    public JrpcClient(ClientConfig config){
+    private final BiConsumer<SingleEmitter<Rsp>, Rsp> success;
+    private final BiConsumer<SingleEmitter<Rsp>, Exception> error;
+
+    public JrpcClient(ClientConfig config) {
         this.config = config;
         this.zkDiscover = new ZkDiscover(config.getZkHost(), config.getZkRoot());
         GenericObjectPoolConfig cfg = new GenericObjectPoolConfig();
@@ -59,7 +60,7 @@ public class JrpcClient implements ActionHandler {
         cfg.setTimeBetweenEvictionRunsMillis(10000);
         this.transportProvider = new TransportProvider(cfg);
         zkDiscover.addListener((event, serverInfo) -> {
-            if(event == DiscoverEvent.REMOVE){
+            if (event == DiscoverEvent.REMOVE) {
                 this.transportProvider.close(serverInfo);
             }
         });
@@ -75,18 +76,18 @@ public class JrpcClient implements ActionHandler {
         //error 执行方法
         error = (emitter, e) -> {
             Rsp rsp;
-            if(e instanceof JrpcException) {
-                rsp = RspUtil.error((JrpcException)e);
+            if (e instanceof JrpcException) {
+                rsp = RspUtil.error((JrpcException) e);
             } else {
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
-                log.error("call rpc error.",e);
+                log.error("call rpc error.", e);
             }
             success.accept(emitter, rsp);
         };
 
     }
 
-    public Map<String,List<ServerInfo>> serverMap(){
+    public Map<String, List<ServerInfo>> serverMap() {
         return zkDiscover.serverMap();
     }
 
@@ -97,7 +98,7 @@ public class JrpcClient implements ActionHandler {
             final ActionHandler ah = handler;
             handler = (t, r) -> interceptor.around(t, r, ah);
         }
-        Single<Rsp> single = handler.handle(token,req);
+        Single<Rsp> single = handler.handle(token, req);
         return single;
     }
 
@@ -105,7 +106,7 @@ public class JrpcClient implements ActionHandler {
         return Single.create(emitter -> {
             Transport transport = null;
             Rsp rsp;
-            try{
+            try {
                 ServerInfo serverInfo = zkDiscover.getServerInfo(req.getRouter());
                 transport = transportProvider.get(serverInfo);
                 // 必须在接收完数据才能放连接池.
@@ -113,40 +114,41 @@ public class JrpcClient implements ActionHandler {
                 Jrpc.AsyncClient client = transport.getAsyncClient();
                 TokenBean tokenBean = token.tokenBean();
                 ReqBean reqBean = req.reqBean();
-                if(req.isOneway()){
+                if (req.isOneway()) {
                     client.send(tokenBean, reqBean, new AsyncMethodCallback<Void>() {
                         @Override
                         public void onComplete(Void aVoid) {
                             transportProvider.restore(transport2);
                             success.accept(emitter, RspUtil.success());
                         }
+
                         @Override
                         public void onError(Exception e) {
                             transportProvider.invalid(transport2);
-                            error.accept(emitter,e);
+                            error.accept(emitter, e);
                         }
                     });
-                }else{
+                } else {
                     client.call(tokenBean, reqBean, new AsyncMethodCallback<RspBean>() {
                         @Override
                         public void onComplete(RspBean rspBean) {
                             transportProvider.restore(transport2);
-                            success.accept(emitter,new Rsp(rspBean));
+                            success.accept(emitter, new Rsp(rspBean));
                         }
 
                         @Override
                         public void onError(Exception e) {
                             transportProvider.invalid(transport2);
-                            error.accept(emitter,e);
+                            error.accept(emitter, e);
                         }
                     });
                 }
                 return;
-            }catch (JrpcException e) {
+            } catch (JrpcException e) {
                 transportProvider.restore(transport);
                 rsp = RspUtil.error(e);
             } catch (Throwable e) {
-                log.error("call rpc error.",e);
+                log.error("call rpc error.", e);
                 transportProvider.invalid(transport);
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
             }

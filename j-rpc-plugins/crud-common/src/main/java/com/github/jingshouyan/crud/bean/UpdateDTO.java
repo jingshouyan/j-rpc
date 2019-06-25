@@ -14,7 +14,7 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class UpdateDTO implements CrudConstant{
+public class UpdateDTO implements CrudConstant {
     @NotNull
     private String bean;
     @NotNull

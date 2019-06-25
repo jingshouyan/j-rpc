@@ -10,10 +10,10 @@ import org.springframework.stereotype.Component;
  * #date 2018/10/26 11:57
  */
 @Component
-public class MyMethod implements Method<Empty,Void> {
+public class MyMethod implements Method<Empty, Void> {
 
     @Override
-    public Void action(Token token,Empty empty) {
+    public Void action(Token token, Empty empty) {
         return null;
     }
 

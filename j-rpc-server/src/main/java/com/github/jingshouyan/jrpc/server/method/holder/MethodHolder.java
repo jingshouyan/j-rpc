@@ -16,23 +16,23 @@ import java.util.Map;
 public class MethodHolder {
     private static final Map<String, BaseMethod> METHOD_MAP = Maps.newConcurrentMap();
 
-    public static void addMethod(String methodName,BaseMethod method){
-        log.debug("add method: {} ===> {}",methodName,method);
-        METHOD_MAP.put(methodName,method);
+    public static void addMethod(String methodName, BaseMethod method) {
+        log.debug("add method: {} ===> {}", methodName, method);
+        METHOD_MAP.put(methodName, method);
     }
 
-    public static BaseMethod getMethod(String methodName){
-        if(methodName == null){
+    public static BaseMethod getMethod(String methodName) {
+        if (methodName == null) {
             throw new JrpcException(Code.METHOD_NOT_FOUND);
         }
         BaseMethod method = METHOD_MAP.get(methodName);
-        if(method == null){
+        if (method == null) {
             throw new JrpcException(Code.METHOD_NOT_FOUND);
         }
         return method;
     }
 
-    public static Map<String,BaseMethod> getMethodMap() {
+    public static Map<String, BaseMethod> getMethodMap() {
         return Maps.newHashMap(METHOD_MAP);
     }
 }

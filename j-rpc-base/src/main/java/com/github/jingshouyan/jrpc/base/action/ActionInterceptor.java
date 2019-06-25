@@ -10,19 +10,21 @@ import io.reactivex.Single;
  * #date 2019/3/28 20:57
  */
 
-public interface ActionInterceptor extends Comparable<ActionInterceptor>{
+public interface ActionInterceptor extends Comparable<ActionInterceptor> {
 
     /**
      * around handler
+     *
      * @param token
      * @param req
      * @param handler
      * @return
      */
-    Single<Rsp> around(Token token , Req req , ActionHandler handler);
+    Single<Rsp> around(Token token, Req req, ActionHandler handler);
 
     /**
      * order of interceptor
+     *
      * @return order
      */
     default int order() {
@@ -31,6 +33,7 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor>{
 
     /**
      * 比较
+     *
      * @param that
      * @return
      */
@@ -38,11 +41,11 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor>{
     default int compareTo(ActionInterceptor that) {
         int a = this.order();
         int b = that.order();
-        if(a == b){
+        if (a == b) {
             return 0;
-        }else if(a > b) {
+        } else if (a > b) {
             return 1;
-        }else {
+        } else {
             return -1;
         }
     }

@@ -17,7 +17,7 @@ import lombok.extern.slf4j.Slf4j;
 @Getter
 @ToString(exclude = {"client"})
 @Slf4j
-public class Request{
+public class Request {
     private Router router = new Router();
 
     private Token token = new Token();
@@ -27,7 +27,7 @@ public class Request{
     private JrpcClient client;
 
 
-    public static Request newInstance(){
+    public static Request newInstance() {
         return new Request();
     }
 
@@ -36,51 +36,54 @@ public class Request{
         return this;
     }
 
-    public Request setClient(JrpcClient client){
+    public Request setClient(JrpcClient client) {
         this.client = client;
         return this;
     }
 
-    public Request setMethod(String method){
+    public Request setMethod(String method) {
         req.setMethod(method);
         return this;
     }
-    public Request setParamJson(String param){
+
+    public Request setParamJson(String param) {
         req.setParam(param);
         return this;
     }
-    public Request setParamObj(Object paramObj){
+
+    public Request setParamObj(Object paramObj) {
         String param = JsonUtil.toJsonString(paramObj);
         req.setParam(param);
         return this;
     }
-    public Request setOneway(boolean oneway){
+
+    public Request setOneway(boolean oneway) {
         req.setOneway(oneway);
         return this;
     }
 
-    public Request setServer(String server){
+    public Request setServer(String server) {
         router.setServer(server);
         return this;
     }
 
-    public Request setVersion(String version){
+    public Request setVersion(String version) {
         router.setVersion(version);
         return this;
     }
 
-    public Request setInstance(String instance){
+    public Request setInstance(String instance) {
         router.setInstance(instance);
         return this;
     }
 
-    public Rsp send(){
+    public Rsp send() {
         return asyncSend().blockingGet();
     }
 
     public Single<Rsp> asyncSend() {
         req.setRouter(router);
-        return client.handle(token,req);
+        return client.handle(token, req);
     }
 
 }

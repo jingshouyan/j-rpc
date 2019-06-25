@@ -19,11 +19,11 @@ import java.util.concurrent.TimeUnit;
  * 11/15/18 4:08 PM
  */
 @Component
-public class TraceTest implements Method<Integer,Integer> {
+public class TraceTest implements Method<Integer, Integer> {
     private static final int LOOP = 2;
 
     private static final ExecutorService EXEC = new ThreadPoolExecutor(20, 20,
-            0L,TimeUnit.MILLISECONDS,
+            0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(),
             new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
     @Autowired
@@ -34,14 +34,14 @@ public class TraceTest implements Method<Integer,Integer> {
 
     @Override
     public Integer action(Token token, Integer i) {
-        if(i!=null && i>0){
+        if (i != null && i > 0) {
             EXEC.execute(
                     () -> {
                         for (int j = 0; j < LOOP; j++) {
                             Request.newInstance().setClient(client)
                                     .setServer(properties.getName())
                                     .setMethod("traceTest")
-                                    .setParamObj(i-1)
+                                    .setParamObj(i - 1)
                                     .setOneway(true)
                                     .send();
                         }

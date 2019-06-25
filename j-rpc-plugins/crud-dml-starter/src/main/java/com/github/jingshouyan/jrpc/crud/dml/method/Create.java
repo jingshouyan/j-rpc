@@ -16,11 +16,10 @@ import java.util.List;
  * @author jingshouyan
  * 12/3/18 5:10 PM
  */
-public class Create extends BaseCrud implements Method<CreateDTO,Object> {
+public class Create extends BaseCrud implements Method<CreateDTO, Object> {
 
 
-
-    public Create(ApplicationContext ctx, ManipulationProperties properties){
+    public Create(ApplicationContext ctx, ManipulationProperties properties) {
         super(ctx);
         initAllows(properties.getCreate());
     }
@@ -30,17 +29,17 @@ public class Create extends BaseCrud implements Method<CreateDTO,Object> {
         accessCheck(createDTO.getBean());
         BaseDao<BaseDO> dao = dao(createDTO.getBean());
         Class<BaseDO> clazz = dao.getClazz();
-        switch (createDTO.getType()){
+        switch (createDTO.getType()) {
             case TYPE_SINGLE:
-                BaseDO bean = JsonUtil.toBean(createDTO.getData(),clazz);
+                BaseDO bean = JsonUtil.toBean(createDTO.getData(), clazz);
                 dao.insert(bean);
                 return bean;
             case TYPE_MULTIPLE:
-                List<BaseDO> list = JsonUtil.toList(createDTO.getData(),clazz);
+                List<BaseDO> list = JsonUtil.toList(createDTO.getData(), clazz);
                 dao.batchInsert(list);
                 return list;
             default:
-                throw new UnsupportedOperationException("unsupported insert type: "+ createDTO.getType());
+                throw new UnsupportedOperationException("unsupported insert type: " + createDTO.getType());
         }
     }
 }

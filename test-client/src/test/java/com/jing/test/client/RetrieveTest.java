@@ -25,34 +25,34 @@ public class RetrieveTest {
     private JrpcClient jrpcClient;
 
     @Test
-    public void single(){
+    public void single() {
         query(RetrieveDTO.TYPE_SINGLE);
     }
 
     @Test
-    public void multiple(){
+    public void multiple() {
         query(RetrieveDTO.TYPE_MULTIPLE);
     }
 
     @Test
-    public void page(){
+    public void page() {
         query(RetrieveDTO.TYPE_PAGE);
     }
 
     @Test
-    public void list(){
+    public void list() {
         query(RetrieveDTO.TYPE_LIST);
     }
 
     @Test
-    public void limit(){
+    public void limit() {
         query(RetrieveDTO.TYPE_LIMIT);
     }
 
-    private void query(String type){
+    private void query(String type) {
         RetrieveDTO retrieveDTO = new RetrieveDTO();
         retrieveDTO.setId("U18001");
-        retrieveDTO.setIds(Lists.newArrayList("U18001","U20001"));
+        retrieveDTO.setIds(Lists.newArrayList("U18001", "U20001"));
         retrieveDTO.setType(type);
         retrieveDTO.setPage(new Page());
         retrieveDTO.setConditions(ConditionUtil.newInstance()

@@ -15,12 +15,15 @@ import java.util.List;
 @Data
 public class IdQuery {
 
-    @NotNull@Size(min = 4,max = 20)
+    @NotNull
+    @Size(min = 4, max = 20)
     private String name;
 
-    @Min(5)@Max(99)
+    @Min(5)
+    @Max(99)
     private int age = 10;
 
-    @NotNull@Size(min = 1,max= 100)
+    @NotNull
+    @Size(min = 1, max = 100)
     private List<String> ids;
 }
