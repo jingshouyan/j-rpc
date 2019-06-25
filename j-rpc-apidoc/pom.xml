@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>j-rpc-apidoc</artifactId>
-
+    <name>j-rpc-apidoc</name>
     <properties>
         <brave.version>5.5.0</brave.version>
     </properties>

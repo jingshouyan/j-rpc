@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>test-client</artifactId>
-
+    <name>test-client</name>
     <dependencies>
         <dependency>
             <groupId>${project.groupId}</groupId>

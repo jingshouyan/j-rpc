@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>j-rpc-client-starter</artifactId>
-
+    <name>j-rpc-client-starter</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

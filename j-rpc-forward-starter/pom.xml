@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>j-rpc-forward-starter</artifactId>
-
+    <name>j-rpc-forward-starter</name>
     <dependencies>
         <dependency>
             <groupId>com.github.jingshouyan</groupId>

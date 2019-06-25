@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>crud-common</artifactId>
-
+    <name>crud-common</name>
 
     <dependencies>
         <dependency>
