@@ -206,6 +206,27 @@
 
     </build>
 
+    <name>j-rpc</name>
+    <description>rpc base on json.</description>
+    <url>https://github.com/jingshouyan/j-rpc/</url>
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+    <developers>
+        <developer>
+            <name>Jing Shouyan</name>
+            <email>jingshouyan@gmail.com</email>
+        </developer>
+    </developers>
+    <scm>
+        <connection>scm:git:git@github.com:jingshouyan/j-rpc.git</connection>
+        <developerConnection>scm:git:git@github.com:jingshouyan/j-rpc.git</developerConnection>
+        <url>git@github.com:jingshouyan/j-rpc.git</url>
+    </scm>
+
     <profiles>
         <profile>
             <id>release</id>
