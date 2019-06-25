@@ -24,7 +24,6 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
     public @org.apache.thrift.annotation.Nullable
     String result; // required
 
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
         CODE((short) 1, "code"),
         MESSAGE((short) 2, "message"),
@@ -38,9 +37,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
             }
         }
 
-        /**
-         * Find the _Fields constant that matches fieldId, or null if its not found.
-         */
+
         @org.apache.thrift.annotation.Nullable
         public static _Fields findByThriftId(int fieldId) {
             switch (fieldId) {
@@ -55,10 +52,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
             }
         }
 
-        /**
-         * Find the _Fields constant that matches fieldId, throwing an exception
-         * if it is not found.
-         */
+
         public static _Fields findByThriftIdOrThrow(int fieldId) {
             _Fields fields = findByThriftId(fieldId);
             if (fields == null) {
@@ -67,9 +61,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
             return fields;
         }
 
-        /**
-         * Find the _Fields constant that matches name, or null if its not found.
-         */
+
         @org.apache.thrift.annotation.Nullable
         public static _Fields findByName(String name) {
             return byName.get(name);
@@ -94,7 +86,6 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
         }
     }
 
-    // isset id assignments
     private static final int __CODE_ISSET_ID = 0;
     private byte __isset_bitfield = 0;
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
@@ -125,9 +116,7 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
         this.result = result;
     }
 
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
+
     public RspBean(RspBean other) {
         __isset_bitfield = other.__isset_bitfield;
         this.code = other.code;
@@ -166,7 +155,6 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
         __isset_bitfield = org.apache.thrift.EncodingUtils.clearBit(__isset_bitfield, __CODE_ISSET_ID);
     }
 
-    /** Returns true if field code is set (has been assigned a value) and false otherwise */
     public boolean isSetCode() {
         return org.apache.thrift.EncodingUtils.testBit(__isset_bitfield, __CODE_ISSET_ID);
     }
@@ -189,7 +177,6 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
         this.message = null;
     }
 
-    /** Returns true if field message is set (has been assigned a value) and false otherwise */
     public boolean isSetMessage() {
         return this.message != null;
     }
@@ -214,7 +201,6 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
         this.result = null;
     }
 
-    /** Returns true if field result is set (has been assigned a value) and false otherwise */
     public boolean isSetResult() {
         return this.result != null;
     }

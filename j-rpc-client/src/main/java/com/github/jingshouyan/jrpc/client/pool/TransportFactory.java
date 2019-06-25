@@ -16,7 +16,7 @@ import org.apache.thrift.transport.TNonblockingSocket;
 
 /**
  * @author jingshouyan
- * @date 2018/4/17 20:41
+ * #date 2018/4/17 20:41
  */
 @Slf4j
 public class TransportFactory extends BasePooledObjectFactory<Transport> implements PooledObjectFactory<Transport> {

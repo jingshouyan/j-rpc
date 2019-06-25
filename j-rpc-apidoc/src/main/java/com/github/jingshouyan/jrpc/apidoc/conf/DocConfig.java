@@ -26,12 +26,17 @@ import javax.servlet.Filter;
 @Import(SpanCustomizingAsyncHandlerInterceptor.class)
 public class DocConfig implements WebMvcConfigurer {
 
-    /** decides how to name and tag spans. By default they are named the same as the http method. */
-    @Bean HttpTracing httpTracing(Tracing tracing) {
+    /**
+     * decides how to name and tag spans. By default they are named the same as the http method.
+     */
+    @Bean
+    HttpTracing httpTracing(Tracing tracing) {
         return HttpTracing.create(tracing);
     }
 
-    /** Creates server spans for http requests */
+    /**
+     * Creates server spans for http requests
+     */
     @Bean
     Filter tracingFilter(HttpTracing httpTracing) {
         return TracingFilter.create(httpTracing);
@@ -41,7 +46,8 @@ public class DocConfig implements WebMvcConfigurer {
     RestTemplateCustomizer useTracedHttpClient(HttpTracing httpTracing) {
         final CloseableHttpClient httpClient = TracingHttpClientBuilder.create(httpTracing).build();
         return new RestTemplateCustomizer() {
-            @Override public void customize(RestTemplate restTemplate) {
+            @Override
+            public void customize(RestTemplate restTemplate) {
                 restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
             }
         };
@@ -50,8 +56,11 @@ public class DocConfig implements WebMvcConfigurer {
     @Autowired
     SpanCustomizingAsyncHandlerInterceptor webMvcTracingCustomizer;
 
-    /** Decorates server spans with application-defined web tags */
-    @Override public void addInterceptors(InterceptorRegistry registry) {
+    /**
+     * Decorates server spans with application-defined web tags
+     */
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(webMvcTracingCustomizer);
     }
 }

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 /**
  * @author jingshouyan
- * @date 2018/4/14 22:12
+ * #date 2018/4/14 22:12
  */
 @Data
 public class ServerInfo {

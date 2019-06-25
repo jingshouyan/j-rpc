@@ -15,10 +15,10 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor> {
     /**
      * around handler
      *
-     * @param token
-     * @param req
-     * @param handler
-     * @return
+     * @param token token
+     * @param req 请求
+     * @param handler handler
+     * @return Single Rsp
      */
     Single<Rsp> around(Token token, Req req, ActionHandler handler);
 
@@ -34,8 +34,8 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor> {
     /**
      * 比较
      *
-     * @param that
-     * @return
+     * @param that 另一个
+     * @return int
      */
     @Override
     default int compareTo(ActionInterceptor that) {

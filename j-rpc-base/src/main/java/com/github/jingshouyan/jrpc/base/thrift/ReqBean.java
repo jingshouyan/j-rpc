@@ -22,7 +22,6 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
     public @org.apache.thrift.annotation.Nullable
     String param; // required
 
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
         METHOD((short) 1, "method"),
         PARAM((short) 2, "param");
@@ -35,9 +34,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
             }
         }
 
-        /**
-         * Find the _Fields constant that matches fieldId, or null if its not found.
-         */
+
         @org.apache.thrift.annotation.Nullable
         public static _Fields findByThriftId(int fieldId) {
             switch (fieldId) {
@@ -50,10 +47,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
             }
         }
 
-        /**
-         * Find the _Fields constant that matches fieldId, throwing an exception
-         * if it is not found.
-         */
+
         public static _Fields findByThriftIdOrThrow(int fieldId) {
             _Fields fields = findByThriftId(fieldId);
             if (fields == null) {
@@ -62,9 +56,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
             return fields;
         }
 
-        /**
-         * Find the _Fields constant that matches name, or null if its not found.
-         */
+
         @org.apache.thrift.annotation.Nullable
         public static _Fields findByName(String name) {
             return byName.get(name);
@@ -89,7 +81,6 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
         }
     }
 
-    // isset id assignments
     public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
 
     static {
@@ -113,9 +104,7 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
         this.param = param;
     }
 
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
+
     public ReqBean(ReqBean other) {
         if (other.isSetMethod()) {
             this.method = other.method;
@@ -150,7 +139,6 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
         this.method = null;
     }
 
-    /** Returns true if field method is set (has been assigned a value) and false otherwise */
     public boolean isSetMethod() {
         return this.method != null;
     }
@@ -175,7 +163,6 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
         this.param = null;
     }
 
-    /** Returns true if field param is set (has been assigned a value) and false otherwise */
     public boolean isSetParam() {
         return this.param != null;
     }
@@ -222,7 +209,6 @@ public class ReqBean implements org.apache.thrift.TBase<ReqBean, ReqBean._Fields
         throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
     @Override
     public boolean isSet(_Fields field) {
         if (field == null) {

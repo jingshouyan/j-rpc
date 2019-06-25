@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @author jingshouyan
- * @date 2018/4/23 17:20
+ * #date 2018/4/23 17:20
  */
 @Data
 public class MonitorInfo {

@@ -25,7 +25,6 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
     public @org.apache.thrift.annotation.Nullable
     java.util.Map<String, String> headers; // required
 
-    /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
         USER_ID((short) 1, "userId"),
         TICKET((short) 2, "ticket"),
@@ -39,9 +38,6 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
             }
         }
 
-        /**
-         * Find the _Fields constant that matches fieldId, or null if its not found.
-         */
         @org.apache.thrift.annotation.Nullable
         public static _Fields findByThriftId(int fieldId) {
             switch (fieldId) {
@@ -56,10 +52,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
             }
         }
 
-        /**
-         * Find the _Fields constant that matches fieldId, throwing an exception
-         * if it is not found.
-         */
+
         public static _Fields findByThriftIdOrThrow(int fieldId) {
             _Fields fields = findByThriftId(fieldId);
             if (fields == null) {
@@ -68,9 +61,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
             return fields;
         }
 
-        /**
-         * Find the _Fields constant that matches name, or null if its not found.
-         */
+
         @org.apache.thrift.annotation.Nullable
         public static _Fields findByName(String name) {
             return byName.get(name);
@@ -125,9 +116,7 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
         this.headers = headers;
     }
 
-    /**
-     * Performs a deep copy on <i>other</i>.
-     */
+
     public TokenBean(TokenBean other) {
         if (other.isSetUserId()) {
             this.userId = other.userId;
@@ -167,7 +156,6 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
         this.userId = null;
     }
 
-    /** Returns true if field userId is set (has been assigned a value) and false otherwise */
     public boolean isSetUserId() {
         return this.userId != null;
     }
@@ -192,7 +180,6 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
         this.ticket = null;
     }
 
-    /** Returns true if field ticket is set (has been assigned a value) and false otherwise */
     public boolean isSetTicket() {
         return this.ticket != null;
     }
@@ -228,7 +215,6 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
         this.headers = null;
     }
 
-    /** Returns true if field headers is set (has been assigned a value) and false otherwise */
     public boolean isSetHeaders() {
         return this.headers != null;
     }

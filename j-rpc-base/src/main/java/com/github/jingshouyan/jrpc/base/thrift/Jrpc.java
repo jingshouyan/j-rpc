@@ -402,7 +402,6 @@ public class Jrpc {
         public @org.apache.thrift.annotation.Nullable
         ReqBean req; // required
 
-        /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
         public enum _Fields implements org.apache.thrift.TFieldIdEnum {
             TOKEN((short) 1, "token"),
             REQ((short) 2, "req");
@@ -415,9 +414,7 @@ public class Jrpc {
                 }
             }
 
-            /**
-             * Find the _Fields constant that matches fieldId, or null if its not found.
-             */
+
             @org.apache.thrift.annotation.Nullable
             public static _Fields findByThriftId(int fieldId) {
                 switch (fieldId) {
@@ -430,10 +427,7 @@ public class Jrpc {
                 }
             }
 
-            /**
-             * Find the _Fields constant that matches fieldId, throwing an exception
-             * if it is not found.
-             */
+
             public static _Fields findByThriftIdOrThrow(int fieldId) {
                 _Fields fields = findByThriftId(fieldId);
                 if (fields == null) {
@@ -442,9 +436,7 @@ public class Jrpc {
                 return fields;
             }
 
-            /**
-             * Find the _Fields constant that matches name, or null if its not found.
-             */
+
             @org.apache.thrift.annotation.Nullable
             public static _Fields findByName(String name) {
                 return byName.get(name);
@@ -493,9 +485,7 @@ public class Jrpc {
             this.req = req;
         }
 
-        /**
-         * Performs a deep copy on <i>other</i>.
-         */
+
         public call_args(call_args other) {
             if (other.isSetToken()) {
                 this.token = new TokenBean(other.token);
@@ -530,7 +520,6 @@ public class Jrpc {
             this.token = null;
         }
 
-        /** Returns true if field token is set (has been assigned a value) and false otherwise */
         public boolean isSetToken() {
             return this.token != null;
         }
@@ -555,7 +544,6 @@ public class Jrpc {
             this.req = null;
         }
 
-        /** Returns true if field req is set (has been assigned a value) and false otherwise */
         public boolean isSetReq() {
             return this.req != null;
         }
@@ -602,7 +590,6 @@ public class Jrpc {
             throw new IllegalStateException();
         }
 
-        /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
         @Override
         public boolean isSet(_Fields field) {
             if (field == null) {
@@ -921,9 +908,7 @@ public class Jrpc {
                 }
             }
 
-            /**
-             * Find the _Fields constant that matches fieldId, or null if its not found.
-             */
+
             @org.apache.thrift.annotation.Nullable
             public static _Fields findByThriftId(int fieldId) {
                 switch (fieldId) {
@@ -934,10 +919,7 @@ public class Jrpc {
                 }
             }
 
-            /**
-             * Find the _Fields constant that matches fieldId, throwing an exception
-             * if it is not found.
-             */
+
             public static _Fields findByThriftIdOrThrow(int fieldId) {
                 _Fields fields = findByThriftId(fieldId);
                 if (fields == null) {
@@ -946,9 +928,7 @@ public class Jrpc {
                 return fields;
             }
 
-            /**
-             * Find the _Fields constant that matches name, or null if its not found.
-             */
+
             @org.apache.thrift.annotation.Nullable
             public static _Fields findByName(String name) {
                 return byName.get(name);
@@ -973,7 +953,6 @@ public class Jrpc {
             }
         }
 
-        // isset id assignments
         public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
 
         static {
@@ -993,9 +972,7 @@ public class Jrpc {
             this.success = success;
         }
 
-        /**
-         * Performs a deep copy on <i>other</i>.
-         */
+
         public call_result(call_result other) {
             if (other.isSetSuccess()) {
                 this.success = new RspBean(other.success);
@@ -1026,7 +1003,6 @@ public class Jrpc {
             this.success = null;
         }
 
-        /** Returns true if field success is set (has been assigned a value) and false otherwise */
         public boolean isSetSuccess() {
             return this.success != null;
         }
@@ -1062,7 +1038,6 @@ public class Jrpc {
             throw new IllegalStateException();
         }
 
-        /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
         @Override
         public boolean isSet(_Fields field) {
             if (field == null) {
@@ -1306,7 +1281,6 @@ public class Jrpc {
         public @org.apache.thrift.annotation.Nullable
         ReqBean req; // required
 
-        /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
         public enum _Fields implements org.apache.thrift.TFieldIdEnum {
             TOKEN((short) 1, "token"),
             REQ((short) 2, "req");
@@ -1319,9 +1293,7 @@ public class Jrpc {
                 }
             }
 
-            /**
-             * Find the _Fields constant that matches fieldId, or null if its not found.
-             */
+
             @org.apache.thrift.annotation.Nullable
             public static _Fields findByThriftId(int fieldId) {
                 switch (fieldId) {
@@ -1334,10 +1306,7 @@ public class Jrpc {
                 }
             }
 
-            /**
-             * Find the _Fields constant that matches fieldId, throwing an exception
-             * if it is not found.
-             */
+
             public static _Fields findByThriftIdOrThrow(int fieldId) {
                 _Fields fields = findByThriftId(fieldId);
                 if (fields == null) {
@@ -1346,9 +1315,7 @@ public class Jrpc {
                 return fields;
             }
 
-            /**
-             * Find the _Fields constant that matches name, or null if its not found.
-             */
+
             @org.apache.thrift.annotation.Nullable
             public static _Fields findByName(String name) {
                 return byName.get(name);
@@ -1373,7 +1340,6 @@ public class Jrpc {
             }
         }
 
-        // isset id assignments
         public static final java.util.Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
 
         static {
@@ -1397,9 +1363,7 @@ public class Jrpc {
             this.req = req;
         }
 
-        /**
-         * Performs a deep copy on <i>other</i>.
-         */
+
         public send_args(send_args other) {
             if (other.isSetToken()) {
                 this.token = new TokenBean(other.token);
@@ -1434,7 +1398,6 @@ public class Jrpc {
             this.token = null;
         }
 
-        /** Returns true if field token is set (has been assigned a value) and false otherwise */
         public boolean isSetToken() {
             return this.token != null;
         }
@@ -1459,7 +1422,6 @@ public class Jrpc {
             this.req = null;
         }
 
-        /** Returns true if field req is set (has been assigned a value) and false otherwise */
         public boolean isSetReq() {
             return this.req != null;
         }
@@ -1506,7 +1468,6 @@ public class Jrpc {
             throw new IllegalStateException();
         }
 
-        /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
         @Override
         public boolean isSet(_Fields field) {
             if (field == null) {
@@ -1727,7 +1688,6 @@ public class Jrpc {
                 }
                 iprot.readStructEnd();
 
-                // check for required fields of primitive type, which can't be checked in the validate method
                 struct.validate();
             }
 

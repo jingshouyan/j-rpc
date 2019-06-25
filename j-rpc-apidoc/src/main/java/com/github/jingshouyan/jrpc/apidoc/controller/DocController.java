@@ -35,45 +35,46 @@ public class DocController {
     private JrpcClient jrpcClient;
 
     @RequestMapping("servers")
-    public String servers(){
+    public String servers() {
 
-        Map<String,List<ServerInfo>> map = jrpcClient.serverMap();
+        Map<String, List<ServerInfo>> map = jrpcClient.serverMap();
         List<ServerInfo> serverInfos = Lists.newArrayList();
-        for(List<ServerInfo> l: map.values()){
-            if(l != null&& !l.isEmpty()){
+        for (List<ServerInfo> l : map.values()) {
+            if (l != null && !l.isEmpty()) {
                 serverInfos.add(l.get(0));
             }
         }
         return RspUtil.success(serverInfos).json();
     }
+
     @RequestMapping("codes")
     public String codes() {
-        Map<String,List<ServerInfo>> map = jrpcClient.serverMap();
+        Map<String, List<ServerInfo>> map = jrpcClient.serverMap();
         List<String> servers = map.values().stream().filter(Objects::nonNull)
                 .filter(list -> !list.isEmpty())
                 .map(list -> list.get(0).getName())
                 .collect(Collectors.toList());
         List<CodeInfo> codes = Lists.newArrayList();
-        for (String server: servers) {
+        for (String server : servers) {
             Rsp rsp = Request.newInstance().setClient(jrpcClient)
                     .setServer(server)
                     .setMethod("getServerInfo")
                     .send();
-            if(rsp.success()){
+            if (rsp.success()) {
                 InterfaceInfo info = rsp.get(InterfaceInfo.class);
                 List<CodeInfo> codeInfos = info.getCodeInfos();
                 codeInfos.forEach(c -> c.setWhoUse(server));
                 codes.addAll(codeInfos);
             }
         }
-        Map<String,CodeInfo> cmap = Maps.newHashMap();
-        for (CodeInfo code: codes) {
-            String key = code.getCode()+":"+code.getMessage();
-            if(cmap.containsKey(key)){
+        Map<String, CodeInfo> cmap = Maps.newHashMap();
+        for (CodeInfo code : codes) {
+            String key = code.getCode() + ":" + code.getMessage();
+            if (cmap.containsKey(key)) {
                 CodeInfo code2 = cmap.get(key);
-                code2.setWhoUse(code2.getWhoUse()+ ","+ code.getWhoUse());
-            }else {
-                cmap.put(key,code);
+                code2.setWhoUse(code2.getWhoUse() + "," + code.getWhoUse());
+            } else {
+                cmap.put(key, code);
             }
         }
         codes = Lists.newArrayList(cmap.values());
@@ -82,7 +83,7 @@ public class DocController {
     }
 
     @RequestMapping("server/{server}")
-    public String serverInfo(@PathVariable String server){
+    public String serverInfo(@PathVariable String server) {
 
         String str = Request.newInstance().setClient(jrpcClient)
                 .setServer(server)
