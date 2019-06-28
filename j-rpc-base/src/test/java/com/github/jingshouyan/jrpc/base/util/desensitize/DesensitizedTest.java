@@ -1,5 +1,6 @@
-package com.github.jingshouyan.jrpc.base.util.desensitized;
+package com.github.jingshouyan.jrpc.base.util.desensitize;
 
+import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.google.common.collect.Maps;
 
 import java.util.Map;
@@ -16,8 +17,23 @@ public class DesensitizedTest {
         Map<String,Integer> conf = Maps.newHashMap();
         conf.put("nickname",100);
         conf.put("account",703);
-        JsonDesensitized.addConf(conf);
-        String tt = JsonDesensitized.desensitized(json);
-        System.out.println(tt);
+        JsonDesensitizer.addConf(conf);
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < 1_000_000; i++) {
+            JsonDesensitizer.desensitize(json);
+        }
+        long end = System.currentTimeMillis();
+        System.out.println(end-start);
+        start = System.currentTimeMillis();
+        for (int i = 0; i < 1_000_000; i++) {
+            JsonUtil.toList(json,Map.class);
+        }
+        end = System.currentTimeMillis();
+        System.out.println(end-start);
+        System.out.println();
+    }
+
+    public static void tt() {
+
     }
 }

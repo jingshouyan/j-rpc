@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.base.util.desensitized;
+package com.github.jingshouyan.jrpc.base.util.desensitize;
 
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
@@ -13,7 +13,7 @@ import java.util.Map;
  * #date 2019/6/28 15:46
  */
 @Slf4j
-public class JsonDesensitized {
+public class JsonDesensitizer {
 
     private static final JsonFactory factory = new JsonFactory();
     private static final int SPLIT_INT = 100;
@@ -31,7 +31,10 @@ public class JsonDesensitized {
      * @param json json 字符串
      * @return 脱敏后数据
      */
-    public static String desensitized(String json) {
+    public static String desensitize(String json) {
+        if(CONF.isEmpty()){
+            return json;
+        }
         try {
             char[] chars = json.toCharArray();
             JsonParser parser = factory.createParser(chars);
@@ -63,7 +66,7 @@ public class JsonDesensitized {
             } while (parser.hasCurrentToken());
             return new String(chars);
         } catch (Throwable e) {
-            log.warn("json desensitized error.", e);
+            log.warn("json desensitize error.", e);
             return json;
         }
     }

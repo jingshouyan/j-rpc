@@ -1,8 +1,10 @@
 package com.github.jingshouyan.jrpc.base.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
+import com.github.jingshouyan.jrpc.base.util.desensitize.JsonDesensitizer;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,23 +16,43 @@ import java.util.List;
  * @author jingshouyan
  * 10/10/18 7:26 PM
  */
-@Getter
-@Setter
-@ToString
+@ToString(exclude = {"desensitizedResult", "data"})
 public class Rsp {
+    @Getter
+    @Setter
     private int code;
+    @Getter
+    @Setter
     private String message;
+    @Getter
+    @Setter
+    @JsonIgnore
     private String result;
+
+    @Getter
+    @Setter
     private Object data;
 
     public String getResult() {
         if (result == null && data == null) {
             return null;
         }
-        if (result == null && data != null) {
+        if (result == null) {
             result = JsonUtil.toJsonString(data);
         }
         return result;
+    }
+
+    @JsonIgnore
+    private String desensitizedResult;
+    public String desensitizedResult() {
+        if(desensitizedResult == null && result == null) {
+            return null;
+        }
+        if(desensitizedResult == null) {
+            desensitizedResult = JsonDesensitizer.desensitize(result);
+        }
+        return desensitizedResult;
     }
 
     public Rsp() {
@@ -90,12 +112,10 @@ public class Rsp {
             sb.append(message);
         }
         sb.append("\"");
-        if (result == null && data != null) {
-            result = JsonUtil.toJsonString(data);
-        }
-        if (result != null) {
+        String r = getResult();
+        if(r != null){
             sb.append(",\"data\":");
-            sb.append(result);
+            sb.append(r);
         }
         sb.append("}");
         return sb.toString();
