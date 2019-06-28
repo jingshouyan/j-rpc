@@ -7,7 +7,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>0.2.1-SNAPSHOT</version>
+    <version>0.3.0</version>
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
@@ -175,6 +175,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -189,6 +190,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.22.2</version>
                 <configuration>
                     <!-- 忽略测试 -->
                     <skip>true</skip>
