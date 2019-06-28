@@ -13,11 +13,9 @@
         <module>j-rpc-server</module>
         <module>j-rpc-client</module>
         <module>j-rpc-apidoc</module>
-        <module>test-client</module>
-        <module>test-server</module>
-        <module>test-server-forward</module>
         <module>j-rpc-starter</module>
         <module>j-rpc-common</module>
+        <module>j-rpc-test</module>
     </modules>
 
     <properties>

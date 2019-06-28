@@ -3,13 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>j-rpc</artifactId>
+        <artifactId>j-rpc-test</artifactId>
         <groupId>com.github.jingshouyan</groupId>
         <version>0.2.1-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>test-client</artifactId>
+    <artifactId>j-rpc-test-client</artifactId>
     <name>${project.artifactId}</name>
     <dependencies>
         <dependency>
