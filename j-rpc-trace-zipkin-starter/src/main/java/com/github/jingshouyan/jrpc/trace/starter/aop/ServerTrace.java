@@ -52,8 +52,8 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
 
         Single<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
             if (properties.isMore() || !rsp.success()) {
-                span.tag(TAG_PARAM, "" + req.getParam())
-                        .tag(TAG_DATA, "" + rsp.getResult());
+                span.tag(TAG_PARAM, "" + req.desensitizedParam())
+                        .tag(TAG_DATA, "" + rsp.desensitizedResult());
             }
             if (rsp.getCode() != Code.SUCCESS) {
                 span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());
