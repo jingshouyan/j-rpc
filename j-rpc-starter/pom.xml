@@ -9,7 +9,17 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>j-rpc-starter-desensitize</artifactId>
+    <artifactId>j-rpc-starter</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>j-rpc-starter-client</module>
+        <module>j-rpc-starter-server</module>
+        <module>j-rpc-starter-desensitize</module>
+        <module>j-rpc-starter-trace-zipkin</module>
+        <module>j-rpc-starter-hmily</module>
+        <module>j-rpc-starter-forward</module>
+    </modules>
 
 
 </project>

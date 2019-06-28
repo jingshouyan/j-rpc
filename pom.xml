@@ -15,15 +15,10 @@
         <module>j-rpc-apidoc</module>
         <module>j-rpc-plugins</module>
         <module>j-rpc-trace-common</module>
-        <module>j-rpc-starter-client</module>
-        <module>j-rpc-starter-server</module>
-        <module>j-rpc-starter-desensitize</module>
-        <module>j-rpc-starter-trace-zipkin</module>
-        <module>j-rpc-starter-hmily</module>
-        <module>j-rpc-starter-forward</module>
         <module>test-client</module>
         <module>test-server</module>
         <module>test-server-forward</module>
+        <module>j-rpc-starter</module>
     </modules>
 
     <properties>
