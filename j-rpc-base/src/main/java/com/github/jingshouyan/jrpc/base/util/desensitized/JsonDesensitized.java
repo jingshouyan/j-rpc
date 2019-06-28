@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.base.util.desensitized;
 import com.fasterxml.jackson.core.JsonFactory;
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.core.JsonToken;
+import com.google.common.collect.Maps;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.Map;
@@ -16,14 +17,21 @@ public class JsonDesensitized {
 
     private static final JsonFactory factory = new JsonFactory();
     private static final int SPLIT_INT = 100;
+    private static final Map<String,Integer> CONF = Maps.newConcurrentMap();
 
+    public static void addConf(String key,int setting) {
+        CONF.put(key,setting);
+    }
+
+    public static void addConf(Map<String,Integer> conf) {
+        CONF.putAll(conf);
+    }
     /**
      * json 字符串 脱敏
      * @param json json 字符串
-     * @param conf 脱敏配置
      * @return 脱敏后数据
      */
-    public static String desensitized(String json, Map<String, Integer> conf) {
+    public static String desensitized(String json) {
         try {
             char[] chars = json.toCharArray();
             JsonParser parser = factory.createParser(chars);
@@ -33,12 +41,12 @@ public class JsonDesensitized {
                     String key = parser.currentName();
                     token = parser.nextToken();
                     if (token == JsonToken.VALUE_STRING) {
-                        Integer intConf = conf.get(key);
-                        if (null != intConf) {
+                        Integer setting = CONF.get(key);
+                        if (null != setting) {
                             // 头部保留长度
-                            int prefixLen = intConf / SPLIT_INT;
+                            int prefixLen = setting / SPLIT_INT;
                             // 尾部保留长度
-                            int suffixLen = intConf % SPLIT_INT;
+                            int suffixLen = setting % SPLIT_INT;
                             String value = parser.getValueAsString();
                             int valueLen = value.length();
                             if (prefixLen + suffixLen < valueLen) {

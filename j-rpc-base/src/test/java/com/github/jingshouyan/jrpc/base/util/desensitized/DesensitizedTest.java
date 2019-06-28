@@ -16,7 +16,8 @@ public class DesensitizedTest {
         Map<String,Integer> conf = Maps.newHashMap();
         conf.put("nickname",100);
         conf.put("account",703);
-        String tt = JsonDesensitized.desensitized(json,conf);
+        JsonDesensitized.addConf(conf);
+        String tt = JsonDesensitized.desensitized(json);
         System.out.println(tt);
     }
 }
