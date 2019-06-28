@@ -54,11 +54,11 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>crud-dql-starter</artifactId>
+            <artifactId>j-rpc-starter-dml</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>crud-dml-starter</artifactId>
+            <artifactId>j-rpc-starter-dml</artifactId>
         </dependency>
         <dependency>
             <groupId>mysql</groupId>

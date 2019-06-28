@@ -63,7 +63,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.jingshouyan</groupId>
-            <artifactId>j-rpc-trace-common</artifactId>
+            <artifactId>j-rpc-common-trace</artifactId>
         </dependency>
 
 

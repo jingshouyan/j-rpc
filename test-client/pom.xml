@@ -28,7 +28,7 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>crud-common</artifactId>
+            <artifactId>j-rpc-common-crud</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -9,7 +9,13 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>j-rpc-trace-common</artifactId>
-    <name>${project.artifactId}</name>
+    <artifactId>j-rpc-common</artifactId>
+    <packaging>pom</packaging>
+
+    <modules>
+        <module>j-rpc-common-crud</module>
+        <module>j-rpc-common-trace</module>
+    </modules>
+
 
 </project>

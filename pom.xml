@@ -13,12 +13,11 @@
         <module>j-rpc-server</module>
         <module>j-rpc-client</module>
         <module>j-rpc-apidoc</module>
-        <module>j-rpc-plugins</module>
-        <module>j-rpc-trace-common</module>
         <module>test-client</module>
         <module>test-server</module>
         <module>test-server-forward</module>
         <module>j-rpc-starter</module>
+        <module>j-rpc-common</module>
     </modules>
 
     <properties>
@@ -66,7 +65,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-trace-common</artifactId>
+                <artifactId>j-rpc-common-trace</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -81,17 +80,17 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>crud-common</artifactId>
+                <artifactId>j-rpc-common-crud</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>crud-dql-starter</artifactId>
+                <artifactId>j-rpc-starter-dql</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>crud-dml-starter</artifactId>
+                <artifactId>j-rpc-starter-dml</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>

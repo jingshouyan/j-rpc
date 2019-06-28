@@ -16,6 +16,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import javax.annotation.Resource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
 
 /**
@@ -138,19 +140,33 @@ public class ClientTest {
     }
 
     @Test
-    public void testForward() {
-        for (int i = 0; i < 10_000_000; i++) {
+    public void testForward() throws Exception {
+        long start = System.currentTimeMillis();
+        int loop = 100_000;
+        AtomicInteger ai = new AtomicInteger();
+        AtomicInteger ai2 = new AtomicInteger();
+        CountDownLatch cdl = new CountDownLatch(loop);
+        for (int i = 0; i < loop; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("" + i);
             Request.newInstance()
                     .setClient(jrpcClient)
-                    .setServer("forward")
-                    .setMethod("forwardTest")
+//                    .setServer("forward")
+//                    .setMethod("forwardTest")//      forwardTest: test.testMethod
+                    .setServer("test")
+                    .setMethod("testMethod")
                     .setParamObj(strings)
 //                .setOneway(true)
-                    .asyncSend().subscribe(System.err::println);
+                    .asyncSend().subscribe(rsp -> {
+                        if(!rsp.success()){
+                            ai.getAndIncrement();
+                        }
+                        ai2.getAndIncrement();
+            });
         }
-
+//        cdl.await();
+        long end = System.currentTimeMillis();
+        log.info("loop[{}] use {} ms,error:{},run:{}",loop,end-start,ai.get(),ai2.get());
     }
 
     @Test
