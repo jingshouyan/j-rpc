@@ -11,18 +11,19 @@
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
-        <module>j-rpc-server-starter</module>
-        <module>test-server</module>
         <module>j-rpc-client</module>
-        <module>j-rpc-client-starter</module>
-        <module>test-client</module>
         <module>j-rpc-apidoc</module>
-        <module>j-rpc-trace-zipkin-starter</module>
         <module>j-rpc-plugins</module>
-        <module>j-rpc-hmily-starter</module>
-        <module>j-rpc-forward-starter</module>
-        <module>test-server-forward</module>
         <module>j-rpc-trace-common</module>
+        <module>j-rpc-starter-client</module>
+        <module>j-rpc-starter-server</module>
+        <module>j-rpc-starter-desensitize</module>
+        <module>j-rpc-starter-trace-zipkin</module>
+        <module>j-rpc-starter-hmily</module>
+        <module>j-rpc-starter-forward</module>
+        <module>test-client</module>
+        <module>test-server</module>
+        <module>test-server-forward</module>
     </modules>
 
     <properties>
@@ -55,7 +56,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-server-starter</artifactId>
+                <artifactId>j-rpc-starter-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -65,7 +66,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-client-starter</artifactId>
+                <artifactId>j-rpc-starter-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -75,12 +76,12 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-trace-zipkin-starter</artifactId>
+                <artifactId>j-rpc-starter-trace-zipkin</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-forward-starter</artifactId>
+                <artifactId>j-rpc-starter-forward</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -100,7 +101,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-hmily-starter</artifactId>
+                <artifactId>j-rpc-starter-hmily</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -206,7 +207,7 @@
 
     </build>
 
-    <name>j-rpc</name>
+    <name>${project.artifactId}</name>
     <description>rpc base on json.</description>
     <url>https://github.com/jingshouyan/j-rpc/</url>
     <licenses>

@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>j-rpc-apidoc</artifactId>
-    <name>j-rpc-apidoc</name>
+    <name>${project.artifactId}</name>
     <properties>
         <brave.version>5.5.0</brave.version>
     </properties>
@@ -37,7 +37,7 @@
         </dependency>
         <dependency>
             <groupId>com.github.jingshouyan</groupId>
-            <artifactId>j-rpc-client-starter</artifactId>
+            <artifactId>j-rpc-starter-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -79,7 +79,7 @@
 
         <dependency>
             <groupId>com.github.jingshouyan</groupId>
-            <artifactId>j-rpc-trace-zipkin-starter</artifactId>
+            <artifactId>j-rpc-starter-trace-zipkin</artifactId>
         </dependency>
 
         <dependency>

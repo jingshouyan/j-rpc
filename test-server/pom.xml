@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>test-server</artifactId>
-    <name>test-server</name>
+    <name>${project.artifactId}</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -26,11 +26,11 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>j-rpc-server-starter</artifactId>
+            <artifactId>j-rpc-starter-server</artifactId>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>j-rpc-client-starter</artifactId>
+            <artifactId>j-rpc-starter-client</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -44,12 +44,12 @@
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>j-rpc-trace-zipkin-starter</artifactId>
+            <artifactId>j-rpc-starter-trace-zipkin</artifactId>
         </dependency>
 
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>j-rpc-forward-starter</artifactId>
+            <artifactId>j-rpc-starter-forward</artifactId>
         </dependency>
 
         <dependency>

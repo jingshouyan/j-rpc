@@ -9,8 +9,8 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>j-rpc-trace-zipkin-starter</artifactId>
-    <name>j-rpc-trace-zipkin-starter</name>
+    <artifactId>j-rpc-starter-trace-zipkin</artifactId>
+    <name>${project.artifactId}</name>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>

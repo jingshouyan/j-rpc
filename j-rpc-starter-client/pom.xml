@@ -9,22 +9,26 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>j-rpc-hmily-starter</artifactId>
-    <name>j-rpc-hmily-starter</name>
+    <artifactId>j-rpc-starter-client</artifactId>
+    <name>${project.artifactId}</name>
     <dependencies>
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>hmily-core</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
-            <artifactId>j-rpc-base</artifactId>
+            <artifactId>j-rpc-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.dromara</groupId>
-            <artifactId>hmily-spring-boot-starter-parent</artifactId>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
         </dependency>
     </dependencies>
-
 
 </project>

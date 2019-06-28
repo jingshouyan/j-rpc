@@ -10,7 +10,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>j-rpc-plugins</artifactId>
-    <name>j-rpc-plugins</name>
+    <name>${project.artifactId}</name>
     <packaging>pom</packaging>
     <modules>
         <module>crud-common</module>
