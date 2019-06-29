@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.trace.starter.aop;
+package com.github.jingshouyan.jrpc.starter.trace.aop;
 
 import brave.Span;
 import brave.Tracer;
@@ -11,8 +11,8 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.trace.starter.TraceProperties;
-import com.github.jingshouyan.jrpc.trace.starter.constant.TraceConstant;
+import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
+import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
 import io.reactivex.Single;
 
 /**

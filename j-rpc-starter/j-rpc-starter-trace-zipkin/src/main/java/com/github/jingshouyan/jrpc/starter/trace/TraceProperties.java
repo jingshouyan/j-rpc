@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.trace.starter;
+package com.github.jingshouyan.jrpc.starter.trace;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.trace.starter.constant;
+package com.github.jingshouyan.jrpc.starter.trace.constant;
 
 /**
  * @author jingshouyan

@@ -1,13 +1,13 @@
-package com.github.jingshouyan.jrpc.trace.starter;
+package com.github.jingshouyan.jrpc.starter.trace;
 
 import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.TtlCurrentTraceContext;
 import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
-import com.github.jingshouyan.jrpc.trace.starter.aop.ClientTrace;
-import com.github.jingshouyan.jrpc.trace.starter.aop.ServerTrace;
-import com.github.jingshouyan.jrpc.trace.starter.aop.SpanXTrace;
+import com.github.jingshouyan.jrpc.starter.trace.aop.ClientTrace;
+import com.github.jingshouyan.jrpc.starter.trace.aop.ServerTrace;
+import com.github.jingshouyan.jrpc.starter.trace.aop.SpanXTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
