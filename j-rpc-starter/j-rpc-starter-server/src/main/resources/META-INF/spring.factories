@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.jingshouyan.jrpc.server.starter.JrpcServerAutoConfiguration
+  com.github.jingshouyan.jrpc.starter.server.JrpcServerAutoConfiguration

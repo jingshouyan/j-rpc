@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.server.starter;
+package com.github.jingshouyan.jrpc.starter.server;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.server.method.BaseMethod;

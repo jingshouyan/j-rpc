@@ -4,7 +4,7 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
 import com.github.jingshouyan.jrpc.server.method.Method;
-import com.github.jingshouyan.jrpc.server.starter.ServerProperties;
+import com.github.jingshouyan.jrpc.starter.server.ServerProperties;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
