@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.client.starter;
+package com.github.jingshouyan.jrpc.starter.desensitize;
 
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.config.ClientConfig;

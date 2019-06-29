@@ -31,7 +31,7 @@ public class Req {
     private String desensitizedParam;
     public String desensitizedParam() {
         if(param!= null){
-            desensitizedParam = JsonDesensitizer.desensitize(param);
+            desensitizedParam = JsonDesensitizer.DEFAULT.desensitize(param);
         }
         return desensitizedParam;
     }

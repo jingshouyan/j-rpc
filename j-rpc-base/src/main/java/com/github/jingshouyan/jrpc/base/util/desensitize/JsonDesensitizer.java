@@ -17,22 +17,24 @@ public class JsonDesensitizer {
 
     private static final JsonFactory factory = new JsonFactory();
     private static final int SPLIT_INT = 100;
-    private static final Map<String,Integer> CONF = Maps.newConcurrentMap();
+    private final Map<String,Integer> SETTINGS = Maps.newConcurrentMap();
 
-    public static void addConf(String key,int setting) {
-        CONF.put(key,setting);
+    public static final JsonDesensitizer DEFAULT = new JsonDesensitizer();
+
+    public void addConf(String key,int setting) {
+        SETTINGS.put(key,setting);
     }
 
-    public static void addConf(Map<String,Integer> conf) {
-        CONF.putAll(conf);
+    public void addConf(Map<String,Integer> settings) {
+        SETTINGS.putAll(settings);
     }
     /**
      * json 字符串 脱敏
      * @param json json 字符串
      * @return 脱敏后数据
      */
-    public static String desensitize(String json) {
-        if(CONF.isEmpty()){
+    public String desensitize(String json) {
+        if(SETTINGS.isEmpty()){
             return json;
         }
         try {
@@ -44,7 +46,7 @@ public class JsonDesensitizer {
                     String key = parser.currentName();
                     token = parser.nextToken();
                     if (token == JsonToken.VALUE_STRING) {
-                        Integer setting = CONF.get(key);
+                        Integer setting = SETTINGS.get(key);
                         if (null != setting) {
                             // 头部保留长度
                             int prefixLen = setting / SPLIT_INT;

@@ -50,7 +50,7 @@ public class Rsp {
             return null;
         }
         if(desensitizedResult == null) {
-            desensitizedResult = JsonDesensitizer.desensitize(result);
+            desensitizedResult = JsonDesensitizer.DEFAULT.desensitize(result);
         }
         return desensitizedResult;
     }
