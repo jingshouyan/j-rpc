@@ -162,9 +162,10 @@ public class ClientTest {
                             ai.getAndIncrement();
                         }
                         ai2.getAndIncrement();
+                        cdl.countDown();
             });
         }
-//        cdl.await();
+        cdl.await();
         long end = System.currentTimeMillis();
         log.info("loop[{}] use {} ms,error:{},run:{}",loop,end-start,ai.get(),ai2.get());
     }
