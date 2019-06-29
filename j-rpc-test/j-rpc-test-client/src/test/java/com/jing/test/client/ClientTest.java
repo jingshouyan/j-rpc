@@ -142,7 +142,7 @@ public class ClientTest {
     @Test
     public void testForward() throws Exception {
         long start = System.currentTimeMillis();
-        int loop = 100_000;
+        int loop = 1_000;
         AtomicInteger ai = new AtomicInteger();
         AtomicInteger ai2 = new AtomicInteger();
         CountDownLatch cdl = new CountDownLatch(loop);
@@ -151,10 +151,10 @@ public class ClientTest {
             strings.add("" + i);
             Request.newInstance()
                     .setClient(jrpcClient)
-//                    .setServer("forward")
-//                    .setMethod("forwardTest")//      forwardTest: test.testMethod
-                    .setServer("test")
-                    .setMethod("testMethod")
+                    .setServer("forward")
+                    .setMethod("forwardTest")//      forwardTest: test.testMethod
+//                    .setServer("test")
+//                    .setMethod("testMethod")
                     .setParamObj(strings)
 //                .setOneway(true)
                     .asyncSend().subscribe(rsp -> {

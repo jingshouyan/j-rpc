@@ -10,7 +10,9 @@ j-rpc:
     methods:
       forwardTest: test.testMethod
       asyncTest: test.asyncTest
-
+  desensitize:
+    settings:
+      test: 101
 
 
 

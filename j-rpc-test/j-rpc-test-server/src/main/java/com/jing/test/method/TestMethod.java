@@ -7,11 +7,14 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import com.jing.test.bean.TestBean2;
 import com.jing.test.bean.TestBean3;
+import lombok.SneakyThrows;
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -22,7 +25,13 @@ import java.util.Map;
 public class TestMethod implements Method<List<String>, TestBean2<CodeInfo, String, TestBean3>> {
 
     @Override
+    @SneakyThrows
     public TestBean2<CodeInfo, String, TestBean3> action(Token token, List<String> strings) {
+        Random random = new Random();
+        int r = random.nextInt(8);
+        if(r>4){
+            TimeUnit.SECONDS.sleep(r);
+        }
         TestBean2 testBean2 = new TestBean2();
         testBean2.setTest(strings.get(0));
         CodeInfo codeInfo = new CodeInfo();
