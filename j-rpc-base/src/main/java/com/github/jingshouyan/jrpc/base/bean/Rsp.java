@@ -34,6 +34,9 @@ public class Rsp {
     private Object data;
 
     public String getResult() {
+        if(result != null){
+            return result;
+        }
         if (result == null && data == null) {
             return null;
         }
@@ -46,6 +49,10 @@ public class Rsp {
     @JsonIgnore
     private String desensitizedResult;
     public String desensitizedResult() {
+        if(desensitizedResult != null) {
+            return desensitizedResult;
+        }
+        String result = getResult();
         if(desensitizedResult == null && result == null) {
             return null;
         }

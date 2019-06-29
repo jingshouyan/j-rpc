@@ -6,7 +6,9 @@ j-rpc:
   trace:
     more: true
     rate: 0.0
-
+  desensitize:
+    settings:
+      name: 101
 
 
 
