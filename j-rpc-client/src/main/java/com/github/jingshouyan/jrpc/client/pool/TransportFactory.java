@@ -38,6 +38,7 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
 
             TNonblockingSocket nonblockingSocket = new TNonblockingSocket(serverInfo.getHost(), serverInfo.getPort(), serverInfo.getTimeout());
             Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(protocolFactory, clientManager, nonblockingSocket);
+            asyncClient.setTimeout(serverInfo.getTimeout());
             transport.setNonblockingSocket(nonblockingSocket);
             transport.setAsyncClient(asyncClient);
             log.debug("client pool make object success. {}==>{},{}:{}",
