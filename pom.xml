@@ -52,14 +52,20 @@
                 <artifactId>j-rpc-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
+
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-server</artifactId>
+                <artifactId>j-rpc-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-client</artifactId>
+                <artifactId>j-rpc-common-trace</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>j-rpc-common-crud</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -69,7 +75,7 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-common-trace</artifactId>
+                <artifactId>j-rpc-starter-server</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -80,11 +86,6 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-starter-forward</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-common-crud</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
@@ -100,6 +101,11 @@
             <dependency>
                 <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-starter-hmily</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
+                <artifactId>j-rpc-starter-desensitize</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
