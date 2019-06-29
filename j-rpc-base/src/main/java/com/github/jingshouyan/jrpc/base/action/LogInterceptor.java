@@ -38,23 +38,24 @@ public class LogInterceptor implements ActionInterceptor {
 
     @Override
     public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
-        long start = System.nanoTime();
+        long start = System.currentTimeMillis();
         String actionInfo = actionInfo(req).toString();
         log.debug("{} token: {}", actionInfo, token);
         log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
         Single<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
-            long end = System.nanoTime();
+            long end = System.currentTimeMillis();
             long cost = end - start;
             if (rsp.success()) {
-                log.debug("{} end.use {}ns.code:{},message:{},data:{}",
+                log.debug("{} end.use {}ms.code:{},message:{},data:{}",
                         actionInfo, cost, rsp.getCode(),rsp.getMessage(),rsp.desensitizedResult());
             } else {
-                log.warn("{} end.use {}ns.code:{},message:{},data:{}",
+                log.warn("{} end.use {}ms.code:{},message:{},data:{}",
                         actionInfo, cost, rsp.getCode(),rsp.getMessage(),rsp.desensitizedResult());
             }
         }).doOnError(e -> {
-            long end = System.nanoTime();
-            log.debug("{} use {} ns,error", actionInfo, end - start, e);
+            long end = System.currentTimeMillis();
+            long cost = end - start;
+            log.error("{} use {}ms,error", actionInfo, cost, e);
         });
         return single;
     }
