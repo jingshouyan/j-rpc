@@ -17,10 +17,10 @@ public class DesensitizedTest {
         Map<String,Integer> conf = Maps.newHashMap();
         conf.put("nickname",100);
         conf.put("account",703);
-        JsonDesensitizer.addConf(conf);
+        JsonDesensitizer.DEFAULT.addSetting(conf);
         long start = System.currentTimeMillis();
         for (int i = 0; i < 1_000_000; i++) {
-            JsonDesensitizer.desensitize(json);
+            JsonDesensitizer.DEFAULT.desensitize(json);
         }
         long end = System.currentTimeMillis();
         System.out.println(end-start);

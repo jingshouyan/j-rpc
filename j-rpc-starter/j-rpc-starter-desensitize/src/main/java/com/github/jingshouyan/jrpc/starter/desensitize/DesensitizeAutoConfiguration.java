@@ -22,7 +22,7 @@ public class DesensitizeAutoConfiguration implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        JsonDesensitizer.DEFAULT.addConf(properties.getSettings());
+        JsonDesensitizer.DEFAULT.addSetting(properties.getSettings());
         log.info("default desensitize settings: {}",properties.getSettings());
     }
 }

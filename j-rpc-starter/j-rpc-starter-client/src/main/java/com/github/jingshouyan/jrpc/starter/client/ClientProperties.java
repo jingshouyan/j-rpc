@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.starter.desensitize;
+package com.github.jingshouyan.jrpc.starter.client;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

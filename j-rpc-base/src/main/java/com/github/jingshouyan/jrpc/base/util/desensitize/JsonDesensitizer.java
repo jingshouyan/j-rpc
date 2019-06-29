@@ -21,11 +21,11 @@ public class JsonDesensitizer {
 
     public static final JsonDesensitizer DEFAULT = new JsonDesensitizer();
 
-    public void addConf(String key,int setting) {
+    public void addSetting(String key, int setting) {
         SETTINGS.put(key,setting);
     }
 
-    public void addConf(Map<String,Integer> settings) {
+    public void addSetting(Map<String,Integer> settings) {
         SETTINGS.putAll(settings);
     }
     /**
