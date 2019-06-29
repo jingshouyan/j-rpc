@@ -1,6 +1,6 @@
-package com.github.jingshouyan.forward.starter;
+package com.github.jingshouyan.starter.forward;
 
-import com.github.jingshouyan.forward.starter.aop.JrpcForward;
+import com.github.jingshouyan.starter.forward.aop.JrpcForward;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;

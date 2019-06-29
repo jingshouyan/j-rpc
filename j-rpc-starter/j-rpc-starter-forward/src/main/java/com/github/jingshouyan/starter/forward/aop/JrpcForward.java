@@ -1,6 +1,6 @@
-package com.github.jingshouyan.forward.starter.aop;
+package com.github.jingshouyan.starter.forward.aop;
 
-import com.github.jingshouyan.forward.starter.ForwardProperties;
+import com.github.jingshouyan.starter.forward.ForwardProperties;
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;

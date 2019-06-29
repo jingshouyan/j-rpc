@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.jingshouyan.forward.starter.ForwardAutoConfiguration
+  com.github.jingshouyan.starter.forward.ForwardAutoConfiguration

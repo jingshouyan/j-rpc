@@ -1,4 +1,4 @@
-package com.github.jingshouyan.forward.starter;
+package com.github.jingshouyan.starter.forward;
 
 import com.google.common.collect.Maps;
 import lombok.Data;
