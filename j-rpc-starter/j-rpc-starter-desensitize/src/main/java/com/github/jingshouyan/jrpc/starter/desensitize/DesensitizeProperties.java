@@ -13,5 +13,5 @@ import java.util.Map;
 @Data
 @ConfigurationProperties(prefix = "j-rpc.desensitize")
 public class DesensitizeProperties {
-    private Map<String,Integer> settings = Maps.newHashMap();
+    private Map<String, Integer> settings = Maps.newHashMap();
 }

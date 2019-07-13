@@ -4,6 +4,7 @@ import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.impl.GenericObjectPool;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.thrift.async.TAsyncClientManager;
@@ -14,6 +15,7 @@ import java.io.Closeable;
  * @author jingshouyan
  * #date 2018/4/17 21:39
  */
+@Slf4j
 public class TransportPool implements Closeable {
     private GenericObjectPool<Transport> innerPool;
     @Getter
@@ -34,7 +36,7 @@ public class TransportPool implements Closeable {
      * 取
      *
      * @return TTransport
-     * @throws Exception
+     * @throws Exception borrow exception
      */
     public Transport get() throws Exception {
         return innerPool.borrowObject(BORROW_TIMEOUT);
@@ -53,10 +55,14 @@ public class TransportPool implements Closeable {
      * 失效
      *
      * @param transport TTransport
-     * @throws Exception
      */
-    public void invalid(Transport transport) throws Exception {
-        innerPool.invalidateObject(transport);
+    public void invalid(Transport transport) {
+        try {
+            innerPool.invalidateObject(transport);
+        } catch (Exception e) {
+            log.warn("invalid transport error.", e);
+        }
+
     }
 
     @Override

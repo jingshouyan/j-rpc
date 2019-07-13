@@ -6,19 +6,24 @@ import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.zk.ZkUtil;
+import com.github.jingshouyan.jrpc.client.config.ClientConfig;
 import com.github.jingshouyan.jrpc.client.discover.selector.Selector;
 import com.github.jingshouyan.jrpc.client.discover.selector.impl.SimpleSelector;
+import com.github.jingshouyan.jrpc.client.node.Node;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import org.apache.curator.framework.CuratorFramework;
 import org.apache.curator.framework.recipes.cache.ChildData;
 import org.apache.curator.framework.recipes.cache.TreeCache;
 import org.apache.curator.framework.recipes.cache.TreeCacheEvent;
 
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
@@ -31,10 +36,11 @@ public class ZkDiscover {
 
     private static final long LATCH_TIMEOUT = 3000;
 
-    private final Map<String, List<ServerInfo>> map = Maps.newConcurrentMap();
+    private final Map<String, List<Node>> map = Maps.newConcurrentMap();
     private final CountDownLatch latch = new CountDownLatch(1);
     private String zkHost;
     private String zkRoot;
+    GenericObjectPoolConfig poolConfig;
     private Selector selector = new SimpleSelector();
 
     private final List<ServerInfoListener> listeners = Lists.newArrayList();
@@ -46,26 +52,33 @@ public class ZkDiscover {
 
     private CuratorFramework client;
 
-    public ZkDiscover(String zkHost, String zkRoot) {
-        this.zkHost = zkHost;
-        this.zkRoot = zkRoot;
+    public ZkDiscover(ClientConfig config) {
+        zkHost = config.getZkHost();
+        zkRoot = config.getZkRoot();
+        poolConfig = new GenericObjectPoolConfig();
+        poolConfig.setMinIdle(config.getPoolMinIdle());
+        poolConfig.setMaxIdle(config.getPoolMaxIdle());
+        poolConfig.setMaxTotal(config.getPoolMaxTotal());
+        poolConfig.setTestWhileIdle(true);
+        poolConfig.setTimeBetweenEvictionRunsMillis(10000);
+
         client = ZkUtil.getClient(zkHost);
         listen();
     }
 
-    public Map<String, List<ServerInfo>> serverMap() {
+    public Map<String, List<Node>> nodeMap() {
         return map;
     }
 
-    public ServerInfo getServerInfo(Router router) {
+    public Node getNode(Router router) {
         try {
             latch.await(LATCH_TIMEOUT, TimeUnit.MILLISECONDS);
-            List<ServerInfo> infos = map.get(router.getServer());
+            List<Node> infos = map.get(router.getServer());
             if (infos == null || infos.isEmpty()) {
                 throw new JrpcException(Code.SERVER_NOT_FOUND);
             }
             if (router.getInstance() != null) {
-                return infos.stream().filter(i -> i.getInstance().equals(router.getInstance()))
+                return infos.stream().filter(i -> i.getServerInfo().getInstance().equals(router.getInstance()))
                         .findFirst().orElseThrow(() -> new JrpcException(Code.INSTANCE_NOT_FUND));
             }
             if (router.getVersion() != null) {
@@ -145,29 +158,38 @@ public class ZkDiscover {
     }
 
     private void add(ServerInfo info) {
-        map.compute(info.getName(), (name, infos) -> {
-            if (infos == null) {
-                infos = Lists.newArrayList();
+        map.compute(info.getName(), (name, nodes) -> {
+            if (nodes == null) {
+                nodes = Lists.newArrayList();
             }
-            infos.add(info);
-            return infos;
+            Node node = new Node(info, poolConfig);
+            nodes.add(node);
+            return nodes;
         });
     }
 
     private void update(ServerInfo info) {
-        List<ServerInfo> list = map.get(info.getName());
+        List<Node> list = map.get(info.getName());
         if (null != list) {
-            list.stream().filter(i -> i.getInstance().equals(info.getInstance()))
-                    .forEach(i -> i.update(info));
+            list.stream().filter(i -> i.getServerInfo().getInstance().equals(info.getInstance()))
+                    .forEach(i -> i.getServerInfo().update(info));
         }
     }
 
     private void remove(ServerInfo info) {
-        List<ServerInfo> list = map.get(info.getName());
+        List<Node> list = map.get(info.getName());
         if (null != list) {
-            list.removeIf(i -> i.getInstance().equals(info.getInstance()));
+            Optional<Node> optionalNode = list.stream()
+                    .filter(node -> node.getServerInfo().getInstance().equals(info.getInstance()))
+                    .findFirst();
+            if (optionalNode.isPresent()) {
+                Node node = optionalNode.get();
+                node.close();
+                list.remove(node);
+            }
         }
     }
+
 
     private static ServerInfo toInfo(String data) {
         ServerInfo info = null;
@@ -186,7 +208,7 @@ public class ZkDiscover {
         if (b == null) {
             return null;
         }
-        return new String(b, "utf-8");
+        return new String(b, StandardCharsets.UTF_8);
     }
 
 }

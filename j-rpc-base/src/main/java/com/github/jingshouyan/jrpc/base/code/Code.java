@@ -13,6 +13,7 @@ public class Code {
     public static final int SUCCESS = 1;
     public static final int CLIENT_ERROR = -1;
     public static final int GET_SERVER_ADDRESS_TIMEOUT = -2;
+    public static final int CONNECT_TIMEOUT = -3;
     public static final int SERVER_NOT_FOUND = -101;
     public static final int INSTANCE_NOT_FUND = -102;
     public static final int VERSION_SERVER_NOT_FUND = -103;
@@ -31,6 +32,7 @@ public class Code {
         CODE_MAP.put(SUCCESS, "success");
         CODE_MAP.put(CLIENT_ERROR, "client error");
         CODE_MAP.put(GET_SERVER_ADDRESS_TIMEOUT, "get server address timeout");
+        CODE_MAP.put(CONNECT_TIMEOUT, "connect timeout");
         CODE_MAP.put(SERVER_NOT_FOUND, "server not found");
         CODE_MAP.put(INSTANCE_NOT_FUND, "instance not found");
         CODE_MAP.put(VERSION_SERVER_NOT_FUND, "version server not found");

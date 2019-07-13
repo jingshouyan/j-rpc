@@ -272,7 +272,9 @@ public class TokenBean implements org.apache.thrift.TBase<TokenBean, TokenBean._
         throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    /**
+     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
+     */
     @Override
     public boolean isSet(_Fields field) {
         if (field == null) {

@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.client.discover.selector;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.client.node.Node;
 
 import java.util.List;
 
@@ -16,7 +17,7 @@ public interface Selector {
      * @param version 版本
      * @return 过滤后的列表
      */
-    List<ServerInfo> versionFilter(List<ServerInfo> infos, String version);
+    List<Node> versionFilter(List<Node> infos, String version);
 
     /**
      * 取一个
@@ -24,5 +25,5 @@ public interface Selector {
      * @param infos 服务信息列表
      * @return 一条
      */
-    ServerInfo pickOne(List<ServerInfo> infos);
+    Node pickOne(List<Node> infos);
 }

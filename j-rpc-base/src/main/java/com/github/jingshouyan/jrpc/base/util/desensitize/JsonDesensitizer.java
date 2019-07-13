@@ -17,24 +17,26 @@ public class JsonDesensitizer {
 
     private static final JsonFactory factory = new JsonFactory();
     private static final int SPLIT_INT = 100;
-    private final Map<String,Integer> SETTINGS = Maps.newConcurrentMap();
+    private final Map<String, Integer> SETTINGS = Maps.newConcurrentMap();
 
     public static final JsonDesensitizer DEFAULT = new JsonDesensitizer();
 
     public void addSetting(String key, int setting) {
-        SETTINGS.put(key,setting);
+        SETTINGS.put(key, setting);
     }
 
-    public void addSetting(Map<String,Integer> settings) {
+    public void addSetting(Map<String, Integer> settings) {
         SETTINGS.putAll(settings);
     }
+
     /**
      * json 字符串 脱敏
+     *
      * @param json json 字符串
      * @return 脱敏后数据
      */
     public String desensitize(String json) {
-        if(SETTINGS.isEmpty()){
+        if (SETTINGS.isEmpty()) {
             return json;
         }
         try {

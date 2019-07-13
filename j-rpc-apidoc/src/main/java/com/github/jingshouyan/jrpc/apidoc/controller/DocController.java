@@ -58,7 +58,7 @@ public class DocController {
         for (String server : servers) {
             Rsp rsp = Request.newInstance().setClient(jrpcClient)
                     .setServer(server)
-                    .setMethod("getServerInfo")
+                    .setMethod("getNode")
                     .send();
             if (rsp.success()) {
                 InterfaceInfo info = rsp.get(InterfaceInfo.class);
@@ -87,7 +87,7 @@ public class DocController {
 
         String str = Request.newInstance().setClient(jrpcClient)
                 .setServer(server)
-                .setMethod("getServerInfo")
+                .setMethod("getNode")
                 .send().json();
 
 

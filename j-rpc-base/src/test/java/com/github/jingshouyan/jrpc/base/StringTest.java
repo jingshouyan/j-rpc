@@ -8,7 +8,7 @@ package com.github.jingshouyan.jrpc.base;
 public class StringTest {
     public static void main(String[] args) {
         String a = "abcdddeff";
-        String b = a.replace('\\',' ');
-        System.out.println(a==b);
+        String b = a.replace('\\', ' ');
+        System.out.println(a == b);
     }
 }

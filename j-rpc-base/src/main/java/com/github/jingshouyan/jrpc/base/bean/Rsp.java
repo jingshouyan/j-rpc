@@ -34,7 +34,7 @@ public class Rsp {
     private Object data;
 
     public String getResult() {
-        if(result != null){
+        if (result != null) {
             return result;
         }
         if (result == null && data == null) {
@@ -48,15 +48,16 @@ public class Rsp {
 
     @JsonIgnore
     private String desensitizedResult;
+
     public String desensitizedResult() {
-        if(desensitizedResult != null) {
+        if (desensitizedResult != null) {
             return desensitizedResult;
         }
         String result = getResult();
-        if(desensitizedResult == null && result == null) {
+        if (desensitizedResult == null && result == null) {
             return null;
         }
-        if(desensitizedResult == null) {
+        if (desensitizedResult == null) {
             desensitizedResult = JsonDesensitizer.DEFAULT.desensitize(result);
         }
         return desensitizedResult;
@@ -120,7 +121,7 @@ public class Rsp {
         }
         sb.append("\"");
         String r = getResult();
-        if(r != null){
+        if (r != null) {
             sb.append(",\"data\":");
             sb.append(r);
         }

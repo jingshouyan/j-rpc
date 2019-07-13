@@ -258,7 +258,9 @@ public class RspBean implements org.apache.thrift.TBase<RspBean, RspBean._Fields
         throw new IllegalStateException();
     }
 
-    /** Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise */
+    /**
+     * Returns true if field corresponding to fieldID is set (has been assigned a value) and false otherwise
+     */
     @Override
     public boolean isSet(_Fields field) {
         if (field == null) {

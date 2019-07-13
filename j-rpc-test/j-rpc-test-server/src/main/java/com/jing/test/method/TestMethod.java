@@ -29,7 +29,7 @@ public class TestMethod implements Method<List<String>, TestBean2<CodeInfo, Stri
     public TestBean2<CodeInfo, String, TestBean3> action(Token token, List<String> strings) {
         Random random = new Random();
         int r = random.nextInt(8);
-        if(r>4){
+        if (r > 4) {
             TimeUnit.SECONDS.sleep(r);
         }
         TestBean2 testBean2 = new TestBean2();

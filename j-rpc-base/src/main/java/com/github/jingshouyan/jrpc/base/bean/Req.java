@@ -29,8 +29,9 @@ public class Req {
 
     @JsonIgnore
     private String desensitizedParam;
+
     public String desensitizedParam() {
-        if(param!= null){
+        if (param != null) {
             desensitizedParam = JsonDesensitizer.DEFAULT.desensitize(param);
         }
         return desensitizedParam;

@@ -2,6 +2,7 @@ package com.github.jingshouyan.jrpc.client.discover.selector.impl;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.client.discover.selector.Selector;
+import com.github.jingshouyan.jrpc.client.node.Node;
 import com.google.common.collect.Maps;
 
 import java.util.List;
@@ -15,7 +16,7 @@ import java.util.stream.Collectors;
  */
 public class SimpleSelector implements Selector {
 
-    public static final int INT_MAX = Integer.MAX_VALUE - 1024 * 1024;
+    public static final int INT_MAX = Integer.MAX_VALUE >> 1;
 
     private final Map<String, AtomicInteger> iMap = Maps.newConcurrentMap();
 
@@ -24,24 +25,24 @@ public class SimpleSelector implements Selector {
     }
 
     @Override
-    public List<ServerInfo> versionFilter(List<ServerInfo> infos, String version) {
+    public List<Node> versionFilter(List<Node> infos, String version) {
         return infos.stream()
-                .filter(i -> version.equalsIgnoreCase(i.getVersion()))
+                .filter(i -> version.equalsIgnoreCase(i.getServerInfo().getVersion()))
                 .collect(Collectors.toList());
     }
 
     @Override
-    public ServerInfo pickOne(List<ServerInfo> infos) {
-        if (infos.size() == 1) {
-            return infos.get(0);
+    public Node pickOne(List<Node> nodes) {
+        if (nodes.size() == 1) {
+            return nodes.get(0);
         }
-        String key = infos.get(0).getName();
+        String key = nodes.get(0).getServerInfo().getName();
         AtomicInteger atc = getAtc(key);
         int i = atc.getAndIncrement();
-        int pick = i % infos.size();
+        int pick = i % nodes.size();
         if (i > INT_MAX) {
             atc.set(0);
         }
-        return infos.get(pick);
+        return nodes.get(pick);
     }
 }

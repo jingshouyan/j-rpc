@@ -24,6 +24,7 @@ public class RspUtil {
 
     /**
      * 生成Rsp对象
+     *
      * @param code   错误码
      * @param result 返回对象
      * @return Rsp对象  msg根据code对应的消息 result json序列化
