@@ -157,13 +157,15 @@ public class ClientTest {
 //                    .setMethod("testMethod")
                     .setParamObj(strings)
 //                .setOneway(true)
-                    .asyncSend().subscribe(rsp -> {
-                if (!rsp.success()) {
-                    ai.getAndIncrement();
-                }
-                ai2.getAndIncrement();
-                cdl.countDown();
-            });
+//                    .send();
+                    .asyncSend()
+                    .subscribe(rsp -> {
+                        if (!rsp.success()) {
+                            ai.getAndIncrement();
+                        }
+                        ai2.getAndIncrement();
+                        cdl.countDown();
+                    });
         }
         cdl.await();
         long end = System.currentTimeMillis();

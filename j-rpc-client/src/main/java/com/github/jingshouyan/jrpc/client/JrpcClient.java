@@ -57,7 +57,8 @@ public class JrpcClient implements ActionHandler {
                 new ThreadPoolExecutor.CallerRunsPolicy()
         );
         //success 执行方法
-        success = (emitter, rsp) -> callbackExec.execute(() -> emitter.onSuccess(rsp));
+        success = (emitter, rsp) -> emitter.onSuccess(rsp);
+//                callbackExec.execute(() -> emitter.onSuccess(rsp));
         //error 执行方法
         error = (emitter, e) -> {
             Rsp rsp;

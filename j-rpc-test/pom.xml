@@ -17,6 +17,7 @@
         <module>j-rpc-test-client</module>
         <module>j-rpc-test-forward</module>
         <module>j-rpc-test-server</module>
+        <module>j-rpc-test-jmeter</module>
     </modules>
 
 
