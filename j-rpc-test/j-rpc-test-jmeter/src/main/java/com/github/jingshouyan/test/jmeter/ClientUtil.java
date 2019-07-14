@@ -38,7 +38,7 @@ public class ClientUtil {
     }
 
     @SneakyThrows
-    public static RspBean call(Jrpc.Client client, String method, String data,TokenBean tokenBean) {
+    public static RspBean call(Jrpc.Client client, String method, String data, TokenBean tokenBean) {
         tokenBean.setHeaders(new HashMap<>());
         ReqBean reqBean = new ReqBean();
         reqBean.setMethod(method);

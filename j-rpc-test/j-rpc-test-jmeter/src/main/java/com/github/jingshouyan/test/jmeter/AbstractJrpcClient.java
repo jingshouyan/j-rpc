@@ -18,14 +18,14 @@ public abstract class AbstractJrpcClient extends AbstractJavaSamplerClient {
     @Override
     public Arguments getDefaultParameters() {
         Arguments params = new Arguments();
-        params.addArgument("zkAddr","127.0.0.1:2181");
-        params.addArgument("host","127.0.0.1");
-        params.addArgument("port","0");
-        params.addArgument("server","");
-        params.addArgument("method","");
-        params.addArgument("data","");
-        params.addArgument("userId","");
-        params.addArgument("ticket","");
+        params.addArgument("zkAddr", "127.0.0.1:2181");
+        params.addArgument("host", "127.0.0.1");
+        params.addArgument("port", "0");
+        params.addArgument("server", "");
+        params.addArgument("method", "");
+        params.addArgument("data", "");
+        params.addArgument("userId", "");
+        params.addArgument("ticket", "");
         return params;
     }
 

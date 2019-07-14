@@ -15,8 +15,8 @@ public class SyncJrpcClient extends AbstractJrpcClient {
     @Override
     public void setupTest(JavaSamplerContext context) {
         super.setupTest(context);
-        synchronized (SyncJrpcClient.class){
-            if (client == null){
+        synchronized (SyncJrpcClient.class) {
+            if (client == null) {
                 ClientConfig config = new ClientConfig();
                 config.setZkHost(zkAddr);
                 config.setPoolMaxIdle(100);
@@ -43,7 +43,7 @@ public class SyncJrpcClient extends AbstractJrpcClient {
                 .setToken(token)
                 .send();
         sr.setSuccessful(rsp.success());
-        sr.setResponseData(rsp.json(),"utf-8");
+        sr.setResponseData(rsp.json(), "utf-8");
         sr.sampleEnd();
         return sr;
     }

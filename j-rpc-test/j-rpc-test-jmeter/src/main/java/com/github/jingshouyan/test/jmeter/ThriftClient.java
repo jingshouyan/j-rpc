@@ -14,7 +14,7 @@ public class ThriftClient extends AbstractJrpcClient {
     @Override
     public void setupTest(JavaSamplerContext context) {
         super.setupTest(context);
-        client = ClientUtil.client(host,port);
+        client = ClientUtil.client(host, port);
     }
 
     @Override
@@ -24,15 +24,15 @@ public class ThriftClient extends AbstractJrpcClient {
         SampleResult sr = new SampleResult();
         sr.setSamplerData(data);
         sr.sampleStart();
-        try{
-            RspBean rspBean = ClientUtil.call(client,method,data,tokenBean);
+        try {
+            RspBean rspBean = ClientUtil.call(client, method, data, tokenBean);
             Rsp rsp = new Rsp(rspBean);
-            sr.setResponseData(rsp.json(),"utf-8");
+            sr.setResponseData(rsp.json(), "utf-8");
             sr.setSuccessful(rsp.success());
-        }catch (Throwable e) {
-            sr.setResponseData(e.getMessage(),"utf-8");
+        } catch (Throwable e) {
+            sr.setResponseData(e.getMessage(), "utf-8");
             sr.setSuccessful(false);
-        }finally {
+        } finally {
             sr.sampleEnd();
         }
         return sr;
