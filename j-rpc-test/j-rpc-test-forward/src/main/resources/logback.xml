@@ -26,6 +26,6 @@
     <logger name="org.apache" level="ERROR"/>
     <logger name="com.github.jingshouyan" level="DEBUG"/>
     <root level="${LOG_LEVEL:-WARN}">
-        <appender-ref ref="${LOG_REF:-STDOUT}"/>
+<!--        <appender-ref ref="${LOG_REF:-STDOUT}"/>-->
     </root>
 </configuration>
