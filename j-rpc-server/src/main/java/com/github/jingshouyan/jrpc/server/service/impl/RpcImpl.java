@@ -12,9 +12,9 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
-import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.async.AsyncMethodCallback;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -32,8 +32,8 @@ public class RpcImpl implements Rpc {
 
     @Override
     public void call(TokenBean token, ReqBean req, AsyncMethodCallback<RspBean> resultHandler) {
-        Single<RspBean> rspBeanSingle = run(token, req, false);
-        rspBeanSingle.subscribe(resultHandler::onComplete, e -> {
+        Mono<RspBean> rspBeanMono = run(token, req, false);
+        rspBeanMono.subscribe(resultHandler::onComplete, e -> {
             Rsp rsp;
             if (e instanceof JrpcException) {
                 rsp = RspUtil.error((JrpcException) e);
@@ -50,14 +50,14 @@ public class RpcImpl implements Rpc {
         run(token, req, true).subscribe();
     }
 
-    private Single<RspBean> run(TokenBean tokenBean, ReqBean reqBean, boolean oneway) {
+    private Mono<RspBean> run(TokenBean tokenBean, ReqBean reqBean, boolean oneway) {
         Token token = new Token(tokenBean);
         Req req = new Req();
         req.setMethod(reqBean.getMethod());
         req.setParam(reqBean.getParam());
         req.setOneway(oneway);
-        Single<Rsp> rspSingle = handler.handle(token, req);
-        return rspSingle.map(this::toRspBean);
+        Mono<Rsp> rspMono = handler.handle(token, req);
+        return rspMono.map(this::toRspBean);
     }
 
     private RspBean toRspBean(Rsp rsp) {
