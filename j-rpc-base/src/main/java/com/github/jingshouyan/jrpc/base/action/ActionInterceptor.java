@@ -3,7 +3,7 @@ package com.github.jingshouyan.jrpc.base.action;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -18,9 +18,9 @@ public interface ActionInterceptor extends Comparable<ActionInterceptor> {
      * @param token   token
      * @param req     请求
      * @param handler handler
-     * @return Single Rsp
+     * @return mono Rsp
      */
-    Single<Rsp> around(Token token, Req req, ActionHandler handler);
+    Mono<Rsp> around(Token token, Req req, ActionHandler handler);
 
     /**
      * order of interceptor

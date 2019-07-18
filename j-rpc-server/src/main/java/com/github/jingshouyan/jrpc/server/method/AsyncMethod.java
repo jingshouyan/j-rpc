@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.server.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -16,5 +16,5 @@ public interface AsyncMethod<T, R> extends BaseMethod<T, R> {
      * @param t     入参
      * @return 执行结果
      */
-    Single<R> action(Token token, T t);
+    Mono<R> action(Token token, T t);
 }

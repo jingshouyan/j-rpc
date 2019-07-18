@@ -5,10 +5,10 @@ import com.github.jingshouyan.jrpc.base.bean.Router;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
-import io.reactivex.Single;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -78,10 +78,10 @@ public class Request {
     }
 
     public Rsp send() {
-        return asyncSend().blockingGet();
+        return asyncSend().block();
     }
 
-    public Single<Rsp> asyncSend() {
+    public Mono<Rsp> asyncSend() {
         req.setRouter(router);
         return client.handle(token, req);
     }

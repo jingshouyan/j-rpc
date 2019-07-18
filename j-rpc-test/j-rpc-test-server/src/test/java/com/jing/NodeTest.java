@@ -1,7 +1,6 @@
 package com.jing;
 
 import com.github.jingshouyan.jrpc.base.bean.MonitorInfo;
-
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.client.node.Node;
 import lombok.SneakyThrows;

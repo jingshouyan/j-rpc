@@ -5,9 +5,9 @@ import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
 import com.github.jingshouyan.jrpc.starter.server.ServerProperties;
-import io.reactivex.Single;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -24,8 +24,8 @@ public class TraceTest2 implements AsyncMethod<Integer, Integer> {
     JrpcClient client;
 
     @Override
-    public Single<Integer> action(Token token, Integer i) {
-        return Single.fromCallable(() -> {
+    public Mono<Integer> action(Token token, Integer i) {
+        return Mono.fromCallable(() -> {
             if (i != null && i > 0) {
                 for (int j = 0; j < LOOP; j++) {
                     Request.newInstance().setClient(client)

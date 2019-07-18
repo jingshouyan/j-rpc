@@ -14,8 +14,8 @@ import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
 import com.github.jingshouyan.jrpc.server.method.BaseMethod;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
-import io.reactivex.Single;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 import java.lang.reflect.Type;
 
@@ -27,18 +27,18 @@ import java.lang.reflect.Type;
 public class ServerActionHandler implements ActionHandler {
 
     @Override
-    public Single<Rsp> handle(Token token, Req req) {
+    public Mono<Rsp> handle(Token token, Req req) {
         ActionHandler handler = this::call;
         for (ActionInterceptor interceptor : ActionInterceptorHolder.getServerInterceptors()) {
             final ActionHandler ah = handler;
             handler = (t, r) -> interceptor.around(t, r, ah);
         }
-        Single<Rsp> single = handler.handle(token, req);
+        Mono<Rsp> single = handler.handle(token, req);
         return single;
     }
 
-    private Single<Rsp> call(Token token, Req req) {
-        return Single.create(emitter -> {
+    private Mono<Rsp> call(Token token, Req req) {
+        return Mono.create(monoSink -> {
             Rsp rsp = null;
             String methodName = req.getMethod();
             String param = req.getParam();
@@ -61,15 +61,15 @@ public class ServerActionHandler implements ActionHandler {
                     rsp = RspUtil.success(data);
                 } else if (baseMethod instanceof AsyncMethod) {
                     AsyncMethod asyncMethod = (AsyncMethod) baseMethod;
-                    Single<?> single = asyncMethod.action(token, obj);
-                    single.map(RspUtil::success)
-                            .subscribe(emitter::onSuccess,
+                    Mono<?> mono = asyncMethod.action(token, obj);
+                    mono.map(RspUtil::success)
+                            .subscribe(monoSink::success,
                                     e -> {
                                         if (e instanceof JrpcException) {
-                                            emitter.onSuccess(RspUtil.error((JrpcException) e));
+                                            monoSink.success(RspUtil.error((JrpcException) e));
                                         } else {
                                             log.error("call [{}] error.", methodName, e);
-                                            emitter.onSuccess(RspUtil.error(Code.SERVER_ERROR));
+                                            monoSink.success(RspUtil.error(Code.SERVER_ERROR));
                                         }
                                     });
                     return;
@@ -80,7 +80,7 @@ public class ServerActionHandler implements ActionHandler {
                 log.error("call [{}] error.", methodName, e);
                 rsp = RspUtil.error(Code.SERVER_ERROR);
             }
-            emitter.onSuccess(rsp);
+            monoSink.success(rsp);
         });
     }
 

@@ -1,6 +1,5 @@
 package com.github.jingshouyan.jrpc.client.discover.selector.impl;
 
-import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.client.discover.selector.Selector;
 import com.github.jingshouyan.jrpc.client.node.Node;
 import com.google.common.collect.Maps;

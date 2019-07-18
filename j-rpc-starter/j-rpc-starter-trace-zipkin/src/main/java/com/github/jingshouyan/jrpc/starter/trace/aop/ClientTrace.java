@@ -13,7 +13,7 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
 import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
-import io.reactivex.Single;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -31,7 +31,7 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
     }
 
     @Override
-    public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
+    public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         final Span span = span().annotate(CS);
         token.set(HEADER_TRACE, traceId(span));
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {

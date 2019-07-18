@@ -1,6 +1,5 @@
 package com.github.jingshouyan.starter.forward.aop;
 
-import com.github.jingshouyan.starter.forward.ForwardProperties;
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
@@ -8,9 +7,10 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
-import io.reactivex.Single;
+import com.github.jingshouyan.starter.forward.ForwardProperties;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -24,7 +24,7 @@ public class JrpcForward implements ActionInterceptor {
     private ForwardProperties properties;
 
     @Override
-    public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
+    public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         if (properties.getMethods().containsKey(req.getMethod())) {
             String str = properties.getMethods().get(req.getMethod());
             String[] strings = str.split("\\.");
@@ -38,9 +38,7 @@ public class JrpcForward implements ActionInterceptor {
                     .setToken(token)
                     .setParamJson(req.getParam())
                     .setOneway(req.isOneway())
-                    .asyncSend()
-//                    .timeout(3, TimeUnit.SECONDS)
-                    ;
+                    .asyncSend();
         }
         return handler.handle(token, req);
     }

@@ -20,10 +20,10 @@ import com.github.jingshouyan.jrpc.client.node.Node;
 import com.github.jingshouyan.jrpc.client.pool.TransportPool;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import io.reactivex.Single;
-import io.reactivex.SingleEmitter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.async.AsyncMethodCallback;
+import reactor.core.publisher.Mono;
+import reactor.core.publisher.MonoSink;
 
 import java.util.HashMap;
 import java.util.List;
@@ -43,8 +43,8 @@ public class JrpcClient implements ActionHandler {
     private ZkDiscover zkDiscover;
 
     private final ExecutorService callbackExec;
-    private final BiConsumer<SingleEmitter<Rsp>, Rsp> success;
-    private final BiConsumer<SingleEmitter<Rsp>, Exception> error;
+    private final BiConsumer<MonoSink<Rsp>, Rsp> success;
+    private final BiConsumer<MonoSink<Rsp>, Exception> error;
 
     public JrpcClient(ClientConfig config) {
         this.config = config;
@@ -57,10 +57,10 @@ public class JrpcClient implements ActionHandler {
                 new ThreadPoolExecutor.CallerRunsPolicy()
         );
         //success 执行方法
-        success = (emitter, rsp) -> emitter.onSuccess(rsp);
+        success = (monoSink, rsp) -> monoSink.success(rsp);
 //                callbackExec.execute(() -> emitter.onSuccess(rsp));
         //error 执行方法
-        error = (emitter, e) -> {
+        error = (monoSink, e) -> {
             Rsp rsp;
             if (e instanceof JrpcException) {
                 rsp = RspUtil.error((JrpcException) e);
@@ -71,7 +71,7 @@ public class JrpcClient implements ActionHandler {
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
                 log.error("call rpc error.", e);
             }
-            success.accept(emitter, rsp);
+            success.accept(monoSink, rsp);
         };
 
     }
@@ -89,18 +89,18 @@ public class JrpcClient implements ActionHandler {
     }
 
     @Override
-    public Single<Rsp> handle(Token token, Req req) {
+    public Mono<Rsp> handle(Token token, Req req) {
         ActionHandler handler = this::call;
         for (ActionInterceptor interceptor : ActionInterceptorHolder.getClientInterceptors()) {
             final ActionHandler ah = handler;
             handler = (t, r) -> interceptor.around(t, r, ah);
         }
-        Single<Rsp> single = handler.handle(token, req);
-        return single;
+        Mono<Rsp> mono = handler.handle(token, req);
+        return mono;
     }
 
-    private Single<Rsp> call(Token token, Req req) {
-        return Single.create(emitter -> {
+    private Mono<Rsp> call(Token token, Req req) {
+        return Mono.create(monoSink -> {
             TransportPool pool = null;
             Transport transport = null;
             Rsp rsp;
@@ -118,13 +118,13 @@ public class JrpcClient implements ActionHandler {
                         @Override
                         public void onComplete(Void aVoid) {
                             restore(poolTmp, transportTmp);
-                            success.accept(emitter, RspUtil.success());
+                            success.accept(monoSink, RspUtil.success());
                         }
 
                         @Override
                         public void onError(Exception e) {
                             invalid(poolTmp, transportTmp);
-                            error.accept(emitter, e);
+                            error.accept(monoSink, e);
                         }
                     });
                 } else {
@@ -132,13 +132,13 @@ public class JrpcClient implements ActionHandler {
                         @Override
                         public void onComplete(RspBean rspBean) {
                             restore(poolTmp, transportTmp);
-                            success.accept(emitter, new Rsp(rspBean));
+                            success.accept(monoSink, new Rsp(rspBean));
                         }
 
                         @Override
                         public void onError(Exception e) {
                             invalid(poolTmp, transportTmp);
-                            error.accept(emitter, e);
+                            error.accept(monoSink, e);
                         }
                     });
                 }
@@ -154,7 +154,7 @@ public class JrpcClient implements ActionHandler {
                 invalid(pool, transport);
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
             }
-            emitter.onSuccess(rsp);
+            monoSink.success(rsp);
         });
     }
 

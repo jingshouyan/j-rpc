@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.client.node;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.client.pool.TransportPool;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

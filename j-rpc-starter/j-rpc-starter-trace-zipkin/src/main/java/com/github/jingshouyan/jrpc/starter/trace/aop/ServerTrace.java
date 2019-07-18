@@ -13,12 +13,12 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
 import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
-import io.reactivex.Single;
+import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -40,7 +40,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     }
 
     @Override
-    public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
+    public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         final Span span = span(token.get(HEADER_TRACE));
 
         Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
@@ -50,7 +50,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                 .tag(TAG_TICKET, "" + token.getTicket())
                 .tag(TAG_USER_ID, "" + token.getUserId());
 
-        Single<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
+        Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
             if (properties.isMore() || !rsp.success()) {
                 span.tag(TAG_PARAM, String.valueOf(req.desensitizedParam()))
                         .tag(TAG_DATA, String.valueOf(rsp.desensitizedResult()));

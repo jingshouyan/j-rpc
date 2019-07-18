@@ -4,9 +4,9 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Router;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import io.reactivex.Single;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -37,12 +37,12 @@ public class LogInterceptor implements ActionInterceptor {
     }
 
     @Override
-    public Single<Rsp> around(Token token, Req req, ActionHandler handler) {
+    public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         long start = System.currentTimeMillis();
         String actionInfo = actionInfo(req).toString();
         log.debug("{} token: {}", actionInfo, token);
         log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
-        Single<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
+        Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
             long end = System.currentTimeMillis();
             long cost = end - start;
             if (rsp.success()) {

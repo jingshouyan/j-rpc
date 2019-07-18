@@ -2,8 +2,8 @@ package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
-import io.reactivex.Single;
 import org.springframework.stereotype.Component;
+import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
@@ -13,8 +13,8 @@ import org.springframework.stereotype.Component;
 public class AsyncErr implements AsyncMethod<String, String> {
 
     @Override
-    public Single<String> action(Token token, String s) {
-        return Single.fromCallable(() -> {
+    public Mono<String> action(Token token, String s) {
+        return Mono.fromCallable(() -> {
             throw new RuntimeException("3123123");
         });
     }
