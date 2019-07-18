@@ -5,7 +5,6 @@ import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
 import com.google.common.collect.Lists;
-import io.reactivex.schedulers.Schedulers;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -73,7 +72,7 @@ public class ClientTest {
     @Test
     @SneakyThrows
     public void asyncErr() {
-        for (int i = 0; i < 100000; i++)
+        for (int i = 0; i < 1; i++)
             Request.newInstance()
                     .setClient(jrpcClient)
                     .setServer("test")
@@ -96,7 +95,6 @@ public class ClientTest {
                             .setMethod("traceTest2")
                             .setParamObj(9)
                             .asyncSend()
-                            .subscribeOn(Schedulers.newThread())
                             .subscribe(rsp -> {
                                         try {
                                             Thread.sleep(1000);
@@ -142,7 +140,7 @@ public class ClientTest {
     @Test
     public void testForward() throws Exception {
         long start = System.currentTimeMillis();
-        int loop = 1_000;
+        int loop = 1;
         AtomicInteger ai = new AtomicInteger();
         AtomicInteger ai2 = new AtomicInteger();
         CountDownLatch cdl = new CountDownLatch(loop);
