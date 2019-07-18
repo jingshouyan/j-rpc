@@ -3,7 +3,6 @@ package com.github.jingshouyan.jrpc.starter.trace.aop;
 import brave.Span;
 import brave.Tracer;
 import brave.Tracing;
-import brave.context.rxjava2.CurrentTraceContextAssemblyTracking;
 import brave.propagation.B3SingleFormat;
 import brave.propagation.TraceContext;
 import brave.propagation.TraceContextOrSamplingFlags;
@@ -34,9 +33,6 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     public ServerTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
         this.properties = properties;
-        CurrentTraceContextAssemblyTracking contextTracking = CurrentTraceContextAssemblyTracking
-                .create(tracing.currentTraceContext());
-        contextTracking.enable();
     }
 
     @Override

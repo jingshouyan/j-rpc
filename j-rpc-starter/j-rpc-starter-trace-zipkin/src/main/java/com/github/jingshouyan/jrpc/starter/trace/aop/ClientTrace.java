@@ -3,7 +3,6 @@ package com.github.jingshouyan.jrpc.starter.trace.aop;
 import brave.Span;
 import brave.Tracer;
 import brave.Tracing;
-import brave.context.rxjava2.CurrentTraceContextAssemblyTracking;
 import brave.propagation.B3SingleFormat;
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
@@ -25,9 +24,6 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
 
     public ClientTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
-        CurrentTraceContextAssemblyTracking contextTracking = CurrentTraceContextAssemblyTracking
-                .create(tracing.currentTraceContext());
-        contextTracking.enable();
     }
 
     @Override
