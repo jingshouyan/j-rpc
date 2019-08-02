@@ -17,5 +17,13 @@
             <groupId>com.github.jingshouyan</groupId>
             <artifactId>j-rpc-base</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>transmittable-thread-local</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.zipkin.brave</groupId>
+            <artifactId>brave</artifactId>
+        </dependency>
     </dependencies>
 </project>
