@@ -4,8 +4,9 @@ j-rpc:
     port: 8999
     name: test
   trace:
-    more: true
-    rate: 0.0
+    gather:
+      dataShow: 2
+      rate: 0.1
   desensitize:
     settings:
       name: 101
