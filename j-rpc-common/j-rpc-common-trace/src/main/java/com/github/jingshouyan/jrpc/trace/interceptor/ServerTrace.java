@@ -12,7 +12,10 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
+import com.github.jingshouyan.jrpc.trace.Gather;
 import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
+import lombok.Getter;
+import lombok.Setter;
 import reactor.core.publisher.Mono;
 
 /**
@@ -22,11 +25,12 @@ import reactor.core.publisher.Mono;
 public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
-    private int dataShow;
+    @Getter@Setter
+    private Gather gather;
 
-    public ServerTrace(Tracing tracing, int dataShow) {
+    public ServerTrace(Tracing tracing, Gather gather) {
         this.tracer = tracing.tracer();
-        this.dataShow = dataShow;
+        this.gather = gather;
     }
 
     @Override
@@ -41,7 +45,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                 .tag(TAG_USER_ID, "" + token.getUserId());
 
         Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
-            if (show(dataShow, rsp.success())) {
+            if (show(gather.getDataShow(), rsp.success())) {
                 span.tag(TAG_PARAM, String.valueOf(req.desensitizedParam()))
                         .tag(TAG_DATA, String.valueOf(rsp.desensitizedResult()));
             }

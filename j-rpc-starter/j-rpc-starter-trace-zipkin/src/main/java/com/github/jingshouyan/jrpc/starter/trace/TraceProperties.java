@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.starter.trace;
 
+import com.github.jingshouyan.jrpc.trace.Gather;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -13,10 +14,8 @@ public class TraceProperties {
 
     private String name;
 
-    private float rate = 0.1f;
-
     private String endpoint = "http://127.0.0.1:9411/api/v2/spans";
 
-    private int dataShow = 0;
+    private Gather gather = new Gather();
 
 }
