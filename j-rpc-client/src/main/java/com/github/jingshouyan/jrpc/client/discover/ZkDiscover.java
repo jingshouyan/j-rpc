@@ -52,6 +52,7 @@ public class ZkDiscover {
 
     private CuratorFramework client;
 
+    @SneakyThrows
     public ZkDiscover(ClientConfig config) {
         zkHost = config.getZkHost();
         zkRoot = config.getZkRoot();
@@ -64,6 +65,10 @@ public class ZkDiscover {
 
         client = ZkUtil.getClient(zkHost);
         listen();
+        boolean init = latch.await(LATCH_TIMEOUT, TimeUnit.MILLISECONDS);
+        if (!init) {
+            throw new RuntimeException("zk init timeout in " + LATCH_TIMEOUT + "ms");
+        }
     }
 
     public Map<String, List<Node>> nodeMap() {
@@ -72,7 +77,6 @@ public class ZkDiscover {
 
     public Node getNode(Router router) {
         try {
-            latch.await(LATCH_TIMEOUT, TimeUnit.MILLISECONDS);
             List<Node> infos = map.get(router.getServer());
             if (infos == null || infos.isEmpty()) {
                 throw new JrpcException(Code.SERVER_NOT_FOUND);
