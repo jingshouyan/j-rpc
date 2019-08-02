@@ -53,8 +53,8 @@ public class TraceAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(AsyncReporter.class)
-    AsyncReporter<Span> spanReporter() {
-        return AsyncReporter.create(sender());
+    AsyncReporter<Span> spanReporter(Sender sender) {
+        return AsyncReporter.create(sender);
     }
 
     /**
@@ -62,7 +62,7 @@ public class TraceAutoConfiguration {
      */
     @Bean
     @ConditionalOnMissingBean(Tracing.class)
-    Tracing tracing() {
+    Tracing tracing(AsyncReporter<Span> spanReporter) {
 
         return Tracing.newBuilder()
                 .localServiceName(tracingName())
@@ -72,7 +72,7 @@ public class TraceAutoConfiguration {
                         .build()
                 )
                 .sampler(CountingSampler.create(properties.getRate()))
-                .spanReporter(spanReporter()).build();
+                .spanReporter(spanReporter).build();
     }
 
     @Bean
