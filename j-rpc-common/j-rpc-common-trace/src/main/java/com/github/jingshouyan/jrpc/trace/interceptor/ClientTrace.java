@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.starter.trace.aop;
+package com.github.jingshouyan.jrpc.trace.interceptor;
 
 import brave.Span;
 import brave.Tracer;
@@ -10,7 +10,6 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +21,7 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
 
-    public ClientTrace(Tracing tracing, TraceProperties properties) {
+    public ClientTrace(Tracing tracing) {
         this.tracer = tracing.tracer();
     }
 

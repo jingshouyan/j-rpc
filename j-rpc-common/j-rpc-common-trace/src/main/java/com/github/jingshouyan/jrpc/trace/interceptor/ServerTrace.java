@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.starter.trace.aop;
+package com.github.jingshouyan.jrpc.trace.interceptor;
 
 import brave.Span;
 import brave.Tracer;
@@ -12,26 +12,21 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
-import org.aspectj.lang.annotation.Aspect;
-import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
  * #date 2018/11/2 20:00
  */
-@Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
-    private TraceProperties properties;
+    private int dataShow;
 
-    public ServerTrace(Tracing tracing, TraceProperties properties) {
+    public ServerTrace(Tracing tracing, int dataShow) {
         this.tracer = tracing.tracer();
-        this.properties = properties;
+        this.dataShow = dataShow;
     }
 
     @Override
@@ -46,7 +41,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                 .tag(TAG_USER_ID, "" + token.getUserId());
 
         Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
-            if (properties.isMore() || !rsp.success()) {
+            if (show(dataShow, rsp.success())) {
                 span.tag(TAG_PARAM, String.valueOf(req.desensitizedParam()))
                         .tag(TAG_DATA, String.valueOf(rsp.desensitizedResult()));
             }
@@ -65,6 +60,19 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
             spanInScope.close();
         });
         return single;
+    }
+
+    private boolean show(int dataShow, boolean success) {
+        switch (dataShow) {
+            case TRACE_DATA_SHOW_ALL:
+                return true;
+            case TRACE_DATA_SHOW_ERROR:
+                return !success;
+            case TRACE_DATA_SHOW_OFF:
+                return false;
+            default:
+                return false;
+        }
     }
 
     @Override

@@ -5,8 +5,8 @@ import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.TtlCurrentTraceContext;
 import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
-import com.github.jingshouyan.jrpc.starter.trace.aop.ClientTrace;
-import com.github.jingshouyan.jrpc.starter.trace.aop.ServerTrace;
+import com.github.jingshouyan.jrpc.trace.interceptor.ClientTrace;
+import com.github.jingshouyan.jrpc.trace.interceptor.ServerTrace;
 import com.github.jingshouyan.jrpc.starter.trace.aop.SpanXTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -78,7 +78,7 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ServerTrace.class)
     ServerTrace serverTrace(Tracing tracing) {
-        ServerTrace serverTrace = new ServerTrace(tracing, properties);
+        ServerTrace serverTrace = new ServerTrace(tracing, properties.getDataShow());
         ActionInterceptorHolder.addServerInterceptor(serverTrace);
         return serverTrace;
     }
@@ -86,7 +86,7 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ClientTrace.class)
     ClientTrace clientTrace(Tracing tracing) {
-        ClientTrace clientTrace = new ClientTrace(tracing, properties);
+        ClientTrace clientTrace = new ClientTrace(tracing);
         ActionInterceptorHolder.addClientInterceptor(clientTrace);
         return clientTrace;
     }
@@ -94,7 +94,7 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(SpanXTrace.class)
     SpanXTrace spanXTrace(Tracing tracing) {
-        return new SpanXTrace(tracing, properties);
+        return new SpanXTrace(tracing);
     }
 
     private String tracingName() {

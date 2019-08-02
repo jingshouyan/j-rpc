@@ -21,4 +21,9 @@ public interface TraceConstant {
     String TAG_ARG_PREFIX = "arg.";
     String TAG_RESULT = "result";
     String CALL_PATH = "call.path";
+
+    int TRACE_DATA_SHOW_OFF = 0;
+    int TRACE_DATA_SHOW_ERROR = 1;
+    int TRACE_DATA_SHOW_ALL = 2;
+
 }
