@@ -71,14 +71,14 @@ public class TraceAutoConfiguration {
                         .addScopeDecorator(MDCScopeDecorator.create())
                         .build()
                 )
-                .sampler(CountingSampler.create(properties.getRate()))
+                .sampler(CountingSampler.create(properties.getGather().getRate()))
                 .spanReporter(spanReporter).build();
     }
 
     @Bean
     @ConditionalOnMissingBean(ServerTrace.class)
     ServerTrace serverTrace(Tracing tracing) {
-        ServerTrace serverTrace = new ServerTrace(tracing, properties.getDataShow());
+        ServerTrace serverTrace = new ServerTrace(tracing, properties.getGather());
         ActionInterceptorHolder.addServerInterceptor(serverTrace);
         return serverTrace;
     }
