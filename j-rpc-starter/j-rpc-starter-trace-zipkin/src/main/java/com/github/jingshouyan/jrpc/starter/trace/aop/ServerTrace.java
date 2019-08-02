@@ -13,7 +13,7 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
-import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
+import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
 import org.aspectj.lang.annotation.Aspect;
 import org.springframework.core.Ordered;
 import org.springframework.core.annotation.Order;
@@ -23,7 +23,6 @@ import reactor.core.publisher.Mono;
  * @author jingshouyan
  * #date 2018/11/2 20:00
  */
-@Aspect
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
 public class ServerTrace implements TraceConstant, ActionInterceptor {
 

@@ -3,8 +3,7 @@ package com.github.jingshouyan.jrpc.starter.trace.aop;
 import brave.Span;
 import brave.Tracer;
 import brave.Tracing;
-import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
-import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
+import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
 import com.github.jingshouyan.jrpc.trace.annotation.SpanX;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -26,7 +25,7 @@ public class SpanXTrace implements TraceConstant {
 
     private Tracer tracer;
 
-    public SpanXTrace(Tracing tracing, TraceProperties properties) {
+    public SpanXTrace(Tracing tracing) {
         this.tracer = tracing.tracer();
     }
 

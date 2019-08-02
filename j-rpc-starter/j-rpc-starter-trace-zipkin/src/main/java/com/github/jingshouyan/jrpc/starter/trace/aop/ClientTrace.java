@@ -11,7 +11,7 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
-import com.github.jingshouyan.jrpc.starter.trace.constant.TraceConstant;
+import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
 import reactor.core.publisher.Mono;
 
 /**
