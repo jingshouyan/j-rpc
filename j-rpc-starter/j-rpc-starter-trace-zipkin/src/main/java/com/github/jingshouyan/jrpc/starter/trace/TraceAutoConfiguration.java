@@ -6,8 +6,8 @@ import brave.propagation.TtlCurrentTraceContext;
 import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.starter.trace.aop.SpanXTrace;
-import com.github.jingshouyan.jrpc.trace.interceptor.ClientTrace;
-import com.github.jingshouyan.jrpc.trace.interceptor.ServerTrace;
+import com.github.jingshouyan.jrpc.starter.trace.interceptor.ClientTrace;
+import com.github.jingshouyan.jrpc.starter.trace.interceptor.ServerTrace;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -71,14 +71,14 @@ public class TraceAutoConfiguration {
                         .addScopeDecorator(MDCScopeDecorator.create())
                         .build()
                 )
-                .sampler(CountingSampler.create(properties.getGather().getRate()))
+                .sampler(CountingSampler.create(properties.getRate()))
                 .spanReporter(spanReporter).build();
     }
 
     @Bean
     @ConditionalOnMissingBean(ServerTrace.class)
     ServerTrace serverTrace(Tracing tracing) {
-        ServerTrace serverTrace = new ServerTrace(tracing, properties.getGather());
+        ServerTrace serverTrace = new ServerTrace(tracing, properties);
         ActionInterceptorHolder.addServerInterceptor(serverTrace);
         return serverTrace;
     }

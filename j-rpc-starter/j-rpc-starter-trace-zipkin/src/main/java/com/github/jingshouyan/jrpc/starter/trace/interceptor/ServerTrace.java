@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.trace.interceptor;
+package com.github.jingshouyan.jrpc.starter.trace.interceptor;
 
 import brave.Span;
 import brave.Tracer;
@@ -12,7 +12,7 @@ import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
-import com.github.jingshouyan.jrpc.trace.Gather;
+import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
 import lombok.Getter;
 import lombok.Setter;
@@ -26,11 +26,11 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
     @Getter@Setter
-    private Gather gather;
+    private TraceProperties properties;
 
-    public ServerTrace(Tracing tracing, Gather gather) {
+    public ServerTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
-        this.gather = gather;
+        this.properties = properties;
     }
 
     @Override
@@ -45,7 +45,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                 .tag(TAG_USER_ID, "" + token.getUserId());
 
         Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
-            if (show(gather.getDataShow(), rsp.success())) {
+            if (show(properties.getDataShow(), rsp.success())) {
                 span.tag(TAG_PARAM, String.valueOf(req.desensitizedParam()))
                         .tag(TAG_DATA, String.valueOf(rsp.desensitizedResult()));
             }

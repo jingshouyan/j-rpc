@@ -1,4 +1,4 @@
-package com.github.jingshouyan.jrpc.trace.interceptor;
+package com.github.jingshouyan.jrpc.starter.trace.interceptor;
 
 import brave.Span;
 import brave.Tracer;
