@@ -42,7 +42,6 @@ public class JrpcClient implements ActionHandler {
     private ClientConfig config;
     private ZkDiscover zkDiscover;
 
-    private final ExecutorService callbackExec;
     private final BiConsumer<MonoSink<Rsp>, Rsp> success;
     private final BiConsumer<MonoSink<Rsp>, Exception> error;
 
@@ -50,16 +49,8 @@ public class JrpcClient implements ActionHandler {
         this.config = config;
         this.zkDiscover = new ZkDiscover(config);
 
-        //callback 执行线程池
-        callbackExec = new ThreadPoolExecutor(config.getCallbackThreadPoolSize(),
-                config.getCallbackThreadPoolSize(), 0, TimeUnit.MILLISECONDS, new LinkedBlockingQueue<>(),
-                new ThreadFactoryBuilder().setNameFormat("callback-%d").build(),
-                new ThreadPoolExecutor.CallerRunsPolicy()
-        );
-        //success 执行方法
-        success = (monoSink, rsp) -> monoSink.success(rsp);
-//                callbackExec.execute(() -> emitter.onSuccess(rsp));
-        //error 执行方法
+        success = MonoSink::success;
+
         error = (monoSink, e) -> {
             Rsp rsp;
             if (e instanceof JrpcException) {
