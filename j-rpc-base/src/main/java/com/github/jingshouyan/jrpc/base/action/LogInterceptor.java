@@ -40,17 +40,23 @@ public class LogInterceptor implements ActionInterceptor {
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         long start = System.currentTimeMillis();
         String actionInfo = actionInfo(req).toString();
-        log.debug("{} token: {}", actionInfo, token);
-        log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
+        if(log.isDebugEnabled()){
+            log.debug("{} token: {}", actionInfo, token);
+            log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
+        }
         Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
             long end = System.currentTimeMillis();
             long cost = end - start;
             if (rsp.success()) {
-                log.debug("{} end.use {}ms.code:{},message:{},data:{}",
-                        actionInfo, cost, rsp.getCode(), rsp.getMessage(), rsp.desensitizedResult());
+                if(log.isDebugEnabled()) {
+                    log.debug("{} end.use {}ms.code:{},message:{},data:{}",
+                            actionInfo, cost, rsp.getCode(), rsp.getMessage(), rsp.desensitizedResult());
+                }
             } else {
-                log.warn("{} end.use {}ms.code:{},message:{},data:{}",
-                        actionInfo, cost, rsp.getCode(), rsp.getMessage(), rsp.desensitizedResult());
+                if(log.isWarnEnabled()) {
+                    log.warn("{} end.use {}ms.code:{},message:{},data:{}",
+                            actionInfo, cost, rsp.getCode(), rsp.getMessage(), rsp.desensitizedResult());
+                }
             }
         }).doOnError(e -> {
             long end = System.currentTimeMillis();
