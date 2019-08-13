@@ -188,8 +188,8 @@ public class ZkDiscover {
                     .findFirst();
             if (optionalNode.isPresent()) {
                 Node node = optionalNode.get();
-                node.close();
                 list.remove(node);
+                node.close();
             }
         }
     }
