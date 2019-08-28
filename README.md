@@ -5,37 +5,40 @@ https://github.com/jingshouyan/j-rpc
 
 
 ## 目录结构
+1.  j-rpc-base # 基础包
+2.  j-rpc-server # server 包，主要包含：服务注册，方法接口，内置方法
+3.  j-rpc-client # client 包
+4.  j-rpc-common # 
+    1.  j-rpc-common-crud # [j-jdbc][2] 接口工具包
+    2.  j-rpc-common-trace # 调用链追踪
+5.  j-rpc-starter # springboot starter
+    1.  j-rpc-starter-client # 客户端
+    2.  j-rpc-starter-server # 服务端
+    3.  j-rpc-starter-forward # 接口转发
+    4.  j-rpc-starter-dql # [j-jdbc][2] 查询接口
+    5.  j-rpc-starter-dml # [j-jdbc][2] 增删改接口
+    6.  j-rpc-starter-trace-zipkin # 基于 zipkin 的调用链追踪
+    7.  j-rpc-starter-desensitize # 接口请求&响应数据脱敏,日志|zipkin
+6.  j-rpc-test # 测试相关
+    1.  j-rpc-test-client # 客户端测试
+    2.  j-rpc-test-server # 服务端测试
+    3.  j-rpc-test-forward # 转发测试
+    4.  j-rpc-test-jmeter # jmeter 接口测试包
+7.  j-rpc-apidoc # 根据线上服务方法生成的接口文档
 
-1. j-rpc-base # 基础组建
-2. j-rpc-server # server 包，主要包含：服务注册，方法接口，内置方法
-3. j-rpc-client # client 包
-4. j-rpc-server-starter # 基于 springboot-starter 对j-rpc-server 的封装
-5. j-rpc-client-starter # 基于 springboot-starter 对j-rpc-client 的封装
-6. j-rpc-forward-starter # 接口转发模块
-7. j-rpc-trace-zipkin-starter # 基于 springboot-starter 和 zipkin 的服务调用追踪
-8. j-rpc-apidoc # 根据线上服务方法生成的接口文档
-9. j-rpc-plugins # 服务接口插件
-    基于 [j-jdbc][2] 的接口增强
-   1. crud-common # crud 接口基础包
-   2. crud-dql-starter # 查询接口
-   3. crud-dml-starter # 新增、修改、删除接口
-10. j-rpc-hmily-starter # 基于 hmily 的 tcc 分布式事务组件,未完成
-10. test-server # 测试服务示例
-11. test-client # client测试示例
-12. test-server-forward # 转发测试
+## 简介
 
-
-server 启动后，将连接信息注册到zk，client 监听 zk 服务节点树，将所有服务信息缓存到内存中。当发起一次调用请求时根据服务名，版本号，服务实例名等路由信息来获取一个连接信息，然后根据连接信息创建一个连接池（如果该连接池已存在，复用），从连接池取出一个将数据发送到 server。
+server 启动后，将连接信息注册到 zookeeper，client 监听 zk 服务节点树，将所有服务信息缓存到内存中。当发起一次调用请求时根据服务名，版本号，服务实例名等路由信息来获取一个连接信息，然后根据连接信息创建一个连接池（如果该连接池已存在，复用），从连接池取出一个将数据发送到 server。
 
 ## 基本用法
 
 ### server:
-> 参见 test-server
+> 参见 j-rpc-test-server
 #### 1. 引入pom
 ```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
-    <artifactId>j-rpc-server-starter</artifactId>
+    <artifactId>j-rpc-starter-server</artifactId>
     <version>${jrpc-version}</version>
 </dependency>
 ```
@@ -49,7 +52,7 @@ j-rpc:
     port: 8999 #端口号 default：8888
     name: test #服务名 default：j-rpc
     timeout: 5000 # 接口超时时间 default：5000
-    maxReadBufferBytes: 102400 # 接口数据最大长度 default：25 * 1024 * 1024 （25MB）
+    maxReadBufferBytes: 102400 # 缓冲区最大长度 default：25 * 1024 * 1024 （25MB）
     zkHost: 127.0.0.1:2181 # zk 连接地址 default：127.0.0.1:2181
     zkRoot: /com.github.jingshouyan.jrpc #zk 服务注册根目录
 
@@ -108,19 +111,19 @@ public class GetUserInfo2 implements AsyncMethod<IdQuery,List<UserBean>> {
                     userBean.setName(idQuery.getName());
                     return userBean;
                 }).collect(Collectors.toList());
-        );
+        });
 
     }
 }
 ```
 
 ### client:
-> 参见 test-client
+> 参见 j-rpc-test-client
 #### 1. 引入pom
 ```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
-    <artifactId>j-rpc-client-starter</artifactId>
+    <artifactId>j-rpc-starter-client</artifactId>
     <version>${jrpc-version}</version>
 </dependency>
 ```
@@ -179,7 +182,7 @@ public class Test
 ```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
-    <artifactId>j-rpc-forward-starter</artifactId>
+    <artifactId>j-rpc-starter-forward</artifactId>
     <version>${jrpc-version}</version>
 </dependency>
 ```
@@ -187,7 +190,7 @@ public class Test
 #### 2. 添加 spring 配置信息
 
 ```yaml
-jrpc:
+j-rpc:
   forward:
     methods:  #格式: 本服务方法名: 转发服务名,对应方法名
       forwardTest: test,testMethod
@@ -201,18 +204,20 @@ jrpc:
 ```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
-    <artifactId>j-rpc-trace-zipkin-starter</artifactId>
+    <artifactId>j-rpc-starter-trace-zipkin</artifactId>
+    <version>${jrpc-version}</version>
 </dependency>
 ```
 
 #### 2. 添加 spring 配置信息
 
 ```yaml
-jrpc:
+j-rpc:
   trace:
     name: trace-xxx # 链路名称，可选，若无取 jrpc.server.name 或 spring.application.name
     endpoint: http://127.0.0.1:9411/api/v2/spans # zipkin 接口地址
-    more: true # 更多调用信息 default: false
+    rate: 0.1 # 采样率 0 ~ 1 
+    dataShow: 0 # 请求参数&响应数据采集模式, 0: 不采集,1: 接口返回错误时采集,2:采集 
 ```
 
 #### 3. 字节码注入
@@ -221,15 +226,33 @@ jrpc:
 # 主要用于使用线程池和forkjoin框架时 span 信息传递
 java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.jar
 ```
+### 数据脱敏
+#### 1. 引入pom
 
+```mvn
+<dependency>
+    <groupId>com.github.jingshouyan</groupId>
+    <artifactId>j-rpc-starter-desensitize</artifactId>
+    <version>${jrpc-version}</version>
+</dependency>
+```
 
-### 查询插件
+#### 2. 添加 spring 配置信息
+
+```yaml
+j-rpc:
+  desensitize:
+    settings: 
+      name: 203 # key 为 name,且值为String类型的字段,除开头2位结尾3位,其他以 * 替换  
+```
+
+### 查询接口
 #### 引入pom
 
 ```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
-    <artifactId>crud-dql-starter</artifactId>
+    <artifactId>j-rpc-starter-dql</artifactId>
     <version>${jrpc-version></version>
 </dependency>
 ```
@@ -240,13 +263,13 @@ java -javaagent:path/to/transmittable-thread-local-2.x.x.jar -jar test-server.ja
 
 ```
 
-### 增删改插件
+### 增删改接口
 #### 1.引入pom
 
 ```mvn
 <dependency>
     <groupId>com.github.jingshouyan</groupId>
-    <artifactId>crud-dml-starter</artifactId>
+    <artifactId>j-rpc-starter-dml</artifactId>
     <version>${jrpc-version></version>
 </dependency>
 ```
@@ -271,7 +294,7 @@ https://github.com/jingshouyan/j-rpc-demo
 
 [1]: https://github.com/jingshouyan/j-rpc "j-rpc"
 [2]: https://github.com/jingshouyan/j-jdbc "j-jdbc"
-[11]: j-rpc-plugins/crud-dql-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java "retrieve"
-[12]: j-rpc-plugins/crud-dml-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Create.java "create"
-[13]: j-rpc-plugins/crud-dml-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Update.java "update"
-[14]: j-rpc-plugins/crud-dml-starter/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Delete.java "delete"
+[11]: j-rpc-starter/j-rpc-starter-dql/src/main/java/com/github/jingshouyan/jrpc/crud/dql/method/Retrieve.java "retrieve"
+[12]: j-rpc-starter/j-rpc-starter-dml/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Create.java "create"
+[13]: j-rpc-starter/j-rpc-starter-dml/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Update.java "update"
+[14]: j-rpc-starter/j-rpc-starter-dml/src/main/java/com/github/jingshouyan/jrpc/crud/dml/method/Delete.java "delete"
