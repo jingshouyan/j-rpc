@@ -203,5 +203,23 @@ public class ClientTest {
 
     }
 
+    @Test
+    public void pingTest(){
+        ping(123);
+        ping("asdfasfd");
+        ping(new UserBean());
+    }
+
+    private Object ping(Object obj) {
+        Object out = Request.newInstance()
+                .setClient(jrpcClient)
+                .setServer("test")
+                .setMethod("ping")
+                .setParamObj(obj)
+//                .setOneway(true)
+                .send().get(Object.class);
+        System.out.println(out);
+        return out;
+    }
 
 }

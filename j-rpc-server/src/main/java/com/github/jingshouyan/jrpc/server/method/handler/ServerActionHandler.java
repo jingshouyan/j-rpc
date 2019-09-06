@@ -37,6 +37,7 @@ public class ServerActionHandler implements ActionHandler {
         return single;
     }
 
+    @SuppressWarnings("unchecked")
     private Mono<Rsp> call(Token token, Req req) {
         return Mono.create(monoSink -> {
             Rsp rsp = null;
