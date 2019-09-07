@@ -22,7 +22,10 @@ public class Token {
     @Setter
     private String ticket;
 
+    @Getter
     private Map<String, String> headers = Maps.newHashMap();
+    @Getter
+    private Map<String, Object> localContext = Maps.newHashMap();
 
     public boolean valid() {
         return userId != null && ticket != null;
@@ -56,5 +59,16 @@ public class Token {
     public String get(String key) {
         return headers.get(key);
     }
+
+    public Token localContext(String key, Object value) {
+        localContext.put(key,value);
+        return this;
+    }
+
+    @SuppressWarnings("unchecked")
+    public <T> T localContext(String key) {
+        return (T) localContext.get(key);
+    }
+
 
 }
