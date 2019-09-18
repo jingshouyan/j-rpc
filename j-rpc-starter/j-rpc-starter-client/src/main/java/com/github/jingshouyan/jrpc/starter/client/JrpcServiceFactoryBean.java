@@ -101,10 +101,15 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
                             case OBJECT:
                                 return rspMono.block().checkSuccess().getByType(resultType.getObjectType());
                             case MONO_VOID:
+                                return rspMono.flatMap(rsp -> Mono.empty());
                             case MONO_RSP:
                                 return rspMono;
                             case MONO_OBJECT:
-                                return rspMono.map(rsp -> rsp.checkSuccess().getByType(resultType.getObjectType()));
+                                return rspMono.map(Rsp::checkSuccess)
+                                        .flatMap(rsp -> {
+                                            Object data = rsp.getByType(resultType.getObjectType());
+                                            return Mono.justOrEmpty(data);
+                                        });
                             default:
                         }
 

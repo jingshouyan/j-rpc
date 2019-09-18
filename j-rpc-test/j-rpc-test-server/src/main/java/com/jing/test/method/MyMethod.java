@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @author jingshouyan
  * #date 2018/10/26 11:57
  */
-@Component
+@Component("myMethod")
 public class MyMethod implements Method<Empty, Void> {
 
     @Override
