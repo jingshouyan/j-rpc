@@ -1,12 +1,10 @@
 package com.jing.test.client;
 
 import com.github.jingshouyan.jrpc.base.bean.InterfaceInfo;
-import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.jing.test.client.rpc.TestService;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,11 +35,11 @@ public class AnnotationTest {
 //        String str = testService.asyncTest(token,"eeer");
 //        log.info("2:{}",str);
 
-        Mono<Object> voidMono = testService.myMethod(token,new Object());
+        Mono<Object> voidMono = testService.myMethod(token, new Object());
         voidMono.map(x -> 1).subscribe(x -> log.info("3:222"));
 
-        Mono<InterfaceInfo> interfaceInfoMono = testService.getServerInfo(token,new Object());
-        interfaceInfoMono.flatMap(x -> Mono.empty()).subscribe(x -> log.info("6:{}",x));
+        Mono<InterfaceInfo> interfaceInfoMono = testService.getServerInfo(token, new Object());
+        interfaceInfoMono.flatMap(x -> Mono.empty()).subscribe(x -> log.info("6:{}", x));
 //        Mono<Rsp> rspMono = testService.traceTest(token,2);
 //        rspMono.subscribe(x-> log.info("4:{}",x));
 //
