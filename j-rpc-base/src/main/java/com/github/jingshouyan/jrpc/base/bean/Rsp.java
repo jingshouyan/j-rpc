@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.lang.reflect.Type;
 import java.util.List;
 
 /**
@@ -99,6 +100,10 @@ public class Rsp {
 
     public <T> T get(Class<T> clazz) {
         return JsonUtil.toBean(result, clazz);
+    }
+
+    public Object getByType(Type type){
+        return JsonUtil.toBean(result, type);
     }
 
     public <T> T get(Class<T> clazz, Class<?>... classes) {
