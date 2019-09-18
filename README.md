@@ -97,10 +97,10 @@ public class GetUserInfo2 implements AsyncMethod<IdQuery,List<UserBean>> {
 
     // 本方法只会在 idQuery 校验成功执行
     @Override
-    public Single<List<UserBean>> action(Token token,IdQuery idQuery) {
+    public Mono<List<UserBean>> action(Token token,IdQuery idQuery) {
         // throw new JException(TestCode.JUST_ERROR);  //通过异常返回错误码
 //         throw new JException(TestCode.JUST_ERROR,idQuery);  //通过异常返回错误码,并返回一些数据
-        return Single.fromCallable(() -> {
+        return Mono.fromCallable(() -> {
                 throw new JException(TestCode.JUST_ERROR,idQuery);//任何位置都可以使用来返回
                 return idQuery.getIds().stream().map(id -> {
                     UserBean userBean = new UserBean();
@@ -138,7 +138,7 @@ j-rpc:
 
 ```
 
-#### 3. 调用方法
+#### 3. 使用方法1
 ```java
 public class Test 
 {
@@ -161,7 +161,7 @@ public class Test
                 .setMethod("getUserInfo") //服务方法名
                 .setToken(token) // 设置token ,可选 token 信息
                 .setParamObj(idQuery) //请求参数对象,也可以使用 setParamJson 直接设置json字符串
-                .setOneway(true) //是否为 oneway 调用,
+                //.setOneway(true) //是否为 oneway 调用,
                 //asyncSend() 得到 Single<Rsp> 对象,异步调用模式
                 .send() //发送请求,这时已经得到 Rsp 对象
 
@@ -172,6 +172,49 @@ public class Test
 }
 
 ```
+
+#### 使用方法2
+
+##### 添加 @EnableJrpcServices 注解
+```java
+@SpringBootApplication
+@EnableJrpcServices
+public class App {
+    public static void main(String[] args) {
+        SpringApplication.run(App.class, args);
+    }
+}
+```
+##### 编写服务接口 
+```java
+@JrpcService(server = "test")
+public interface TestService {
+
+    void traceTest2(Token token, int i);
+
+    Rsp asyncErr(Token token, String abc);
+
+    String asyncTest(Token token, String abc);
+
+    Mono<Void> myMethod(Token token, Object abc);
+
+    Mono<Object> testMethod(Token token, List<String> abc);
+
+    Mono<Rsp> traceTest(Token token, int i);
+
+    Mono<InterfaceInfo> getServerInfo(Token token, Object obj);
+}
+
+```
+> 必须添加 @JrpcService 注解, server 为对应服务名.<br>
+> 方法名为对应接口名,参数0 必须是 Token,参数1 接口入参,参考Method.action <br>
+> 返回值类型
+>> void 不关心结果,不关心调用是否出错. <br>
+>> Rsp 得到 Rsp 响应. <br>
+>> 其他类型 将 Rsp 中 result 转换成对应类型的结果,如果请求失败,抛出 JException 异常. <br>
+>> Mono\<Void> 不建议使用,使用Mono<Rsp>代替. <br>
+>> Mono\<Rsp> 响应式编程对象. <br>
+>> Mono\<其他类型> 将 Rsp 中 result 转换成对应类型的结果,如果请求失败,在mono线程中抛出 JException 异常.
 
 ### 接口转发模块
 

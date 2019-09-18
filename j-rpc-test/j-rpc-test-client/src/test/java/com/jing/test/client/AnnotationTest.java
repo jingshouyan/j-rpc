@@ -27,7 +27,7 @@ public class AnnotationTest {
     @SneakyThrows
     public void test() {
         Token token = new Token();
-//        testService.TraceTest2(token,2);
+//        testService.traceTest2(token,2);
 //
 //        Rsp rsp = testService.asyncErr(token,"abc");
 //        log.info("1:{}",rsp);
