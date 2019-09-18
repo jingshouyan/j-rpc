@@ -1,6 +1,5 @@
 package com.github.jingshouyan.jrpc.client.config;
 
-import com.github.jingshouyan.jrpc.base.constant.BaseConstant;
 import lombok.Data;
 
 /**

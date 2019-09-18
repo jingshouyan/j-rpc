@@ -102,7 +102,7 @@ public class Rsp {
         return JsonUtil.toBean(result, clazz);
     }
 
-    public Object getByType(Type type){
+    public Object getByType(Type type) {
         return JsonUtil.toBean(result, type);
     }
 

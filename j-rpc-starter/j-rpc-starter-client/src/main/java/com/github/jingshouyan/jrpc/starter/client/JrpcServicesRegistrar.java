@@ -86,7 +86,7 @@ public class JrpcServicesRegistrar implements ImportBeanDefinitionRegistrar, Res
         AbstractBeanDefinition beanDefinition = definition.getBeanDefinition();
         beanDefinition.setPrimary(true);
         BeanDefinitionHolder holder = new BeanDefinitionHolder(beanDefinition, className,
-                new String[] { alias });
+                new String[]{alias});
         BeanDefinitionReaderUtils.registerBeanDefinition(holder, registry);
     }
 

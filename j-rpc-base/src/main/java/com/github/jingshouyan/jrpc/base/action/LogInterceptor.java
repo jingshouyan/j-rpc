@@ -40,7 +40,7 @@ public class LogInterceptor implements ActionInterceptor {
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         long start = System.currentTimeMillis();
         String actionInfo = actionInfo(req).toString();
-        if(log.isDebugEnabled()){
+        if (log.isDebugEnabled()) {
             log.debug("{} token: {}", actionInfo, token);
             log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
         }
@@ -48,12 +48,12 @@ public class LogInterceptor implements ActionInterceptor {
             long end = System.currentTimeMillis();
             long cost = end - start;
             if (rsp.success()) {
-                if(log.isDebugEnabled()) {
+                if (log.isDebugEnabled()) {
                     log.debug("{} end.use {}ms.code:{},message:{},data:{}",
                             actionInfo, cost, rsp.getCode(), rsp.getMessage(), rsp.desensitizedResult());
                 }
             } else {
-                if(log.isWarnEnabled()) {
+                if (log.isWarnEnabled()) {
                     log.warn("{} end.use {}ms.code:{},message:{},data:{}",
                             actionInfo, cost, rsp.getCode(), rsp.getMessage(), rsp.desensitizedResult());
                 }

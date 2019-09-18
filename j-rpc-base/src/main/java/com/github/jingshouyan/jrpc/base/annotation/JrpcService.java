@@ -7,5 +7,6 @@ import java.lang.annotation.*;
 @Documented
 public @interface JrpcService {
     String server();
+
     String version() default "";
 }

@@ -25,7 +25,8 @@ import reactor.core.publisher.Mono;
 public class ServerTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
-    @Getter@Setter
+    @Getter
+    @Setter
     private TraceProperties properties;
 
     public ServerTrace(Tracing tracing, TraceProperties properties) {
