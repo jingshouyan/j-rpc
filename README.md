@@ -216,6 +216,15 @@ public interface TestService {
 >> Mono\<Rsp> 响应式编程对象. <br>
 >> Mono\<其他类型> 将 Rsp 中 result 转换成对应类型的结果,如果请求失败,在mono线程中抛出 JException 异常.
 
+##### @Autowired 注入对象
+
+```java
+public class ServiceTest {
+    @Autowired
+    private TestService testService;
+}
+
+```
 ### 接口转发模块
 
 #### 1. 引入pom
