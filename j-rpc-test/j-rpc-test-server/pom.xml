@@ -5,7 +5,7 @@
     <parent>
         <artifactId>j-rpc-test</artifactId>
         <groupId>com.github.jingshouyan</groupId>
-        <version>0.5.2-SNAPSHOT</version>
+        <version>0.5.5-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
@@ -60,10 +60,7 @@
             <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-starter-dml</artifactId>
         </dependency>
-        <dependency>
-            <groupId>${project.groupId}</groupId>
-            <artifactId>j-rpc-starter-dml</artifactId>
-        </dependency>
+
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>

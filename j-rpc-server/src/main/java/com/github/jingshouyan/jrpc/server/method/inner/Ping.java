@@ -1,6 +1,5 @@
 package com.github.jingshouyan.jrpc.server.method.inner;
 
-import com.github.jingshouyan.jrpc.base.bean.Empty;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.server.method.Method;
 
@@ -9,10 +8,10 @@ import com.github.jingshouyan.jrpc.server.method.Method;
  * #date 2019/1/30 18:46
  */
 
-public class Ping implements Method<Empty, Void> {
+public class Ping implements Method<Object, Object> {
 
     @Override
-    public Void action(Token token, Empty empty) {
-        return null;
+    public Object action(Token token, Object obj) {
+        return obj;
     }
 }

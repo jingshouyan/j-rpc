@@ -67,7 +67,14 @@ public class TransportPool implements Closeable {
 
     @Override
     public void close() {
-        clientManager.stop();
+        while (innerPool.getNumActive() > 0){
+            try{
+                Thread.sleep(50);
+            }catch (InterruptedException e){
+                log.warn("thread sleep error",e);
+            }
+        }
         innerPool.close();
+        clientManager.stop();
     }
 }
