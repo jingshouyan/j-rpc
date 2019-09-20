@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
+import com.github.jingshouyan.jrpc.base.annotation.JrpcMethod;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
@@ -79,14 +80,19 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
                     }
                     Type type = method.getGenericReturnType();
                     if (method.getDeclaringClass() != Object.class) {
+                        JrpcMethod jrpcMethod = method.getAnnotation(JrpcMethod.class);
+                        String methodName;
+                        if(jrpcMethod != null) {
+                            methodName = jrpcMethod.method();
+                        }else {
+                            methodName = method.getName();
+                        }
                         ResultType resultType = getResultType(type);
-                        //实现业务逻辑,比如发起网络连接，执行远程调用，获取到结果，并返回
-                        System.out.println(method.getName() + " method invoked ! param: " + Arrays.toString(args));
                         Token token = (Token) args[0];
                         Object paramObj = args[1];
                         Mono<Rsp> rspMono = Request.newInstance()
                                 .setServer(server)
-                                .setMethod(method.getName())
+                                .setMethod(methodName)
                                 .setClient(jrpcClient)
                                 .setVersion(StringUtils.hasText(version) ? version : null)
                                 .setToken(token)
