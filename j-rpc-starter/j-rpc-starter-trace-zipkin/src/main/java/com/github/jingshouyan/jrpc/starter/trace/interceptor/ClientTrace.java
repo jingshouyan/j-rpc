@@ -4,13 +4,16 @@ import brave.Span;
 import brave.Tracer;
 import brave.Tracing;
 import brave.propagation.B3SingleFormat;
+import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionHandler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import com.github.jingshouyan.jrpc.base.code.Code;
+import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
 import com.github.jingshouyan.jrpc.trace.constant.TraceConstant;
+import lombok.Getter;
+import lombok.Setter;
 import reactor.core.publisher.Mono;
 
 /**
@@ -21,12 +24,29 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
 
     private Tracer tracer;
 
-    public ClientTrace(Tracing tracing) {
+    @Getter
+    @Setter
+    private TraceProperties properties;
+
+    private float oldRate;
+
+    public ClientTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
+        this.properties = properties;
+        this.oldRate = properties.getRate();
+    }
+
+
+    private void checkRate() {
+        if (oldRate != properties.getRate()) {
+            oldRate = properties.getRate();
+            tracer = tracer.withSampler(CountingSampler.create(oldRate));
+        }
     }
 
     @Override
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
+        checkRate();
         final Span span = span().annotate(CS);
         token.set(HEADER_TRACE, traceId(span));
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
@@ -35,7 +55,7 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
                     .tag(TAG_TICKET, "" + token.getTicket())
                     .tag(TAG_USER_ID, "" + token.getUserId());
             return handler.handle(token, req).doOnSuccess(rsp -> {
-                if (rsp.getCode() != Code.SUCCESS) {
+                if (!rsp.success()) {
                     span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());
                 }
                 span.tag(TAG_CODE, String.valueOf(rsp.getCode()))

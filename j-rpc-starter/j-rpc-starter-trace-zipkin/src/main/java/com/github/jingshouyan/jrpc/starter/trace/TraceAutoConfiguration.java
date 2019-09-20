@@ -86,7 +86,7 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(ClientTrace.class)
     ClientTrace clientTrace(Tracing tracing) {
-        ClientTrace clientTrace = new ClientTrace(tracing);
+        ClientTrace clientTrace = new ClientTrace(tracing, properties);
         ActionInterceptorHolder.addClientInterceptor(clientTrace);
         return clientTrace;
     }
