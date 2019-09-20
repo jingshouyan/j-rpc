@@ -16,6 +16,8 @@ import lombok.Getter;
 import lombok.Setter;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 /**
  * @author jingshouyan
  * #date 2018/11/2 21:45
@@ -54,6 +56,9 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
                     .tag(TAG_METHOD, "" + req.getMethod())
                     .tag(TAG_TICKET, "" + token.getTicket())
                     .tag(TAG_USER_ID, "" + token.getUserId());
+            for (Map.Entry<String, String> entry : token.getHeaders().entrySet()) {
+                span.tag(TAG_HEADER_PREFIX + entry.getKey(), entry.getValue());
+            }
             return handler.handle(token, req).doOnSuccess(rsp -> {
                 if (!rsp.success()) {
                     span.tag(TAG_ERROR, rsp.getCode() + ":" + rsp.getMessage());

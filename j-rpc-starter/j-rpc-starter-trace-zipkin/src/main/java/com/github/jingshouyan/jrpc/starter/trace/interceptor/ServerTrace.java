@@ -18,6 +18,8 @@ import lombok.Getter;
 import lombok.Setter;
 import reactor.core.publisher.Mono;
 
+import java.util.Map;
+
 /**
  * @author jingshouyan
  * #date 2018/11/2 20:00
@@ -55,7 +57,9 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
                 .tag(TAG_METHOD, "" + req.getMethod())
                 .tag(TAG_TICKET, "" + token.getTicket())
                 .tag(TAG_USER_ID, "" + token.getUserId());
-
+        for (Map.Entry<String, String> entry : token.getHeaders().entrySet()) {
+            span.tag(TAG_HEADER_PREFIX + entry.getKey(), entry.getValue());
+        }
         Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
             if (show(properties.getDataShow(), rsp.success())) {
                 span.tag(TAG_PARAM, String.valueOf(req.desensitizedParam()))

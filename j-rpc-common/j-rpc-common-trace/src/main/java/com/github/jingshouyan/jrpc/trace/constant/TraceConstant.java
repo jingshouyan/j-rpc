@@ -18,8 +18,9 @@ public interface TraceConstant {
     String TAG_MESSAGE = "o.message";
     String TAG_DATA = "o.data";
     String TAG_ERROR = "error";
+    String TAG_HEADER_PREFIX = "h.";
     String TAG_ARG_PREFIX = "arg.";
-    String TAG_RESULT = "result";
+    String TAG_RESULT = "o.result";
     String CALL_PATH = "call.path";
 
     int TRACE_DATA_SHOW_OFF = 0;
