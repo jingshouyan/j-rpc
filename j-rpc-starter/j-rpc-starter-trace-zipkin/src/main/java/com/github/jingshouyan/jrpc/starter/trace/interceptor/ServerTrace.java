@@ -39,6 +39,10 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
         this.oldRate = properties.getRate();
     }
 
+    /**
+     * TODO 改为 变更通知修改比较好.
+     * 目前会有线程安全问题
+     */
     private void checkRate() {
         if (oldRate != properties.getRate()) {
             oldRate = properties.getRate();

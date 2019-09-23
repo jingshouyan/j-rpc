@@ -1,9 +1,7 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
-import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
-import com.github.jingshouyan.jrpc.client.Request;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.beans.factory.FactoryBean;
@@ -11,14 +9,12 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
-import org.springframework.util.StringUtils;
 import reactor.core.publisher.Mono;
 
-import java.lang.reflect.Method;
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
 import java.lang.reflect.Type;
-import java.util.Arrays;
 
 /**
  * @author jingshouyan
@@ -68,56 +64,10 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
     @SuppressWarnings("unchecked")
     <T> T getTarget() {
         JrpcClient jrpcClient = ctx.getBean(JrpcClient.class);
-        T t = (T) Proxy.newProxyInstance(
-                type.getClassLoader(), new Class[]{type},
-                (Object proxy, Method method, Object[] args) -> {
-                    if (TO_STRING.equals(method.getName())) {
-                        return alias;
-                    }
-                    if (HASH_CODE.equals(method.getName())) {
-                        return alias.hashCode();
-                    }
-                    Type type = method.getGenericReturnType();
-                    if (method.getDeclaringClass() != Object.class) {
-                        ResultType resultType = getResultType(type);
-                        //实现业务逻辑,比如发起网络连接，执行远程调用，获取到结果，并返回
-                        System.out.println(method.getName() + " method invoked ! param: " + Arrays.toString(args));
-                        Token token = (Token) args[0];
-                        Object paramObj = args[1];
-                        Mono<Rsp> rspMono = Request.newInstance()
-                                .setServer(server)
-                                .setMethod(method.getName())
-                                .setClient(jrpcClient)
-                                .setVersion(StringUtils.hasText(version) ? version : null)
-                                .setToken(token)
-                                .setParamObj(paramObj)
-                                .asyncSend();
-                        switch (resultType.type) {
-                            case VOID:
-                                rspMono.subscribe();
-                                return null;
-                            case RSP:
-                                return rspMono.block();
-                            case OBJECT:
-                                return rspMono.block().checkSuccess().getByType(resultType.getObjectType());
-                            case MONO_VOID:
-                                return rspMono.flatMap(rsp -> Mono.empty());
-                            case MONO_RSP:
-                                return rspMono;
-                            case MONO_OBJECT:
-                                return rspMono.map(Rsp::checkSuccess)
-                                        .flatMap(rsp -> {
-                                            Object data = rsp.getByType(resultType.getObjectType());
-                                            return Mono.justOrEmpty(data);
-                                        });
-                            default:
-                        }
-
-                    }
-                    return null;
-                }
+        InvocationHandler handler = new JrpcInvocationHandler(jrpcClient,server,version);
+        return (T) Proxy.newProxyInstance(
+                type.getClassLoader(), new Class[]{type},handler
         );
-        return t;
     }
 
     private ResultType getResultType(Type type) {
