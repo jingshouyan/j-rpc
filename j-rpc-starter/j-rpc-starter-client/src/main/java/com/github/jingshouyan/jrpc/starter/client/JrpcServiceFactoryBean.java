@@ -23,9 +23,6 @@ import java.lang.reflect.Type;
 
 public class JrpcServiceFactoryBean implements FactoryBean<Object>, InitializingBean, ApplicationContextAware {
 
-    public static final String TO_STRING = "toString";
-    public static final String HASH_CODE = "hashCode";
-
     @Getter
     @Setter
     private Class<?> type;

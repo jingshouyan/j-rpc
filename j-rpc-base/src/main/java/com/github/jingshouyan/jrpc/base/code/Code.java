@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * @author jingshouyan
@@ -26,7 +27,7 @@ public class Code {
     public static final int TICKET_NOTSET = -206;
     public static final int BAD_REQUEST = -207;
     public static final int PERMISSION_DENIED = -208;
-    private static final Map<Integer, String> CODE_MAP = new HashMap<>();
+    private static final Map<Integer, String> CODE_MAP = new ConcurrentHashMap<>();
 
     static {
         CODE_MAP.put(SUCCESS, "success");
