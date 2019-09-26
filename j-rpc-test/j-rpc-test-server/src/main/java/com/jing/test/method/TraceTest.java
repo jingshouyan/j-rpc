@@ -35,16 +35,18 @@ public class TraceTest implements Method<Integer, Integer> {
     @Override
     public Integer action(Token token, Integer i) {
         if (i != null && i > 0) {
+            for (int j = 0; j < LOOP; j++) {
+                Request.newInstance().setClient(client)
+                        .setServer(properties.getName())
+                        .setMethod("traceTest")
+                        .setParamObj(i - 1)
+//                        .setOneway(true)
+                        .asyncSend()
+                .subscribe();
+            }
             EXEC.execute(
                     () -> {
-                        for (int j = 0; j < LOOP; j++) {
-                            Request.newInstance().setClient(client)
-                                    .setServer(properties.getName())
-                                    .setMethod("traceTest")
-                                    .setParamObj(i - 1)
-                                    .setOneway(true)
-                                    .send();
-                        }
+
 
                     }
             );

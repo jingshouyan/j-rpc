@@ -1,7 +1,11 @@
 package com.github.jingshouyan.jrpc.starter.seata;
 
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
+import com.github.jingshouyan.jrpc.starter.seata.interceptor.ClientSeatInterceptor;
+import com.github.jingshouyan.jrpc.starter.seata.interceptor.ServerSeataInterceptor;
 import io.seata.spring.annotation.GlobalTransactionScanner;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -29,5 +33,22 @@ public class JrpcSeataAutoConfiguration {
         GlobalTransactionScanner scanner = new GlobalTransactionScanner(applicationId,txServiceGroup);
         return scanner;
     }
+
+    @Bean
+    @ConditionalOnMissingBean(ClientSeatInterceptor.class)
+    public ClientSeatInterceptor clientSeatInterceptor() {
+        ClientSeatInterceptor clientSeatInterceptor= new ClientSeatInterceptor();
+        ActionInterceptorHolder.addClientInterceptor(clientSeatInterceptor);
+        return clientSeatInterceptor;
+    }
+    @Bean
+    @ConditionalOnMissingBean(ServerSeataInterceptor.class)
+    public ServerSeataInterceptor serverSeataInterceptor() {
+        ServerSeataInterceptor serverSeataInterceptor = new ServerSeataInterceptor();
+        ActionInterceptorHolder.addServerInterceptor(serverSeataInterceptor);
+        return serverSeataInterceptor;
+    }
+
+
 
 }

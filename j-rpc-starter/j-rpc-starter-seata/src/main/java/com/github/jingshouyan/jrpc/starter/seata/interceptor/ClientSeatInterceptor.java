@@ -10,19 +10,17 @@ import reactor.core.publisher.Mono;
 
 /**
  * @author jingshouyan
- * #date 2019/9/25 19:26
+ * #date 2019/9/26 11:13
  */
 
-public class ServerSeataInterceptor implements ActionInterceptor {
+public class ClientSeatInterceptor implements ActionInterceptor {
 
     @Override
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
-        String rpcXid = token.get(RootContext.KEY_XID);
-        if(rpcXid != null) {
-            RootContext.bind(rpcXid);
+        String xid = RootContext.getXID();
+        if (xid != null) {
+            token.set(RootContext.KEY_XID, xid);
         }
-        return handler.handle(token,req).doOnNext(rsp -> RootContext.unbind());
+        return handler.handle(token, req);
     }
-
-
 }

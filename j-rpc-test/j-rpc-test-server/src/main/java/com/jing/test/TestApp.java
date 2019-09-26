@@ -25,7 +25,7 @@ public class TestApp {
     @Autowired
     private ApplicationContext ctx;
 
-    @Scheduled(fixedRate = 5000)
+//    @Scheduled(fixedRate = 5000)
     public void job() {
         ServerTrace serverTrace = ctx.getBean(ServerTrace.class);
         System.out.println(serverTrace.getProperties());
