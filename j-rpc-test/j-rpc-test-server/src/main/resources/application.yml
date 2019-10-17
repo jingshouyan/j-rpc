@@ -6,7 +6,7 @@ j-rpc:
   trace:
     gather:
       dataShow: 2
-      rate: 0.1
+      rate: 1
   desensitize:
     settings:
       name: 101

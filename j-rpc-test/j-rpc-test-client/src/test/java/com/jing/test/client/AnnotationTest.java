@@ -54,4 +54,12 @@ public class AnnotationTest {
 
 
     }
+
+    @Test
+    public void traceTest() {
+        Token token = new Token();
+
+        Mono<Rsp> mono = testService.traceTest(token, 3);
+        mono.block();
+    }
 }
