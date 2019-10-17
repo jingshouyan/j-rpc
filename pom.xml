@@ -37,6 +37,7 @@
         <j-jdbc.version>1.1.4</j-jdbc.version>
         <zipkin.version>5.5.0</zipkin.version>
         <springboot.version>2.1.2.RELEASE</springboot.version>
+        <seata.version>0.8.1</seata.version>
     </properties>
 
     <dependencyManagement>
@@ -147,6 +148,16 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+
+            <!--seata-->
+            <dependency>
+                <groupId>io.seata</groupId>
+                <artifactId>seata-bom</artifactId>
+                <version>${seata.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
 
 
 

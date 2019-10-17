@@ -10,6 +10,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "j-rpc.seata")
 public class SeataProperties {
-    private String applicationId;
-    private String txServiceGroup;
+    private String applicationId = "jrpc";
+    private String txServiceGroup = "jrpcTxGroup";
 }

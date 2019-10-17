@@ -29,8 +29,7 @@
 
         <dependency>
             <groupId>io.seata</groupId>
-            <artifactId>seata-spring</artifactId>
-            <version>0.8.1</version>
+            <artifactId>seata-all</artifactId>
         </dependency>
 
         <dependency>
