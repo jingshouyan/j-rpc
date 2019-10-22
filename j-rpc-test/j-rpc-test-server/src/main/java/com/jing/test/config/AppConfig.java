@@ -1,7 +1,11 @@
 package com.jing.test.config;
 
+import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
+import com.jing.test.InterceptorTest;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,7 +17,7 @@ import javax.sql.DataSource;
  * 11/29/18 5:29 PM
  */
 @Configuration
-public class AppConfig {
+public class AppConfig implements ApplicationRunner {
 
 
     public static final String URL = "jdbc:mysql://127.0.0.1:3306/DEMO_IM_USER?useUnicode=true&characterEncoding=utf8&useSSL=false&statementInterceptors=brave.mysql.TracingStatementInterceptor";
@@ -46,5 +50,11 @@ public class AppConfig {
         return dataSource;
     }
 
-
+    @Override
+    public void run(ApplicationArguments args) throws Exception {
+        InterceptorTest test100 = new InterceptorTest(100);
+        InterceptorTest test200 = new InterceptorTest(200);
+        ActionInterceptorHolder.addServerInterceptor(test100);
+        ActionInterceptorHolder.addServerInterceptor(test200);
+    }
 }
