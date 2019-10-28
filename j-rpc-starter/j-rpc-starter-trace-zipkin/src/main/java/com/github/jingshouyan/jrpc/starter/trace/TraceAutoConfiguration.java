@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.starter.trace;
 
 import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
-import brave.propagation.TtlCurrentTraceContext;
+import brave.propagation.ThreadLocalCurrentTraceContext;
 import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.starter.trace.aop.SpanXTrace;
@@ -66,7 +66,7 @@ public class TraceAutoConfiguration {
 
         return Tracing.newBuilder()
                 .localServiceName(tracingName())
-                .currentTraceContext(TtlCurrentTraceContext.newBuilder()
+                .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
                         // puts trace IDs into logs
                         .addScopeDecorator(MDCScopeDecorator.create())
                         .build()
