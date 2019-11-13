@@ -13,6 +13,7 @@ import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
 import com.github.jingshouyan.jrpc.server.method.BaseMethod;
 import com.github.jingshouyan.jrpc.server.method.Method;
+import com.github.jingshouyan.jrpc.server.method.MethodDefinition;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import lombok.extern.slf4j.Slf4j;
 import reactor.core.publisher.Mono;
@@ -47,14 +48,15 @@ public class ServerActionHandler implements ActionHandler {
                 param = "{}";
             }
             try {
-                BaseMethod baseMethod = MethodHolder.getMethod(methodName);
-                Type clazz = baseMethod.getInputType();
+                MethodDefinition methodDefinition = MethodHolder.getMethod(methodName);
+                Type clazz = methodDefinition.getInputType();
                 Object obj;
                 try {
                     obj = JsonUtil.toBean(param, clazz);
                 } catch (Exception e) {
                     throw new JrpcException(Code.JSON_PARSE_ERROR, e);
                 }
+                BaseMethod baseMethod = methodDefinition.getMethod();
                 baseMethod.validate(obj);
                 if (baseMethod instanceof Method) {
                     Method method = (Method) baseMethod;
