@@ -25,7 +25,6 @@ public class Rsp {
     @Getter
     @Setter
     private String message;
-    @Getter
     @Setter
     @JsonIgnore
     private String result;
@@ -38,12 +37,10 @@ public class Rsp {
         if (result != null) {
             return result;
         }
-        if (result == null && data == null) {
+        if (data == null) {
             return null;
         }
-        if (result == null) {
-            result = JsonUtil.toJsonString(data);
-        }
+        result = JsonUtil.toJsonString(data);
         return result;
     }
 
@@ -55,12 +52,10 @@ public class Rsp {
             return desensitizedResult;
         }
         String result = getResult();
-        if (desensitizedResult == null && result == null) {
+        if (result == null) {
             return null;
         }
-        if (desensitizedResult == null) {
-            desensitizedResult = JsonDesensitizer.DEFAULT.desensitize(result);
-        }
+        desensitizedResult = JsonDesensitizer.DEFAULT.desensitize(result);
         return desensitizedResult;
     }
 

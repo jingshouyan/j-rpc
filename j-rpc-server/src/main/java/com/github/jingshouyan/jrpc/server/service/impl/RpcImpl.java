@@ -64,12 +64,7 @@ public class RpcImpl implements Rpc {
         RspBean rspBean = new RspBean();
         rspBean.setCode(rsp.getCode());
         rspBean.setMessage(rsp.getMessage());
-        if (rsp.getResult() != null) {
-            rspBean.setResult(rsp.getResult());
-        } else {
-            String json = JsonUtil.toJsonString(rsp.getData());
-            rspBean.setResult(json);
-        }
+        rspBean.setResult(rsp.getResult());
         return rspBean;
     }
 
