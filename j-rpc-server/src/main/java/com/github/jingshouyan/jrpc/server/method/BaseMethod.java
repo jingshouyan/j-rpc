@@ -81,7 +81,7 @@ public interface BaseMethod<T, R> {
             sb.append(cv.getPropertyPath().toString());
             sb.append(" ");
             sb.append(message);
-            sb.append("\t");
+            sb.append(",");
             i++;
         }
         if (!cvs.isEmpty()) {
