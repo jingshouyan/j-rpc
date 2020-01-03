@@ -52,9 +52,9 @@ public class AppConfig implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-        InterceptorTest test100 = new InterceptorTest(100);
-        InterceptorTest test200 = new InterceptorTest(200);
-        ActionInterceptorHolder.addServerInterceptor(test100);
-        ActionInterceptorHolder.addServerInterceptor(test200);
+//        InterceptorTest test100 = new InterceptorTest(100);
+//        InterceptorTest test200 = new InterceptorTest(200);
+//        ActionInterceptorHolder.addServerInterceptor(test100);
+//        ActionInterceptorHolder.addServerInterceptor(test200);
     }
 }

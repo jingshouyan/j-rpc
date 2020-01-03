@@ -172,7 +172,7 @@ public class ClientTest {
 
     @Test
     public void testMethod() {
-        for (int i = 0; i < 10_000_000; i++) {
+        for (int i = 0; i < 1000; i++) {
             List<String> strings = new ArrayList<>();
             strings.add("" + i);
             Request.newInstance()

@@ -13,6 +13,8 @@ import org.springframework.stereotype.Component;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 
 /**
@@ -25,11 +27,9 @@ public class TestMethod implements Method<List<String>, TestBean2<CodeInfo, Stri
     @Override
     @SneakyThrows
     public TestBean2<CodeInfo, String, TestBean3> action(Token token, List<String> strings) {
-//        Random random = new Random();
-//        int r = random.nextInt(8);
-//        if (r > 4) {
-//            TimeUnit.SECONDS.sleep(r);
-//        }
+        Random random = new Random();
+        int r = random.nextInt(2)+1;
+        TimeUnit.SECONDS.sleep(r);
         TestBean2 testBean2 = new TestBean2();
         testBean2.setTest(strings.get(0));
         CodeInfo codeInfo = new CodeInfo();

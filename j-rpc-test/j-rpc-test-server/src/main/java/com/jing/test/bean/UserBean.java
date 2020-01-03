@@ -1,7 +1,7 @@
 package com.jing.test.bean;
 
-import com.github.jingshouyan.jdbc.comm.annotaion.Column;
-import com.github.jingshouyan.jdbc.comm.annotaion.Key;
+import com.github.jingshouyan.jdbc.comm.annotation.Column;
+import com.github.jingshouyan.jdbc.comm.annotation.Key;
 import com.github.jingshouyan.jdbc.comm.bean.EncryptType;
 import com.github.jingshouyan.jdbc.comm.entity.BaseDO;
 import lombok.Getter;

@@ -1,12 +1,12 @@
 j-rpc:
   server:
+#    zkHost: 192.168.81.70:2181
     version: 1.0
     port: 8999
     name: test
   trace:
-    gather:
-      dataShow: 2
-      rate: 1
+    data-show: 2
+    rate: 1
   desensitize:
     settings:
       name: 101

@@ -9,6 +9,7 @@ j-rpc:
   trace:
     more: true
     rate: 1.0
+    data-show: 2
 
   desensitize:
     settings:
