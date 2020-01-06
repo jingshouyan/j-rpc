@@ -9,6 +9,7 @@ import com.google.common.base.Preconditions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -53,9 +54,7 @@ public abstract class BaseCrud implements CrudConstant {
         } else {
             String[] ss = beanNames.split(",");
             allows = new HashSet<>(ss.length);
-            for (String bean : ss) {
-                allows.add(bean);
-            }
+            allows.addAll(Arrays.asList(ss));
         }
     }
 
