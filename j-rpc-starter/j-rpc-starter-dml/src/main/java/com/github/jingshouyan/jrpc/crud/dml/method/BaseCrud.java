@@ -60,7 +60,7 @@ public abstract class BaseCrud implements CrudConstant {
     }
 
     /**
-     * @param beanName
+     * @param beanName 对象名
      */
     void accessCheck(String beanName) {
         if (all || allows.contains(beanName)) {
