@@ -1,6 +1,6 @@
 j-rpc:
   server:
-#    zkHost: 192.168.81.70:2181
+    zkHost: 192.168.81.70:2181
     version: 1.0
     port: 8999
     name: test
