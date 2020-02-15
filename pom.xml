@@ -29,7 +29,7 @@
         <java.version>1.8</java.version>
         <curator.version>2.12.0</curator.version>
         <slf4j-api.version>1.7.24</slf4j-api.version>
-        <libthrift.version>0.12.0</libthrift.version>
+        <libthrift.version>0.13.0</libthrift.version>
         <lombok.version>1.18.4</lombok.version>
         <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <hmily.version>2.0.0-RELEASE</hmily.version>
