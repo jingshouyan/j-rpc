@@ -15,7 +15,7 @@ import java.util.Map;
 @Slf4j
 public class JsonDesensitizer {
 
-    private static final JsonFactory factory = new JsonFactory();
+    private static final JsonFactory JSON_FACTORY = new JsonFactory();
     private static final int SPLIT_INT = 100;
     private final Map<String, Integer> SETTINGS = Maps.newConcurrentMap();
 
@@ -41,7 +41,7 @@ public class JsonDesensitizer {
         }
         try {
             char[] chars = json.toCharArray();
-            JsonParser parser = factory.createParser(chars);
+            JsonParser parser = JSON_FACTORY.createParser(chars);
             do {
                 JsonToken token = parser.nextToken();
                 if (token == JsonToken.FIELD_NAME) {
