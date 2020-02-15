@@ -61,7 +61,7 @@
                 <artifactId>maven-thrift-plugin</artifactId>
                 <version>0.1.11</version>
                 <configuration>
-                    <thriftExecutable>D:\soft\thrift\0.13.0\thrift.exe</thriftExecutable>
+                    <thriftExecutable>thrift</thriftExecutable>
                     <!--<outputDirectory>src/main/java</outputDirectory>-->
                     <generator>java</generator>
                 </configuration>
