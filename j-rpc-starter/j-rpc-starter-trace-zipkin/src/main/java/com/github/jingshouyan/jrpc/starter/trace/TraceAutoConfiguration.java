@@ -5,7 +5,7 @@ import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.ThreadLocalCurrentTraceContext;
 import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
-import com.github.jingshouyan.jrpc.starter.trace.aop.SpanXTrace;
+import com.github.jingshouyan.jrpc.starter.trace.aop.TracingSpanX;
 import com.github.jingshouyan.jrpc.starter.trace.interceptor.ClientTrace;
 import com.github.jingshouyan.jrpc.starter.trace.interceptor.ServerTrace;
 import lombok.extern.slf4j.Slf4j;
@@ -92,9 +92,9 @@ public class TraceAutoConfiguration {
     }
 
     @Bean
-    @ConditionalOnMissingBean(SpanXTrace.class)
-    SpanXTrace spanXTrace(Tracing tracing) {
-        return new SpanXTrace(tracing);
+    @ConditionalOnMissingBean(TracingSpanX.class)
+    TracingSpanX tracingSpanX(Tracing tracing) {
+        return new TracingSpanX(tracing);
     }
 
     private String tracingName() {
