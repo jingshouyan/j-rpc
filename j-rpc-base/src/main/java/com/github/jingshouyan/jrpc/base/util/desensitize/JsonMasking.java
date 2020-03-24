@@ -37,7 +37,7 @@ public class JsonMasking {
      * @return 脱敏后数据
      */
     public String masking(String json) {
-        if (SETTINGS.isEmpty()) {
+        if (json == null || SETTINGS.isEmpty()) {
             return json;
         }
         try {
