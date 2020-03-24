@@ -16,16 +16,32 @@ import java.util.Map;
 @Slf4j
 public class JsonMasking {
 
+    public static final int BIT_STRING_END = 0;
+    public static final int BIT_STRING_START = 1;
+
+
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
-    private static final int SPLIT_INT = 100;
     private final Map<String, Integer> SETTINGS = Maps.newConcurrentMap();
 
     public static final JsonMasking DEFAULT = new JsonMasking();
 
+    /**
+     * 添加脱敏配置
+     *
+     * @param key     需要脱敏的key
+     * @param setting 10进制,当值字符串时:第0位表示原文显示后缀个数,第1位表示原文显示前缀个数
+     */
     public void addSetting(String key, int setting) {
         SETTINGS.put(key, setting);
     }
 
+    /**
+     * 添加脱敏配置
+     *
+     * @param settings 脱敏配置
+     *                 key 需要脱敏的key
+     *                 setting 10进制,当值字符串时:第0位表示原文显示后缀个数,第1位表示原文显示前缀个数
+     */
     public void addSetting(Map<String, Integer> settings) {
         SETTINGS.putAll(settings);
     }
@@ -75,9 +91,9 @@ public class JsonMasking {
 
     private void stringMasking(char[] chars, JsonParser parser, int setting) throws IOException {
         // 头部保留长度
-        int prefixLen = setting / SPLIT_INT;
+        int prefixLen = getDigit(setting, BIT_STRING_START);
         // 尾部保留长度
-        int suffixLen = setting % SPLIT_INT;
+        int suffixLen = getDigit(setting, BIT_STRING_END);
         String value = parser.getValueAsString();
         int valueLen = value.length();
         if (prefixLen + suffixLen < valueLen) {
@@ -121,5 +137,10 @@ public class JsonMasking {
         for (int i = start; i < end - 1; i++) {
             chars[i] = ' ';
         }
+    }
+
+    private int getDigit(int source, int n) {
+        int x = (int) Math.pow(10, n);
+        return source / x % 10;
     }
 }
