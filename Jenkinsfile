@@ -3,7 +3,7 @@
 pipeline {
   agent {
     docker {
-      image 'jingshouyan/maven:thrift-0.13.0'
+      image 'jingshouyan/maven:thrift-0.12.0'
       args '-v /root/.m2:/root/.m2'
     }
 
