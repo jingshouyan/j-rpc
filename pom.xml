@@ -13,7 +13,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.4-SNAPSHOT</version>
+    <version>0.6.4</version>
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
