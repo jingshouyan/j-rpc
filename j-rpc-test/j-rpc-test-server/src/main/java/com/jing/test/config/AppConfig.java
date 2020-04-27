@@ -1,7 +1,5 @@
 package com.jing.test.config;
 
-import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
-import com.jing.test.InterceptorTest;
 import com.zaxxer.hikari.HikariConfig;
 import com.zaxxer.hikari.HikariDataSource;
 import org.springframework.boot.ApplicationArguments;

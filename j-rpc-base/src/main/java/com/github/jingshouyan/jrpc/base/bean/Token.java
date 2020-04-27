@@ -61,7 +61,7 @@ public class Token {
     }
 
     public Token localContext(String key, Object value) {
-        localContext.put(key,value);
+        localContext.put(key, value);
         return this;
     }
 

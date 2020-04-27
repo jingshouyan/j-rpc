@@ -26,7 +26,7 @@ public class JrpcInvocationHandler implements InvocationHandler {
     private String server;
     private String version;
 
-    public JrpcInvocationHandler(JrpcClient client,String server,String version) {
+    public JrpcInvocationHandler(JrpcClient client, String server, String version) {
         this.client = client;
         this.server = server;
         this.version = version;
@@ -72,7 +72,7 @@ public class JrpcInvocationHandler implements InvocationHandler {
             }
 
         }
-        return method.invoke(this,args);
+        return method.invoke(this, args);
     }
 
     private ResultType getResultType(Type type) {

@@ -27,20 +27,21 @@ public class JrpcSeataAutoConfiguration {
     private SeataProperties seataProperties;
 
     @Bean
-    public GlobalTransactionScanner scanner(){
+    public GlobalTransactionScanner scanner() {
         String applicationId = seataProperties.getApplicationId();
         String txServiceGroup = seataProperties.getTxServiceGroup();
-        GlobalTransactionScanner scanner = new GlobalTransactionScanner(applicationId,txServiceGroup);
+        GlobalTransactionScanner scanner = new GlobalTransactionScanner(applicationId, txServiceGroup);
         return scanner;
     }
 
     @Bean
     @ConditionalOnMissingBean(ClientSeatInterceptor.class)
     public ClientSeatInterceptor clientSeatInterceptor() {
-        ClientSeatInterceptor clientSeatInterceptor= new ClientSeatInterceptor();
+        ClientSeatInterceptor clientSeatInterceptor = new ClientSeatInterceptor();
         ActionInterceptorHolder.addClientInterceptor(clientSeatInterceptor);
         return clientSeatInterceptor;
     }
+
     @Bean
     @ConditionalOnMissingBean(ServerSeataInterceptor.class)
     public ServerSeataInterceptor serverSeataInterceptor() {
@@ -48,7 +49,6 @@ public class JrpcSeataAutoConfiguration {
         ActionInterceptorHolder.addServerInterceptor(serverSeataInterceptor);
         return serverSeataInterceptor;
     }
-
 
 
 }

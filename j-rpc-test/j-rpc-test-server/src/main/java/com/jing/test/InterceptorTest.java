@@ -20,6 +20,7 @@ public class InterceptorTest implements ActionInterceptor {
     public InterceptorTest(int order) {
         this.order = order;
     }
+
     @Override
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         log.warn("test {} in", order);

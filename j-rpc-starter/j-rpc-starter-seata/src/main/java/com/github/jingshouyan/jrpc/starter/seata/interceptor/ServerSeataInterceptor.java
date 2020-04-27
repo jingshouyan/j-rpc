@@ -18,10 +18,10 @@ public class ServerSeataInterceptor implements ActionInterceptor {
     @Override
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         String rpcXid = token.get(RootContext.KEY_XID);
-        if(rpcXid != null) {
+        if (rpcXid != null) {
             RootContext.bind(rpcXid);
         }
-        return handler.handle(token,req).doOnNext(rsp -> RootContext.unbind());
+        return handler.handle(token, req).doOnNext(rsp -> RootContext.unbind());
     }
 
 

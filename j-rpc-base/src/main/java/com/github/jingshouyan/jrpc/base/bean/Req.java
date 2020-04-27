@@ -31,7 +31,7 @@ public class Req {
     private String desensitizedParam;
 
     public String desensitizedParam() {
-        if (desensitizedParam==null && param != null) {
+        if (desensitizedParam == null && param != null) {
             desensitizedParam = JsonMasking.DEFAULT.masking(param);
         }
         return desensitizedParam;

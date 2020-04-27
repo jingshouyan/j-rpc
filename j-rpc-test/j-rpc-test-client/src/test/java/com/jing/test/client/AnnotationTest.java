@@ -43,11 +43,11 @@ public class AnnotationTest {
 
         Mono<InterfaceInfo> interfaceInfoMono = testService.getServerInfo(token, new Object());
         Disposable subscribe = interfaceInfoMono.flatMap(x -> Mono.empty()).subscribe(x -> log.info("6:{}", x));
-        Mono<Rsp> rspMono = testService.traceTest(token,2);
-        rspMono.subscribe(x-> log.info("4:{}",x));
+        Mono<Rsp> rspMono = testService.traceTest(token, 2);
+        rspMono.subscribe(x -> log.info("4:{}", x));
 
-        Mono<Object> objectMono = testService.testMethod(token, Lists.newArrayList("123","345","456"));
-        objectMono.subscribe(x-> log.info("5:{}",x));
+        Mono<Object> objectMono = testService.testMethod(token, Lists.newArrayList("123", "345", "456"));
+        objectMono.subscribe(x -> log.info("5:{}", x));
 
         Mono.empty().subscribe(x -> log.info("3:222"));
         Thread.sleep(100);
@@ -71,8 +71,8 @@ public class AnnotationTest {
     }
 
     @Test
-    public void asyncTest(){
+    public void asyncTest() {
         Token token = new Token();
-        testService.asyncTest(token,"123abc");
+        testService.asyncTest(token, "123abc");
     }
 }

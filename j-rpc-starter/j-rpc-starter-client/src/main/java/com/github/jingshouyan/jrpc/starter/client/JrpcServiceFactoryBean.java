@@ -61,9 +61,9 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
     @SuppressWarnings("unchecked")
     <T> T getTarget() {
         JrpcClient jrpcClient = ctx.getBean(JrpcClient.class);
-        InvocationHandler handler = new JrpcInvocationHandler(jrpcClient,server,version);
+        InvocationHandler handler = new JrpcInvocationHandler(jrpcClient, server, version);
         return (T) Proxy.newProxyInstance(
-                type.getClassLoader(), new Class[]{type},handler
+                type.getClassLoader(), new Class[]{type}, handler
         );
     }
 

@@ -8,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import org.springframework.scheduling.annotation.Scheduled;
 
 /**
  * @author jingshouyan
@@ -25,7 +24,7 @@ public class TestApp {
     @Autowired
     private ApplicationContext ctx;
 
-//    @Scheduled(fixedRate = 5000)
+    //    @Scheduled(fixedRate = 5000)
     public void job() {
         ServerTrace serverTrace = ctx.getBean(ServerTrace.class);
         System.out.println(serverTrace.getProperties());

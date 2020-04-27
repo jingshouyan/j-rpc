@@ -204,7 +204,7 @@ public class ClientTest {
     }
 
     @Test
-    public void pingTest(){
+    public void pingTest() {
         ping(123);
         ping("asdfasfd");
         ping(new UserBean());

@@ -67,11 +67,11 @@ public class TransportPool implements Closeable {
 
     @Override
     public void close() {
-        while (innerPool.getNumActive() > 0){
-            try{
+        while (innerPool.getNumActive() > 0) {
+            try {
                 Thread.sleep(50);
-            }catch (InterruptedException e){
-                log.warn("thread sleep error",e);
+            } catch (InterruptedException e) {
+                log.warn("thread sleep error", e);
             }
         }
         innerPool.close();

@@ -28,7 +28,7 @@ public class TestMethod implements Method<List<String>, TestBean2<CodeInfo, Stri
     @SneakyThrows
     public TestBean2<CodeInfo, String, TestBean3> action(Token token, List<String> strings) {
         Random random = new Random();
-        int r = random.nextInt(2)+1;
+        int r = random.nextInt(2) + 1;
         TimeUnit.SECONDS.sleep(r);
         TestBean2 testBean2 = new TestBean2();
         testBean2.setTest(strings.get(0));

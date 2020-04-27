@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.base.code;
 
 import com.google.common.collect.Maps;
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 

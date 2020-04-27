@@ -8,7 +8,6 @@ import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
-import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
