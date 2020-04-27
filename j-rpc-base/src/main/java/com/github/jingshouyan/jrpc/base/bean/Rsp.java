@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
-import com.github.jingshouyan.jrpc.base.util.desensitize.JsonDesensitizer;
+import com.github.jingshouyan.jrpc.base.util.desensitize.JsonMasking;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import lombok.Getter;
 import lombok.Setter;
@@ -55,7 +55,7 @@ public class Rsp {
         if (result == null) {
             return null;
         }
-        desensitizedResult = JsonDesensitizer.DEFAULT.desensitize(result);
+        desensitizedResult = JsonMasking.DEFAULT.masking(result);
         return desensitizedResult;
     }
 

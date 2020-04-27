@@ -2,7 +2,7 @@ package com.github.jingshouyan.jrpc.base.bean;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
-import com.github.jingshouyan.jrpc.base.util.desensitize.JsonDesensitizer;
+import com.github.jingshouyan.jrpc.base.util.desensitize.JsonMasking;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -31,8 +31,8 @@ public class Req {
     private String desensitizedParam;
 
     public String desensitizedParam() {
-        if (param != null) {
-            desensitizedParam = JsonDesensitizer.DEFAULT.desensitize(param);
+        if (desensitizedParam==null && param != null) {
+            desensitizedParam = JsonMasking.DEFAULT.masking(param);
         }
         return desensitizedParam;
     }

@@ -1,6 +1,6 @@
 package com.github.jingshouyan.jrpc.starter.desensitize;
 
-import com.github.jingshouyan.jrpc.base.util.desensitize.JsonDesensitizer;
+import com.github.jingshouyan.jrpc.base.util.desensitize.JsonMasking;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
@@ -22,7 +22,7 @@ public class DesensitizeAutoConfiguration implements ApplicationRunner {
 
     @Override
     public void run(ApplicationArguments args) {
-        JsonDesensitizer.DEFAULT.addSetting(properties.getSettings());
+        JsonMasking.DEFAULT.addSetting(properties.getSettings());
         log.info("default desensitize settings: {}", properties.getSettings());
     }
 }

@@ -20,12 +20,12 @@ import java.lang.reflect.Method;
  */
 @Aspect
 @Order(Ordered.HIGHEST_PRECEDENCE + 10)
-public class SpanXTrace implements TraceConstant {
+public class TracingSpanX implements TraceConstant {
 
 
     private Tracer tracer;
 
-    public SpanXTrace(Tracing tracing) {
+    public TracingSpanX(Tracing tracing) {
         this.tracer = tracing.tracer();
     }
 
@@ -38,7 +38,7 @@ public class SpanXTrace implements TraceConstant {
         if ("".equals(spanName)) {
             spanName = method.getName();
         }
-        try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
+        try (Tracer.SpanInScope ignored = tracer.withSpanInScope(span)) {
             span.name(spanName)
                     .annotate(CS);
             Object result = joinPoint.proceed();
