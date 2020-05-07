@@ -44,7 +44,7 @@ public class LogInterceptor implements ActionInterceptor {
             log.debug("{} token: {}", actionInfo, token);
             log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
         }
-        Mono<Rsp> single = handler.handle(token, req).doOnSuccess(rsp -> {
+        return handler.handle(token, req).doOnSuccess(rsp -> {
             long end = System.currentTimeMillis();
             long cost = end - start;
             if (rsp.success()) {
@@ -63,11 +63,10 @@ public class LogInterceptor implements ActionInterceptor {
             long cost = end - start;
             log.error("{} use {}ms,error", actionInfo, cost, e);
         });
-        return single;
     }
 
     @Override
     public int order() {
-        return Integer.MIN_VALUE;
+        return Integer.MIN_VALUE + 10;
     }
 }
