@@ -19,6 +19,9 @@ public class JsonMasking {
     public static final int BIT_STRING_END = 0;
     public static final int BIT_STRING_START = 1;
 
+    public static final char CHAR_MASK = '*';
+    public static final char CHAR_NULL = '\0';
+
 
     private static final JsonFactory JSON_FACTORY = new JsonFactory();
     private final Map<String, Integer> SETTINGS = Maps.newConcurrentMap();
@@ -82,7 +85,13 @@ public class JsonMasking {
                     }
                 }
             } while (parser.hasCurrentToken());
-            return new String(chars);
+            StringBuilder sb = new StringBuilder();
+            for (char c : chars) {
+                if(c != CHAR_NULL) {
+                    sb.append(c);
+                }
+            }
+            return sb.toString();
         } catch (Throwable e) {
             log.warn("json desensitize error.", e);
             return json;
@@ -101,7 +110,12 @@ public class JsonMasking {
             int start = offset + prefixLen;
             int end = offset + valueLen - suffixLen;
             for (int i = start; i < end; i++) {
-                chars[i] = '*';
+                if(i == start) {
+                    chars[i] = CHAR_MASK;
+                } else {
+                    chars[i] = CHAR_NULL;
+                }
+
             }
         }
     }
@@ -115,7 +129,7 @@ public class JsonMasking {
             if (i == start) {
                 chars[i] = '0';
             } else {
-                chars[i] = ' ';
+                chars[i] = CHAR_NULL;
             }
         }
     }
@@ -135,7 +149,7 @@ public class JsonMasking {
         }
         int end = (int) parser.getCurrentLocation().getCharOffset();
         for (int i = start; i < end - 1; i++) {
-            chars[i] = ' ';
+            chars[i] = CHAR_NULL;
         }
     }
 
