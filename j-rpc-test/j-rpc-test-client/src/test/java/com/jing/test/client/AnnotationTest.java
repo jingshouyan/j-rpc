@@ -39,8 +39,11 @@ public class AnnotationTest {
 //        log.info("2:{}",str);
 
         Mono<Object> voidMono = testService.myMethod(token, new Object());
-        voidMono.map(x -> 1).subscribe(x -> log.info("3:222"));
+        voidMono.doOnError(throwable -> {
+            log.info("testService.myMethod error",throwable);
+        }).map(x -> 1).subscribe(x -> log.info("3:222"));
 
+        Thread.sleep(1000);
         Mono<InterfaceInfo> interfaceInfoMono = testService.getServerInfo(token, new Object());
         Disposable subscribe = interfaceInfoMono.flatMap(x -> Mono.empty()).subscribe(x -> log.info("6:{}", x));
         Mono<Rsp> rspMono = testService.traceTest(token, 2);
@@ -50,7 +53,7 @@ public class AnnotationTest {
         objectMono.subscribe(x -> log.info("5:{}", x));
 
         Mono.empty().subscribe(x -> log.info("3:222"));
-        Thread.sleep(100);
+        Thread.sleep(1000);
 
 
     }

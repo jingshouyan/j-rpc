@@ -98,6 +98,9 @@ public class Rsp {
     }
 
     public Object getByType(Type type) {
+        if(result == null) {
+            return null;
+        }
         return JsonUtil.toBean(result, type);
     }
 

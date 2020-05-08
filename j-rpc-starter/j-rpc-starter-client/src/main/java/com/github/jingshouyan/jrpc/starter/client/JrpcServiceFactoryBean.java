@@ -1,6 +1,5 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
-import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,12 +8,9 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.util.Assert;
-import reactor.core.publisher.Mono;
 
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Proxy;
-import java.lang.reflect.Type;
 
 /**
  * @author jingshouyan
@@ -54,7 +50,7 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
     }
 
     @Override
-    public Object getObject() throws Exception {
+    public Object getObject() {
         return getTarget();
     }
 
@@ -67,53 +63,4 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
         );
     }
 
-    private ResultType getResultType(Type type) {
-        if (type == void.class || type == Void.class) {
-            return new ResultType(TypeEnum.VOID);
-        } else if (type == Rsp.class) {
-            return new ResultType(TypeEnum.RSP);
-        } else if (type instanceof ParameterizedType) {
-            ParameterizedType pType = (ParameterizedType) type;
-            if (pType.getRawType() == Mono.class) {
-                Type type0 = pType.getActualTypeArguments()[0];
-                if (type0 == void.class || type0 == Void.class) {
-                    return new ResultType(TypeEnum.MONO_VOID);
-                } else if (type0 == Rsp.class) {
-                    return new ResultType(TypeEnum.MONO_RSP);
-                }
-                return new ResultType(TypeEnum.MONO_OBJECT, type0);
-            }
-        }
-        return new ResultType(TypeEnum.OBJECT, type);
-    }
-
-    @Getter
-    @Setter
-    private static class ResultType {
-        private TypeEnum type;
-        private Type objectType;
-
-
-        ResultType(TypeEnum type) {
-            this.type = type;
-        }
-
-        ResultType(TypeEnum type, Type objectType) {
-            this.type = type;
-            this.objectType = objectType;
-        }
-    }
-
-    private enum TypeEnum {
-        /**
-         *
-         */
-        VOID,
-        RSP,
-        OBJECT,
-        MONO_VOID,
-        MONO_RSP,
-        MONO_OBJECT
-
-    }
 }
