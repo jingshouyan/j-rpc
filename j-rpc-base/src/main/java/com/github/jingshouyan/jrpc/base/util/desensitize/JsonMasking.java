@@ -28,15 +28,6 @@ public class JsonMasking {
 
     public static final JsonMasking DEFAULT = new JsonMasking();
 
-    /**
-     * 添加脱敏配置
-     *
-     * @param key     需要脱敏的key
-     * @param setting 10进制,当值字符串时:第0位表示原文显示后缀个数,第1位表示原文显示前缀个数
-     */
-    public void addSetting(String key, int setting) {
-        SETTINGS.put(key, setting);
-    }
 
     /**
      * 添加脱敏配置
