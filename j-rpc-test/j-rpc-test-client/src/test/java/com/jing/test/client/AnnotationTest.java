@@ -3,6 +3,7 @@ package com.jing.test.client;
 import com.github.jingshouyan.jrpc.base.bean.InterfaceInfo;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
+import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.google.common.collect.Lists;
 import com.jing.test.client.rpc.TestService;
 import lombok.SneakyThrows;
@@ -45,7 +46,10 @@ public class AnnotationTest {
 
         Thread.sleep(1000);
         Mono<InterfaceInfo> interfaceInfoMono = testService.getServerInfo(token, new Object());
-        Disposable subscribe = interfaceInfoMono.flatMap(x -> Mono.empty()).subscribe(x -> log.info("6:{}", x));
+        Disposable subscribe = interfaceInfoMono
+//                .flatMap(x -> Mono.empty())
+                .map(JsonUtil::toJsonString)
+                .subscribe(x -> log.info("6:{}", x));
         Mono<Rsp> rspMono = testService.traceTest(token, 2);
         rspMono.subscribe(x -> log.info("4:{}", x));
 
