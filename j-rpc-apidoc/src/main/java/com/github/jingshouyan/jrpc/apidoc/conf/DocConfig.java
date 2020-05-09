@@ -54,16 +54,11 @@ public class DocConfig implements WebMvcConfigurer {
     @Bean
     public RestTemplateCustomizer useTracedHttpClient(HttpTracing httpTracing) {
         final CloseableHttpClient httpClient = TracingHttpClientBuilder.create(httpTracing).build();
-        return new RestTemplateCustomizer() {
-            @Override
-            public void customize(RestTemplate restTemplate) {
-                restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
-            }
-        };
+        return restTemplate -> restTemplate.setRequestFactory(new HttpComponentsClientHttpRequestFactory(httpClient));
     }
 
     @Autowired
-    SpanCustomizingAsyncHandlerInterceptor webMvcTracingCustomizer;
+    private SpanCustomizingAsyncHandlerInterceptor webMvcTracingCustomizer;
 
     /**
      * Decorates server spans with application-defined web tags
