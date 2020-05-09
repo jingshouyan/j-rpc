@@ -28,22 +28,31 @@ public class DocConfig implements WebMvcConfigurer {
 
     /**
      * decides how to name and tag spans. By default they are named the same as the http method.
+     * @param tracing tracing
+     * @return httpTracing
      */
     @Bean
-    HttpTracing httpTracing(Tracing tracing) {
+    public HttpTracing httpTracing(Tracing tracing) {
         return HttpTracing.create(tracing);
     }
 
     /**
      * Creates server spans for http requests
+     * @param httpTracing httpTracing
+     * @return Filter
      */
     @Bean
-    Filter tracingFilter(HttpTracing httpTracing) {
+    public Filter tracingFilter(HttpTracing httpTracing) {
         return TracingFilter.create(httpTracing);
     }
 
+    /**
+     * RestTemplateCustomizer
+     * @param httpTracing httpTracing
+     * @return RestTemplateCustomizer
+     */
     @Bean
-    RestTemplateCustomizer useTracedHttpClient(HttpTracing httpTracing) {
+    public RestTemplateCustomizer useTracedHttpClient(HttpTracing httpTracing) {
         final CloseableHttpClient httpClient = TracingHttpClientBuilder.create(httpTracing).build();
         return new RestTemplateCustomizer() {
             @Override
