@@ -39,30 +39,38 @@ public class TraceAutoConfiguration {
     private String appName;
 
 
+
     /**
      * Configuration for how to send spans to Zipkin
+     * @return Sender
      */
     @Bean
     @ConditionalOnMissingBean(Sender.class)
-    Sender sender() {
+    public Sender sender() {
         return OkHttpSender.create(properties.getEndpoint());
     }
 
+
     /**
      * Configuration for how to buffer spans into messages for Zipkin
+     * @param sender sender
+     * @return AsyncReporter
      */
     @Bean
     @ConditionalOnMissingBean(AsyncReporter.class)
-    AsyncReporter<Span> spanReporter(Sender sender) {
+    public AsyncReporter<Span> spanReporter(Sender sender) {
         return AsyncReporter.create(sender);
     }
 
+
     /**
      * Controls aspects of tracing such as the name that shows up in the UI
+     * @param spanReporter spanReporter
+     * @return Tracing
      */
     @Bean
     @ConditionalOnMissingBean(Tracing.class)
-    Tracing tracing(AsyncReporter<Span> spanReporter) {
+    public Tracing tracing(AsyncReporter<Span> spanReporter) {
 
         return Tracing.newBuilder()
                 .localServiceName(tracingName())
@@ -75,25 +83,40 @@ public class TraceAutoConfiguration {
                 .spanReporter(spanReporter).build();
     }
 
+    /**
+     * ServerTrace
+     * @param tracing tracing
+     * @return ServerTrace
+     */
     @Bean
     @ConditionalOnMissingBean(ServerTrace.class)
-    ServerTrace serverTrace(Tracing tracing) {
+    public ServerTrace serverTrace(Tracing tracing) {
         ServerTrace serverTrace = new ServerTrace(tracing, properties);
         ActionInterceptorHolder.addServerInterceptor(serverTrace);
         return serverTrace;
     }
 
+    /**
+     * clientTrace
+     * @param tracing Tracing
+     * @return clientTrace
+     */
     @Bean
     @ConditionalOnMissingBean(ClientTrace.class)
-    ClientTrace clientTrace(Tracing tracing) {
+    public ClientTrace clientTrace(Tracing tracing) {
         ClientTrace clientTrace = new ClientTrace(tracing, properties);
         ActionInterceptorHolder.addClientInterceptor(clientTrace);
         return clientTrace;
     }
 
+    /**
+     * tracingSpanX
+     * @param tracing tracing
+     * @return tracingSpanX
+     */
     @Bean
     @ConditionalOnMissingBean(TracingSpanX.class)
-    TracingSpanX tracingSpanX(Tracing tracing) {
+    public TracingSpanX tracingSpanX(Tracing tracing) {
         return new TracingSpanX(tracing);
     }
 
