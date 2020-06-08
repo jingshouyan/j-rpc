@@ -31,29 +31,25 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     @Setter
     private TraceProperties properties;
 
-    private float oldRate;
+    @Getter
+    private float rate;
+
+    public void setRate(float rate){
+        this.rate = rate;
+        tracer = tracer.withSampler(CountingSampler.create(rate));
+    }
 
     public ServerTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
         this.properties = properties;
-        this.oldRate = properties.getRate();
+        this.rate = properties.getRate();
     }
 
-    /**
-     * TODO 改为 变更通知修改比较好.
-     * 目前会有线程安全问题
-     */
-    private void checkRate() {
-        if (oldRate != properties.getRate()) {
-            oldRate = properties.getRate();
-            tracer = tracer.withSampler(CountingSampler.create(oldRate));
-        }
-    }
+
 
 
     @Override
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
-        checkRate();
         final Span span = span(token.get(HEADER_TRACE));
         Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span);
         span.name(req.getMethod())

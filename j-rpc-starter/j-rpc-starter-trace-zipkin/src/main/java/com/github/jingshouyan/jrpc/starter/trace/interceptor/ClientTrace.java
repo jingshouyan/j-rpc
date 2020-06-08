@@ -30,25 +30,22 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
     @Setter
     private TraceProperties properties;
 
-    private float oldRate;
+    @Getter
+    private float rate;
 
     public ClientTrace(Tracing tracing, TraceProperties properties) {
         this.tracer = tracing.tracer();
         this.properties = properties;
-        this.oldRate = properties.getRate();
+        this.rate = properties.getRate();
     }
 
-
-    private void checkRate() {
-        if (oldRate != properties.getRate()) {
-            oldRate = properties.getRate();
-            tracer = tracer.withSampler(CountingSampler.create(oldRate));
-        }
+    public void setRate(float rate) {
+        this.rate = rate;
+        tracer = tracer.withSampler(CountingSampler.create(rate));
     }
 
     @Override
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
-        checkRate();
         final Span span = span().annotate(CS);
         token.set(HEADER_TRACE, traceId(span));
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
