@@ -41,19 +41,13 @@ public class LogInterceptor implements ActionInterceptor {
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         long start = System.currentTimeMillis();
         String actionInfo = actionInfo(req).toString();
-        String traceId = MDC.get("traceId");
-        String spanId = MDC.get("spanId");
-        String parentId = MDC.get("parentId");
+
         if (log.isDebugEnabled()) {
             log.debug("{} token: {}", actionInfo, token);
             log.debug("{} param: {}.", actionInfo, req.desensitizedParam());
         }
         return handler.handle(token, req).doOnSuccess(rsp -> {
-            if(traceId != null){
-                MDC.put("traceId",traceId);
-                MDC.put("spanId",spanId);
-                MDC.put("parentId",parentId);
-            }
+
             long end = System.currentTimeMillis();
             long cost = end - start;
             if (rsp.success()) {

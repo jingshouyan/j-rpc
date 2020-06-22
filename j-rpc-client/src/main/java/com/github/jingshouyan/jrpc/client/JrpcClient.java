@@ -21,14 +21,14 @@ import com.github.jingshouyan.jrpc.client.pool.TransportPool;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.async.AsyncMethodCallback;
+import org.slf4j.MDC;
 import reactor.core.publisher.Mono;
-import reactor.core.publisher.MonoSink;
+import reactor.core.publisher.SignalType;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.TimeoutException;
-import java.util.function.BiConsumer;
 import java.util.stream.Collectors;
 
 /**
@@ -41,29 +41,9 @@ public class JrpcClient implements ActionHandler {
     private ClientConfig config;
     private ZkDiscover zkDiscover;
 
-    private final BiConsumer<MonoSink<Rsp>, Rsp> success;
-    private final BiConsumer<MonoSink<Rsp>, Exception> error;
-
     public JrpcClient(ClientConfig config) {
         this.config = config;
         this.zkDiscover = new ZkDiscover(config);
-
-        success = MonoSink::success;
-
-        error = (monoSink, e) -> {
-            Rsp rsp;
-            if (e instanceof JrpcException) {
-                rsp = RspUtil.error((JrpcException) e);
-            } else if (e instanceof TimeoutException) {
-                rsp = RspUtil.error(Code.CONNECT_TIMEOUT);
-                log.warn("call rpc timeout.", e);
-            } else {
-                rsp = RspUtil.error(Code.CLIENT_ERROR);
-                log.error("call rpc error.", e);
-            }
-            success.accept(monoSink, rsp);
-        };
-
     }
 
     public Map<String, List<ServerInfo>> serverMap() {
@@ -90,10 +70,9 @@ public class JrpcClient implements ActionHandler {
     }
 
     private Mono<Rsp> call(Token token, Req req) {
-        return Mono.create(monoSink -> {
+        Mono<Rsp> mono = Mono.create(monoSink -> {
             TransportPool pool = null;
             Transport transport = null;
-            Rsp rsp;
             try {
                 Node node = zkDiscover.getNode(req.getRouter());
                 pool = node.pool();
@@ -108,13 +87,13 @@ public class JrpcClient implements ActionHandler {
                         @Override
                         public void onComplete(Void aVoid) {
                             restore(poolTmp, transportTmp);
-                            success.accept(monoSink, RspUtil.success());
+                            monoSink.success(RspUtil.success());
                         }
 
                         @Override
                         public void onError(Exception e) {
                             invalid(poolTmp, transportTmp);
-                            error.accept(monoSink, e);
+                            monoSink.error(e);
                         }
                     });
                 } else {
@@ -122,30 +101,46 @@ public class JrpcClient implements ActionHandler {
                         @Override
                         public void onComplete(RspBean rspBean) {
                             restore(poolTmp, transportTmp);
-                            success.accept(monoSink, new Rsp(rspBean));
+                            monoSink.success(new Rsp(rspBean));
                         }
 
                         @Override
                         public void onError(Exception e) {
                             invalid(poolTmp, transportTmp);
-                            error.accept(monoSink, e);
+                            monoSink.error(e);
                         }
                     });
                 }
-                return;
-            } catch (JrpcException e) {
-                restore(pool, transport);
-                rsp = RspUtil.error(e);
-            } catch (TimeoutException e) {
-                restore(pool, transport);
-                rsp = RspUtil.error(Code.CONNECT_TIMEOUT);
             } catch (Throwable e) {
                 log.error("call rpc error.", e);
                 invalid(pool, transport);
+                monoSink.error(e);
+            }
+        });
+        String traceId = MDC.get("traceId");
+        String spanId = MDC.get("spanId");
+        String parentId = MDC.get("parentId");
+        mono = mono.doOnEach(signal -> {
+            if (signal.getType() == SignalType.ON_NEXT
+                    || signal.getType() == SignalType.ON_ERROR) {
+                if (traceId != null) {
+                    MDC.put("traceId", traceId);
+                    MDC.put("spanId", spanId);
+                    MDC.put("parentId", parentId);
+                }
+            }
+        }).onErrorResume(t -> {
+            Rsp rsp;
+            if (t instanceof JrpcException) {
+                rsp = RspUtil.error((JrpcException) t);
+            } else if (t instanceof TimeoutException) {
+                rsp = RspUtil.error(Code.CONNECT_TIMEOUT);
+            } else {
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
             }
-            monoSink.success(rsp);
+            return Mono.just(rsp);
         });
+        return mono;
     }
 
     private static void restore(TransportPool pool, Transport transport) {
