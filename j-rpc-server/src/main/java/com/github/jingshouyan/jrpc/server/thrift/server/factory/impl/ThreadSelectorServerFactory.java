@@ -41,7 +41,7 @@ public class ThreadSelectorServerFactory implements ServerFactory {
             //二进制协议
 
             tArgs.inputProtocolFactory(new TBinaryProtocolWithToken.Factory());
-            tArgs.outputProtocolFactory(new TBinaryProtocolWithToken.Factory());
+            tArgs.outputProtocolFactory(new TBinaryProtocol.Factory());
             // 多线程半同步半异步的服务模型
             server = new TThreadedSelectorServer(tArgs);
             log.debug("selector = {}, worker = {}", selectorThreads, workerThreads);

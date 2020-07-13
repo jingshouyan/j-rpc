@@ -44,7 +44,9 @@ public class TBinaryProtocolWithToken extends TBinaryProtocol {
     @SneakyThrows
     public void readMessageEnd() {
         TokenBean tokenBean = new TokenBean();
-        tokenBean.read(this);
+        if(trans_.getBytesRemainingInBuffer()>0){
+            tokenBean.read(this);
+        }
         log.info("readMessageEnd,tokenBean: {}" , tokenBean);
         System.out.println("readMessageEnd,tokenBean: {}" + tokenBean);
     }
