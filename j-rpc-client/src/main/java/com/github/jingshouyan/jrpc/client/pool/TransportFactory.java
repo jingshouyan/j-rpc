@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.client.pool;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.base.protocol.TBinaryProtocolWithToken;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +24,8 @@ public class TransportFactory extends BasePooledObjectFactory<Transport> impleme
 
     private ServerInfo serverInfo;
     private TAsyncClientManager clientManager;
-    private static TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
+//    private static TProtocolFactory protocolFactory = new TBinaryProtocol.Factory();
+    private static TProtocolFactory protocolFactory = new TBinaryProtocolWithToken.Factory();
 
     public TransportFactory(ServerInfo serverInfo, TAsyncClientManager clientManager) {
         this.serverInfo = serverInfo;

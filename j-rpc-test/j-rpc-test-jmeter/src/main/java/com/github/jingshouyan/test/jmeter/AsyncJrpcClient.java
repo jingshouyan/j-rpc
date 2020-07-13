@@ -8,14 +8,14 @@ import com.github.jingshouyan.jrpc.client.config.ClientConfig;
 import org.apache.jmeter.protocol.java.sampler.JavaSamplerContext;
 import org.apache.jmeter.samplers.SampleResult;
 
-public class SyncJrpcClient extends AbstractJrpcClient {
+public class AsyncJrpcClient extends AbstractJrpcClient {
 
     private static JrpcClient client;
 
     @Override
     public void setupTest(JavaSamplerContext context) {
         super.setupTest(context);
-        synchronized (SyncJrpcClient.class) {
+        synchronized (AsyncJrpcClient.class) {
             if (client == null) {
                 ClientConfig config = new ClientConfig();
                 config.setZkHost(zkAddr);

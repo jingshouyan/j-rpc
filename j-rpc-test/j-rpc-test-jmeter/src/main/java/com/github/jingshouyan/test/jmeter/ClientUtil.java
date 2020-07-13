@@ -1,11 +1,13 @@
 package com.github.jingshouyan.test.jmeter;
 
+import com.github.jingshouyan.jrpc.base.protocol.TBinaryProtocolWithToken;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.poi.ss.formula.functions.T;
 import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
@@ -29,8 +31,9 @@ public class ClientUtil {
         socket.setTimeout(Integer.MAX_VALUE);
         TTransport tTransport = new TFramedTransport(socket, 25 * 1024 * 1024);
         tTransport.open();
-        TProtocol tProtocol = new TBinaryProtocol(tTransport);
-        return new Jrpc.Client(tProtocol);
+        TProtocol in = new TBinaryProtocol(tTransport);
+        TProtocol out = new TBinaryProtocolWithToken(tTransport);
+        return new Jrpc.Client(out,out);
     }
 
     @SneakyThrows
@@ -40,6 +43,17 @@ public class ClientUtil {
         reqBean.setMethod(method);
         reqBean.setParam(data);
         return client.call(tokenBean, reqBean);
+    }
+
+    public static void main(String[] args) {
+        Jrpc.Client client = client("127.0.0.1",8999);
+        System.out.println(client);
+        TokenBean tokenBean = new TokenBean();
+        for (int i = 0; i < 100; i++) {
+            RspBean r = call(client,"ping","123",tokenBean);
+            System.out.println(r);
+        }
+
     }
 
 }

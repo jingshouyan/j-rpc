@@ -217,7 +217,7 @@ public class ClientTest {
                 .setMethod("ping")
                 .setParamObj(obj)
 //                .setOneway(true)
-                .send().get(Object.class);
+                .send();
         System.out.println(out);
         return out;
     }

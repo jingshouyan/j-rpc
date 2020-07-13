@@ -136,6 +136,7 @@ public class JrpcClient implements ActionHandler {
             } else if (t instanceof TimeoutException) {
                 rsp = RspUtil.error(Code.CONNECT_TIMEOUT);
             } else {
+                log.warn("client error", t);
                 rsp = RspUtil.error(Code.CLIENT_ERROR);
             }
             return Mono.just(rsp);
