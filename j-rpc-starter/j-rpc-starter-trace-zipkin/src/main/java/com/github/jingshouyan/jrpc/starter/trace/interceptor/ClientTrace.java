@@ -48,6 +48,7 @@ public class ClientTrace implements TraceConstant, ActionInterceptor {
     public Mono<Rsp> around(Token token, Req req, ActionHandler handler) {
         final Span span = span().annotate(CS);
         token.set(HEADER_TRACE, traceId(span));
+
         try (Tracer.SpanInScope spanInScope = tracer.withSpanInScope(span)) {
             span.name(req.getRouter().getServer() + "." + req.getMethod())
                     .tag(TAG_METHOD, "" + req.getMethod())

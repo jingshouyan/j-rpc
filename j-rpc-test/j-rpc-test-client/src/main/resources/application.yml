@@ -7,8 +7,7 @@ j-rpc:
   #    poolMaxTotal: 2000
 
   trace:
-    more: true
-    rate: 1.0
+    rate: 1
     data-show: 2
 
   desensitize:

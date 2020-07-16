@@ -1,9 +1,9 @@
 namespace java com.github.jingshouyan.jrpc.base.thrift
 
 struct TokenBean{
-    1:string userId;
-    2:string ticket;
-    3:map<string,string> headers;
+    1:optional string userId;
+    2:optional string ticket;
+    3:optional map<string,string> headers;
 }
 struct ReqBean{
     1:string method;

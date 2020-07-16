@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
 import zipkin2.Span;
+import zipkin2.codec.Encoding;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
 import zipkin2.reporter.okhttp3.OkHttpSender;
@@ -47,7 +48,7 @@ public class TraceAutoConfiguration {
     @Bean
     @ConditionalOnMissingBean(Sender.class)
     public Sender sender() {
-        return OkHttpSender.create(properties.getEndpoint());
+        return OkHttpSender.newBuilder().encoding(Encoding.PROTO3).endpoint(properties.getEndpoint()).build();
     }
 
 

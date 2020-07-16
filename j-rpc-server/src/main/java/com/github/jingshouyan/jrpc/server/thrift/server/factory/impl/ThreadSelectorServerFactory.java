@@ -1,13 +1,12 @@
 package com.github.jingshouyan.jrpc.server.thrift.server.factory.impl;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.base.protocol.TBinaryProtocolWithToken;
+import com.github.jingshouyan.jrpc.base.protocol.TBinaryProtocolServer;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.TProcessor;
-import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.server.TServer;
 import org.apache.thrift.server.TThreadedSelectorServer;
 import org.apache.thrift.transport.TFramedTransport;
@@ -40,8 +39,7 @@ public class ThreadSelectorServerFactory implements ServerFactory {
             tArgs.selectorThreads(selectorThreads).workerThreads(workerThreads);
             //二进制协议
 
-            tArgs.inputProtocolFactory(new TBinaryProtocolWithToken.Factory());
-            tArgs.outputProtocolFactory(new TBinaryProtocol.Factory());
+            tArgs.protocolFactory(new TBinaryProtocolServer.Factory());
             // 多线程半同步半异步的服务模型
             server = new TThreadedSelectorServer(tArgs);
             log.debug("selector = {}, worker = {}", selectorThreads, workerThreads);

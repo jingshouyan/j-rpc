@@ -22,7 +22,7 @@ public class LogInterceptor implements ActionInterceptor {
     private StringBuilder actionInfo(Req req) {
         StringBuilder sb = new StringBuilder();
         if (server) {
-            sb.append("action [")
+            sb.append("exec [")
                     .append(req.getMethod())
                     .append("] ");
         } else {

@@ -12,44 +12,46 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-public class TBinaryProtocolWithToken extends TBinaryProtocol {
+public class TBinaryProtocolServer extends TBinaryProtocol {
 
-    public TBinaryProtocolWithToken(TTransport trans) {
+    public TBinaryProtocolServer(TTransport trans) {
         super(trans);
     }
 
-    public TBinaryProtocolWithToken(TTransport trans, boolean strictRead, boolean strictWrite) {
+    public TBinaryProtocolServer(TTransport trans, boolean strictRead, boolean strictWrite) {
         super(trans, strictRead, strictWrite);
     }
 
-    public TBinaryProtocolWithToken(TTransport trans, long stringLengthLimit, long containerLengthLimit) {
+    public TBinaryProtocolServer(TTransport trans, long stringLengthLimit, long containerLengthLimit) {
         super(trans, stringLengthLimit, containerLengthLimit);
     }
 
-    public TBinaryProtocolWithToken(TTransport trans, long stringLengthLimit, long containerLengthLimit, boolean strictRead, boolean strictWrite) {
+    public TBinaryProtocolServer(TTransport trans, long stringLengthLimit, long containerLengthLimit, boolean strictRead, boolean strictWrite) {
         super(trans, stringLengthLimit, containerLengthLimit, strictRead, strictWrite);
+    }
+
+
+    @Override
+    @SneakyThrows
+    public void readMessageEnd() {
+        log.info("server readMessageEnd");
+        // 接受请求数据完成
+        TokenBean tokenBean = new TokenBean();
+        if(trans_.getBytesRemainingInBuffer()>0){
+            tokenBean.read(this);
+            log.info("readMessageEnd,tokenBean: {}" , tokenBean);
+        }
+
     }
 
     @Override
     @SneakyThrows
     public void writeMessageEnd() {
-        TokenBean tokenBean = new TokenBean();
-        Map<String,String> headers = new HashMap<>();
-        headers.put("X-Test","this is test Header");
-        tokenBean.setHeaders(headers);
-        tokenBean.write(this);
+        // 发送响应数据完成
+        log.info("server writeMessageEnd");
     }
 
-    @Override
-    @SneakyThrows
-    public void readMessageEnd() {
-        TokenBean tokenBean = new TokenBean();
-        if(trans_.getBytesRemainingInBuffer()>0){
-            tokenBean.read(this);
-        }
-        log.info("readMessageEnd,tokenBean: {}" , tokenBean);
-        System.out.println("readMessageEnd,tokenBean: {}" + tokenBean);
-    }
+
 
     /**
      * Factory
@@ -81,7 +83,7 @@ public class TBinaryProtocolWithToken extends TBinaryProtocol {
 
         @Override
         public TProtocol getProtocol(TTransport trans) {
-            return new TBinaryProtocolWithToken(trans, stringLengthLimit_, containerLengthLimit_, strictRead_, strictWrite_);
+            return new TBinaryProtocolServer(trans, stringLengthLimit_, containerLengthLimit_, strictRead_, strictWrite_);
         }
     }
 

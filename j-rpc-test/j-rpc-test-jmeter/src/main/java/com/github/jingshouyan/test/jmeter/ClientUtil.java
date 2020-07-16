@@ -1,14 +1,12 @@
 package com.github.jingshouyan.test.jmeter;
 
-import com.github.jingshouyan.jrpc.base.protocol.TBinaryProtocolWithToken;
+import com.github.jingshouyan.jrpc.base.protocol.TBinaryProtocolClient;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.poi.ss.formula.functions.T;
-import org.apache.thrift.protocol.TBinaryProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
@@ -31,9 +29,8 @@ public class ClientUtil {
         socket.setTimeout(Integer.MAX_VALUE);
         TTransport tTransport = new TFramedTransport(socket, 25 * 1024 * 1024);
         tTransport.open();
-        TProtocol in = new TBinaryProtocol(tTransport);
-        TProtocol out = new TBinaryProtocolWithToken(tTransport);
-        return new Jrpc.Client(out,out);
+        TProtocol protocolClient = new TBinaryProtocolClient(tTransport);
+        return new Jrpc.Client(protocolClient);
     }
 
     @SneakyThrows

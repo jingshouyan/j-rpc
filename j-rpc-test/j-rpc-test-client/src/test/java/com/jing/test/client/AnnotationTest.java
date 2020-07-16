@@ -71,10 +71,12 @@ public class AnnotationTest {
     }
 
     @Test
+    @SneakyThrows
     public void traceTest2() {
         Token token = new Token();
 
-        testService.traceTest2(token, 3);
+        testService.traceTest2(token, 1);
+        Thread.sleep(1000);
     }
 
     @Test
