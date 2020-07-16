@@ -1,5 +1,6 @@
 package com.jing.test;
 
+import com.github.jingshouyan.jrpc.starter.client.EnableJrpcServices;
 import com.github.jingshouyan.jrpc.starter.trace.TraceProperties;
 import com.github.jingshouyan.jrpc.starter.trace.interceptor.ServerTrace;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @SpringBootApplication
 @EnableScheduling
+@EnableJrpcServices
 @Slf4j
 public class TestApp {
     public static void main(String[] args) {

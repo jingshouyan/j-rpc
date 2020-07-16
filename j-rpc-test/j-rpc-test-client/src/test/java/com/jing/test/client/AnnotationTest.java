@@ -75,7 +75,7 @@ public class AnnotationTest {
     public void traceTest2() {
         Token token = new Token();
 
-        testService.traceTest2(token, 1);
+        testService.traceTest2(token, 4);
         Thread.sleep(1000);
     }
 
