@@ -11,7 +11,7 @@ import java.util.List;
 @JrpcService(server = "test")
 public interface TestService {
 
-    void traceTest2(Token token, int i);
+    Mono<Integer> traceTest2(Token token, int i);
 
     Rsp asyncErr(Token token, String abc);
 

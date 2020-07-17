@@ -6,9 +6,12 @@ import com.github.jingshouyan.jrpc.client.Request;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
 import com.github.jingshouyan.jrpc.starter.server.ServerProperties;
 import com.jing.test.rpc.TestService;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
+
+import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author jingshouyan
@@ -17,6 +20,8 @@ import reactor.core.publisher.Mono;
 @Component("traceTest2")
 public class TraceTest2 implements AsyncMethod<Integer, Integer> {
     private static final int LOOP = 2;
+
+    private AtomicInteger ai = new AtomicInteger(0);
 
     @Autowired
     ServerProperties properties;
@@ -28,11 +33,13 @@ public class TraceTest2 implements AsyncMethod<Integer, Integer> {
     TestService testService;
 
     @Override
+    @SneakyThrows
     public Mono<Integer> action(Token token, Integer i) {
         if (i <= 0) {
             return Mono.just(i);
         }
         testService.traceTest2(token, i - 1).subscribe();
-        return testService.traceTest2(token, i - 1);
+        testService.traceTest2(token, i - 1).subscribe();;
+        return Mono.just(ai.incrementAndGet());
     }
 }
