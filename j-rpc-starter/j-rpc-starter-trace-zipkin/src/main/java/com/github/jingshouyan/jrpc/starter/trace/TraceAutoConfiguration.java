@@ -18,6 +18,7 @@ import org.springframework.util.StringUtils;
 import zipkin2.Span;
 import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
+import zipkin2.reporter.brave.AsyncZipkinSpanHandler;
 import zipkin2.reporter.okhttp3.OkHttpSender;
 
 import javax.annotation.Resource;
@@ -54,33 +55,33 @@ public class TraceAutoConfiguration {
     /**
      * Configuration for how to buffer spans into messages for Zipkin
      * @param sender sender
-     * @return AsyncReporter
+     * @return AsyncZipkinSpanHandler
      */
     @Bean
-    @ConditionalOnMissingBean(AsyncReporter.class)
-    public AsyncReporter<Span> spanReporter(Sender sender) {
-        return AsyncReporter.create(sender);
+    @ConditionalOnMissingBean(AsyncZipkinSpanHandler.class)
+    public AsyncZipkinSpanHandler zipkinSpanHandler(Sender sender) {
+        return AsyncZipkinSpanHandler.create(sender);
     }
-
 
     /**
      * Controls aspects of tracing such as the name that shows up in the UI
-     * @param spanReporter spanReporter
+     * @param zipkinSpanHandler zipkinSpanHandler
      * @return Tracing
      */
     @Bean
     @ConditionalOnMissingBean(Tracing.class)
-    public Tracing tracing(AsyncReporter<Span> spanReporter) {
+    public Tracing tracing(AsyncZipkinSpanHandler zipkinSpanHandler) {
 
         return Tracing.newBuilder()
                 .localServiceName(tracingName())
                 .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
                         // puts trace IDs into logs
-                        .addScopeDecorator(MDCScopeDecorator.create())
+                        .addScopeDecorator(MDCScopeDecorator.get())
                         .build()
                 )
                 .sampler(CountingSampler.create(properties.getRate()))
-                .spanReporter(spanReporter).build();
+                .addSpanHandler(zipkinSpanHandler)
+                .build();
     }
 
     /**
