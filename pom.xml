@@ -7,7 +7,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.7</version>
+    <version>0.6.9-SNAPSHOT</version>
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
@@ -16,6 +16,7 @@
         <module>j-rpc-starter</module>
         <module>j-rpc-common</module>
         <module>j-rpc-test</module>
+        <module>j-rpc-bom</module>
     </modules>
 
     <properties>
@@ -29,7 +30,7 @@
         <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <hmily.version>2.0.0-RELEASE</hmily.version>
         <ali.ttl.version>2.10.0</ali.ttl.version>
-        <j-jdbc.version>1.1.17</j-jdbc.version>
+        <j-jdbc.version>1.1.19</j-jdbc.version>
         <brave.version>5.12.3</brave.version>
         <springboot.version>2.1.2.RELEASE</springboot.version>
         <seata.version>0.8.1</seata.version>
@@ -129,7 +130,7 @@
             <!--j-jdbc-->
             <dependency>
                 <groupId>com.github.jingshouyan</groupId>
-                <artifactId>j-jdbc</artifactId>
+                <artifactId>j-jdbc-bom</artifactId>
                 <version>${j-jdbc.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
