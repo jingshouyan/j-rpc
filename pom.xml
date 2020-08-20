@@ -7,7 +7,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>0.7.0</version>
+    <version>0.7.1</version>
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
@@ -30,7 +30,7 @@
         <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <hmily.version>2.0.0-RELEASE</hmily.version>
         <ali.ttl.version>2.10.0</ali.ttl.version>
-        <j-jdbc.version>1.1.19</j-jdbc.version>
+        <j-jdbc.version>1.2.0</j-jdbc.version>
         <brave.version>5.12.3</brave.version>
         <springboot.version>2.1.2.RELEASE</springboot.version>
         <seata.version>0.8.1</seata.version>
