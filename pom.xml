@@ -7,7 +7,7 @@
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>0.7.1</version>
+    <version>0.7.2-SNAPSHOT</version>
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
@@ -38,72 +38,12 @@
 
     <dependencyManagement>
         <dependencies>
-            <!-- j-rpc -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-base</artifactId>
+                <artifactId>j-rpc-bom</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-common-trace</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-common-crud</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-trace-zipkin</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-forward</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-dql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-dml</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-hmily</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-desensitize</artifactId>
-                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
 
