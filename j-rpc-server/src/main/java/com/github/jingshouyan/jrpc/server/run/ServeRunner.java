@@ -24,7 +24,7 @@ import java.util.concurrent.*;
 public class ServeRunner {
     private static final long UPDATE_DELAY = 600;
 
-    private static final ExecutorService SERVER_RUNNER_POOL = new ThreadPoolExecutor(1,
+    private final ExecutorService SERVER_RUNNER_POOL = new ThreadPoolExecutor(1,
             1, 0L, TimeUnit.MICROSECONDS, new SynchronousQueue<>(),
             new ThreadFactoryBuilder().setNameFormat("server-runner-%d").build(),
             new ThreadPoolExecutor.AbortPolicy()

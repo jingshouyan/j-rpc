@@ -32,7 +32,7 @@ public class ServerInfo {
     private String updatedAt;
     private MonitorInfo monitorInfo;
     private String instance;
-    private int selector = BaseConstant.CPU_NUM * 2;
+    private int selector = BaseConstant.CPU_NUM;
     private int worker = BaseConstant.CPU_NUM * 4;
 
 
