@@ -35,15 +35,16 @@ public class ServeRunner {
 
     private TServer tserver;
 
-    private Register register = new ZkRegister();
+    private Register register;
 
     private Rpc rpc;
 
-    private ServeRunner() {
+
+    public ServeRunner setRegister(Register register) {
+        this.register = register;
+        return this;
     }
 
-    @Getter
-    private static ServeRunner instance = new ServeRunner();
 
     public ServeRunner setServerInfo(ServerInfo serverInfo) {
         if (this.serverInfo == null) {
@@ -109,7 +110,10 @@ public class ServeRunner {
     public static void main(String[] args) throws Exception {
         ServerInfo serverInfo = new ServerInfo();
         serverInfo.setPort(9099);
-        ServeRunner s = ServeRunner.getInstance().setIface(new RpcImpl(new ServerActionHandler())).setServerInfo(serverInfo);
+        ServeRunner s = new ServeRunner()
+                .setIface(new RpcImpl(new ServerActionHandler()))
+                .setServerInfo(serverInfo)
+                .setRegister(new ZkRegister());
         s.start();
         Thread.sleep(10000);
         s.stop();
