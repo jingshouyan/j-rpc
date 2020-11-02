@@ -1,8 +1,10 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
 import com.github.jingshouyan.jrpc.client.JrpcClient;
+import com.github.jingshouyan.jrpc.starter.client.factory.ProxyFactory;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
@@ -54,13 +56,11 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
         return getTarget();
     }
 
-    @SuppressWarnings("unchecked")
-    <T> T getTarget() {
+    @SneakyThrows
+    private Object getTarget() {
         JrpcClient jrpcClient = ctx.getBean(JrpcClient.class);
         InvocationHandler handler = new JrpcInvocationHandler(jrpcClient, server, version);
-        return (T) Proxy.newProxyInstance(
-                type.getClassLoader(), new Class[]{type}, handler
-        );
+        return ProxyFactory.newProxyInstance(type.getClassLoader(),type,handler);
     }
 
 }

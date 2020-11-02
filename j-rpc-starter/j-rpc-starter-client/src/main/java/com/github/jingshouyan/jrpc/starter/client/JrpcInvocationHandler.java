@@ -66,7 +66,7 @@ public class JrpcInvocationHandler implements InvocationHandler {
                     return rspMono.block();
                 case OBJECT:
                     return Objects.requireNonNull(rspMono.block()).checkSuccess()
-                            .getByType(resultType.getObjectType());
+                            .getByType(resultType.objectType);
                 case MONO_VOID:
                     return rspMono.flatMap(rsp -> Mono.empty());
                 case MONO_RSP:
@@ -74,7 +74,7 @@ public class JrpcInvocationHandler implements InvocationHandler {
                 case MONO_OBJECT:
                     return rspMono.map(Rsp::checkSuccess)
                             .flatMap(rsp -> {
-                                Object data = rsp.getByType(resultType.getObjectType());
+                                Object data = rsp.getByType(resultType.objectType);
                                 return Mono.justOrEmpty(data);
                             });
                 default:
