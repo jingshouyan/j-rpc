@@ -31,7 +31,9 @@ public class Transport implements Closeable {
             for (int i = 0; i < LOOP; i++) {
                 nonblockingSocket.getSocketChannel().socket().sendUrgentData(0xFF);
             }
-            log.trace("test socket connect : open,use: {} ns", System.nanoTime() - start);
+            if(log.isTraceEnabled()) {
+                log.trace("test socket connect : open,use: {} ns", System.nanoTime() - start);
+            }
             return true;
         } catch (IOException e) {
             log.warn("test socket connect : closed,use: {} ns", System.nanoTime() - start);
