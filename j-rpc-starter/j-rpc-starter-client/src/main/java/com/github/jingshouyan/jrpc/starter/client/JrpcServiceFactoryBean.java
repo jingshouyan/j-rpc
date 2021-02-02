@@ -61,7 +61,7 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
     private Object getTarget() {
         JrpcClient jrpcClient = ctx.getBean(JrpcClient.class);
         InvocationHandler handler = new JrpcInvocationHandler(jrpcClient, server, version);
-        return ProxyFactory.newProxyInstance(type.getClassLoader(),type,handler);
+        return ProxyFactory.newProxyInstance(type.getClassLoader(), type, handler);
     }
 
 }
