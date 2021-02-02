@@ -6,7 +6,6 @@ import com.github.jingshouyan.jrpc.base.util.bean.ClassInfoUtil;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
-import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.google.common.collect.Lists;
 import lombok.Getter;
 import lombok.Setter;
@@ -21,7 +20,7 @@ import java.util.stream.Collectors;
  */
 public class GetServerInfo implements Method<Empty, InterfaceInfo> {
 
-    @Getter@Setter
+    @Setter
     private ServerInfo serverInfo;
 
     public GetServerInfo() {

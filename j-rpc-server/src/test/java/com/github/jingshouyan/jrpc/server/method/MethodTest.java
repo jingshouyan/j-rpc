@@ -2,7 +2,6 @@ package com.github.jingshouyan.jrpc.server.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Empty;
 import com.github.jingshouyan.jrpc.base.bean.InterfaceInfo;
-import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.inner.GetServerInfo;

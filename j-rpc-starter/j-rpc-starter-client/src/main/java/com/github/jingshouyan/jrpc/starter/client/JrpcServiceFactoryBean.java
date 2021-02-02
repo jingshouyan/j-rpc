@@ -9,10 +9,11 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNullApi;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 
 /**
  * @author jingshouyan
@@ -42,7 +43,7 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) {
         this.ctx = applicationContext;
     }
 
