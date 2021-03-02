@@ -207,7 +207,7 @@ public interface TestService {
 
 ```
 > 必须添加 @JrpcService 注解, server 为对应服务名.<br>
-> 方法名为对应接口名,参数0 必须是 Token,参数1 接口入参,参考Method.action <br>
+> 方法名为对应接口名,参数0 必须是 Token,参数1 接口入参,参考Method.action,参数3可选 指定实例名 <br>
 > 返回值类型
 >> void 不关心结果,不关心调用是否出错. <br>
 >> Rsp 得到 Rsp 响应. <br>
