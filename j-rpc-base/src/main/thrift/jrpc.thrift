@@ -5,6 +5,11 @@ struct TokenBean{
     2:optional string ticket;
     3:optional map<string,string> headers;
 }
+
+struct ThriftHeaders {
+    1:optional map<string,string> header;
+}
+
 struct ReqBean{
     1:string method;
     2:string param;

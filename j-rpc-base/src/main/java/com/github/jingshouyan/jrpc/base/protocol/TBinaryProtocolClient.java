@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.base.protocol;
 
-import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
+import com.github.jingshouyan.jrpc.base.thrift.ThriftHeaders;
+import com.google.common.base.Strings;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.protocol.TBinaryProtocol;
@@ -8,7 +9,6 @@ import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.protocol.TProtocolFactory;
 import org.apache.thrift.transport.TTransport;
 
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -33,22 +33,23 @@ public class TBinaryProtocolClient extends TBinaryProtocol {
     @Override
     @SneakyThrows
     public void writeMessageEnd() {
-        log.info("client writeMessageEnd");
-        // 发送请求数据完成
-        TokenBean tokenBean = new TokenBean();
-        Map<String,String> headers = new HashMap<>();
-        headers.put("X-Test","this is test Header");
-        tokenBean.setHeaders(headers);
-        tokenBean.write(this);
-
+        Map<String, String> header = HeadManager.header();
+        ThriftHeaders thriftHeaders = new ThriftHeaders();
+        for (Map.Entry<String, String> entry : header.entrySet()) {
+            String key = entry.getKey();
+            String value = entry.getValue();
+            if (Strings.isNullOrEmpty(key) || Strings.isNullOrEmpty(value)) {
+                log.warn("header key[{}] or value[{}] is empty", key, value);
+                header.remove(key);
+            }
+        }
+        if (log.isTraceEnabled()) {
+            log.trace("append header : {}", header);
+        }
+        thriftHeaders.setHeader(header);
+        thriftHeaders.write(this);
     }
 
-    @Override
-    @SneakyThrows
-    public void readMessageEnd() {
-        // 接收响应数据完成
-        log.info("client readMessageEnd");
-    }
 
     /**
      * Factory
