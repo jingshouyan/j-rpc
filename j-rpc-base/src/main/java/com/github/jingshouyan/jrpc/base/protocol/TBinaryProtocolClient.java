@@ -33,7 +33,7 @@ public class TBinaryProtocolClient extends TBinaryProtocol {
     @Override
     @SneakyThrows
     public void writeMessageEnd() {
-        Map<String, String> header = HeadManager.header();
+        Map<String, String> header = HeadManager.requestHeader();
         ThriftHeaders thriftHeaders = new ThriftHeaders();
         for (Map.Entry<String, String> entry : header.entrySet()) {
             String key = entry.getKey();
@@ -50,6 +50,10 @@ public class TBinaryProtocolClient extends TBinaryProtocol {
         thriftHeaders.write(this);
     }
 
+    @Override
+    public void readMessageEnd() {
+        HeadManager.cleanRequestHeader();
+    }
 
     /**
      * Factory

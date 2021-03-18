@@ -39,7 +39,7 @@ public class TBinaryProtocolServer extends TBinaryProtocol {
             thriftHeaders.read(this);
             Map<String, String> header = thriftHeaders.getHeader();
             if (header != null && !header.isEmpty()) {
-                HeadManager.header(header);
+                HeadManager.receiveHeader(header);
                 if (log.isTraceEnabled()) {
                     log.trace("receive data with header: {}", header);
                 }
@@ -48,6 +48,10 @@ public class TBinaryProtocolServer extends TBinaryProtocol {
 
     }
 
+    @Override
+    public void writeMessageEnd() {
+        HeadManager.cleanReceiveHeader();
+    }
 
     /**
      * Factory
