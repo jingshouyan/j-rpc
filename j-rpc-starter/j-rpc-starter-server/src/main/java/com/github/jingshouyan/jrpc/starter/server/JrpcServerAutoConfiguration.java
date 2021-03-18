@@ -9,6 +9,8 @@ import com.github.jingshouyan.jrpc.server.method.inner.Ping;
 import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
+import com.github.jingshouyan.jrpc.server.thrift.server.register.Register;
+import com.github.jingshouyan.jrpc.server.thrift.server.register.ZkRegister;
 import com.github.jingshouyan.jrpc.server.util.MonitorUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
@@ -48,8 +50,10 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Bean
     @ConditionalOnMissingBean(GetServerInfo.class)
-    public GetServerInfo getServerInfo() {
-        return new GetServerInfo();
+    public GetServerInfo getServerInfo(ServerInfo serverInfo) {
+        GetServerInfo getServerInfo = new GetServerInfo();
+        getServerInfo.setServerInfo(serverInfo);
+        return getServerInfo;
     }
 
     @Bean
@@ -67,23 +71,12 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
     @Bean
     @ConditionalOnMissingBean(Rpc.class)
     public Rpc rpc(ServerActionHandler serverActionHandler) {
-        Rpc rpc = new RpcImpl(serverActionHandler);
-        return rpc;
+        return new RpcImpl(serverActionHandler);
     }
 
-    @Override
-    public void run(ApplicationArguments args) {
-        addMethod();
-        if (properties.isRegister()) {
-            registerZk();
-        }
-    }
-
-    private void addMethod() {
-        ctx.getBeansOfType(BaseMethod.class).forEach(MethodHolder::addMethod);
-    }
-
-    private void registerZk() {
+    @Bean
+    @ConditionalOnMissingBean(ServerInfo.class)
+    public ServerInfo serverInfo(){
         LocalDateTime now = LocalDateTime.now();
         String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
         ServerInfo info = new ServerInfo();
@@ -106,9 +99,33 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         info.setSelector(properties.getSelector());
         info.setWorker(properties.getWorker());
         info.setMonitorInfo(MonitorUtil.monitor());
-
-        ServeRunner.getInstance().setServerInfo(info).setIface(ctx.getBean(Rpc.class)).start();
+        return info;
     }
 
+    @Bean
+    @ConditionalOnMissingBean(Register.class)
+    public Register register() {
+        return new ZkRegister();
+    }
+
+    @Bean
+    @ConditionalOnMissingBean(ServeRunner.class)
+    public ServeRunner serveRunner(Rpc rpc,Register register,ServerInfo serverInfo){
+        ServeRunner serveRunner = new ServeRunner();
+        serveRunner.setIface(rpc).setRegister(register).setServerInfo(serverInfo);
+        return serveRunner;
+    }
+
+    @Override
+    public void run(ApplicationArguments args) {
+        addMethod();
+        if (properties.isRegister()) {
+            ctx.getBean(ServeRunner.class).start();
+        }
+    }
+
+    private void addMethod() {
+        ctx.getBeansOfType(BaseMethod.class).forEach(MethodHolder::addMethod);
+    }
 
 }

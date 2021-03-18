@@ -6,8 +6,9 @@ import com.github.jingshouyan.jrpc.base.util.bean.ClassInfoUtil;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
-import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.google.common.collect.Lists;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Comparator;
 import java.util.List;
@@ -19,13 +20,18 @@ import java.util.stream.Collectors;
  */
 public class GetServerInfo implements Method<Empty, InterfaceInfo> {
 
+    @Setter
+    private ServerInfo serverInfo;
+
+    public GetServerInfo() {
+    }
 
     @Override
     public InterfaceInfo action(Token token, Empty empty) {
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         interfaceInfo.setCodeInfos(codes());
         interfaceInfo.setMethodInfos(methods());
-        interfaceInfo.setServerInfo(ServeRunner.getInstance().getServerInfo());
+        interfaceInfo.setServerInfo(serverInfo);
         return interfaceInfo;
     }
 

@@ -67,6 +67,7 @@ public class TransportPool implements Closeable {
 
     @Override
     public void close() {
+        // 这里主要是为了避免 clientManager 被关闭后,响应一直在等待
         while (innerPool.getNumActive() > 0) {
             try {
                 Thread.sleep(50);
@@ -75,6 +76,7 @@ public class TransportPool implements Closeable {
             }
         }
         innerPool.close();
+
         clientManager.stop();
     }
 }

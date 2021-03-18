@@ -66,17 +66,15 @@ public class AnnotationTest {
     public void traceTest() {
         Token token = new Token();
 
-        Mono<Rsp> mono = testService.traceTest(token, 3);
+        Mono<Rsp> mono = testService.traceTest(token, 9);
         mono.block();
     }
 
     @Test
-    @SneakyThrows
     public void traceTest2() {
         Token token = new Token();
 
-        testService.traceTest2(token, 9).block();
-        Thread.sleep(1000);
+        testService.traceTest2(token, 9);
     }
 
     @Test

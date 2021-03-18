@@ -1,16 +1,19 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
 import com.github.jingshouyan.jrpc.client.JrpcClient;
+import com.github.jingshouyan.jrpc.starter.client.factory.ProxyFactory;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.SneakyThrows;
 import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
+import org.springframework.lang.NonNullApi;
 import org.springframework.util.Assert;
 
+import javax.validation.constraints.NotNull;
 import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.Proxy;
 
 /**
  * @author jingshouyan
@@ -40,7 +43,7 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
     }
 
     @Override
-    public void setApplicationContext(ApplicationContext applicationContext) {
+    public void setApplicationContext(@NotNull ApplicationContext applicationContext) {
         this.ctx = applicationContext;
     }
 
@@ -54,13 +57,11 @@ public class JrpcServiceFactoryBean implements FactoryBean<Object>, Initializing
         return getTarget();
     }
 
-    @SuppressWarnings("unchecked")
-    <T> T getTarget() {
+    @SneakyThrows
+    private Object getTarget() {
         JrpcClient jrpcClient = ctx.getBean(JrpcClient.class);
         InvocationHandler handler = new JrpcInvocationHandler(jrpcClient, server, version);
-        return (T) Proxy.newProxyInstance(
-                type.getClassLoader(), new Class[]{type}, handler
-        );
+        return ProxyFactory.newProxyInstance(type.getClassLoader(), type, handler);
     }
 
 }

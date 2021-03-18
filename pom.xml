@@ -4,16 +4,10 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <parent>
-        <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.1.2.RELEASE</version>
-    </parent>
-
     <groupId>com.github.jingshouyan</groupId>
     <artifactId>j-rpc</artifactId>
     <packaging>pom</packaging>
-    <version>0.6.6-SNAPSHOT</version>
+    <version>0.7.3-SNAPSHOT</version>
     <modules>
         <module>j-rpc-base</module>
         <module>j-rpc-server</module>
@@ -22,11 +16,13 @@
         <module>j-rpc-starter</module>
         <module>j-rpc-common</module>
         <module>j-rpc-test</module>
+        <module>j-rpc-bom</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
+        <springboot.version>2.1.2.RELEASE</springboot.version>
         <curator.version>2.12.0</curator.version>
         <slf4j-api.version>1.7.24</slf4j-api.version>
         <libthrift.version>0.12.0</libthrift.version>
@@ -34,80 +30,21 @@
         <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <hmily.version>2.0.0-RELEASE</hmily.version>
         <ali.ttl.version>2.10.0</ali.ttl.version>
-        <j-jdbc.version>1.1.14</j-jdbc.version>
-        <zipkin.version>5.5.0</zipkin.version>
+        <j-jdbc.version>1.2.1</j-jdbc.version>
+        <brave.version>5.12.3</brave.version>
         <springboot.version>2.1.2.RELEASE</springboot.version>
         <seata.version>0.8.1</seata.version>
+        <javassist.version>3.21.0-GA</javassist.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
-            <!-- j-rpc -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-base</artifactId>
+                <artifactId>j-rpc-bom</artifactId>
                 <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-common-trace</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-common-crud</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-client</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-server</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-trace-zipkin</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-forward</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-dql</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-dml</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-hmily</artifactId>
-                <version>${project.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>${project.groupId}</groupId>
-                <artifactId>j-rpc-starter-desensitize</artifactId>
-                <version>${project.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
 
 
@@ -134,8 +71,16 @@
             <!--j-jdbc-->
             <dependency>
                 <groupId>com.github.jingshouyan</groupId>
-                <artifactId>j-jdbc</artifactId>
+                <artifactId>j-jdbc-bom</artifactId>
                 <version>${j-jdbc.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>2.1.2.RELEASE</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -144,7 +89,7 @@
             <dependency>
                 <groupId>io.zipkin.brave</groupId>
                 <artifactId>brave-bom</artifactId>
-                <version>${zipkin.version}</version>
+                <version>${brave.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -170,7 +115,11 @@
                 <version>${seata.version}</version>
             </dependency>
 
-
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
 
 
             <!--ttl-->

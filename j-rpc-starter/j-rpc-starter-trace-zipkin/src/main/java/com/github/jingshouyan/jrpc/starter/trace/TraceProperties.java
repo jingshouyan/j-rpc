@@ -18,6 +18,12 @@ public class TraceProperties {
     private float rate = 0.1f;
 
     /**
+     * 是否使用 TransmittableThreadLocal 存储 TraceContext
+     * 会有些性能影响
+     */
+    private boolean ttl = false;
+
+    /**
      * 请求 入参,返回 是否展示
      * 0: 不展示
      * 1: 失败时展示

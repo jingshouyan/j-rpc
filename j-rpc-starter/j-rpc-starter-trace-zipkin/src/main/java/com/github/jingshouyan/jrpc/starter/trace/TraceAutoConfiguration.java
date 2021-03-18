@@ -3,6 +3,7 @@ package com.github.jingshouyan.jrpc.starter.trace;
 import brave.Tracing;
 import brave.context.slf4j.MDCScopeDecorator;
 import brave.propagation.ThreadLocalCurrentTraceContext;
+import brave.propagation.TtlCurrentTraceContext;
 import brave.sampler.CountingSampler;
 import com.github.jingshouyan.jrpc.base.action.ActionInterceptorHolder;
 import com.github.jingshouyan.jrpc.starter.trace.aop.TracingSpanX;
@@ -15,10 +16,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.StringUtils;
-import zipkin2.Span;
-import zipkin2.codec.Encoding;
-import zipkin2.reporter.AsyncReporter;
 import zipkin2.reporter.Sender;
+import zipkin2.reporter.brave.AsyncZipkinSpanHandler;
 import zipkin2.reporter.okhttp3.OkHttpSender;
 
 import javax.annotation.Resource;
@@ -40,52 +39,56 @@ public class TraceAutoConfiguration {
     private String appName;
 
 
-
     /**
      * Configuration for how to send spans to Zipkin
+     *
      * @return Sender
      */
     @Bean
     @ConditionalOnMissingBean(Sender.class)
     public Sender sender() {
-        return OkHttpSender.newBuilder().encoding(Encoding.PROTO3).endpoint(properties.getEndpoint()).build();
+        return OkHttpSender.create(properties.getEndpoint());
     }
 
 
     /**
      * Configuration for how to buffer spans into messages for Zipkin
+     *
      * @param sender sender
-     * @return AsyncReporter
+     * @return AsyncZipkinSpanHandler
      */
     @Bean
-    @ConditionalOnMissingBean(AsyncReporter.class)
-    public AsyncReporter<Span> spanReporter(Sender sender) {
-        return AsyncReporter.create(sender);
+    @ConditionalOnMissingBean(AsyncZipkinSpanHandler.class)
+    public AsyncZipkinSpanHandler zipkinSpanHandler(Sender sender) {
+        return AsyncZipkinSpanHandler.create(sender);
     }
-
 
     /**
      * Controls aspects of tracing such as the name that shows up in the UI
-     * @param spanReporter spanReporter
+     *
+     * @param zipkinSpanHandler zipkinSpanHandler
      * @return Tracing
      */
     @Bean
     @ConditionalOnMissingBean(Tracing.class)
-    public Tracing tracing(AsyncReporter<Span> spanReporter) {
-
+    public Tracing tracing(AsyncZipkinSpanHandler zipkinSpanHandler) {
+        ThreadLocalCurrentTraceContext.Builder builder = properties.isTtl() ?
+                TtlCurrentTraceContext.newBuilder() : ThreadLocalCurrentTraceContext.newBuilder();
         return Tracing.newBuilder()
                 .localServiceName(tracingName())
-                .currentTraceContext(ThreadLocalCurrentTraceContext.newBuilder()
+                .currentTraceContext(builder
                         // puts trace IDs into logs
-                        .addScopeDecorator(MDCScopeDecorator.create())
+                        .addScopeDecorator(MDCScopeDecorator.get())
                         .build()
                 )
                 .sampler(CountingSampler.create(properties.getRate()))
-                .spanReporter(spanReporter).build();
+                .addSpanHandler(zipkinSpanHandler)
+                .build();
     }
 
     /**
      * ServerTrace
+     *
      * @param tracing tracing
      * @return ServerTrace
      */
@@ -99,6 +102,7 @@ public class TraceAutoConfiguration {
 
     /**
      * clientTrace
+     *
      * @param tracing Tracing
      * @return clientTrace
      */
@@ -112,6 +116,7 @@ public class TraceAutoConfiguration {
 
     /**
      * tracingSpanX
+     *
      * @param tracing tracing
      * @return tracingSpanX
      */
