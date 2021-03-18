@@ -11,6 +11,12 @@ import org.apache.thrift.transport.TTransport;
 
 import java.util.Map;
 
+/**
+ * TBinaryProtocol 客户端
+ *
+ * @author jingshouyan
+ * 2021-03-15 17:32
+ **/
 @Slf4j
 public class TBinaryProtocolClient extends TBinaryProtocol {
 
