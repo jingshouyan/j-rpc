@@ -47,7 +47,7 @@ public class JsonUtil {
     @SneakyThrows
     public static String toJsonString(TBase base) {
         TSerializer serializer = new TSerializer(T_PROTOCOL_FACTORY);
-        return serializer.toString(base, "utf-8");
+        return serializer.toString(base);
     }
 
     /**

@@ -18,7 +18,7 @@ import javax.sql.DataSource;
 public class AppConfig implements ApplicationRunner {
 
 
-    public static final String URL = "jdbc:mysql://127.0.0.1:3306/DEMO_IM_USER?useUnicode=true&characterEncoding=utf8&useSSL=false&statementInterceptors=brave.mysql.TracingStatementInterceptor";
+    public static final String URL = "jdbc:mysql://127.0.0.1:3306/DEMO_IM_USER?useUnicode=true&characterEncoding=utf8&useSSL=false&statementInterceptors=brave.mysql.TracingStatementInterceptor&createDatabaseIfNotExist=true";
     public static final String USERNAME = "root";
     public static final String PASSWORD = "abcd1234";
     public static final String DRIVER = "com.mysql.jdbc.Driver";

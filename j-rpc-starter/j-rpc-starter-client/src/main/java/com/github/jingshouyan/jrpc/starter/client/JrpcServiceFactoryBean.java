@@ -9,7 +9,6 @@ import org.springframework.beans.factory.FactoryBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.lang.NonNullApi;
 import org.springframework.util.Assert;
 
 import javax.validation.constraints.NotNull;
