@@ -2,7 +2,6 @@ package com.jing.test.method;
 
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
-import com.github.jingshouyan.jrpc.client.Request;
 import com.github.jingshouyan.jrpc.server.method.AsyncMethod;
 import com.github.jingshouyan.jrpc.starter.server.ServerProperties;
 import com.jing.test.rpc.TestService;

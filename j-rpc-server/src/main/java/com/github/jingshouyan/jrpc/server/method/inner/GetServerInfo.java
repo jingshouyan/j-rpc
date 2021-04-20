@@ -7,7 +7,6 @@ import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.server.method.holder.MethodHolder;
 import com.google.common.collect.Lists;
-import lombok.Getter;
 import lombok.Setter;
 
 import java.util.Comparator;

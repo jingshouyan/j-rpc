@@ -5,7 +5,6 @@ import com.github.jingshouyan.jrpc.base.action.ActionInterceptor;
 import com.github.jingshouyan.jrpc.base.bean.Req;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
-import org.springframework.stereotype.Component;
 import reactor.core.publisher.Mono;
 
 /**

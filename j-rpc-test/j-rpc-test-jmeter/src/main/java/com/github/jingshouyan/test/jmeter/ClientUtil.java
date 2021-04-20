@@ -8,9 +8,9 @@ import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.protocol.TProtocol;
-import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
+import org.apache.thrift.transport.layered.TFramedTransport;
 
 import java.util.HashMap;
 
@@ -43,11 +43,11 @@ public class ClientUtil {
     }
 
     public static void main(String[] args) {
-        Jrpc.Client client = client("127.0.0.1",8999);
+        Jrpc.Client client = client("127.0.0.1", 8999);
         System.out.println(client);
         TokenBean tokenBean = new TokenBean();
         for (int i = 0; i < 100; i++) {
-            RspBean r = call(client,"ping","123",tokenBean);
+            RspBean r = call(client, "ping", "123", tokenBean);
             System.out.println(r);
         }
 

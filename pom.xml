@@ -22,17 +22,16 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>1.8</java.version>
-        <springboot.version>2.1.2.RELEASE</springboot.version>
         <curator.version>2.12.0</curator.version>
         <slf4j-api.version>1.7.24</slf4j-api.version>
-        <libthrift.version>0.12.0</libthrift.version>
+        <libthrift.version>0.14.1</libthrift.version>
         <lombok.version>1.18.4</lombok.version>
         <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <hmily.version>2.0.0-RELEASE</hmily.version>
         <ali.ttl.version>2.10.0</ali.ttl.version>
         <j-jdbc.version>1.2.1</j-jdbc.version>
         <brave.version>5.12.3</brave.version>
-        <springboot.version>2.1.2.RELEASE</springboot.version>
+        <springboot.version>2.3.10.RELEASE</springboot.version>
         <seata.version>0.8.1</seata.version>
         <javassist.version>3.21.0-GA</javassist.version>
     </properties>
@@ -60,6 +59,11 @@
                 <version>${curator.version}</version>
             </dependency>
 
+            <dependency>
+                <groupId>org.glassfish</groupId>
+                <artifactId>javax.el</artifactId>
+                <version>3.0.0</version>
+            </dependency>
 
             <dependency>
                 <groupId>org.projectlombok</groupId>
@@ -80,7 +84,7 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-dependencies</artifactId>
-                <version>2.1.2.RELEASE</version>
+                <version>${springboot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
