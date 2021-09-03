@@ -17,15 +17,18 @@ public class Code {
     public static final int SERVER_NOT_FOUND = -101;
     public static final int INSTANCE_NOT_FUND = -102;
     public static final int VERSION_SERVER_NOT_FUND = -103;
-    public static final int UNSUPPORTED_ROUTE_MODE = -2;
+    public static final int UNSUPPORTED_ROUTE_MODE = -104;
     public static final int SERVER_ERROR = -201;
     public static final int METHOD_NOT_FOUND = -202;
     public static final int JSON_PARSE_ERROR = -203;
     public static final int PARAM_INVALID = -204;
-    public static final int USERID_NOTSET = -205;
-    public static final int TICKET_NOTSET = -206;
+    public static final int USERID_NOT_SET = -205;
+    public static final int TICKET_NOT_SET = -206;
     public static final int BAD_REQUEST = -207;
     public static final int PERMISSION_DENIED = -208;
+
+    public static final int INIT_ERROR = -301;
+
     private static final Map<Integer, String> CODE_MAP = new ConcurrentHashMap<>();
 
     static {
@@ -41,8 +44,8 @@ public class Code {
         CODE_MAP.put(METHOD_NOT_FOUND, "method not found");
         CODE_MAP.put(JSON_PARSE_ERROR, "json parse error");
         CODE_MAP.put(PARAM_INVALID, "param invalid");
-        CODE_MAP.put(USERID_NOTSET, "userId not set");
-        CODE_MAP.put(TICKET_NOTSET, "ticket not set");
+        CODE_MAP.put(USERID_NOT_SET, "userId not set");
+        CODE_MAP.put(TICKET_NOT_SET, "ticket not set");
         CODE_MAP.put(BAD_REQUEST, "bad request");
         CODE_MAP.put(PERMISSION_DENIED, "permission denied");
     }
