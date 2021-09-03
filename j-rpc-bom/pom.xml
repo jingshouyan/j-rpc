@@ -39,6 +39,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>j-rpc-registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-common-trace</artifactId>
                 <version>${project.version}</version>
             </dependency>

@@ -17,6 +17,7 @@
         <module>j-rpc-common</module>
         <module>j-rpc-test</module>
         <module>j-rpc-bom</module>
+        <module>j-rpc-registry</module>
     </modules>
 
     <properties>
