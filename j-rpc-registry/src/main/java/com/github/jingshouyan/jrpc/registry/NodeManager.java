@@ -1,7 +1,9 @@
 package com.github.jingshouyan.jrpc.registry;
 
+import com.github.jingshouyan.jrpc.base.bean.Router;
 import com.github.jingshouyan.jrpc.registry.node.NodeGroup;
 import com.github.jingshouyan.jrpc.registry.node.SvrNode;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
@@ -36,6 +38,13 @@ public class NodeManager implements NodeListener {
         discovery.addListener(this);
     }
 
+    public SvrNode getNode(Router router) {
+        NodeGroup group = getNodeGroup(router.getServer(),router.getVersion());
+        if(!Strings.isNullOrEmpty(router.getInstance())){
+            return group.getBySsid(router.getInstance());
+        }
+        return group.get();
+    }
 
     public void addListener(NodeListener listener) {
         listeners.add(listener);

@@ -50,6 +50,13 @@ public class NodeGroup {
 
     }
 
+    public SvrNode getBySsid(String ssid) {
+        return nodes.stream()
+                .filter(n -> Objects.equals(ssid,n.getSsid()))
+                .findFirst()
+                .orElseThrow(() -> new JrpcException(Code.SERVER_NOT_FOUND));
+    }
+
     public synchronized SvrNode get() {
         if (nodes.isEmpty()) {
             throw new JrpcException(Code.SERVER_NOT_FOUND);

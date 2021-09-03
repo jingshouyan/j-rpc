@@ -13,4 +13,5 @@ public class ClientConfig {
     private int poolMinIdle = 10;
     private int poolMaxIdle = 200;
     private int poolMaxTotal = 500;
+    private int timeout = 5000;
 }

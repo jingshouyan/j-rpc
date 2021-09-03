@@ -15,10 +15,14 @@ import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.client.config.ClientConfig;
+import com.github.jingshouyan.jrpc.client.config.PoolConf;
 import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
 import com.github.jingshouyan.jrpc.client.node.Node;
+import com.github.jingshouyan.jrpc.client.pool.KeyedTransportPool;
 import com.github.jingshouyan.jrpc.client.pool.TransportPool;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
+import com.github.jingshouyan.jrpc.registry.Discovery;
+import com.github.jingshouyan.jrpc.registry.NodeManager;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.async.AsyncMethodCallback;
 import org.slf4j.MDC;
@@ -38,15 +42,25 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JrpcClient implements ActionHandler {
 
-    private ClientConfig config;
     private ZkDiscover zkDiscover;
+    private final KeyedTransportPool pool;
+    private final NodeManager nodeManager;
 
-    public JrpcClient(ClientConfig config) {
-        this.config = config;
+    public JrpcClient(ClientConfig config, Discovery discovery) {
         this.zkDiscover = new ZkDiscover(config);
+        // todo 清理config
+        PoolConf poolConf = new PoolConf();
+        poolConf.setMinIdle(config.getPoolMinIdle());
+        poolConf.setMaxIdle(config.getPoolMaxIdle());
+        poolConf.setMaxTotal(config.getPoolMaxTotal());
+        poolConf.setTimeout(config.getTimeout());
+        pool = new KeyedTransportPool(poolConf);
+        nodeManager = new NodeManager(discovery);
+
     }
 
     public Map<String, List<ServerInfo>> serverMap() {
+        // todo 换成 nodeManager 数据
         Map<String, List<Node>> nodeMap = zkDiscover.nodeMap();
         Map<String, List<ServerInfo>> map = new HashMap<>(nodeMap.size());
         for (Map.Entry<String, List<Node>> entry : nodeMap.entrySet()) {
@@ -65,8 +79,7 @@ public class JrpcClient implements ActionHandler {
             final ActionHandler ah = handler;
             handler = (t, r) -> interceptor.around(t, r, ah);
         }
-        Mono<Rsp> mono = handler.handle(token, req);
-        return mono;
+        return handler.handle(token, req);
     }
 
     private Mono<Rsp> call(Token token, Req req) {
@@ -74,6 +87,7 @@ public class JrpcClient implements ActionHandler {
             TransportPool pool = null;
             Transport transport = null;
             try {
+
                 Node node = zkDiscover.getNode(req.getRouter());
                 pool = node.pool();
                 transport = pool.get();
