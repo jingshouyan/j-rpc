@@ -19,7 +19,7 @@ import java.net.UnknownHostException;
 public class RegistryProperties {
     public static final String DEFAULT_IP = "127.0.0.1";
 
-    private String model;
+    private String model = "zookeeper";
     private String inet = "";
     private String inetEnv = "";
     private ZookeeperInfo zookeeper = new ZookeeperInfo();
