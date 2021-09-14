@@ -45,14 +45,14 @@ public class JrpcRegistryAutoConfiguration {
 
     @Bean
     @ConditionalOnMissingBean
-    public Registry registry(CuratorFramework curatorFramework) {
+    public Registry jrpcRegistry(CuratorFramework curatorFramework) {
         ZookeeperInfo zookeeperInfo = properties.getZookeeper();
         return new ZkRegistry(curatorFramework, zookeeperInfo.getNamespace());
     }
 
     @Bean
     @ConditionalOnMissingBean
-    public Discovery discovery(CuratorFramework curatorFramework) {
+    public Discovery jrpcDiscovery(CuratorFramework curatorFramework) {
         ZookeeperInfo zookeeperInfo = properties.getZookeeper();
         return new ZkDiscovery(curatorFramework, zookeeperInfo.getNamespace());
     }
