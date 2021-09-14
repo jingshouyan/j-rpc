@@ -32,12 +32,12 @@ public class JrpcForward implements ActionInterceptor {
         this.client = client;
         forwardMap = Maps.newHashMapWithExpectedSize(properties.getMethods().size());
         for (ForwardInfo f : properties.getMethods()) {
-            if(valid(f)){
-                if(Objects.isNull(f.getVersion())){
+            if (valid(f)) {
+                if (Objects.isNull(f.getVersion())) {
                     f.setVersion(defaultVersion);
                 }
                 forwardMap.put(f.getOrigin(), f);
-                log.info("add forward {}",  f);
+                log.info("add forward {}", f);
             } else {
                 log.warn("{}, illegal param.", f);
             }
