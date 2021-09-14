@@ -3,26 +3,28 @@ j-rpc 基于thrift 的 json 格式 rpc调用框架
 
 
 ## 目录结构
-1.  j-rpc-base # 基础包
-2.  j-rpc-server # server 包，主要包含：服务注册，方法接口，内置方法
-3.  j-rpc-client # client 包
-4.  j-rpc-common # 
+1. j-rpc-base # 基础包
+2. j-rpc-server # server 包，主要包含：服务注册，方法接口，内置方法
+3. j-rpc-client # client 包
+4. j-rpc-registry # 注册与发现
+5. j-rpc-common # 
     1.  j-rpc-common-crud # [j-jdbc][2] 接口工具包
     2.  j-rpc-common-trace # 调用链追踪
-5.  j-rpc-starter # springboot starter
-    1.  j-rpc-starter-client # 客户端
-    2.  j-rpc-starter-server # 服务端
-    3.  j-rpc-starter-forward # 接口转发
-    4.  j-rpc-starter-dql # [j-jdbc][2] 查询接口
-    5.  j-rpc-starter-dml # [j-jdbc][2] 增删改接口
-    6.  j-rpc-starter-trace-zipkin # 基于 zipkin 的调用链追踪
-    7.  j-rpc-starter-desensitize # 接口请求&响应数据脱敏,日志|zipkin
-6.  j-rpc-test # 测试相关
+6. j-rpc-starter # springboot starter
+    1. j-rpc-starter-client # 客户端
+    2. j-rpc-starter-server # 服务端
+    3. j-rpc-starter-registry # 注册与发现
+    4. j-rpc-starter-forward # 接口转发
+    5. j-rpc-starter-dql # [j-jdbc][2] 查询接口
+    6. j-rpc-starter-dml # [j-jdbc][2] 增删改接口
+    7. j-rpc-starter-trace-zipkin # 基于 zipkin 的调用链追踪
+    8. j-rpc-starter-desensitize # 接口请求&响应数据脱敏,日志|zipkin
+7. j-rpc-test # 测试相关
     1.  j-rpc-test-client # 客户端测试
     2.  j-rpc-test-server # 服务端测试
     3.  j-rpc-test-forward # 转发测试
     4.  j-rpc-test-jmeter # jmeter 接口测试包
-7.  j-rpc-apidoc # 根据线上服务方法生成的接口文档
+8. j-rpc-apidoc # 根据线上服务方法生成的接口文档
 
 ## 简介
 
@@ -44,15 +46,23 @@ server 启动后，将连接信息注册到 zookeeper，client 监听 zk 服务�
 #### 2. 添加 spring 配置信息
 ```yaml
 j-rpc:
+  registry:
+    model: zookeeper # 目前仅支持 zookeeper
+    inet: 127.0.0.1 # 本机ip, 获取本机ip优先级 inet>inet-env>InetAddress.getLocalHost().getHostAddress()>127.0.0.1
+    inet-env: LOCAL_IP # 本级ip环境变量key
+    zookeeper:
+      address: 127.0.0.1:2181 # zk 地址 ,优先级 address>address-env>127.0.0.1:2181
+      address-env : ZK_ADDR # zk 地址环境变量
+      namespace: /com.github.jingshouyan.jrpc # 服务注册的namespace
+      session-timeout: 20000 # 
+      connection-timeout: 5000 #
+      retry-interval-ms: 5000 #
   server:
     version: v2.0 #服务版本号 default：v1.0
-    host: 127.0.0.1 #本机host,默认使用 InetUtils.findFirstNonLoopbackAddress
     port: 8999 #端口号 default：8888
     name: test #服务名 default：j-rpc
     timeout: 5000 # 接口超时时间 default：5000
     maxReadBufferBytes: 102400 # 缓冲区最大长度 default：25 * 1024 * 1024 （25MB）
-    zkHost: 127.0.0.1:2181 # zk 连接地址 default：127.0.0.1:2181
-    zkRoot: /com.github.jingshouyan.jrpc #zk 服务注册根目录
 
 ```
 
@@ -129,9 +139,18 @@ public class GetUserInfo2 implements AsyncMethod<IdQuery,List<UserBean>> {
 #### 2. 添加 spring 配置信息
 ```yaml
 j-rpc:
+  registry:
+    model: zookeeper # 目前仅支持 zookeeper
+    inet: 127.0.0.1 # 本机ip, 获取本机ip优先级 inet>inet-env>InetAddress.getLocalHost().getHostAddress()>127.0.0.1
+    inet-env: LOCAL_IP # 本级ip环境变量key
+    zookeeper:
+      address: 127.0.0.1:2181 # zk 地址 ,优先级 address>address-env>127.0.0.1:2181
+      address-env : ZK_ADDR # zk 地址环境变量
+      namespace: /com.github.jingshouyan.jrpc # 服务注册的namespace
+      session-timeout: 20000 # 
+      connection-timeout: 5000 #
+      retry-interval-ms: 5000 #
   client:
-    zkHost: 127.0.0.1:2181 # zk 连接地址 default：127.0.0.1:2181
-    zkRoot: /com.github.jingshouyan.jrpc #zk 服务注册根目录
     poolMinIdle: 10 # 连接池配置
     poolMaxIdle: 50
     poolMaxTotal: 200
@@ -156,7 +175,7 @@ public class Test
         Rsp rsp = Request.newInstance()
                 .setClient(jrpcClient) //设置发送客户端
                 .setServer("test")     //调用的服务名
-//                .setVersion("2.0")   //服务的版本号,只选择向 2.0 版本的服务发送数据,没找到会有相应的错误码
+                .setVersion("2.0")   //服务的版本号
 //                .setInstance("test-111") //服务实例名,多个实例可以指定发送到对应的服务,没找到会有相应的错误码
                 .setMethod("getUserInfo") //服务方法名
                 .setToken(token) // 设置token ,可选 token 信息
@@ -187,7 +206,7 @@ public class App {
 ```
 ##### 编写服务接口 
 ```java
-@JrpcService(server = "test")
+@JrpcService(server = "test", version = "1.0")
 public interface TestService {
 
     void traceTest2(Token token, int i);
@@ -206,7 +225,7 @@ public interface TestService {
 }
 
 ```
-> 必须添加 @JrpcService 注解, server 为对应服务名.<br>
+> 必须添加 @JrpcService 注解, server,version 为对应服务名&版本号.<br>
 > 方法名为对应接口名,参数0 必须是 Token,参数1 接口入参,参考Method.action,参数3可选 指定实例名 <br>
 > 返回值类型
 >> void 不关心结果,不关心调用是否出错. <br>
