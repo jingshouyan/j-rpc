@@ -129,14 +129,13 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         registerInfo.setVersion(properties.getVersion());
         registerInfo.setIp(registryProperties.localIp());
         registerInfo.setPort(properties.getPort());
-        registerInfo.setNetwork("tcp");
-        registerInfo.setProtocol("thrift.binary");
-        registerInfo.setWeight(1);
+        registerInfo.setNetwork(properties.getNetwork());
+        registerInfo.setProtocol(properties.getProtocol());
+        registerInfo.setWeight(properties.getWeight());
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String start = LocalDateTime.now().format(dtf);
         registerInfo.setStartTime(start);
-        String ssid = UUID.randomUUID().toString().toLowerCase(Locale.ROOT).replaceAll("-", "");
-        registerInfo.setSsid(ssid);
+        registerInfo.setSsid(properties.getSsid());
         return registerInfo;
     }
 
@@ -152,7 +151,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         serviceInfo.setProtocol("thrift.binary");
         serviceInfo.setSelectorThreads(properties.getSelector());
         serviceInfo.setWorkerThreads(properties.getWorker());
-        serviceInfo.setMaxReadBufferBytes(properties.getMaxReadBufferBytes());
+        serviceInfo.setMaxReadBufferBytes(properties.getMaxReadBuffer());
         return serviceInfo;
     }
 
