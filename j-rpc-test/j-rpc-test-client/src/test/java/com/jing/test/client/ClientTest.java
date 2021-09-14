@@ -152,6 +152,7 @@ public class ClientTest {
             Request.newInstance()
                     .setClient(jrpcClient)
                     .setServer("forward")
+                    .setVersion("1.0")
                     .setMethod("forwardTest")//      forwardTest: test.testMethod
 //                    .setServer("test")
 //                    .setMethod("testMethod")

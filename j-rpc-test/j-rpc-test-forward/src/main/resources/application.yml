@@ -4,7 +4,6 @@ j-rpc:
     port: 8991
     name: forward
   trace:
-    more: true
     rate: 0.01
   forward:
     methods:

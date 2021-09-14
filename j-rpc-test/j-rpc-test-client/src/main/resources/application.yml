@@ -11,7 +11,7 @@ j-rpc:
       max-idle: 50
       max-total: 200
     connect:
-      timeout: 300
+      timeout: 3000
 
 
   trace:
