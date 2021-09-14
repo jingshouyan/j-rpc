@@ -20,7 +20,6 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
-import org.springframework.cloud.commons.util.InetUtilsProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -47,8 +46,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Resource
     private ServerProperties properties;
-    @Resource
-    private InetUtilsProperties inetUtilsProperties;
+
 
     @Resource
     private ApplicationContext ctx;
@@ -79,33 +77,6 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         return new RpcImpl(serverActionHandler);
     }
 
-//    @Bean
-//    @ConditionalOnMissingBean(ServerInfo.class)
-//    public ServerInfo serverInfo(){
-//        LocalDateTime now = LocalDateTime.now();
-//        String nowStr = now.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
-//        ServerInfo info = new ServerInfo();
-//        info.setZkHost(properties.getZkHost());
-//        info.setZkRoot(properties.getZkRoot());
-//        info.setName(properties.getName());
-//        info.setVersion(properties.getVersion());
-//        if (StringUtils.isEmpty(properties.getHost())) {
-//            InetUtils inetUtils = new InetUtils(inetUtilsProperties);
-//            InetAddress inetAddress = inetUtils.findFirstNonLoopbackAddress();
-//            info.setHost(inetAddress.getHostAddress());
-//        } else {
-//            info.setHost(properties.getHost());
-//        }
-//        info.setPort(properties.getPort());
-//        info.setStartAt(nowStr);
-//        info.setTimeout(properties.getTimeout());
-//        info.setMaxReadBufferBytes(properties.getMaxReadBufferBytes());
-//        info.setUpdatedAt("");
-//        info.setSelector(properties.getSelector());
-//        info.setWorker(properties.getWorker());
-//        info.setMonitorInfo(MonitorUtil.monitor());
-//        return info;
-//    }
 
     @Bean
     @ConditionalOnMissingBean(Register.class)
@@ -176,7 +147,6 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
      */
     private ServiceInfo serviceInfo() {
         ServiceInfo serviceInfo = new ServiceInfo();
-//        serviceInfo.setIp();
         serviceInfo.setPort(properties.getPort());
         serviceInfo.setNetwork("tcp");
         serviceInfo.setProtocol("thrift.binary");

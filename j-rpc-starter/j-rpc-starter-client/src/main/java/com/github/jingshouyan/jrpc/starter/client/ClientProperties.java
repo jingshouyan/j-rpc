@@ -12,6 +12,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "j-rpc.client")
 public class ClientProperties {
-    private PoolConf pool;
-    private ConnectConf connect;
+    private PoolConf pool = new PoolConf();
+    private ConnectConf connect = new ConnectConf();
 }

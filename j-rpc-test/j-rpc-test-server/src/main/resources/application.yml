@@ -1,15 +1,33 @@
 j-rpc:
+  registry:
+    model: zookeeper # 目前仅支持 zookeeper
+    inet: 127.0.0.1 # 本机ip, 获取本机ip优先级 inet>inet-env>InetAddress.getLocalHost().getHostAddress()>127.0.0.1
+    inet-env: LOCAL_IP # 本级ip环境变量key
+    zookeeper:
+      address: 127.0.0.1:2181 # zk 地址 ,优先级 address>address-env>127.0.0.1:2181
+      address-env: ZK_ADDR # zk 地址环境变量
+      namespace: /com.github.jingshouyan.jrpc # 服务注册的namespace
+      session-timeout: 20000 #
+      connection-timeout: 5000 #
+      retry-interval-ms: 5000 #
+
   server:
     version: 1.0
     port: 8999
     name: test
   trace:
     data-show: 2
-    rate: 1
+    rate: 0.0
     ttl: true
   desensitize:
     settings:
       name: 11
 
-
+  client:
+    connect: #
+      timeout: 5000
+    pool: # 连接池配置
+      min-idle: 10
+      max-idle: 50
+      max-total: 200
 
