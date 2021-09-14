@@ -41,7 +41,7 @@ public class AnnotationTest {
 
         Mono<Object> voidMono = testService.myMethod(token, new Object());
         voidMono.doOnError(throwable -> {
-            log.info("testService.myMethod error",throwable);
+            log.info("testService.myMethod error", throwable);
         }).map(x -> 1).subscribe(x -> log.info("3:222"));
 
         Thread.sleep(1000);

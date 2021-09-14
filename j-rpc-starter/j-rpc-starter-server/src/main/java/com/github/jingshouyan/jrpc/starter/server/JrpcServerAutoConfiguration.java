@@ -1,6 +1,5 @@
 package com.github.jingshouyan.jrpc.starter.server;
 
-import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.info.RegisterInfo;
 import com.github.jingshouyan.jrpc.base.info.ServiceInfo;
 import com.github.jingshouyan.jrpc.registry.Registry;
@@ -116,7 +115,7 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
     @Bean
     @ConditionalOnMissingBean(ServeRunner.class)
-    public ServeRunner serveRunner(Rpc rpc,Register register){
+    public ServeRunner serveRunner(Rpc rpc, Register register) {
         ServeRunner serveRunner = new ServeRunner();
 
         serveRunner.setIface(rpc).setServiceInfo(serviceInfo());
@@ -134,12 +133,12 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
             runner.start();
             for (int i = 0; i < MAX_LOOP; i++) {
                 Thread.sleep(300);
-                if(runner.isServing()){
+                if (runner.isServing()) {
                     registry.register(registryInfo());
                     break;
                 }
             }
-            if(!runner.isServing()) {
+            if (!runner.isServing()) {
                 log.error("serve run timeout");
             }
         }
@@ -165,13 +164,14 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String start = LocalDateTime.now().format(dtf);
         registerInfo.setStartTime(start);
-        String ssid = UUID.randomUUID().toString().toLowerCase(Locale.ROOT).replaceAll("-","");
+        String ssid = UUID.randomUUID().toString().toLowerCase(Locale.ROOT).replaceAll("-", "");
         registerInfo.setSsid(ssid);
         return registerInfo;
     }
 
     /**
      * 服务配置信息,启动用
+     *
      * @return 服务配置信息
      */
     private ServiceInfo serviceInfo() {

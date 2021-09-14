@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * 服务连接信息
+ *
  * @author jingshouyan
  * 2021-09-03 11:12
  **/

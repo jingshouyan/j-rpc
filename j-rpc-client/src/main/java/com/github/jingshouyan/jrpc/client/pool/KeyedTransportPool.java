@@ -21,7 +21,7 @@ public class KeyedTransportPool implements Closeable {
 
     public static final int BORROW_TIMEOUT = 200;
 
-    public KeyedTransportPool(PoolConf poolConf, ConnectConf connectConf){
+    public KeyedTransportPool(PoolConf poolConf, ConnectConf connectConf) {
         GenericKeyedObjectPoolConfig<Transport> config = new GenericKeyedObjectPoolConfig<>();
         config.setMinIdlePerKey(poolConf.getMinIdle());
         config.setMaxIdlePerKey(poolConf.getMaxIdle());

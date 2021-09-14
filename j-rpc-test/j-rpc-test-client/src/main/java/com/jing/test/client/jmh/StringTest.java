@@ -49,49 +49,54 @@ public class StringTest {
             "****************************************************************************************************" +
             "1234567890").toCharArray();
     String str = new String(chars);
-//    @Benchmark
+
+    //    @Benchmark
     public String replace() {
         String str = new String(chars);
-        return str.replace("*","");
+        return str.replace("*", "");
     }
-//    @Benchmark
+
+    //    @Benchmark
     public String replace2() {
-        return str.replace("*","");
+        return str.replace("*", "");
     }
+
     @Benchmark
     public String newString() {
         return new String(chars);
     }
+
     @Benchmark
     public String sb() {
         StringBuilder sb = new StringBuilder();
         for (char c : chars) {
-            if (c!='*'){
+            if (c != '*') {
                 sb.append(c);
             }
         }
         return sb.toString();
     }
-//    @Benchmark
+
+    //    @Benchmark
     public String mask2() {
         return JsonMasking.DEFAULT.masking(str2);
     }
 
-//    @Benchmark
+    //    @Benchmark
     public String mask3() {
         return JsonMasking.DEFAULT.masking(str3);
     }
 
-//    @Benchmark
+    //    @Benchmark
     public String mask4() {
         return JsonMasking.DEFAULT.masking(str4);
     }
 
     @Setup
     public void prepare() {
-        Map<String,Integer> map = Maps.newHashMap();
-        map.put("message",33);
-        map.put("name",22);
+        Map<String, Integer> map = Maps.newHashMap();
+        map.put("message", 33);
+        map.put("name", 22);
         JsonMasking.DEFAULT.addSetting(map);
     }
 

@@ -15,8 +15,6 @@ import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
-import com.github.jingshouyan.jrpc.client.config.ConnectConf;
-import com.github.jingshouyan.jrpc.client.config.PoolConf;
 import com.github.jingshouyan.jrpc.client.pool.KeyedTransportPool;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import com.github.jingshouyan.jrpc.registry.NodeEvent;

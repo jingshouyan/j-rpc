@@ -78,7 +78,7 @@ public class JsonMasking {
             } while (parser.hasCurrentToken());
             StringBuilder sb = new StringBuilder();
             for (char c : chars) {
-                if(c != CHAR_NULL) {
+                if (c != CHAR_NULL) {
                     sb.append(c);
                 }
             }
@@ -101,7 +101,7 @@ public class JsonMasking {
             int start = offset + prefixLen;
             int end = offset + valueLen - suffixLen;
             for (int i = start; i < end; i++) {
-                if(i == start) {
+                if (i == start) {
                     chars[i] = CHAR_MASK;
                 } else {
                     chars[i] = CHAR_NULL;

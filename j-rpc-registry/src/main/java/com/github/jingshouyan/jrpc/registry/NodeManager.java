@@ -9,7 +9,6 @@ import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import lombok.Getter;
 
-
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ExecutorService;
@@ -42,8 +41,8 @@ public class NodeManager implements NodeListener {
     }
 
     public SvrNode getNode(Router router) {
-        NodeGroup group = getNodeGroup(router.getServer(),router.getVersion());
-        if(!Strings.isNullOrEmpty(router.getInstance())){
+        NodeGroup group = getNodeGroup(router.getServer(), router.getVersion());
+        if (!Strings.isNullOrEmpty(router.getInstance())) {
             return group.getBySsid(router.getInstance());
         }
         return group.get();
@@ -52,7 +51,6 @@ public class NodeManager implements NodeListener {
     public void addListener(NodeListener listener) {
         listeners.add(listener);
     }
-
 
 
     @Override
@@ -99,7 +97,7 @@ public class NodeManager implements NodeListener {
         if (group != null) {
             return group;
         }
-        return groupMap.computeIfAbsent(groupKey, key -> new NodeGroup(key,CONSISTENT_HASH_REPLICAS));
+        return groupMap.computeIfAbsent(groupKey, key -> new NodeGroup(key, CONSISTENT_HASH_REPLICAS));
     }
 
 

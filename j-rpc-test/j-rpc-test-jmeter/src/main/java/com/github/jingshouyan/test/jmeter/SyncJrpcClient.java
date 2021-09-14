@@ -27,7 +27,7 @@ public class SyncJrpcClient extends AbstractJrpcClient {
             if (client == null) {
                 PoolConf poolConf = new PoolConf();
                 ConnectConf connectConf = new ConnectConf();
-                KeyedTransportPool pool = new KeyedTransportPool(poolConf,connectConf);
+                KeyedTransportPool pool = new KeyedTransportPool(poolConf, connectConf);
                 CuratorFramework c = CuratorFrameworkFactory
                         .builder().connectString(zkAddr).canBeReadOnly(true)
                         .connectionTimeoutMs(5000)

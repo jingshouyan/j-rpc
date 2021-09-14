@@ -4,6 +4,7 @@ import lombok.Data;
 
 /**
  * thrift 服务配置信息
+ *
  * @author jingshouyan
  * 2021-09-06 18:10
  **/

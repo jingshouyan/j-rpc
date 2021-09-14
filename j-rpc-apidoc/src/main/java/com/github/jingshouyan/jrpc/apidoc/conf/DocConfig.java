@@ -27,6 +27,7 @@ public class DocConfig implements WebMvcConfigurer {
 
     /**
      * decides how to name and tag spans. By default they are named the same as the http method.
+     *
      * @param tracing tracing
      * @return httpTracing
      */
@@ -37,6 +38,7 @@ public class DocConfig implements WebMvcConfigurer {
 
     /**
      * Creates server spans for http requests
+     *
      * @param httpTracing httpTracing
      * @return Filter
      */
@@ -47,6 +49,7 @@ public class DocConfig implements WebMvcConfigurer {
 
     /**
      * RestTemplateCustomizer
+     *
      * @param httpTracing httpTracing
      * @return RestTemplateCustomizer
      */

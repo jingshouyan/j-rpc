@@ -34,7 +34,7 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
     @Getter
     private float rate;
 
-    public void setRate(float rate){
+    public void setRate(float rate) {
         this.rate = rate;
         tracer = tracer.withSampler(CountingSampler.create(rate));
     }
@@ -44,8 +44,6 @@ public class ServerTrace implements TraceConstant, ActionInterceptor {
         this.properties = properties;
         this.rate = properties.getRate();
     }
-
-
 
 
     @Override
