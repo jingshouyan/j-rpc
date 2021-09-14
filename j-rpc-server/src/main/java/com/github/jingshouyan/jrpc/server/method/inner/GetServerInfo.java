@@ -2,6 +2,7 @@ package com.github.jingshouyan.jrpc.server.method.inner;
 
 import com.github.jingshouyan.jrpc.base.bean.*;
 import com.github.jingshouyan.jrpc.base.code.Code;
+import com.github.jingshouyan.jrpc.base.info.RegisterInfo;
 import com.github.jingshouyan.jrpc.base.util.bean.ClassInfoUtil;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.server.method.Method;
@@ -20,7 +21,7 @@ import java.util.stream.Collectors;
 public class GetServerInfo implements Method<Empty, InterfaceInfo> {
 
     @Setter
-    private ServerInfo serverInfo;
+    private RegisterInfo serverInfo;
 
     public GetServerInfo() {
     }
@@ -30,7 +31,7 @@ public class GetServerInfo implements Method<Empty, InterfaceInfo> {
         InterfaceInfo interfaceInfo = new InterfaceInfo();
         interfaceInfo.setCodeInfos(codes());
         interfaceInfo.setMethodInfos(methods());
-        interfaceInfo.setServerInfo(serverInfo);
+        interfaceInfo.setRegisterInfo(serverInfo);
         return interfaceInfo;
     }
 

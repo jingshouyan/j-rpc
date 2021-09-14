@@ -23,7 +23,7 @@ public class NodeGroup {
     private final String name;
     @Getter
     private final int replicas;
-
+    @Getter
     private final List<SvrNode> nodes = Lists.newArrayList();
 
     private volatile ConsistentHash<ConnectInfo> consistentHash;
@@ -52,7 +52,7 @@ public class NodeGroup {
 
     public SvrNode getBySsid(String ssid) {
         return nodes.stream()
-                .filter(n -> Objects.equals(ssid,n.getSsid()))
+                .filter(n -> Objects.equals(ssid, n.getSsid()))
                 .findFirst()
                 .orElseThrow(() -> new JrpcException(Code.SERVER_NOT_FOUND));
     }
@@ -128,7 +128,6 @@ public class NodeGroup {
             consistentHash.remove(connectInfo);
         }
     }
-
 
 
 }

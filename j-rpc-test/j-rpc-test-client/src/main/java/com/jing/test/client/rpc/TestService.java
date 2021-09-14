@@ -8,7 +8,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.List;
 
-@JrpcService(server = "test")
+@JrpcService(server = "test",version = "1.0")
 public interface TestService {
 
     void traceTest2(Token token, int i);

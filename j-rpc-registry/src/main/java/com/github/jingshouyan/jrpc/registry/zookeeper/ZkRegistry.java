@@ -36,14 +36,14 @@ public class ZkRegistry implements Registry {
     }
 
     @Override
-    public void register(RegisterInfo serviceInfo) {
+    public void register(RegisterInfo registerInfo) {
         try {
             serving = true;
             log.debug("register zk starting...");
-            String path = zkPath(serviceInfo);
-            deleteZkNode(serviceInfo);
-            createZkNode(serviceInfo);
-            log.debug("serviceInstance:[{}]", serviceInfo);
+            String path = zkPath(registerInfo);
+            deleteZkNode(registerInfo);
+            createZkNode(registerInfo);
+            log.debug("serviceInstance:[{}]", registerInfo);
 
             TreeCache cache = new TreeCache(client, path);
             cache.getListenable().addListener((cf, event) -> {
@@ -51,7 +51,7 @@ public class ZkRegistry implements Registry {
                         && path.equals(event.getData().getPath())
                         && serving) {
                     log.warn("node deleted,register again.");
-                    createZkNode(serviceInfo);
+                    createZkNode(registerInfo);
                 }
             });
             cache.start();
@@ -60,7 +60,7 @@ public class ZkRegistry implements Registry {
                     serving = false;
                     log.debug("server stop...");
                     cache.close();
-                    deleteZkNode(serviceInfo);
+                    deleteZkNode(registerInfo);
                     client.close();
 
                 } catch (Exception e) {

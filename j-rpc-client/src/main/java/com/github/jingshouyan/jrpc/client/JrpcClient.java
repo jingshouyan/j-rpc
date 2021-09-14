@@ -9,6 +9,7 @@ import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JrpcException;
+import com.github.jingshouyan.jrpc.base.info.ConnectInfo;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
@@ -16,13 +17,12 @@ import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
 import com.github.jingshouyan.jrpc.client.config.ClientConfig;
 import com.github.jingshouyan.jrpc.client.config.PoolConf;
-import com.github.jingshouyan.jrpc.client.discover.ZkDiscover;
-import com.github.jingshouyan.jrpc.client.node.Node;
 import com.github.jingshouyan.jrpc.client.pool.KeyedTransportPool;
-import com.github.jingshouyan.jrpc.client.pool.TransportPool;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
-import com.github.jingshouyan.jrpc.registry.Discovery;
+import com.github.jingshouyan.jrpc.registry.NodeEvent;
 import com.github.jingshouyan.jrpc.registry.NodeManager;
+import com.github.jingshouyan.jrpc.registry.node.NodeGroup;
+import com.github.jingshouyan.jrpc.registry.node.SvrNode;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.async.AsyncMethodCallback;
 import org.slf4j.MDC;
@@ -42,12 +42,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class JrpcClient implements ActionHandler {
 
-    private ZkDiscover zkDiscover;
     private final KeyedTransportPool pool;
     private final NodeManager nodeManager;
 
-    public JrpcClient(ClientConfig config, Discovery discovery) {
-        this.zkDiscover = new ZkDiscover(config);
+    public JrpcClient(ClientConfig config, NodeManager nodeManager) {
         // todo 清理config
         PoolConf poolConf = new PoolConf();
         poolConf.setMinIdle(config.getPoolMinIdle());
@@ -55,18 +53,35 @@ public class JrpcClient implements ActionHandler {
         poolConf.setMaxTotal(config.getPoolMaxTotal());
         poolConf.setTimeout(config.getTimeout());
         pool = new KeyedTransportPool(poolConf);
-        nodeManager = new NodeManager(discovery);
-
+        this.nodeManager = nodeManager;
+        // 节点移除时,清理连接池
+        this.nodeManager.addListener((event, node) -> {
+            if (event == NodeEvent.REMOVE) {
+                pool.clear(node.getConnectInfo());
+            }
+        });
     }
 
     public Map<String, List<ServerInfo>> serverMap() {
         // todo 换成 nodeManager 数据
-        Map<String, List<Node>> nodeMap = zkDiscover.nodeMap();
-        Map<String, List<ServerInfo>> map = new HashMap<>(nodeMap.size());
-        for (Map.Entry<String, List<Node>> entry : nodeMap.entrySet()) {
+        Map<String, NodeGroup> nodeGroupMap = nodeManager.getGroupMap();
+
+        Map<String, List<ServerInfo>> map = new HashMap<>(nodeGroupMap.size());
+
+        for (Map.Entry<String, NodeGroup> entry : nodeGroupMap.entrySet()) {
             String key = entry.getKey();
-            List<ServerInfo> value = entry.getValue().stream()
-                    .map(Node::getServerInfo).collect(Collectors.toList());
+            List<ServerInfo> value = entry.getValue().getNodes().stream()
+                    .map(node -> {
+                        ServerInfo serverInfo = new ServerInfo();
+                        serverInfo.setName(node.getName());
+                        serverInfo.setVersion(node.getVersion());
+                        serverInfo.setHost(node.getConnectInfo().getHost());
+                        serverInfo.setPort(node.getConnectInfo().getPort());
+
+
+                        return serverInfo;
+                    })
+                    .collect(Collectors.toList());
             map.put(key, value);
         }
         return map;
@@ -84,14 +99,11 @@ public class JrpcClient implements ActionHandler {
 
     private Mono<Rsp> call(Token token, Req req) {
         Mono<Rsp> mono = Mono.create(monoSink -> {
-            TransportPool pool = null;
             Transport transport = null;
             try {
-
-                Node node = zkDiscover.getNode(req.getRouter());
-                pool = node.pool();
-                transport = pool.get();
-                TransportPool poolTmp = pool;
+                SvrNode svrNode = nodeManager.getNode(req.getRouter());
+                ConnectInfo conn = svrNode.getConnectInfo();
+                transport = pool.borrowObject(conn);
                 Transport transportTmp = transport;
                 Jrpc.AsyncClient client = transport.getAsyncClient();
                 TokenBean tokenBean = token.tokenBean();
@@ -100,13 +112,13 @@ public class JrpcClient implements ActionHandler {
                     client.send(tokenBean, reqBean, new AsyncMethodCallback<Void>() {
                         @Override
                         public void onComplete(Void aVoid) {
-                            restore(poolTmp, transportTmp);
+                            restore(transportTmp);
                             monoSink.success(RspUtil.success());
                         }
 
                         @Override
                         public void onError(Exception e) {
-                            invalid(poolTmp, transportTmp);
+                            invalid(transportTmp);
                             monoSink.error(e);
                         }
                     });
@@ -114,20 +126,20 @@ public class JrpcClient implements ActionHandler {
                     client.call(tokenBean, reqBean, new AsyncMethodCallback<RspBean>() {
                         @Override
                         public void onComplete(RspBean rspBean) {
-                            restore(poolTmp, transportTmp);
+                            restore(transportTmp);
                             monoSink.success(new Rsp(rspBean));
                         }
 
                         @Override
                         public void onError(Exception e) {
-                            invalid(poolTmp, transportTmp);
+                            invalid(transportTmp);
                             monoSink.error(e);
                         }
                     });
                 }
             } catch (Throwable e) {
                 log.error("call rpc error.", e);
-                invalid(pool, transport);
+                invalid(transport);
                 monoSink.error(e);
             }
         });
@@ -157,15 +169,15 @@ public class JrpcClient implements ActionHandler {
         return mono;
     }
 
-    private static void restore(TransportPool pool, Transport transport) {
-        if (pool != null && transport != null) {
-            pool.restore(transport);
-        }
+    private void restore(Transport transport) {
+        pool.returnObject(transport);
     }
 
-    private static void invalid(TransportPool pool, Transport transport) {
-        if (pool != null && transport != null) {
-            pool.invalid(transport);
+    private void invalid(Transport transport) {
+        try {
+            pool.invalidateObject(transport);
+        } catch (Exception e) {
+            log.warn("invalid transport error,[{}]", transport.getKey(), e);
         }
     }
 

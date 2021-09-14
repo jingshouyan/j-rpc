@@ -42,6 +42,7 @@ public class ClientTest {
         Rsp rsp = Request.newInstance()
                 .setClient(jrpcClient) //设置发送客户端
                 .setServer("test")     //调用的服务名
+                .setVersion("1.0")     // 必须要设置版本号
 //                .setVersion("2.0")   //服务的版本号,只选择向 2.0 版本的服务发送数据,没找到会有相应的错误码
 //                .setInstance("test-111") //服务实例名,多个实例可以指定发送到对应的服务,没找到会有相应的错误码
                 .setMethod("getUserInfo") //服务方法名
@@ -92,6 +93,7 @@ public class ClientTest {
                     Request.newInstance()
                             .setClient(jrpcClient)
                             .setServer("test")
+                            .setVersion("1.0")
                             .setMethod("traceTest2")
                             .setParamObj(9)
                             .asyncSend()

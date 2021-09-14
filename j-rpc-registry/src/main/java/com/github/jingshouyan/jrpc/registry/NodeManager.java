@@ -7,6 +7,7 @@ import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import lombok.Getter;
 
 
 import java.util.List;
@@ -29,6 +30,8 @@ public class NodeManager implements NodeListener {
             new LinkedBlockingQueue<>(),
             new ThreadFactoryBuilder().setNameFormat("node-event").build());
     private final List<NodeListener> listeners = Lists.newArrayList();
+
+    @Getter
     private final Map<String, NodeGroup> groupMap = Maps.newConcurrentMap();
 
 
@@ -88,18 +91,6 @@ public class NodeManager implements NodeListener {
         NodeGroup nodeGroup = getNodeGroup(node.getName(), node.getVersion());
         nodeGroup.remove(node);
 
-    }
-
-    /**
-     * 获取一个服务节点
-     *
-     * @param name    服务名
-     * @param version 版本
-     * @return 节点信息
-     */
-    public SvrNode pickOne(String name, String version) {
-        NodeGroup group = getNodeGroup(name, version);
-        return group.get();
     }
 
     private NodeGroup getNodeGroup(String name, String version) {

@@ -1,6 +1,6 @@
 package com.github.jingshouyan.jrpc.server.thrift.server.factory.impl;
 
-import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.base.info.ServiceInfo;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
@@ -22,8 +22,8 @@ public class TheadPoolServerFactory implements ServerFactory {
 
     @Override
     @SneakyThrows
-    public TServer getServer(Rpc service, ServerInfo serverInfo) {
-        int port = serverInfo.getPort();
+    public TServer getServer(Rpc service, ServiceInfo serviceInfo) {
+        int port = serviceInfo.getPort();
         TNonblockingServerSocket serverSocket = new TNonblockingServerSocket(port);
         TProcessor tprocessor = new Jrpc.AsyncProcessor<>(service);
         TThreadPoolServer.Args args = new TThreadPoolServer.Args(serverSocket);

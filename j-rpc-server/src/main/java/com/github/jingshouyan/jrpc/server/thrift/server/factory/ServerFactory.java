@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.server.thrift.server.factory;
 
 import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.base.info.ServiceInfo;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import org.apache.thrift.server.TServer;
 
@@ -13,8 +14,8 @@ public interface ServerFactory {
      * 获取TServer
      *
      * @param service    service实现
-     * @param serverInfo 服务信息
+     * @param serviceInfo 服务信息
      * @return TServer
      */
-    TServer getServer(Rpc service, ServerInfo serverInfo);
+    TServer getServer(Rpc service, ServiceInfo serviceInfo);
 }

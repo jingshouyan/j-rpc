@@ -23,6 +23,10 @@
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
+            <artifactId>j-rpc-starter-registry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
             <artifactId>j-rpc-server</artifactId>
         </dependency>
         <dependency>

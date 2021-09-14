@@ -1,20 +1,16 @@
 package com.github.jingshouyan.jrpc.server.run;
 
-import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
-import com.github.jingshouyan.jrpc.server.method.handler.ServerActionHandler;
+import com.github.jingshouyan.jrpc.base.info.ServiceInfo;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
-import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.util.ServerFactoryUtil;
-import com.github.jingshouyan.jrpc.server.thrift.server.register.Register;
-import com.github.jingshouyan.jrpc.server.thrift.server.register.ZkRegister;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.thrift.server.TServer;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.SynchronousQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author jingshouyan
@@ -30,26 +26,17 @@ public class ServeRunner {
             new ThreadPoolExecutor.AbortPolicy()
     );
 
-    @Getter
-    private ServerInfo serverInfo;
-
     private TServer tserver;
 
-    private Register register;
+    private ServiceInfo serviceInfo;
 
     private Rpc rpc;
 
 
-    public ServeRunner setRegister(Register register) {
-        this.register = register;
-        return this;
-    }
-
-
-    public ServeRunner setServerInfo(ServerInfo serverInfo) {
-        if (this.serverInfo == null) {
-            log.debug("set server info : {}", serverInfo);
-            this.serverInfo = serverInfo;
+    public ServeRunner setServiceInfo(ServiceInfo serviceInfo) {
+        if (this.serviceInfo == null) {
+            log.debug("set server info : {}", serviceInfo);
+            this.serviceInfo = serviceInfo;
         } else {
             log.warn("server info is already set.");
         }
@@ -68,29 +55,18 @@ public class ServeRunner {
     }
 
     private void initServer() {
-        if (serverInfo != null && rpc != null) {
-            this.tserver = ServerFactoryUtil.getFactory().getServer(rpc, serverInfo);
+        if (serviceInfo != null && rpc != null) {
+            this.tserver = ServerFactoryUtil.getFactory().getServer(rpc, serviceInfo);
         }
     }
 
 
     public void start() {
-        LocalDateTime now = LocalDateTime.now();
-        DateTimeFormatter dtf = DateTimeFormatter.ISO_DATE_TIME;
-        String nowStr = now.format(dtf);
-        serverInfo.setStartAt(nowStr);
+        if (tserver.isServing()) {
+            log.warn("service is already started, ignore");
+            return;
+        }
         SERVER_RUNNER_POOL.execute(() -> {
-            while (true) {
-                try {
-                    if (!tserver.isServing()) {
-                        break;
-                    }
-                    log.debug("waiting ...");
-                    Thread.sleep(2000);
-                } catch (Exception e) {
-                }
-            }
-            log.debug("server run...");
             try {
                 tserver.serve();
             } catch (Exception e) {
@@ -99,27 +75,15 @@ public class ServeRunner {
             }
             log.debug("server stop...");
         });
-        register.register(tserver, serverInfo);
+    }
+
+    public boolean isServing() {
+        return tserver.isServing();
     }
 
     public void stop() {
         tserver.stop();
     }
 
-
-    public static void main(String[] args) throws Exception {
-        ServerInfo serverInfo = new ServerInfo();
-        serverInfo.setPort(9099);
-        ServeRunner s = new ServeRunner()
-                .setIface(new RpcImpl(new ServerActionHandler()))
-                .setServerInfo(serverInfo)
-                .setRegister(new ZkRegister());
-        s.start();
-        Thread.sleep(10000);
-        s.stop();
-        Thread.sleep(3000);
-        s.start();
-        Executors.newFixedThreadPool(1);
-    }
 
 }

@@ -1,6 +1,6 @@
 package com.github.jingshouyan.jrpc.server.thrift.server.factory.impl;
 
-import com.github.jingshouyan.jrpc.base.bean.ServerInfo;
+import com.github.jingshouyan.jrpc.base.info.ServiceInfo;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.thrift.server.factory.ServerFactory;
@@ -21,10 +21,10 @@ public class ThreadSelectorServerFactory implements ServerFactory {
 
 
     @Override
-    public TServer getServer(Rpc service, ServerInfo serverInfo) {
+    public TServer getServer(Rpc service, ServiceInfo serverInfo) {
         int port = serverInfo.getPort();
-        int selectorThreads = serverInfo.getSelector();
-        int workerThreads = serverInfo.getWorker();
+        int selectorThreads = serverInfo.getSelectorThreads();
+        int workerThreads = serverInfo.getWorkerThreads();
         TServer server = null;
         try {
             log.debug("thrift service starting...[port:{}]", port);

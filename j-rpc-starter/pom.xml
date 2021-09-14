@@ -21,6 +21,7 @@
         <module>j-rpc-starter-dql</module>
         <module>j-rpc-starter-dml</module>
         <module>j-rpc-starter-seata</module>
+        <module>j-rpc-starter-registry</module>
     </modules>
 
 

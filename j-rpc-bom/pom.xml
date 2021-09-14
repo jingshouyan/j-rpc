@@ -54,6 +54,11 @@
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
+                <artifactId>j-rpc-starter-registry</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>${project.groupId}</groupId>
                 <artifactId>j-rpc-starter-client</artifactId>
                 <version>${project.version}</version>
             </dependency>
