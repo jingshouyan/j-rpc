@@ -1,13 +1,20 @@
 j-rpc:
+  registry:
+    model: zookeeper
+
+    zookeeper:
+      address: 127.0.0.1:2181
+      namespace: /com.github.jingshouyan.jrpc
   client:
-    zkHost: 127.0.0.1:2181 # zk 连接地址 default：127.0.0.1:2181
-    zkRoot: /com.github.jingshouyan.jrpc #zk 服务注册根目录
-  #    poolMinIdle: 10 # 连接池配置
-  #    poolMaxIdle: 200
-  #    poolMaxTotal: 2000
+    pool:
+      min-idle: 10
+      max-idle: 50
+      max-total: 200
+    connect:
+      timeout: 300
+
 
   trace:
-    more: true
     rate: 1.0
     data-show: 2
 

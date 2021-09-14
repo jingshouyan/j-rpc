@@ -15,7 +15,7 @@ import com.github.jingshouyan.jrpc.base.thrift.ReqBean;
 import com.github.jingshouyan.jrpc.base.thrift.RspBean;
 import com.github.jingshouyan.jrpc.base.thrift.TokenBean;
 import com.github.jingshouyan.jrpc.base.util.rsp.RspUtil;
-import com.github.jingshouyan.jrpc.client.config.ClientConfig;
+import com.github.jingshouyan.jrpc.client.config.ConnectConf;
 import com.github.jingshouyan.jrpc.client.config.PoolConf;
 import com.github.jingshouyan.jrpc.client.pool.KeyedTransportPool;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
@@ -45,14 +45,8 @@ public class JrpcClient implements ActionHandler {
     private final KeyedTransportPool pool;
     private final NodeManager nodeManager;
 
-    public JrpcClient(ClientConfig config, NodeManager nodeManager) {
-        // todo 清理config
-        PoolConf poolConf = new PoolConf();
-        poolConf.setMinIdle(config.getPoolMinIdle());
-        poolConf.setMaxIdle(config.getPoolMaxIdle());
-        poolConf.setMaxTotal(config.getPoolMaxTotal());
-        poolConf.setTimeout(config.getTimeout());
-        pool = new KeyedTransportPool(poolConf);
+    public JrpcClient(KeyedTransportPool pool, NodeManager nodeManager) {
+        this.pool = pool;
         this.nodeManager = nodeManager;
         // 节点移除时,清理连接池
         this.nodeManager.addListener((event, node) -> {

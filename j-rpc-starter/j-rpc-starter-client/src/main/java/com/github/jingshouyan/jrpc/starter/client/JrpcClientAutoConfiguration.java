@@ -1,7 +1,7 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
 import com.github.jingshouyan.jrpc.client.JrpcClient;
-import com.github.jingshouyan.jrpc.client.config.ClientConfig;
+import com.github.jingshouyan.jrpc.client.pool.KeyedTransportPool;
 import com.github.jingshouyan.jrpc.registry.NodeManager;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -23,14 +23,15 @@ public class JrpcClientAutoConfiguration {
     private ClientProperties properties;
 
     @Bean
-    @ConditionalOnMissingBean(JrpcClient.class)
-    public JrpcClient jrpcClient(NodeManager nodeManager) {
-        ClientConfig config = new ClientConfig();
-        config.setZkHost(properties.getZkHost());
-        config.setZkRoot(properties.getZkRoot());
-        config.setPoolMinIdle(properties.getPoolMinIdle());
-        config.setPoolMaxIdle(properties.getPoolMaxIdle());
-        config.setPoolMaxTotal(properties.getPoolMaxTotal());
-        return new JrpcClient(config, nodeManager);
+    @ConditionalOnMissingBean
+    public JrpcClient jrpcClient(KeyedTransportPool pool, NodeManager nodeManager) {
+
+        return new JrpcClient(pool, nodeManager);
+    }
+
+    @Bean
+    @ConditionalOnMissingBean
+    public KeyedTransportPool keyedTransportPool() {
+        return new KeyedTransportPool(properties.getPool(), properties.getConnect());
     }
 }

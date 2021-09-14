@@ -18,7 +18,7 @@ import reactor.core.publisher.Mono;
 @ToString(exclude = {"client"})
 @Slf4j
 public class Request {
-    private Router router = new Router();
+    private final Router router = new Router();
 
     private Token token = new Token();
 

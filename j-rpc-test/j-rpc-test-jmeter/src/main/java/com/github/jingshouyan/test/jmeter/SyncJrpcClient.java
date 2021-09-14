@@ -4,7 +4,9 @@ import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.bean.Token;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
 import com.github.jingshouyan.jrpc.client.Request;
-import com.github.jingshouyan.jrpc.client.config.ClientConfig;
+import com.github.jingshouyan.jrpc.client.config.ConnectConf;
+import com.github.jingshouyan.jrpc.client.config.PoolConf;
+import com.github.jingshouyan.jrpc.client.pool.KeyedTransportPool;
 import com.github.jingshouyan.jrpc.registry.Discovery;
 import com.github.jingshouyan.jrpc.registry.NodeManager;
 import com.github.jingshouyan.jrpc.registry.zookeeper.ZkDiscovery;
@@ -23,11 +25,9 @@ public class SyncJrpcClient extends AbstractJrpcClient {
         super.setupTest(context);
         synchronized (SyncJrpcClient.class) {
             if (client == null) {
-                ClientConfig config = new ClientConfig();
-                config.setZkHost(zkAddr);
-                config.setPoolMaxIdle(100);
-                config.setPoolMaxTotal(2000);
-                config.setPoolMaxIdle(300);
+                PoolConf poolConf = new PoolConf();
+                ConnectConf connectConf = new ConnectConf();
+                KeyedTransportPool pool = new KeyedTransportPool(poolConf,connectConf);
                 CuratorFramework c = CuratorFrameworkFactory
                         .builder().connectString(zkAddr).canBeReadOnly(true)
                         .connectionTimeoutMs(5000)
@@ -35,9 +35,9 @@ public class SyncJrpcClient extends AbstractJrpcClient {
                         .retryPolicy(new RetryForever(5000))
                         .build();
                 c.start();
-                Discovery discovery = new ZkDiscovery(c,namespace);
+                Discovery discovery = new ZkDiscovery(c, namespace);
                 NodeManager nodeManager = new NodeManager(discovery);
-                client = new JrpcClient(config,nodeManager);
+                client = new JrpcClient(pool, nodeManager);
             }
         }
     }

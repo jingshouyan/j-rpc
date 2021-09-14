@@ -151,9 +151,13 @@ j-rpc:
       connection-timeout: 5000 #
       retry-interval-ms: 5000 #
   client:
-    poolMinIdle: 10 # 连接池配置
-    poolMaxIdle: 50
-    poolMaxTotal: 200
+    connect: # 
+      timeout: 5000
+    pool: # 连接池配置
+      min-idle: 10 
+      max-idle: 50
+      max-total: 200
+
 
 ```
 

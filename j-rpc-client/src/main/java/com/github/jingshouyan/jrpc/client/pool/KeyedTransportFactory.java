@@ -4,6 +4,7 @@ import com.github.jingshouyan.jrpc.base.code.Code;
 import com.github.jingshouyan.jrpc.base.exception.JrpcException;
 import com.github.jingshouyan.jrpc.base.info.ConnectInfo;
 import com.github.jingshouyan.jrpc.base.thrift.Jrpc;
+import com.github.jingshouyan.jrpc.client.config.ConnectConf;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.pool2.BaseKeyedPooledObjectFactory;
@@ -23,13 +24,13 @@ import java.io.IOException;
 @Slf4j
 public class KeyedTransportFactory extends BaseKeyedPooledObjectFactory<ConnectInfo, Transport> {
 
-    private int timeout;
+    private final ConnectConf connectConf;
     private static final TProtocolFactory PROTOCOL_FACTORY = new TBinaryProtocol.Factory();
     private final TAsyncClientManager clientManager;
 
-    public KeyedTransportFactory(int timeout) {
+    public KeyedTransportFactory(ConnectConf connectConf) {
         try {
-            this.timeout = timeout;
+            this.connectConf = connectConf;
             // todo 多个后端是否使用不同的 manager?
             clientManager = new TAsyncClientManager();
         } catch (IOException e) {
@@ -42,9 +43,9 @@ public class KeyedTransportFactory extends BaseKeyedPooledObjectFactory<ConnectI
         try {
             Transport transport = new Transport();
             transport.setKey(key);
-            TNonblockingSocket nonblockingSocket = new TNonblockingSocket(key.getHost(), key.getPort(), timeout);
+            TNonblockingSocket nonblockingSocket = new TNonblockingSocket(key.getHost(), key.getPort(), connectConf.getTimeout());
             Jrpc.AsyncClient asyncClient = new Jrpc.AsyncClient(PROTOCOL_FACTORY, clientManager, nonblockingSocket);
-            asyncClient.setTimeout(timeout);
+            asyncClient.setTimeout(connectConf.getTimeout());
             transport.setNonblockingSocket(nonblockingSocket);
             transport.setAsyncClient(asyncClient);
             log.debug("create transport success. {}", key);

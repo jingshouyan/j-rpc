@@ -11,7 +11,7 @@ public class PoolConf {
     private int minIdle = 10;
     private int maxIdle = 200;
     private int maxTotal = 500;
-    private int timeout = 5000;
+
 
     private boolean testOnCreate = false;
     private boolean testOnBorrow = false;

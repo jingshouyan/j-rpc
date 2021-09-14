@@ -1,5 +1,7 @@
 package com.github.jingshouyan.jrpc.starter.client;
 
+import com.github.jingshouyan.jrpc.client.config.ConnectConf;
+import com.github.jingshouyan.jrpc.client.config.PoolConf;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 
@@ -10,10 +12,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @Data
 @ConfigurationProperties(prefix = "j-rpc.client")
 public class ClientProperties {
-    private String zkHost = "127.0.0.1:2181";
-    private String zkRoot = "/com.github.jingshouyan.jrpc";
-    ;
-    private int poolMinIdle = 10;
-    private int poolMaxIdle = 200;
-    private int poolMaxTotal = 500;
+    private PoolConf pool;
+    private ConnectConf connect;
 }

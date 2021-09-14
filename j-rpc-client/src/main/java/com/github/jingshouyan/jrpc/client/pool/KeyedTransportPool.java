@@ -1,6 +1,7 @@
 package com.github.jingshouyan.jrpc.client.pool;
 
 import com.github.jingshouyan.jrpc.base.info.ConnectInfo;
+import com.github.jingshouyan.jrpc.client.config.ConnectConf;
 import com.github.jingshouyan.jrpc.client.config.PoolConf;
 import com.github.jingshouyan.jrpc.client.transport.Transport;
 import lombok.SneakyThrows;
@@ -20,16 +21,16 @@ public class KeyedTransportPool implements Closeable {
 
     public static final int BORROW_TIMEOUT = 200;
 
-    public KeyedTransportPool(PoolConf conf){
+    public KeyedTransportPool(PoolConf poolConf, ConnectConf connectConf){
         GenericKeyedObjectPoolConfig<Transport> config = new GenericKeyedObjectPoolConfig<>();
-        config.setMinIdlePerKey(conf.getMinIdle());
-        config.setMaxIdlePerKey(conf.getMaxIdle());
-        config.setMaxTotalPerKey(conf.getMaxTotal());
-        config.setTestOnCreate(conf.isTestOnCreate());
-        config.setTestOnBorrow(conf.isTestOnBorrow());
-        config.setTestOnReturn(conf.isTestOnReturn());
-        config.setTestWhileIdle(conf.isTestWhileIdle());
-        KeyedPooledObjectFactory<ConnectInfo, Transport> factory = new KeyedTransportFactory(conf.getTimeout());
+        config.setMinIdlePerKey(poolConf.getMinIdle());
+        config.setMaxIdlePerKey(poolConf.getMaxIdle());
+        config.setMaxTotalPerKey(poolConf.getMaxTotal());
+        config.setTestOnCreate(poolConf.isTestOnCreate());
+        config.setTestOnBorrow(poolConf.isTestOnBorrow());
+        config.setTestOnReturn(poolConf.isTestOnReturn());
+        config.setTestWhileIdle(poolConf.isTestWhileIdle());
+        KeyedPooledObjectFactory<ConnectInfo, Transport> factory = new KeyedTransportFactory(connectConf);
         innerPool = new GenericKeyedObjectPool<>(factory, config);
     }
 
