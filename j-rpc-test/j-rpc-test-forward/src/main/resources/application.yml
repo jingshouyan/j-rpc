@@ -8,8 +8,8 @@ j-rpc:
     rate: 0.01
   forward:
     methods:
-      forwardTest: test.testMethod
-      asyncTest: test.asyncTest
+      - { origin: forwardTest, service: test, method: testMethod}
+      - { origin: asyncTest, service: test, method: asyncTest}
   desensitize:
     settings:
       test: 101
