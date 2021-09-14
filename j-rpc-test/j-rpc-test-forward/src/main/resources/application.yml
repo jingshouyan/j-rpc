@@ -1,4 +1,7 @@
 j-rpc:
+  registry:
+    model: zookeeper
+
   server:
     version: 1.0
     port: 8991
