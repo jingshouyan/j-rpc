@@ -29,7 +29,7 @@
         <lombok.version>1.18.4</lombok.version>
         <lombok-maven-plugin.version>1.18.4.0</lombok-maven-plugin.version>
         <ali.ttl.version>2.10.0</ali.ttl.version>
-        <j-jdbc.version>1.2.1</j-jdbc.version>
+        <j-jdbc.version>1.2.2</j-jdbc.version>
         <brave.version>5.12.3</brave.version>
         <springboot.version>2.3.10.RELEASE</springboot.version>
         <seata.version>1.4.2</seata.version>
