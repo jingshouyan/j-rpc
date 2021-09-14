@@ -1,5 +1,6 @@
 package com.github.jingshouyan.jrpc.starter.registry;
 
+import com.github.jingshouyan.jrpc.base.info.RegisterInfo;
 import com.github.jingshouyan.jrpc.base.info.ZookeeperInfo;
 import com.google.common.base.Strings;
 import lombok.Data;
@@ -8,6 +9,8 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author jingshouyan
@@ -24,6 +27,7 @@ public class RegistryProperties {
     private String inetEnv = "";
     private ZookeeperInfo zookeeper = new ZookeeperInfo();
 
+    private List<RegisterInfo> profile = new ArrayList<>();
 
     public String localIp() {
         if (!Strings.isNullOrEmpty(inet)) {
