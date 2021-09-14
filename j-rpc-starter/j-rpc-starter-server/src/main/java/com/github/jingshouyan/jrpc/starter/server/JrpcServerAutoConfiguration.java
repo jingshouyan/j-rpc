@@ -11,8 +11,6 @@ import com.github.jingshouyan.jrpc.server.method.inner.Ping;
 import com.github.jingshouyan.jrpc.server.run.ServeRunner;
 import com.github.jingshouyan.jrpc.server.service.Rpc;
 import com.github.jingshouyan.jrpc.server.service.impl.RpcImpl;
-import com.github.jingshouyan.jrpc.server.thrift.server.register.Register;
-import com.github.jingshouyan.jrpc.server.thrift.server.register.ZkRegister;
 import com.github.jingshouyan.jrpc.starter.registry.RegistryProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,14 +75,8 @@ public class JrpcServerAutoConfiguration implements ApplicationRunner {
 
 
     @Bean
-    @ConditionalOnMissingBean(Register.class)
-    public Register register() {
-        return new ZkRegister();
-    }
-
-    @Bean
     @ConditionalOnMissingBean(ServeRunner.class)
-    public ServeRunner serveRunner(Rpc rpc, Register register) {
+    public ServeRunner serveRunner(Rpc rpc) {
         ServeRunner serveRunner = new ServeRunner();
 
         serveRunner.setIface(rpc).setServiceInfo(serviceInfo());
