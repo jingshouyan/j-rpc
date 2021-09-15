@@ -29,16 +29,21 @@ import java.util.Objects;
  **/
 @Slf4j
 public class ProxyFactory {
+    private static final ClassPool CLASS_POOL = ClassPool.getDefault();
+
+    static {
+        CLASS_POOL.appendClassPath(new LoaderClassPath(Thread.currentThread().getContextClassLoader()));
+    }
+
     public static Object newProxyInstance(ClassLoader classLoader, Class<?> interfaceClass, InvocationHandler h) throws Throwable {
-        ClassPool pool = ClassPool.getDefault();
 
         String proxyClassName = interfaceClass.getCanonicalName() + "$Proxy";
         // 1.创建代理类 ProxyClass
-        CtClass proxyClass = pool.makeClass(proxyClassName);
+        CtClass proxyClass = CLASS_POOL.makeClass(proxyClassName);
 
 
         // 2.给代理类添加字段：handler;
-        CtClass handlerCc = pool.get(InvocationHandler.class.getName());
+        CtClass handlerCc = CLASS_POOL.get(InvocationHandler.class.getName());
         // CtField(CtClass fieldType, String fieldName, CtClass addToThisClass)
         CtField handlerField = new CtField(handlerCc, "handler", proxyClass);
         handlerField.setModifiers(AccessFlag.PRIVATE);
@@ -51,7 +56,7 @@ public class ProxyFactory {
 
         proxyClass.addConstructor(ctConstructor);
         // 4.为代理类添加相应接口方法及实现
-        CtClass ctInterface = pool.get(interfaceClass.getName());
+        CtClass ctInterface = CLASS_POOL.get(interfaceClass.getName());
 
         // 4.1 为代理类添加接口：public class ProxyClass implements IHello
         proxyClass.addInterface(ctInterface);
@@ -59,7 +64,7 @@ public class ProxyFactory {
         List<Class<?>> is = getAllInterfaces(interfaceClass);
         for (Class<?> ic : is) {
             // 4.为代理类添加相应接口方法及实现
-            CtClass icc = pool.get(ic.getName());
+            CtClass icc = CLASS_POOL.get(ic.getName());
             // 4.2 为代理类添加相应方法及实现
             CtMethod[] ctMethods = icc.getDeclaredMethods();
             for (CtMethod ctMethod : ctMethods) {
@@ -134,13 +139,9 @@ public class ProxyFactory {
     /**
      * 添加注解到CtClass
      *
-     * @param annotation
-     * @param classFile
-     * @param constPool
-     * @throws NotFoundException
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
+     * @param classFile  classFile
+     * @param constPool  constPool
+     * @param annotation annotation
      */
     private static void addAnnotationToCtClass(ClassFile classFile, ConstPool constPool, Annotation... annotation)
             throws NotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
@@ -158,13 +159,9 @@ public class ProxyFactory {
     /**
      * 根据JDK的注解实例，创建javaassist的注解实例
      *
-     * @param jdkAnnotation
-     * @param constPool
-     * @return
-     * @throws NotFoundException
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
+     * @param jdkAnnotation jdkAnnotation
+     * @param constPool     constPool
+     * @return Annotation
      */
     public static javassist.bytecode.annotation.Annotation createJavaAssistAnnotation(
             Annotation jdkAnnotation, ConstPool constPool) throws NotFoundException,
@@ -181,15 +178,12 @@ public class ProxyFactory {
     /**
      * 遍历jdk注解属性，设置到javaassist注解中
      *
-     * @param javaAssistAnnotaion
-     * @param jdkAnnotation
-     * @param constPool
-     * @throws NoSuchMethodException
-     * @throws IllegalAccessException
-     * @throws InvocationTargetException
+     * @param javaAssistAnnotation javaAssistAnnotation
+     * @param jdkAnnotation        jdkAnnotation
+     * @param constPool            constPool
      */
     private static void setJavaAssistAnnotation(
-            javassist.bytecode.annotation.Annotation javaAssistAnnotaion,
+            javassist.bytecode.annotation.Annotation javaAssistAnnotation,
             Annotation jdkAnnotation, ConstPool constPool) throws NoSuchMethodException,
             IllegalAccessException, InvocationTargetException {
 
@@ -209,7 +203,7 @@ public class ProxyFactory {
             }
             MemberValue memberValue = createMemberValue(returnType, value, constPool);
             if (memberValue != null) {
-                javaAssistAnnotaion.addMemberValue(methodName, memberValue);
+                javaAssistAnnotation.addMemberValue(methodName, memberValue);
             }
         }
     }
@@ -217,10 +211,10 @@ public class ProxyFactory {
     /**
      * 工程方法，根据returnType类型创建相应的MemberValue
      *
-     * @param returnType
-     * @param value
-     * @param constPool
-     * @return
+     * @param returnType returnType
+     * @param value      value
+     * @param constPool  constPool
+     * @return MemberValue
      */
     private static MemberValue createMemberValue(Class<?> returnType, Object value,
                                                  ConstPool constPool) {
