@@ -6,6 +6,7 @@ import com.github.jingshouyan.jrpc.client.Request;
 import com.github.jingshouyan.jrpc.server.method.Method;
 import com.github.jingshouyan.jrpc.starter.server.ServerProperties;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
+import com.jing.test.rpc.TestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -26,30 +27,16 @@ public class TraceTest implements Method<Integer, Integer> {
             0L, TimeUnit.MILLISECONDS,
             new LinkedBlockingQueue<Runnable>(),
             new ThreadFactoryBuilder().setNameFormat("exec-%d").build());
-    @Autowired
-    ServerProperties properties;
 
     @Autowired
-    JrpcClient client;
+    private TestService testService;
 
     @Override
     public Integer action(Token token, Integer i) {
         if (i != null && i > 0) {
             for (int j = 0; j < LOOP; j++) {
-                EXEC.execute(
-                        () -> {
-                            Request.newInstance().setClient(client)
-                                    .setServer(properties.getName())
-                                    .setMethod("traceTest")
-                                    .setParamObj(i - 1)
-                                    .asyncSend()
-                                    .subscribe();
-
-                        }
-                );
+                testService.traceTest(token, i -1).subscribe();
             }
-
-
         }
         return i;
     }

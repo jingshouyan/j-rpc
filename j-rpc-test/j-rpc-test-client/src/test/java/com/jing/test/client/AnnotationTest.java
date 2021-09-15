@@ -66,7 +66,7 @@ public class AnnotationTest {
     public void traceTest() {
         Token token = new Token();
 
-        Mono<Rsp> mono = testService.traceTest(token, 9);
+        Mono<Rsp> mono = testService.traceTest(token, 5);
         mono.block();
     }
 
@@ -74,7 +74,7 @@ public class AnnotationTest {
     public void traceTest2() {
         Token token = new Token();
 
-        testService.traceTest2(token, 9);
+        testService.traceTest2(token, 3);
     }
 
     @Test
