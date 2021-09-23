@@ -1,11 +1,9 @@
 package com.github.jingshouyan.crud.bean;
 
-import com.github.jingshouyan.crud.constant.CrudConstant;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  * @author jingshouyan
@@ -14,11 +12,15 @@ import javax.validation.constraints.NotNull;
 @Getter
 @Setter
 @ToString
-public class CreateDTO implements CrudConstant {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class CreateDTO implements Serializable {
+    private static final long serialVersionUID = -630829069141549723L;
     @NotNull
     private String bean;
     @NotNull
-    private String type = TYPE_SINGLE;
+    private String type;
     @NotNull
     private String data;
 }

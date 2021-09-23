@@ -1,6 +1,7 @@
 package com.jing.test.client;
 
 import com.github.jingshouyan.crud.bean.RetrieveDTO;
+import com.github.jingshouyan.crud.constant.CrudConstant;
 import com.github.jingshouyan.jdbc.comm.bean.Page;
 import com.github.jingshouyan.jdbc.comm.util.ConditionUtil;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
@@ -26,27 +27,27 @@ public class RetrieveTest {
 
     @Test
     public void single() {
-        query(RetrieveDTO.TYPE_SINGLE);
+        query(CrudConstant.TYPE_SINGLE);
     }
 
     @Test
     public void multiple() {
-        query(RetrieveDTO.TYPE_MULTIPLE);
+        query(CrudConstant.TYPE_MULTIPLE);
     }
 
     @Test
     public void page() {
-        query(RetrieveDTO.TYPE_PAGE);
+        query(CrudConstant.TYPE_PAGE);
     }
 
     @Test
     public void list() {
-        query(RetrieveDTO.TYPE_LIST);
+        query(CrudConstant.TYPE_LIST);
     }
 
     @Test
     public void limit() {
-        query(RetrieveDTO.TYPE_LIMIT);
+        query(CrudConstant.TYPE_LIMIT);
     }
 
     private void query(String type) {

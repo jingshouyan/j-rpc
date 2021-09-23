@@ -1,6 +1,7 @@
 package com.jing.test.client;
 
 import com.github.jingshouyan.crud.bean.CreateDTO;
+import com.github.jingshouyan.crud.constant.CrudConstant;
 import com.github.jingshouyan.jrpc.base.bean.Rsp;
 import com.github.jingshouyan.jrpc.base.util.json.JsonUtil;
 import com.github.jingshouyan.jrpc.client.JrpcClient;
@@ -30,7 +31,7 @@ public class CreateTest {
         UserBean u = new UserBean();
         u.setName("heehdf地方");
         CreateDTO createDTO = new CreateDTO();
-        createDTO.setType(CreateDTO.TYPE_SINGLE);
+        createDTO.setType(CrudConstant.TYPE_SINGLE);
         createDTO.setBean("user");
         createDTO.setData(JsonUtil.toJsonString(u));
         Rsp rsp = Request.newInstance()
@@ -47,7 +48,7 @@ public class CreateTest {
         UserBean u = new UserBean();
         u.setName("heehdf地方22");
         CreateDTO createDTO = new CreateDTO();
-        createDTO.setType(CreateDTO.TYPE_MULTIPLE);
+        createDTO.setType(CrudConstant.TYPE_MULTIPLE);
         createDTO.setBean("user");
         List<UserBean> userBeans = Lists.newArrayList();
         createDTO.setData(JsonUtil.toJsonString(userBeans));

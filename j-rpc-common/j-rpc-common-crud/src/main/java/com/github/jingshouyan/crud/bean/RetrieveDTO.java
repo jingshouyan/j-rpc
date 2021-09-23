@@ -1,14 +1,11 @@
 package com.github.jingshouyan.crud.bean;
 
-import com.github.jingshouyan.crud.constant.CrudConstant;
 import com.github.jingshouyan.jdbc.comm.bean.Condition;
 import com.github.jingshouyan.jdbc.comm.bean.Page;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.List;
 
@@ -19,13 +16,17 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class RetrieveDTO implements CrudConstant {
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class RetrieveDTO implements Serializable {
+    private static final long serialVersionUID = -5178882693003813578L;
     @NotNull
     private String bean;
-    private List<Condition> conditions = new ArrayList<>();
-    private Page page = new Page();
+    private List<Condition> conditions;
+    private Page<?> page;
     @NotNull
-    private String type = TYPE_SINGLE;
+    private String type;
 
     private Object id;
 

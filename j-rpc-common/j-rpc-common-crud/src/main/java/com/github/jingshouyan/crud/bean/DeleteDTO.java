@@ -1,11 +1,11 @@
 package com.github.jingshouyan.crud.bean;
 
-import com.github.jingshouyan.crud.constant.CrudConstant;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -15,11 +15,12 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-public class DeleteDTO implements CrudConstant {
+public class DeleteDTO implements Serializable {
+    private static final long serialVersionUID = 6581866096552400706L;
     @NotNull
     private String bean;
     @NotNull
-    private String type = TYPE_SINGLE;
+    private String type;
 
     private Object id;
 
