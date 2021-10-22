@@ -6,6 +6,8 @@ import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.Ordered;
+import org.springframework.core.annotation.Order;
 
 import javax.annotation.Resource;
 
@@ -15,10 +17,12 @@ import javax.annotation.Resource;
  */
 @Slf4j
 @Configuration
+@Order(Ordered.HIGHEST_PRECEDENCE + 10)
 @EnableConfigurationProperties(DesensitizeProperties.class)
 public class DesensitizeAutoConfiguration implements ApplicationRunner {
     @Resource
     private DesensitizeProperties properties;
+
 
     @Override
     public void run(ApplicationArguments args) {
